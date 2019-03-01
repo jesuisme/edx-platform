@@ -22,11 +22,24 @@ locations.
 .. _Open edX ReadTheDocs: http://docs.edx.org/
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
+
+    best_practices
+    testing
+    javascript
+    styling
+    bootstrap
+    static_assets
+    cms_index
+    common_index
+    lms_index
+    openedx/modules
 
 
 Change History
 **************
+
+* April, 2019: API and repository-specific documentation builds resumed.
 
 * May, 2017: The local docs directory was cleared out to start fresh.
 
