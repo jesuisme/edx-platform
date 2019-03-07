@@ -5,6 +5,7 @@
 #    make upgrade
 #
 -e git+https://github.com/edx/acid-block.git@e46f9cda8a03e121a00c7e347084d142d22ebfb7#egg=acid-xblock
+git+https://github.com/edx/bok-choy.git@54217ed7b54a3d48873b9f90901bfd1ea991eedc#egg=bok-choy==0.9.3
 -e common/lib/calc
 -e common/lib/capa
 -e common/lib/chem
@@ -57,7 +58,6 @@ beautifulsoup4==4.7.1
 before-after==1.0.1
 billiard==3.3.0.23
 bleach==2.1.4
-bok-choy==0.9.3
 boto3==1.4.8
 boto==2.39.0
 botocore==1.8.17
@@ -107,7 +107,7 @@ django-ratelimit-backend==1.1.1
 django-ratelimit==2.0.0
 django-require==1.0.11
 django-rest-swagger==2.2.0
-django-sekizai==0.10.0
+django-sekizai==1.0.0
 django-ses==0.8.4
 django-simple-history==2.7.0
 django-splash==0.2.2
@@ -313,8 +313,8 @@ splinter==0.9.0
 sqlparse==0.3.0
 stevedore==1.30.1
 sure==1.4.11
-sympy==1.4
-testfixtures==6.6.2
+sympy==0.7.1
+testfixtures==6.7.0
 testtools==2.3.0          # via fixtures, python-subunit
 text-unidecode==1.2       # via faker
 tincan==0.0.5
