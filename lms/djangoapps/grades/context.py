@@ -44,7 +44,7 @@ def grading_context(course, course_structure):
         for subsection_key in course_structure.get_children(chapter_key):
             subsection = course_structure[subsection_key]
             scored_descendants_of_subsection = []
-            if subsection.graded:
+            if subsection.graded and not subsection.visible_to_staff_only:
                 for descendant_key in course_structure.post_order_traversal(
                         filter_func=possibly_scored,
                         start_node=subsection_key,
