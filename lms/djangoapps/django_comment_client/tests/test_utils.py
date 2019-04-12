@@ -1675,14 +1675,8 @@ class GroupModeratorPermissionsTestCase(ModuleStoreTestCase):
         # Create course, seed permissions roles, and create team
         self.course = CourseFactory.create()
         seed_permissions_roles(self.course.id)
-        verified_coursemode = CourseModeFactory.create(
-            course_id=self.course.id,
-            mode_slug=CourseMode.VERIFIED
-        )
-        audit_coursemode = CourseModeFactory.create(
-            course_id=self.course.id,
-            mode_slug=CourseMode.AUDIT
-        )
+        verified_coursemode = CourseMode.VERIFIED
+        audit_coursemode = CourseMode.AUDIT
 
         # Create four users: group_moderator (who is within the verified enrollment track and in the cohort),
         # verified_user (who is in the verified enrollment track but not the cohort),
