@@ -55,6 +55,9 @@ from student.models import (
 from util.milestones_helpers import get_pre_requisite_courses_not_completed
 from xmodule.modulestore.django import modulestore
 
+# For custom progress bar
+from openedx.features.course_experience.utils import get_course_outline_block_tree
+
 log = logging.getLogger("edx.student")
 
 
@@ -780,7 +783,14 @@ def student_dashboard(request):
         course_enrollments = [
             enr for enr in course_enrollments if entitlement.enrollment_course_run.course_id != enr.course_id
         ]
-
+	
+    # For custom progress bar on student dashboard page
+    complete_list = []
+    for enrollment in course_enrollments:
+        value_unicode = str(enrollment.course_id).decode("utf-8")
+        course_block_tree = get_course_outline_block_tree(request,value_unicode)
+        complete_list.append(course_block_tree)
+    
     context = {
         'urls': urls,
         'programs_data': programs_data,
@@ -828,6 +838,7 @@ def student_dashboard(request):
         'display_sidebar_account_activation_message': not(user.is_active or hide_dashboard_courses_until_activated),
         'display_dashboard_courses': (user.is_active or not hide_dashboard_courses_until_activated),
         'empty_dashboard_message': empty_dashboard_message,
+	'blocks_list': complete_list, # For custom progress bar on student dashboard
     }
 
     if ecommerce_service.is_enabled(request.user):

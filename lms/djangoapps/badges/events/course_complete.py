@@ -84,16 +84,29 @@ def get_completion_badge(course_id, user):
     course = modulestore().get_course(course_id)
     if not course.issue_badges:
         return None
-    return BadgeClass.get_badge_class(
-        slug=course_slug(course_id, mode),
-        issuing_component='',
-        criteria=criteria(course_id),
-        description=badge_description(course, mode),
-        course_id=course_id,
-        mode=mode,
-        display_name=course.display_name,
-        image_file_handle=CourseCompleteImageConfiguration.image_for_mode(mode)
+    #return BadgeClass.get_badge_class(
+    #    slug=course_slug(course_id, mode),
+    #    issuing_component='',
+    #    criteria=criteria(course_id),
+    #    description=badge_description(course, mode),
+    #    course_id=course_id,
+    #    mode=mode,
+    #    display_name=course.display_name,
+    #   image_file_handle=CourseCompleteImageConfiguration.image_for_mode(mode)
+    #)
+    badclass_object = BadgeClass.get_badge_class(
+      slug=course_slug(course_id, mode),
+      issuing_component='',
+      criteria=criteria(course_id),
+      description=badge_description(course, mode),
+      course_id=course_id,
+      mode=mode,
+      display_name=course.display_name,
+      image_file_handle=CourseCompleteImageConfiguration.image_for_mode(mode)
     )
+    assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badclass_object,image_url=    badclass_object.image.url)
+
+    return badclass_object
 
 
 @requires_badges_enabled

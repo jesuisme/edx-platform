@@ -625,15 +625,35 @@ HTTPS = 'on'
 ROOT_URLCONF = 'cms.urls'
 
 # Email
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 25
-EMAIL_USE_TLS = False
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-DEFAULT_FROM_EMAIL = 'registration@example.com'
-DEFAULT_FEEDBACK_EMAIL = 'feedback@example.com'
-SERVER_EMAIL = 'devops@example.com'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_HOST = 'localhost'
+#EMAIL_PORT = 25
+#EMAIL_USE_TLS = False
+#EMAIL_HOST_USER = ''
+#EMAIL_HOST_PASSWORD = ''
+#DEFAULT_FROM_EMAIL = 'registration@example.com'
+#DEFAULT_FEEDBACK_EMAIL = 'feedback@example.com'
+#SERVER_EMAIL = 'devops@example.com'
+
+#Custom Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+# EMAIL_PORT = 465
+EMAIL_HOST_USER = 'shrutie21work2@gmail.com'
+# EMAIL_HOST_USER = 'register@adaptivedatamatics.com'
+EMAIL_HOST_PASSWORD = 'testing@123'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'shrutie21work2@gmail.com'
+DEFAULT_FEEDBACK_EMAIL = 'shrutie21work2@gmail.com'
+SERVER_EMAIL = 'devops@utldaa.com'
+TECH_SUPPORT_EMAIL = 'technical@utldaa.com'
+CONTACT_EMAIL = 'info@utldaa.com'
+BUGS_EMAIL = 'bugs@utldaa.com'
+UNIVERSITY_EMAIL = 'university@utldaa.com'
+PRESS_EMAIL = 'press@utldaa.com'
+FINANCE_EMAIL = ''
+
 ADMINS = []
 MANAGERS = ADMINS
 

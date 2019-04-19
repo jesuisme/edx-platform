@@ -35,6 +35,7 @@ from django.utils.translation import get_language, ungettext
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 from django.views.decorators.http import require_GET, require_POST
+from django.core.mail import EmailMessage, EmailMultiAlternatives # custom email
 from eventtracking import tracker
 from ipware.ip import get_ip
 # Note that this lives in LMS, so this dependency should be refactored.
@@ -272,8 +273,10 @@ def compose_and_send_activation_email(user, profile, user_registration=None):
         dest_addr = settings.FEATURES['REROUTE_ACTIVATION_EMAIL']
         message_for_activation = ("Activation for %s (%s): %s\n" % (user, user.email, profile.name) +
                                   '-' * 80 + '\n\n' + message_for_activation)
-    send_activation_email.delay(subject, message_for_activation, from_address, dest_addr)
-
+    #send_activation_email.delay(subject, message_for_activation, from_address, dest_addr)
+    email = EmailMultiAlternatives(subject,message_for_activation,from_email=from_address,to=[dest_addr])
+    email.attach_alternative(message_for_activation, "text/html")
+    email.send()
 
 @login_required
 def course_run_refund_status(request, course_id):
@@ -732,10 +735,16 @@ def create_account_with_params(request, params):
                     u"Login activated on extauth account - {0} ({1})".format(new_user.username, new_user.email))
 
     # Check if system is configured to skip activation email for the current user.
-    skip_email = skip_activation_email(
-        user, do_external_auth, running_pipeline, third_party_provider,
-    )
+    # skip_email = skip_activation_email(
+    #    user, do_external_auth, running_pipeline, third_party_provider,
+    # )
+    running_pipeline = third_party_auth.pipeline.get(request)
 
+    if bool(running_pipeline):
+	skip_email = True
+    else:
+	skip_email = False
+    
     if skip_email:
         registration.activate()
     else:

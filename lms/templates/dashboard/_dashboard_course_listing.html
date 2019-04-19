@@ -1,4 +1,4 @@
-<%page args="course_overview, enrollment, entitlement, entitlement_session, course_card_index, is_unfulfilled_entitlement, is_fulfilled_entitlement, entitlement_available_sessions, entitlement_expiration_date, entitlement_expired_at, show_courseware_link, cert_status, can_refund_entitlement, can_unenroll, credit_status, show_email_settings, course_mode_info, is_paid_course, is_course_blocked, verification_status, course_requirements, dashboard_index, share_settings, related_programs, display_course_modes_on_dashboard, show_consent_link, enterprise_customer_name, resume_button_url" expression_filter="h"/>
+<%page args="course_overview, enrollment, entitlement, entitlement_session, course_card_index, is_unfulfilled_entitlement, is_fulfilled_entitlement, entitlement_available_sessions, entitlement_expiration_date, entitlement_expired_at, show_courseware_link, cert_status, can_refund_entitlement, can_unenroll, credit_status, show_email_settings, course_mode_info, is_paid_course, is_course_blocked, verification_status, course_requirements, dashboard_index, share_settings, related_programs, display_course_modes_on_dashboard, show_consent_link, enterprise_customer_name, resume_button_url, blocks" expression_filter="h"/>
 
 <%!
 import urllib
@@ -21,6 +21,8 @@ from student.helpers import (
   DISABLE_UNENROLL_CERT_STATES,
 )
 from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_params
+
+from mako.template import Template
 %>
 
 <%
@@ -33,6 +35,43 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
   if cert_name_long == "":
     cert_name_long = settings.CERT_NAME_LONG
   billing_email = settings.PAYMENT_SUPPORT_EMAIL
+%>
+
+<%
+course_sections = blocks.get('children')
+value_list = []
+total_value_list = []
+%>
+% if course_sections is not None:
+  % for section in course_sections:
+    <% total_value_list.append(section['display_name']) %>
+    % if section.get('complete'):
+      <% 
+      value_list.append(section['display_name']) 
+      %> 
+    % endif
+    % for subsection in section.get('children', []):
+      <% total_value_list.append(subsection['display_name']) %>
+      % if subsection.get('complete'):
+        <% 
+        value_list.append(subsection['display_name']) 
+        %> 
+      % endif
+    % for vertical in subsection.get('children', []):
+      <% total_value_list.append(vertical['display_name']) %>
+      % if vertical.get('complete'):
+        <% 
+        value_list.append(vertical['display_name']) 
+        %> 
+      % endif
+    % endfor
+    % endfor
+  % endfor
+% endif
+
+<% 
+length_value_list = len(value_list)
+length_total_list = len(total_value_list)
 %>
 
 <%namespace name='static' file='../static_content.html'/>
@@ -497,7 +536,83 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
   </footer>
 </article>
 </div>
+% if length_value_list:
+  <%
+  percent_div = (length_value_list/length_total_list)
+  percent_round = percent_div * 100
+  percent = Template("${'{0:.0f}'.format((a/b) * 100)}", future_imports=['division']).render(a=length_value_list, b=length_total_list)
+  %>
+  <div class="row">
+    <div class="col-md-4"> 
+      <div class="progress-outer">
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped progress-bar-info" style="width:${percent}%;"></div>
+          <div class="progress-value"><span>${percent}</span>%</div>
+        </div>
+      </div> 
+    </div>
+  </div> 
+% else:
+  <div class="row">
+    <div class="col-md-4"> 
+      <div class="progress-outer">
+        <div class="progress">
+          <div class="progress-bar progress-bar-striped progress-bar-info" style="width:${0}%;"></div>
+          <div class="progress-value"><span>${0}</span>%</div>
+        </div>
+      </div> 
+    </div>
+  </div> 
+% endif
 </li>
+<head>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="/static/css/lms-main-v1.css" type="text/css" media="all" / >
+<style type="text/css">
+
+.progress-title{
+font-size: 18px;
+font-weight: 700;
+color: #000;
+margin: 0 0 10px;
+}
+.progress-outer {
+background: #fff;
+padding: 3px 60px 2px 4px;
+border: 5px solid #bebfbf;
+border-radius: 45px;
+margin-bottom: 20px;
+position: relative;
+}
+.progress{
+background: #bebfbf;
+border-radius: 20px;
+margin: 0;
+}
+.progress .progress-bar{
+border-radius: 20px;
+box-shadow: none;
+animation: animate-positive 2s;
+}
+.progress .progress-value{
+font-size: 20px;
+font-weight: 700;
+color: #6b7880;
+position: absolute;
+top: 3px;
+right: 10px;
+}
+@keyframes animate-positive{
+0%{ width: 0; }
+}
+</style>
+
+<script type="text/javascript">
+$(document).ready(function(){
+$("#modal").click(); 
+});
+</script>
 <script>
            $( document ).ready(function() {
 
@@ -508,7 +623,7 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
                }
            });
 </script>
-
+</head>
 % if share_settings.get('DASHBOARD_FACEBOOK', False) and share_settings.get('DASHBOARD_TWITTER', False):
     <%static:require_module_async module_name="js/course_sharing/course_sharing_events" class_name="CourseSharingEvents">
         CourseSharingEvents("${course_overview.id | n, js_escaped_string}");

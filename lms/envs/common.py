@@ -943,12 +943,12 @@ EMAIL_HOST_PASSWORD = 'testing@123'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'shrutie21work2@gmail.com'
 DEFAULT_FEEDBACK_EMAIL = 'shrutie21work2@gmail.com'
-SERVER_EMAIL = 'devops@example.com'
-TECH_SUPPORT_EMAIL = 'technical@example.com'
-CONTACT_EMAIL = 'info@example.com'
-BUGS_EMAIL = 'bugs@example.com'
-UNIVERSITY_EMAIL = 'university@example.com'
-PRESS_EMAIL = 'press@example.com'
+SERVER_EMAIL = 'devops@utldaa.com'
+TECH_SUPPORT_EMAIL = 'technical@utldaa.com'
+CONTACT_EMAIL = 'info@utldaa.com'
+BUGS_EMAIL = 'bugs@utldaa.com'
+UNIVERSITY_EMAIL = 'university@utldaa.com'
+PRESS_EMAIL = 'press@utldaa.com'
 FINANCE_EMAIL = ''
 
 
