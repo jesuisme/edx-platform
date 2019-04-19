@@ -47,34 +47,25 @@ from openedx.core.djangolib.js_utils import js_escaped_string
                 <div class="message-actions">
                     <h3 class="sr-only">${_("Print or share your certificate:")}</h3>
                     % if facebook_share_enabled:
-                      <button class="action action-share-facebook btn-inverse btn-small icon-only" id="action-share-facebook"
-                         onclick="FaceBook.share({
-                          share_text: '${facebook_share_text | n, js_escaped_string}', ## xss-lint: disable=mako-invalid-html-filter
-                          share_link: '${share_url | n, js_escaped_string}', ## xss-lint: disable=mako-invalid-html-filter
-                          picture_link: '${full_course_image_url | n, js_escaped_string}', ## xss-lint: disable=mako-invalid-html-filter
-                          description: '${_('Click the link to see my certificate.') | n, js_escaped_string}' ## xss-lint: disable=mako-invalid-html-filter
-                          });">
-                          <span class="icon fa fa-facebook-official" aria-hidden="true"></span>
-                          <span class="action-label">${_("Post on Facebook")}</span>
-                      </button>
-                    %endif
+                    	<span class="fb-share-button" data-href="${ share_url_facebook }" data-layout="button" data-size="small" data-mobile-iframe="true"></span>
+                    	
+		    %endif
                     % if twitter_share_enabled:
-                      <button data-tooltip="${_('Share on Twitter')}"
-                        class="action action-share-twitter btn-inverse btn-small icon-only"
-                        title="${_('Share on Twitter')}"
-                        ## xss-lint: disable=mako-invalid-html-filter
-                        onclick="popupWindow('${twitter_url | n, js_escaped_string}', 'tweetWindow', 640, 480); return false;">
-                          <span class="icon fa fa-twitter" aria-hidden="true"></span>
-                          <span class="action-label">${_("Tweet this Accomplishment. Pop up window.")}</span>
-                      </button>
+                    	<a style="border-radius: 5px;background: #34a8ce;" onclick="popupWindow('${twitter_url | n, js_escaped_string}', 'tweetWindow', 640, 480); return false;" style="background-image: url('https://st2.depositphotos.com/1144386/7778/v/950/depositphotos_77785962-stock-illustration-windows-8-sytle-twitter-share.jpg')">
+<i class="fa fa-twitter" style="color: white;"></i>
+<span class="" style="color: white;">tweet</span>
+
+
+</a>
+<span></span>
                     %endif
 
                     %if linked_in_url:
-                    <button class="action action-linkedin-profile btn-inverse btn-small icon-only" id="action-share-linkedin" title="${_('Add to LinkedIn Profile')}" data-course-id="${course_id}" data-certificate-mode="${course_mode}">
+                    	<button class="action-linkedin-profile btn-inverse btn-small icon-only" id="action-share-linkedin" style="padding-top: 0px;padding-bottom: 0px;color: white;border-radius: 5px;background-color: #007bb6;height: 23.992188px;width: 82px;" title="${_('Add to LinkedIn Profile')}" data-course-id="${course_id}" data-certificate-mode="${course_mode}">
                         <span class="icon fa fa-linkedin" aria-hidden="true"></span>
-                        <span class="action-label">${_("Add to LinkedIn Profile")}</span>
-                    </button>
-                    %endif
+                        <span class="action-label">${_("Share")}</span>
+                      </button>
+		    %endif
 
                     %if badge:
                     <button class="action action-share-mozillaopenbadges btn btn-overlay btn-small">
