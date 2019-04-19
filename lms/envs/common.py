@@ -49,8 +49,8 @@ from lms.djangoapps.lms_xblock.mixin import LmsBlockMixin
 
 ################################### FEATURES ###################################
 # The display name of the platform to be used in templates/emails/etc.
-PLATFORM_NAME = _('Your Platform Name Here')
-PLATFORM_DESCRIPTION = _('Your Platform Description Here')
+PLATFORM_NAME = _('Dell Medical School | The University of Texas at Austin')
+PLATFORM_DESCRIPTION = _('Interactive Learning Modules from Dell Medical School')
 CC_MERCHANT_NAME = PLATFORM_NAME
 
 PLATFORM_FACEBOOK_ACCOUNT = "http://www.facebook.com/YourPlatformFacebookAccount"
@@ -86,14 +86,14 @@ FEATURES = {
 
     # discussion home panel, which includes a subscription on/off setting for discussion digest emails.
     # this should remain off in production until digest notifications are online.
-    'ENABLE_DISCUSSION_HOME_PANEL': False,
+    'ENABLE_DISCUSSION_HOME_PANEL': True,
 
     # Set this to True if you want the discussion digest emails enabled automatically for new users.
     # This will be set on all new account registrations.
     # It is not recommended to enable this feature if ENABLE_DISCUSSION_HOME_PANEL is not enabled, since
     # subscribers who receive digests in that case will only be able to unsubscribe via links embedded
     # in their emails, and they will have no way to resubscribe.
-    'ENABLE_DISCUSSION_EMAIL_DIGEST': False,
+    'ENABLE_DISCUSSION_EMAIL_DIGEST': True,
 
     'ENABLE_DJANGO_ADMIN_SITE': True,  # set true to enable django's admin site, even on prod (e.g. for course ops)
     'ENABLE_SQL_TRACKING_LOGS': False,
@@ -120,7 +120,7 @@ FEATURES = {
     'SHIB_DISABLE_TOS': False,
 
     # Toggles OAuth2 authentication provider
-    'ENABLE_OAUTH2_PROVIDER': False,
+    'ENABLE_OAUTH2_PROVIDER': True,
 
     # Allows to enable an API endpoint to serve XBlock view, used for example by external applications.
     # See jquey-xblock: https://github.com/edx-solutions/jquery-xblock
@@ -152,14 +152,14 @@ FEATURES = {
     'ENABLE_STUDENT_HISTORY_VIEW': True,
 
     # Provide a UI to allow users to submit feedback from the LMS (left-hand help modal)
-    'ENABLE_FEEDBACK_SUBMISSION': False,
+    'ENABLE_FEEDBACK_SUBMISSION': True,
 
     # Turn on a page that lets staff enter Python code to be run in the
     # sandbox, for testing whether it's enabled properly.
     'ENABLE_DEBUG_RUN_PYTHON': False,
 
     # Enable URL that shows information about the status of variuous services
-    'ENABLE_SERVICE_STATUS': False,
+    'ENABLE_SERVICE_STATUS': True,
 
     # Don't autoplay videos for students
     'AUTOPLAY_VIDEOS': False,
@@ -179,10 +179,10 @@ FEATURES = {
     'INDIVIDUAL_DUE_DATES': False,
 
     # Enable Custom Courses for EdX
-    'CUSTOM_COURSES_EDX': False,
+    'CUSTOM_COURSES_EDX': True,
 
     # Toggle to enable certificates of courses on dashboard
-    'ENABLE_VERIFIED_CERTIFICATES': False,
+    'ENABLE_VERIFIED_CERTIFICATES': True,
 
     # for acceptance and load testing
     'AUTOMATIC_AUTH_FOR_TESTING': False,
@@ -197,7 +197,7 @@ FEATURES = {
     'STORE_BILLING_INFO': False,
 
     # Enable flow for payments for course registration (DIFFERENT from verified student flow)
-    'ENABLE_PAID_COURSE_REGISTRATION': False,
+    'ENABLE_PAID_COURSE_REGISTRATION': True,
 
     # Enable the display of cosmetic course price display (set in course advanced settings)
     'ENABLE_COSMETIC_DISPLAY_PRICE': False,
@@ -244,7 +244,7 @@ FEATURES = {
     'ENABLE_MKTG_SITE': False,
 
     # Prevent concurrent logins per user
-    'PREVENT_CONCURRENT_LOGINS': True,
+    'PREVENT_CONCURRENT_LOGINS': False,
 
     # Turn on Advanced Security by default
     'ADVANCED_SECURITY': True,
@@ -264,7 +264,7 @@ FEATURES = {
     'ENABLE_MOBILE_REST_API': False,
 
     # Enable the combined login/registration form
-    'ENABLE_COMBINED_LOGIN_REGISTRATION': False,
+    'ENABLE_COMBINED_LOGIN_REGISTRATION': True,
     'ENABLE_COMBINED_LOGIN_REGISTRATION_FOOTER': False,
 
     # Enable organizational email opt-in
@@ -274,16 +274,16 @@ FEATURES = {
     'ENABLE_FOOTER_MOBILE_APP_LINKS': False,
 
     # Let students save and manage their annotations
-    'ENABLE_EDXNOTES': False,
+    'ENABLE_EDXNOTES': True,
 
     # Milestones application flag
-    'MILESTONES_APP': False,
+    'MILESTONES_APP': True,
 
     # Organizations application flag
     'ORGANIZATIONS_APP': False,
 
     # Prerequisite courses feature flag
-    'ENABLE_PREREQUISITE_COURSES': False,
+    'ENABLE_PREREQUISITE_COURSES': True,
 
     # For easily adding modes to courses during acceptance testing
     'MODE_CREATION_FOR_TESTING': False,
@@ -293,25 +293,25 @@ FEATURES = {
     'EXPOSE_CACHE_PROGRAMS_ENDPOINT': False,
 
     # Courseware search feature
-    'ENABLE_COURSEWARE_SEARCH': False,
+    'ENABLE_COURSEWARE_SEARCH': True,
 
     # Dashboard search feature
-    'ENABLE_DASHBOARD_SEARCH': False,
+    'ENABLE_DASHBOARD_SEARCH': True,
 
     # log all information from cybersource callbacks
     'LOG_POSTPAY_CALLBACKS': True,
 
     # Toggle platform-wide course licensing
-    'LICENSING': False,
+    'LICENSING': True,
 
     # Certificates Web/HTML Views
-    'CERTIFICATES_HTML_VIEW': False,
+    'CERTIFICATES_HTML_VIEW': True,
 
     # Course discovery feature
-    'ENABLE_COURSE_DISCOVERY': False,
+    'ENABLE_COURSE_DISCOVERY': True,
 
     # Setting for overriding default filtering facets for Course discovery
-    # COURSE_DISCOVERY_FILTERS = ["org", "language", "modes"]
+    'COURSE_DISCOVERY_FILTERS' : ["org", "language", "modes"],
 
     # Software secure fake page feature flag
     'ENABLE_SOFTWARE_SECURE_FAKE': False,
@@ -326,13 +326,13 @@ FEATURES = {
     'SHOW_BUMPER_PERIODICITY': 7 * 24 * 3600,
 
     # Special Exams, aka Timed and Proctored Exams
-    'ENABLE_SPECIAL_EXAMS': False,
+    'ENABLE_SPECIAL_EXAMS': True,
 
     # Enable OpenBadge support. See the BADGR_* settings later in this file.
-    'ENABLE_OPENBADGES': False,
+    'ENABLE_OPENBADGES': True,
 
     # Enable LTI Provider feature.
-    'ENABLE_LTI_PROVIDER': False,
+    'ENABLE_LTI_PROVIDER': True,
 
     # Show the language selector in the header
     'SHOW_HEADER_LANGUAGE_SELECTOR': False,
@@ -378,7 +378,7 @@ FEATURES = {
     'ALLOW_EMAIL_ADDRESS_CHANGE': True,
 
     # Whether the bulk enrollment view is enabled.
-    'ENABLE_BULK_ENROLLMENT_VIEW': False,
+    'ENABLE_BULK_ENROLLMENT_VIEW': True,
 
     # Whether course goals is enabled.
     'ENABLE_COURSE_GOALS': True,
@@ -921,9 +921,28 @@ ROOT_URLCONF = 'lms.urls'
 # NOTE: Please set ALLOWED_HOSTS to some sane value, as we do not allow the default '*'
 
 # Platform Email
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'registration@example.com'
-DEFAULT_FEEDBACK_EMAIL = 'feedback@example.com'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#DEFAULT_FROM_EMAIL = 'registration@example.com'
+#DEFAULT_FEEDBACK_EMAIL = 'feedback@example.com'
+#SERVER_EMAIL = 'devops@example.com'
+#TECH_SUPPORT_EMAIL = 'technical@example.com'
+#CONTACT_EMAIL = 'info@example.com'
+#BUGS_EMAIL = 'bugs@example.com'
+#UNIVERSITY_EMAIL = 'university@example.com'
+#PRESS_EMAIL = 'press@example.com'
+#FINANCE_EMAIL = ''
+
+#Custom Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+# EMAIL_PORT = 465
+EMAIL_HOST_USER = 'shrutie21work2@gmail.com'
+# EMAIL_HOST_USER = 'register@adaptivedatamatics.com'
+EMAIL_HOST_PASSWORD = 'testing@123'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'shrutie21work2@gmail.com'
+DEFAULT_FEEDBACK_EMAIL = 'shrutie21work2@gmail.com'
 SERVER_EMAIL = 'devops@example.com'
 TECH_SUPPORT_EMAIL = 'technical@example.com'
 CONTACT_EMAIL = 'info@example.com'
@@ -931,6 +950,7 @@ BUGS_EMAIL = 'bugs@example.com'
 UNIVERSITY_EMAIL = 'university@example.com'
 PRESS_EMAIL = 'press@example.com'
 FINANCE_EMAIL = ''
+
 
 # Platform mailing address
 CONTACT_MAILING_ADDRESS = ''
@@ -2975,7 +2995,7 @@ PDF_RECEIPT_COBRAND_LOGO_PATH = PROJECT_ROOT + '/static/images/logo.png'
 PDF_RECEIPT_COBRAND_LOGO_HEIGHT_MM = 12
 
 # Use None for the default search engine
-SEARCH_ENGINE = None
+SEARCH_ENGINE = "search.elastic.ElasticSearchEngine"
 # Use LMS specific search initializer
 SEARCH_INITIALIZER = "lms.lib.courseware_search.lms_search_initializer.LmsSearchInitializer"
 # Use the LMS specific result processor
@@ -2983,7 +3003,7 @@ SEARCH_RESULT_PROCESSOR = "lms.lib.courseware_search.lms_result_processor.LmsSea
 # Use the LMS specific filter generator
 SEARCH_FILTER_GENERATOR = "lms.lib.courseware_search.lms_filter_generator.LmsSearchFilterGenerator"
 # Override to skip enrollment start date filtering in course search
-SEARCH_SKIP_ENROLLMENT_START_DATE_FILTERING = False
+SEARCH_SKIP_ENROLLMENT_START_DATE_FILTERING = True
 
 # The configuration visibility of account fields.
 ACCOUNT_VISIBILITY_CONFIGURATION = {
