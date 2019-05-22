@@ -37,6 +37,8 @@ from class_dashboard.dashboard_data import get_array_section_has_problem, get_se
 from course_modes.models import CourseMode, CourseModesArchive
 from courseware.access import has_access
 from courseware.courses import get_course_by_id, get_studio_url
+from courseware.views.views import student_progress
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from django_comment_client.utils import available_division_schemes, has_forum_access
 from django_comment_common.models import FORUM_ROLE_ADMINISTRATOR, CourseDiscussionSettings
 from edxmako.shortcuts import render_to_response
@@ -48,7 +50,7 @@ from openedx.core.djangolib.markup import HTML, Text
 from openedx.core.lib.url_utils import quote_slashes
 from openedx.core.lib.xblock_utils import wrap_xblock
 from shoppingcart.models import Coupon, CourseRegCodeItem, PaidCourseRegistration
-from student.models import CourseEnrollment
+from student.models import CourseEnrollment, UserGradeRecords, OrganizationRegistration, CohertsOrganization, UserCohertsOrganizationDetails, UserProfile, CourseProgress
 from student.roles import CourseFinanceAdminRole, CourseSalesAdminRole, CourseStaffRole, CourseInstructorRole
 from util.json_request import JsonResponse
 from xmodule.html_module import HtmlDescriptor
@@ -56,6 +58,8 @@ from xmodule.modulestore.django import modulestore
 from xmodule.tabs import CourseTab
 
 from .tools import get_units_with_due_date, title_or_url
+
+from django.contrib.auth.models import User
 
 log = logging.getLogger(__name__)
 
@@ -119,6 +123,9 @@ def instructor_dashboard_2(request, course_id):
     is_white_label = CourseMode.is_white_label(course_key)
 
     reports_enabled = configuration_helpers.get_value('SHOW_ECOMMERCE_REPORTS', False)
+    
+    get_organization = UserProfile.objects.get(user=request.user)
+    organization_staff = get_organization.organization
 
     sections = [
         _section_course_info(course, access),
@@ -128,7 +135,8 @@ def instructor_dashboard_2(request, course_id):
         _section_student_admin(course, access),
         _section_data_download(course, access),
     ]
-
+    if organization_staff:
+       sections.append(_section_student_track(request,course, access))
     analytics_dashboard_message = None
     if show_analytics_dashboard_message(course_key):
         # Construct a URL to the external analytics dashboard
@@ -783,3 +791,79 @@ def is_ecommerce_course(course_key):
     """
     sku_count = len([mode.sku for mode in CourseMode.modes_for_course(course_key) if mode.sku])
     return sku_count > 0
+
+def _section_student_track(request,course, access):
+    """ Provide data for the corresponding dashboard section """
+    print('course---in student track---------',course)
+    course_key = course.id
+    is_small_course = _is_small_course(course_key)
+    get_organization = UserProfile.objects.get(user=request.user)
+    user_detail = None
+    if get_organization.organization:
+        organization_object = OrganizationRegistration.objects.get(organization_name=get_organization.organization)
+        org_value = str(organization_object.organization_name)
+        user_detail = UserCohertsOrganizationDetails.objects.filter(organization_detail=org_value)
+        print("user_detail--",user_detail)
+    if user_detail:
+        for learner_data in user_detail:
+            selected_coherts = learner_data.selected_coherts
+            coherts_object = CohertsOrganization.objects.get(coherts_name=selected_coherts)
+            coherts_list = coherts_object.course_list
+            convert_to_utf = coherts_list.encode('UTF8')
+            coherts_result = convert_to_utf.strip('][').split(',')
+            student1 = User.objects.get(email=learner_data.learner_id)
+            print('----user----',student1.email)
+            
+            if student1.is_staff:                
+                continue
+            for courses in coherts_result:
+                unicode_convert= courses.strip('u').split("'")[1]
+                get_grade = student_progress(request,u'%s'%unicode_convert,student_id=student1.id)
+                total_percent = get_grade['grade_summary']
+                course_key = CourseKey.from_string(unicode_convert)
+
+                if UserGradeRecords.objects.filter(organization_name=learner_data.organization_detail, user_id=int(student1.id), course_id=course_key,coherts_name=learner_data.selected_coherts):
+                    update_user=UserGradeRecords.objects.get(organization_name=learner_data.organization_detail, user_id=int(student1.id), course_id=course_key,coherts_name=learner_data.selected_coherts)
+                    update_user.Total_grade = total_percent['percent']*100
+                    
+                    course_progress_student,progress_created = CourseProgress.objects.get_or_create(user=student1,course_id=course.id)
+
+                    print("course_progress_student----",course_progress_student.student_course_progress)
+                    update_user.student_course_progress = course_progress_student.student_course_progress
+                    
+                    update_user.save()
+
+                else:
+                    try:
+                        save_user_records, created = UserGradeRecords.objects.get_or_create(organization_name=learner_data.organization_detail, user_id=int(student1.id), course_id=course_key, coherts_name=learner_data.selected_coherts,user_email=student1.email,Total_grade=total_percent['percent']*100)
+                        
+                        course_progress_student,progress_created = CourseProgress.objects.get_or_create(user=student1,course_id=course.id)
+
+                        print("course_progress_student----",course_progress_student.student_course_progress)
+                        save_user_records.student_course_progress = course_progress_student.student_course_progress
+
+                        save_user_records.save()                  
+                    except Exception as e:
+                        print("Exception Occured---.-",e)
+
+
+    if get_organization.organization:
+        all_organization_base_records = UserGradeRecords.objects.filter(organization_name=get_organization.organization,course_id=course.id)
+
+        for row in all_organization_base_records:
+            # user_email = User.objects.get(email=row.user_email)
+            course_key_id = CourseKey.from_string(u'%s'%row.course_id)
+            fetch_course_name = CourseOverview.objects.get(id=course_key_id)
+            row.course_display_name = fetch_course_name.display_name
+            
+
+        all_organization_base_records=all_organization_base_records
+        section_data = {
+            'section_key': 'student_track',
+            'section_display_name': _('Student progress'),
+            'access': access,
+            'is_small_course': is_small_course,
+            'all_organization_base_records': all_organization_base_records,
+                                                              # kwargs={'course_id': unicode(course_key)}),
+        }
+        return section_data

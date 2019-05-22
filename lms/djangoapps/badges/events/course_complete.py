@@ -8,7 +8,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 
-from badges.models import BadgeAssertion, BadgeClass, CourseCompleteImageConfiguration
+from badges.models import BadgeAssertion, BadgeClass, CourseCompleteImageConfiguration, CourseCompleteBadges
 from badges.utils import requires_badges_enabled, site_prefix
 from xmodule.modulestore.django import modulestore
 
@@ -94,19 +94,24 @@ def get_completion_badge(course_id, user):
     #    display_name=course.display_name,
     #   image_file_handle=CourseCompleteImageConfiguration.image_for_mode(mode)
     #)
-    badclass_object = BadgeClass.get_badge_class(
-      slug=course_slug(course_id, mode),
-      issuing_component='',
-      criteria=criteria(course_id),
-      description=badge_description(course, mode),
-      course_id=course_id,
-      mode=mode,
-      display_name=course.display_name,
-      image_file_handle=CourseCompleteImageConfiguration.image_for_mode(mode)
-    )
-    assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badclass_object,image_url=    badclass_object.image.url)
-
-    return badclass_object
+    LOGGER.info(mode)
+    completion_badge = CourseCompleteBadges.objects.get(course_mode=mode)
+    LOGGER.info("completion_badge")
+    LOGGER.info(completion_badge)
+    if completion_badge:
+    	badclass_object = BadgeClass.get_badge_class(
+    	slug=course_slug(course_id, mode),
+    	issuing_component='',
+    	criteria=criteria(course_id),
+    	description=badge_description(course, mode),
+    	course_id=course_id,
+    	mode=mode,
+    	display_name=course.display_name,
+    	image_file_handle=CourseCompleteImageConfiguration.image_for_mode(mode),
+    	image_url_from_drive=completion_badge.url_of_badges
+    	)
+    assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badclass_object,image_url=badclass_object.image.url,drive_image_url=badclass_object.image_url_from_drive)
+    return badclass_object	
 
 
 @requires_badges_enabled

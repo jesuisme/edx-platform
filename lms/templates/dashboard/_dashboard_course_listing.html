@@ -2,11 +2,13 @@
 
 <%!
 import urllib
+from mako.template import Template
 
 from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
 from django.urls import reverse
 from course_modes.models import CourseMode
+from student.models import UserProfile,CourseProgress
 from course_modes.helpers import enrollment_mode_display
 from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
 from openedx.core.djangolib.markup import HTML, Text
@@ -21,11 +23,10 @@ from student.helpers import (
   DISABLE_UNENROLL_CERT_STATES,
 )
 from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_params
-
-from mako.template import Template
 %>
 
 <%
+  flag_value = True
   reverify_link = reverse('verify_student_reverify')
   cert_name_short = course_overview.cert_name_short
   if cert_name_short == "":
@@ -38,41 +39,57 @@ from mako.template import Template
 %>
 
 <%
-course_sections = blocks.get('children')
 value_list = []
 total_value_list = []
 %>
-% if course_sections is not None:
-  % for section in course_sections:
-    <% total_value_list.append(section['display_name']) %>
-    % if section.get('complete'):
-      <% 
-      value_list.append(section['display_name']) 
-      %> 
-    % endif
-    % for subsection in section.get('children', []):
-      <% total_value_list.append(subsection['display_name']) %>
-      % if subsection.get('complete'):
+
+% if blocks:
+
+  <%
+  course_sections = blocks.get('children')
+  
+  %>
+  % if course_sections is not None:
+    % for section in course_sections:
+      <% total_value_list.append(section['display_name']) %>
+     
+      % if section.get('complete'):
         <% 
-        value_list.append(subsection['display_name']) 
-        %> 
+        value_list.append(section['display_name']) 
+        %>        
       % endif
-    % for vertical in subsection.get('children', []):
-      <% total_value_list.append(vertical['display_name']) %>
-      % if vertical.get('complete'):
-        <% 
-        value_list.append(vertical['display_name']) 
-        %> 
-      % endif
+      
+      % for subsection in section.get('children', []):
+        <% total_value_list.append(subsection['display_name']) %>
+
+        % if subsection.get('complete'):
+          <% 
+          value_list.append(subsection['display_name']) 
+          %>           
+        % endif
+
+        % for vertical in subsection.get('children', []):
+
+          <% total_value_list.append(vertical['display_name']) %>
+
+          % if vertical.get('complete'):
+            <% 
+            value_list.append(vertical['display_name']) 
+            %>            
+          % endif
+        % endfor
+
+      % endfor
     % endfor
-    % endfor
-  % endfor
+  % endif
+
 % endif
 
 <% 
 length_value_list = len(value_list)
 length_total_list = len(total_value_list)
 %>
+
 
 <%namespace name='static' file='../static_content.html'/>
 
@@ -537,80 +554,123 @@ length_total_list = len(total_value_list)
 </article>
 </div>
 % if length_value_list:
-  <%
-  percent_div = (length_value_list/length_total_list)
-  percent_round = percent_div * 100
-  percent = Template("${'{0:.0f}'.format((a/b) * 100)}", future_imports=['division']).render(a=length_value_list, b=length_total_list)
-  %>
-  <div class="row">
-    <div class="col-md-4"> 
-      <div class="progress-outer">
-        <div class="progress">
-          <div class="progress-bar progress-bar-striped progress-bar-info" style="width:${percent}%;"></div>
-          <div class="progress-value"><span>${percent}</span>%</div>
+    <%    
+    percent_div = (length_value_list/length_total_list)
+    percent_round = percent_div * 100
+    percent = Template("${'{0:.0f}'.format((a/b) * 100)}", future_imports=['division']).render(a=length_value_list, b=length_total_list)
+
+    %>
+
+
+    % if CourseProgress.objects.filter(user=user,course_id=enrollment.course_id).exists():
+
+    % if percent:
+      <% 
+      course_prog = CourseProgress.objects.get(user=user,course_id=enrollment.course_id)
+      course_prog.student_course_progress = percent
+      course_prog.save()
+      %>
+    % else:
+      <% 
+      course_prog = CourseProgress.objects.get(user=user,course_id=enrollment.course_id)
+      course_prog.student_course_progress = 0
+      course_prog.save()
+      %>
+    % endif
+
+    % else:
+      <%
+      course_progress = CourseProgress(user=user,course_id=enrollment.course_id)
+      course_progress.save()
+      %>
+
+    % endif   
+    
+    
+    
+    <div class="row">
+        <div class="col-md-4">            
+            <div class="progress-outer">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-info" style="width:${percent}%;"></div>
+                    <div class="progress-value"><span>${percent}</span>%</div>
+                </div>
+            </div>            
         </div>
-      </div> 
-    </div>
-  </div> 
-% else:
-  <div class="row">
-    <div class="col-md-4"> 
-      <div class="progress-outer">
-        <div class="progress">
-          <div class="progress-bar progress-bar-striped progress-bar-info" style="width:${0}%;"></div>
-          <div class="progress-value"><span>${0}</span>%</div>
+    </div>    
+  % else:
+   <div class="row">
+        <div class="col-md-4">            
+            <div class="progress-outer">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-info" style="width:${0}%;"></div>
+                    <div class="progress-value"><span>${0}</span>%</div>
+                </div>
+            </div>            
         </div>
-      </div> 
-    </div>
-  </div> 
+    </div>      
 % endif
 </li>
+
+
+
+
+
+
 <head>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" href="/static/css/lms-main-v1.css" type="text/css" media="all" / >
+ <link rel="stylesheet" href="/static/css/lms-main-v1.css" type="text/css" media="all" / >
 <style type="text/css">
 
+
+ 
 .progress-title{
-font-size: 18px;
-font-weight: 700;
-color: #000;
-margin: 0 0 10px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    margin: 0 0 10px;
 }
 .progress-outer {
-background: #fff;
-padding: 3px 60px 2px 4px;
-border: 5px solid #bebfbf;
-border-radius: 45px;
-margin-bottom: 20px;
-position: relative;
+    background: #fff;
+    padding: 3px 60px 2px 4px;
+    border: 5px solid #bebfbf;
+    border-radius: 45px;
+    margin-bottom: 20px;
+    position: relative;
 }
 .progress{
-background: #bebfbf;
-border-radius: 20px;
-margin: 0;
+    background: #bebfbf;
+    border-radius: 20px;
+    margin: 0;
 }
 .progress .progress-bar{
-border-radius: 20px;
-box-shadow: none;
-animation: animate-positive 2s;
+    border-radius: 20px;
+    box-shadow: none;
+    animation: animate-positive 2s;
 }
 .progress .progress-value{
-font-size: 20px;
-font-weight: 700;
-color: #6b7880;
-position: absolute;
-top: 3px;
-right: 10px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #6b7880;
+    position: absolute;
+    top: 3px;
+    right: 10px;
 }
 @keyframes animate-positive{
-0%{ width: 0; }
+    0%{ width: 0; }
 }
 </style>
 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+
+
+
 <script type="text/javascript">
 $(document).ready(function(){
-$("#modal").click(); 
+    $("#modal").click(); 
 });
 </script>
 <script>
@@ -624,6 +684,7 @@ $("#modal").click();
            });
 </script>
 </head>
+
 % if share_settings.get('DASHBOARD_FACEBOOK', False) and share_settings.get('DASHBOARD_TWITTER', False):
     <%static:require_module_async module_name="js/course_sharing/course_sharing_events" class_name="CourseSharingEvents">
         CourseSharingEvents("${course_overview.id | n, js_escaped_string}");
@@ -633,3 +694,4 @@ $("#modal").click();
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
     DateUtilFactory.transform(iterationKey=".localized-datetime");
 </%static:require_module_async>
+

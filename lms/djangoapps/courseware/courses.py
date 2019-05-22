@@ -612,3 +612,25 @@ def get_course_chapter_ids(course_key):
         log.exception('Failed to retrieve course from modulestore.')
         return []
     return [unicode(chapter_key) for chapter_key in chapter_keys if chapter_key.block_type == 'chapter']
+
+def get_course_with_access_track(user, action, course_key, depth=0, check_if_enrolled=False, check_survey_complete=True):
+    """
+    Given a course_key, look up the corresponding course descriptor,
+    check that the user has the access to perform the specified action
+    on the course, and return the descriptor.
+
+    Raises a 404 if the course_key is invalid, or the user doesn't have access.
+
+    depth: The number of levels of children for the modulestore to cache. None means infinite depth
+
+    check_if_enrolled: If true, additionally verifies that the user is either enrolled in the course
+      or has staff access.
+    check_survey_complete: If true, additionally verifies that the user has either completed the course survey
+      or has staff access.
+      Note: We do not want to continually add these optional booleans.  Ideally,
+      these special cases could not only be handled inside has_access, but could
+      be plugged in as additional callback checks for different actions.
+    """
+    course = get_course_by_id(course_key, depth)
+    return course
+

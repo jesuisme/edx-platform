@@ -54,7 +54,8 @@ from courseware.courses import (
     get_permission_for_course_about,
     get_studio_url,
     sort_by_announcement,
-    sort_by_start_date
+    sort_by_start_date,
+    get_course_with_access_track
 )
 from courseware.masquerade import setup_masquerade
 from courseware.model_data import FieldDataCache
@@ -94,7 +95,7 @@ from openedx.features.course_experience.waffle import waffle as course_experienc
 from openedx.features.course_experience.waffle import ENABLE_COURSE_ABOUT_SIDEBAR_HTML
 from openedx.features.enterprise_support.api import data_sharing_consent_required
 from shoppingcart.utils import is_shopping_cart_enabled
-from student.models import CourseEnrollment, UserTestGroup
+from student.models import CourseEnrollment, UserTestGroup, OrganizationRegistration, CohertsOrganization, UserProfile
 from util.cache import cache, cache_if_anonymous
 from util.db import outer_atomic
 from util.milestones_helpers import get_prerequisite_courses_display
@@ -749,8 +750,26 @@ def course_about(request, course_id):
     """
     Display the course's about page.
     """
+    #get_organization = UserProfile.objects.get(user=request.user)
+    #current_user = None
+    #if get_organization.organization:
+    #    user_org = OrganizationRegistration.objects.get(organization_name=get_organization.organization)
+    #    current_user = CohertsOrganization.objects.filter(organization=user_org)
+    #
+    get_organization = UserProfile.objects.get(user=request.user)
+    current_user_list = []
+    if get_organization.organization:
+        user_org = OrganizationRegistration.objects.get(organization_name=get_organization.organization)
+        current_user = CohertsOrganization.objects.filter(organization=user_org)
+        if current_user:
+            for row in current_user:
+                course_list = (row.course_list).encode('UTF8')
+                coherts_result = course_list.strip('][').split(',')
+                for course_name in coherts_result:
+                    unicode_convert= unicode(course_name.strip('u').split("'")[1])
+                    if unicode_convert == course_id:
+                        current_user_list.append(row)
     course_key = CourseKey.from_string(course_id)
-
     # If a user is not able to enroll in a course then redirect
     # them away from the about page to the dashboard.
     if not can_self_enroll_in_course(course_key):
@@ -877,6 +896,9 @@ def course_about(request, course_id):
             'course_image_urls': overview.image_urls,
             'reviews_fragment_view': reviews_fragment_view,
             'sidebar_html_enabled': sidebar_html_enabled,
+            'current_user': current_user_list,
+	    'organization_name': get_organization.organization,
+            'course_key_enrollment': course_key,
         }
 
         return render_to_response('courseware/course_about.html', context)
@@ -1729,3 +1751,21 @@ def get_financial_aid_courses(user):
             )
 
     return financial_aid_courses
+
+def student_progress(request, course_id, student_id=None):
+    """ Display the progress page. """
+    course_key = CourseKey.from_string(course_id)
+    print("student progress------------")
+
+    with modulestore().bulk_operations(course_key):
+        return _student_progress(request, course_key, student_id)
+
+
+def _student_progress(request, course_key, student_id):
+    student = User.objects.get(id=student_id)
+    course = get_course_with_access_track(request.user, 'load', course_key)
+    course_grade = CourseGradeFactory().read(student, course)
+    context = {        
+        'grade_summary': course_grade.summary,
+    }      
+    return context

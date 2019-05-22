@@ -9,6 +9,14 @@ from django.contrib.auth.views import password_reset_complete
 from . import views
 
 urlpatterns = [
+    url(r'^organization_register$', views.organization_register, name='organization_register'),
+    # TODO: standardize login
+
+    url(r'^activate/(?P<uid>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate, name='activate'),
+    url(r'^payment_process/$', views.payment_process, name='payment_process' ),
+    url(r'^payment_done/$', views.payment_done, name='payment_done'),
+    url(r'^payment_canceled/$', views.payment_canceled, name='payment_canceled'),
+    
     url(r'^logout$', views.LogoutView.as_view(), name='logout'),
 
     # TODO: standardize login

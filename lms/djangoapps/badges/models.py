@@ -57,7 +57,7 @@ class BadgeClass(models.Model):
     # Mode a badge was awarded for. Included for legacy/migration purposes.
     mode = models.CharField(max_length=100, default='', blank=True)
     image = models.ImageField(upload_to='badge_classes', validators=[validate_badge_image])
-
+    image_url_from_drive = models.URLField(blank=True)
     def __unicode__(self):
         return u"<Badge '{slug}' for '{issuing_component}'>".format(
             slug=self.slug, issuing_component=self.issuing_component
@@ -65,9 +65,7 @@ class BadgeClass(models.Model):
 
     @classmethod
     def get_badge_class(
-            cls, slug, issuing_component, display_name=None, description=None, criteria=None, image_file_handle=None,
-            mode='', course_id=None, create=True
-    ):
+            cls, slug, issuing_component, display_name=None, description=None, criteria=None, image_file_handle=None, mode='', course_id=None, create=True, image_url_from_drive=None):
         """
         Looks up a badge class by its slug, issuing component, and course_id and returns it should it exist.
         If it does not exist, and create is True, creates it according to the arguments. Otherwise, returns None.
@@ -96,6 +94,7 @@ class BadgeClass(models.Model):
             mode=mode,
             description=description,
             criteria=criteria,
+            image_url_from_drive=image_url_from_drive,
         )
         badge_class.image.save(image_file_handle.name, image_file_handle)
         badge_class.full_clean()
@@ -146,6 +145,7 @@ class BadgeAssertion(TimeStampedModel):
     data = JSONField()
     backend = models.CharField(max_length=50)
     image_url = models.URLField()
+    drive_image_url = models.URLField(blank=True)
     assertion_url = models.URLField()
 
     def __unicode__(self):
@@ -317,5 +317,16 @@ class CourseEventBadgesConfiguration(ConfigurationModel):
         if errors:
             raise ValidationError(errors)
 
+    class Meta(object):
+        app_label = "badges"
+
+class CourseCompleteBadges(models.Model):
+    """
+    Contains the url configuration for badges for a specific course mode.
+    """
+
+    url_of_badges = models.URLField()
+    course_mode = models.CharField(max_length=125)
+ 
     class Meta(object):
         app_label = "badges"

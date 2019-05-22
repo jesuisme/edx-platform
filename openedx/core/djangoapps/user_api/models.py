@@ -372,3 +372,16 @@ def remove_pending_retirement_request(sender, instance, **kwargs):   # pylint: d
     pending_state = RetirementState.objects.filter(state_name='PENDING')[0]
     if pending_state and instance.current_state == pending_state:
         UserRetirementRequest.objects.filter(user=instance.user).delete()
+
+class OrganizationTokenGeneration(models.Model):
+    """
+    Super-User Can Generate Organization Tokens
+    """
+    package_name = models.CharField(max_length=500, db_index=True,blank = False)
+    no_of_tokens = models.IntegerField(db_index=True,blank = False)
+    price = models.CharField(max_length=500,db_index=True,blank = False)
+    validity_from = models.DateField(blank = False)
+    validity_till = models.DateField(blank = False)
+
+    def __unicode__(self):
+    	return self.package_name

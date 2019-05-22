@@ -23,7 +23,12 @@ from student.models import (
     RegistrationCookieConfiguration,
     UserAttribute,
     UserProfile,
-    UserTestGroup
+    UserTestGroup,
+    OrganizationRegistration,
+    CohertsOrganization,
+    UserCohertsOrganizationDetails,
+    UserGradeRecords,
+    CourseProgress
 )
 from student.roles import REGISTERED_ACCESS_ROLES
 from xmodule.modulestore.django import modulestore
@@ -275,3 +280,45 @@ except NotRegistered:
     pass
 
 admin.site.register(User, UserAdmin)
+
+from openedx.core.djangoapps.user_api.models import UserPreference
+
+@admin.register(OrganizationRegistration)
+class OrganizationRegistrationAdmin(admin.ModelAdmin):
+    """ Admin interface for the CourseEnrollmentAllowed model. """
+    list_display = ('organization_name', 'organization_email', 'is_active', 'package_name')
+
+    class Meta(object):
+        model = OrganizationRegistration
+
+@admin.register(CohertsOrganization)
+class CohertsOrganizationAdmin(admin.ModelAdmin):
+    """ Admin interface for the CourseEnrollmentAllowed model. """
+    list_display = ('coherts_name', 'organization')
+    class Meta(object):
+        model = CohertsOrganization
+
+@admin.register(UserCohertsOrganizationDetails)
+class UserCohertsOrganizationDetailsAdmin(admin.ModelAdmin):
+    """ Admin interface for the CourseEnrollmentAllowed model. """
+    list_display = ('selected_coherts', 'organization_detail', 'learner_id')
+
+    class Meta(object):
+        model = UserCohertsOrganizationDetails
+
+@admin.register(CourseProgress)
+class CourseProgressAdmin(admin.ModelAdmin):
+    """ Admin interface for the CourseEnrollmentAllowed model. """
+    list_display = ('user', 'course_id','student_course_progress')
+
+    class Meta(object):
+        model = CourseProgress
+
+
+@admin.register(UserGradeRecords)
+class UserGradeRecordsAdmin(admin.ModelAdmin):
+    """ Admin interface for the CourseEnrollmentAllowed model. """
+    list_display = ('user_id', 'course_id', 'coherts_name', 'Total_grade', 'organization_name')
+
+    class Meta(object):
+        model = UserGradeRecords

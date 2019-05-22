@@ -26,7 +26,7 @@ from openedx.core.djangoapps.theming.helpers import get_current_site
 from openedx.core.djangoapps.user_api import accounts as accounts_settings
 from openedx.core.djangoapps.user_api.preferences.api import get_user_preference
 from student.message_types import PasswordReset
-from student.models import CourseEnrollmentAllowed, email_exists_or_retired
+from student.models import CourseEnrollmentAllowed, email_exists_or_retired, OrganizationRegistration, organization_email_exists
 from util.password_policy_validators import password_max_length, password_min_length, validate_password
 
 
@@ -343,3 +343,63 @@ def get_registration_extension_form(*args, **kwargs):
     module, klass = settings.REGISTRATION_EXTENSION_FORM.rsplit('.', 1)
     module = import_module(module)
     return getattr(module, klass)(*args, **kwargs)
+
+
+class OrganizationRegistrationForm(forms.ModelForm):
+   
+    def __init__(self, *args, **kwargs):
+        super(OrganizationRegistrationForm, self).__init__(*args, **kwargs)
+        self.fields['organization_name'].required = True
+        self.fields['organization_domain'].required = True
+        self.fields['organization_contact_number'].required = True
+        self.fields['organization_email'].required = True
+        # self.fields['user_id'].required = False
+
+    class Meta:
+        model = OrganizationRegistration
+        fields = ['organization_name','organization_email','organization_domain','organization_contact_number','package_name']
+
+    def clean_organization_name(self):
+        organization_name = self.cleaned_data.get('organization_name')
+        organization_name = organization_name.lower()
+        pattern_org_name ='^[a-z_ ]*$'
+	result = re.match(pattern_org_name,organization_name)
+	if not result:
+	    raise forms.ValidationError("Organization should contain only alphabets!")
+	return organization_name
+
+    def clean_organization_email(self):
+        organization_email = self.cleaned_data.get('organization_email')
+        if settings.REGISTRATION_EMAIL_PATTERNS_ALLOWED is not None:
+            # This Open edX instance has restrictions on what email addresses are allowed.
+            allowed_patterns = settings.REGISTRATION_EMAIL_PATTERNS_ALLOWED
+            # We append a '$' to the regexs to prevent the common mistake of using a
+            # pattern like '.*@edx\\.org' which would match 'bob@edx.org.badguy.com'
+            if not any(re.match(pattern + "$", organization_email) for pattern in allowed_patterns):
+                # This email is not on the whitelist of allowed emails. Check if
+                # they may have been manually invited by an instructor and if not,
+                # reject the registration.
+                if not OrganizationRegistration.objects.filter(organization_email=organization_email).exists():
+                    raise ValidationError(_("Unauthorized email address."))
+        if organization_email_exists(organization_email):
+            raise ValidationError(
+                _(
+                    "It looks like {organization_email} belongs to an existing account. Try again with a different email address."
+                ).format(organization_email=organization_email)
+            )
+        return organization_email
+
+
+    def clean_organization_domain(self):
+        organization_domain = self.cleaned_data.get('organization_domain')
+        return organization_domain
+
+
+    def clean_organization_contact_number(self):
+        organization_contact_number = self.cleaned_data.get('organization_contact_number')
+        return organization_contact_number
+    
+    # def clean_user_id(self):
+    #     user = self.cleaned_data.get("user")
+    #     AUDIT_LOG.info("user inside form======%s----" % user)
+    #     return user

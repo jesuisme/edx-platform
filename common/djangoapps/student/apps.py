@@ -23,3 +23,10 @@ class StudentConfig(AppConfig):
         from django.contrib.auth.models import User
         from .signals.receivers import on_user_updated
         pre_save.connect(on_user_updated, sender=User)
+
+
+class EcommerceAppConfig(AppConfig):
+    name = 'student'
+ 
+    def ready(self):
+        import student.hooks

@@ -3,7 +3,7 @@ Django admin configuration pages for the user_api app
 """
 from django.contrib import admin
 
-from .models import RetirementState, UserRetirementStatus, UserRetirementRequest
+from .models import RetirementState, UserRetirementStatus, UserRetirementRequest, OrganizationTokenGeneration
 
 
 @admin.register(RetirementState)
@@ -43,3 +43,14 @@ class UserRetirementRequestAdmin(admin.ModelAdmin):
 
     class Meta(object):
         model = UserRetirementRequest
+
+
+@admin.register(OrganizationTokenGeneration)
+class OrganizationTokenGenerationAdmin(admin.ModelAdmin):
+    """
+    Admin interface for the UserRetirementRequestAdmin model.
+    """
+    list_display = ('package_name', 'no_of_tokens', 'price')
+
+    class Meta(object):
+        model = OrganizationTokenGeneration

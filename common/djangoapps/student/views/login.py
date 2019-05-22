@@ -20,7 +20,7 @@ from django.contrib.auth.models import AnonymousUser, User
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.urls import NoReverseMatch, reverse, reverse_lazy
 from django.core.validators import ValidationError, validate_email
-from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden
+from django.http import Http404, HttpResponse, HttpResponseBadRequest, HttpResponseForbidden, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.template.context_processors import csrf
 from django.utils.http import base36_to_int, is_safe_url, urlencode, urlsafe_base64_encode
@@ -74,7 +74,7 @@ from util.json_request import JsonResponse
 
 log = logging.getLogger("edx.student")
 AUDIT_LOG = logging.getLogger("audit")
-
+# from student.forms import send_password_reset_email_for_user
 
 class AuthFailedError(Exception):
     """
@@ -201,6 +201,7 @@ def _enforce_password_policy_compliance(request, user):
         # Allow login, but warn the user that they will be required to reset their password soon.
         PageLevelMessages.register_warning_message(request, e.message)
     except password_policy_compliance.NonCompliantPasswordException as e:
+        # send_password_reset_email_for_user(user, request)        
         # Prevent the login attempt.
         raise AuthFailedError(e.message)
 
@@ -426,16 +427,24 @@ def verify_user_password(request):
         log.exception("Could not verify user password")
         return HttpResponseBadRequest()
 
+from student.models import OrganizationRegistration
+from django.urls import reverse
+from django.shortcuts import render
+
 
 @ensure_csrf_cookie
 def login_user(request):
     """
     AJAX request to log in the user.
     """
+    print('in the login_user method-----')
     third_party_auth_requested = third_party_auth.is_enabled() and pipeline.running(request)
     trumped_by_first_party_auth = bool(request.POST.get('email')) or bool(request.POST.get('password'))
     was_authenticated_third_party = False
 
+    email = request.POST.get('email')
+    organization = OrganizationRegistration.objects.filter(organization_email=email)
+    # if not organization: 
     try:
         if third_party_auth_requested and not trumped_by_first_party_auth:
             # The user has already authenticated via third-party auth and has not
@@ -475,6 +484,9 @@ def login_user(request):
             running_pipeline = pipeline.get(request)
             redirect_url = pipeline.get_complete_url(backend_name=running_pipeline['backend'])
 
+        
+        print('response in login user-----',redirect_url)
+
         response = JsonResponse({
             'success': True,
             'redirect_url': redirect_url,
@@ -485,6 +497,15 @@ def login_user(request):
         return set_logged_in_cookies(request, response, possibly_authenticated_user)
     except AuthFailedError as error:
         return JsonResponse(error.get_response())
+                
+
+def _raise_organization_auth_error(unauthenticated_user):
+    """
+    Depending on Django version we can get here a couple of ways, but this takes care of logging an auth attempt
+    by an inactive user, re-sending the activation email, and raising an error with the correct message.
+    """    
+    raise AuthFailedError(_('Payment is Pending.'))
+
 
 
 @csrf_exempt
@@ -525,12 +546,16 @@ def login_oauth_token(request, backend):
 @ensure_csrf_cookie
 def signin_user(request):
     """Deprecated. To be replaced by :class:`student_account.views.login_and_registration_form`."""
+    print("in the signin user method-------")
+    print("in the sign in user---",request.user)
+    
     external_auth_response = external_auth_login(request)
     if external_auth_response is not None:
         return external_auth_response
     # Determine the URL to redirect to following login:
     redirect_to = get_next_url_for_login_page(request)
     if request.user.is_authenticated:
+        print("user is authenticated----in sign in user-----")
         return redirect(redirect_to)
 
     third_party_auth_error = None
@@ -554,6 +579,7 @@ def signin_user(request):
         'third_party_auth_error': third_party_auth_error
     }
 
+    print("----last-------singn in ------",context)
     return render_to_response('login.html', context)
 
 
@@ -808,3 +834,4 @@ class LogoutView(TemplateView):
         })
 
         return context
+

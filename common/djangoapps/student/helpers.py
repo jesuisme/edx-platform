@@ -387,8 +387,8 @@ def generate_activation_email_context(user, registration):
     Constructs a dictionary for use in activation email contexts
 
     Arguments:
-        user (User): Currently logged-in user
-        registration (Registration): Registration object for the currently logged-in user
+    user (User): Currently logged-in user
+    registration (Registration): Registration object for the currently logged-in user
     """
     return {
         'name': user.profile.name,
@@ -397,8 +397,26 @@ def generate_activation_email_context(user, registration):
         'platform_name': configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME),
         'support_url': configuration_helpers.get_value('SUPPORT_SITE_LINK', settings.SUPPORT_SITE_LINK),
         'support_email': configuration_helpers.get_value('CONTACT_EMAIL', settings.CONTACT_EMAIL),
+        'platform_new_name': configuration_helpers.get_value('PLATFORM_NEW_NAME', settings.PLATFORM_NEW_NAME),
+        'platform_name2': configuration_helpers.get_value('PLATFORM_NEW_NAME_2', settings.PLATFORM_NEW_NAME_2)
     }
 
+#def generate_activation_email_contexa(user, registration):
+#    """
+#    Constructs a dictionary for use in activation email contexts
+#
+#    Arguments:
+#        user (User): Currently logged-in user
+#        registration (Registration): Registration object for the currently logged-in user
+#    """
+#    return {
+#        'name': user.profile.name,
+#        'key': registration.activation_key,
+#        'lms_url': configuration_helpers.get_value('LMS_ROOT_URL', settings.LMS_ROOT_URL),
+#        'platform_name': configuration_helpers.get_value('PLATFORM_NAME', settings.PLATFORM_NAME),
+#        'support_url': configuration_helpers.get_value('SUPPORT_SITE_LINK', settings.SUPPORT_SITE_LINK),
+#        'support_email': configuration_helpers.get_value('CONTACT_EMAIL', settings.CONTACT_EMAIL),
+#    }
 
 def create_or_set_user_attribute_created_on_site(user, site):
     """

@@ -922,34 +922,46 @@ ROOT_URLCONF = 'lms.urls'
 
 # Platform Email
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-#DEFAULT_FROM_EMAIL = 'registration@example.com'
-#DEFAULT_FEEDBACK_EMAIL = 'feedback@example.com'
-#SERVER_EMAIL = 'devops@example.com'
-#TECH_SUPPORT_EMAIL = 'technical@example.com'
-#CONTACT_EMAIL = 'info@example.com'
-#BUGS_EMAIL = 'bugs@example.com'
-#UNIVERSITY_EMAIL = 'university@example.com'
-#PRESS_EMAIL = 'press@example.com'
-#FINANCE_EMAIL = ''
-
-#Custom Email settings
+#EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-# EMAIL_PORT = 465
-EMAIL_HOST_USER = 'shrutie21work2@gmail.com'
-# EMAIL_HOST_USER = 'register@adaptivedatamatics.com'
-EMAIL_HOST_PASSWORD = 'testing@123'
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'shrutie21work2@gmail.com'
-DEFAULT_FEEDBACK_EMAIL = 'shrutie21work2@gmail.com'
-SERVER_EMAIL = 'devops@utldaa.com'
-TECH_SUPPORT_EMAIL = 'technical@utldaa.com'
-CONTACT_EMAIL = 'info@utldaa.com'
-BUGS_EMAIL = 'bugs@utldaa.com'
-UNIVERSITY_EMAIL = 'university@utldaa.com'
-PRESS_EMAIL = 'press@utldaa.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'register@adaptivedatamatics.com'
+EMAIL_HOST_PASSWORD = 'whtqbhlkzssriqqo'
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'registration@adaptivedamatics.com'
+DEFAULT_FEEDBACK_EMAIL = 'feedback@adaptivedatamatics.com'
+SERVER_EMAIL = 'devops@adaptivedatamatics.com'
+TECH_SUPPORT_EMAIL = 'technical@adaptivedatamatics.com'
+CONTACT_EMAIL = 'info@adaptivedatamatics.com'
+BUGS_EMAIL = 'bugs@adaptivedatamatics.com'
+UNIVERSITY_EMAIL = 'university@adaptivedatamatics.com'
+PRESS_EMAIL = 'press@adaptivedatamatics.com'
 FINANCE_EMAIL = ''
+
+PLATFORM_NAME_1 = 'Dell Medical School'
+PLATFORM_NEW_NAME = 'The Dell Medical School Healthcare Value Team'
+PLATFORM_NEW_NAME_2 = 'Dell Medical School at The University of Texas at Austin'
+SITE_ADMIN_MAIL = 'viraj.thakrar@luminad.com'
+
+#Custom Email settings
+#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_HOST = 'smtp.gmail.com'
+#EMAIL_PORT = 587
+# EMAIL_PORT = 465
+#EMAIL_HOST_USER = 'shrutie21work2@gmail.com'
+# EMAIL_HOST_USER = 'register@adaptivedatamatics.com'
+#EMAIL_HOST_PASSWORD = 'testing@123'
+#EMAIL_USE_TLS = True
+#DEFAULT_FROM_EMAIL = 'shrutie21work2@gmail.com'
+#DEFAULT_FEEDBACK_EMAIL = 'shrutie21work2@gmail.com'
+#SERVER_EMAIL = 'devops@utldaa.com'
+#TECH_SUPPORT_EMAIL = 'technical@utldaa.com'
+#CONTACT_EMAIL = 'info@utldaa.com'
+#BUGS_EMAIL = 'bugs@utldaa.com'
+#UNIVERSITY_EMAIL = 'university@utldaa.com'
+#PRESS_EMAIL = 'press@utldaa.com'
+#FINANCE_EMAIL = ''
 
 
 # Platform mailing address
@@ -2336,7 +2348,15 @@ INSTALLED_APPS = [
 
     # API Documentation
     'rest_framework_swagger',
+
+    'paypal.standard.ipn',
+    'ut_new',
 ]
+
+#DJango-paypal setting
+PAYPAL_RECEIVER_EMAIL = "shruthie21@gmail.com"
+# PAYPAL_RECEIVER_EMAIL = "shruthie21-facilitator@gmail.com"
+PAYPAL_TEST = True
 
 ######################### CSRF #########################################
 

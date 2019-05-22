@@ -65,7 +65,8 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 
 urlpatterns = [
     url(r'^$', branding_views.index, name='root'),   # Main marketing page, or redirect to courseware
-
+    url(r'^ut_new/', include('lms.djangoapps.ut_new.urls')),
+    url(r'^paypal/', include('paypal.standard.ipn.urls')),
     url(r'', include('student.urls')),
     # TODO: Move lms specific student views out of common code
     url(r'^dashboard/?$', student_views.student_dashboard, name='dashboard'),
@@ -140,6 +141,7 @@ urlpatterns = [
 
     url(r'^dashboard/', include('learner_dashboard.urls')),
     url(r'^api/experiments/', include('experiments.urls', namespace='api_experiments')),
+    
 ]
 
 # TODO: This needs to move to a separate urls.py once the student_account and
