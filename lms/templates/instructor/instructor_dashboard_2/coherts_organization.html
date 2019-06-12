@@ -1,0 +1,151 @@
+<%page args="section_data" expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+%if section_data['access']['staff'] or section_data['access']['instructor']:
+
+
+<head>
+<style>
+div.ex1 {
+  /*background-color: lightblue;*/
+  width: 410px;
+  height: 310px;
+  overflow: scroll;
+}
+</style>
+</head>
+
+
+
+
+
+
+
+<div class="action-type-container">
+
+
+
+<!-- <section class="col-sm-offset-1">
+<div class="alert-messages">
+% if messages:
+% for message in messages:
+
+<div class="col-sm-8">
+<div class="alert-{{message.tags}}" role="alert" tabindex="-1">
+<strong class="alert"><p style="padding: 20px; background-color: #87CEFA; color: white; margin-left: 118px; width: 450px;" class="alert-copy col-sm-offset-1">{{message}}</p>
+</strong>
+</div>
+</div>
+% endfor
+
+% endif
+</div>
+</section> -->
+
+
+
+
+
+
+
+
+
+%if section_data['student_records']:
+<div>
+
+<div class="ex1">
+%for row in section_data['student_records']:
+<p>
+    <input class="checkbox_check" type="checkbox" name="editcheck" id="${(row.user.email)}">&nbsp;&nbsp;
+          ${_("{course_display_name}").format(course_display_name=row.user.email)}
+</p>
+% endfor
+</div>
+
+</div>
+
+      <form action="" method="post" data-remote="true" novalidate>
+      <input type="hidden" name="selected_item" id="selected_item">
+      <br>
+%if section_data['course_base_coherts']:
+<div >
+  <select data-placeholder="Coherts" class="chosen-select" name="coherts">
+    <option value=""></option>
+    % for coherts_row in section_data['course_base_coherts']:
+    <option value="${(coherts_row.coherts_name)}">${(coherts_row.coherts_name)}</option>
+    %endfor
+  </select>
+</div>
+%endif
+<br>
+      <button type="submit" onclick="myFunction()" class="action action-primary action-update register-button">Submit</button>
+
+      </form>
+%endif
+<br>
+<p id="demo"></p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%endif
+
+
+<script type="text/javascript">
+$(".checkbox_check").click(function () {
+var checkedIds = returnCheckedIds();
+var total_ids_selected = $.makeArray(checkedIds).join(",");
+$("#selected_item").val(total_ids_selected);
+});
+function myFunction() {
+  document.getElementById("demo").innerHTML = "User added to coherts successfully!!";
+}
+function returnCheckedIds() {
+var checkedIds = $(".checkbox_check:checkbox:checked").map(function () {
+return this.id;
+}).get();
+return checkedIds;
+}
+
+$('#exportall').click(function () {
+var checkedIds = returnCheckedIds();
+var total_ids_selected = $.makeArray(checkedIds).join(",");
+// $("#csvitems").val(total_ids_selected);
+// $.ajax(
+// {
+// type: "POST",
+// dataType: "json",
+// url: "save_display_items_csv",
+// cache: false,
+// data: $('#display_form').serialize(),
+// success: function (response) {
+// var link = document.createElement('a');
+// link.href = response.filepath;
+// link.download = response.title;
+// link.click();
+// }
+// });
+// return false;
+});
+</script>

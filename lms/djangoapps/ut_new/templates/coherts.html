@@ -17,7 +17,7 @@
 
   
       <title>
-       Register for Your Platform Name Here | Your Platform Name Here
+       Register for Dell medical health school
       </title>
 
 
@@ -108,7 +108,22 @@
 
 <section class="register container">
   <section role="main" class="content">
+  <section class="col-sm-offset-1">
+<div class="alert-messages">
+{% if messages %}
+{% for message in messages %}
 
+<div class="col-sm-8">
+<div class="alert-{{message.tags}}" role="alert" tabindex="-1">
+<strong class="alert"><p style="padding: 20px; background-color: #87CEFA; color: white; margin-left: 118px; width: 450px;" class="alert-copy col-sm-offset-1">{{message}}</p>
+</strong>
+</div>
+</div>
+{% endfor %}
+
+{% endif %}
+</div>
+</section> 
 
 
 

@@ -353,23 +353,95 @@ class OrganizationRegistrationForm(forms.ModelForm):
         self.fields['organization_domain'].required = True
         self.fields['organization_contact_number'].required = True
         self.fields['organization_email'].required = True
-        # self.fields['user_id'].required = False
+        self.fields['first_name'].required = True
+        self.fields['confirm_email'].required = True
+        self.fields['last_name'].required = True
+        self.fields['job_title'].required = True
+        self.fields['address1'].required = True
+        self.fields['address2'].required = True
+        self.fields['city'].required = True
+        self.fields['primary_professional_role'].required = True
 
     class Meta:
         model = OrganizationRegistration
-        fields = ['organization_name','organization_email','organization_domain','organization_contact_number','package_name']
+        # fields = ['organization_name','organization_email','organization_domain','organization_contact_number','package_name','first_name','last_name','job_title', 'primary_professional_role','address1','address2','city','zip_code','confirm_email']
+        fields = ['organization_email','confirm_email','first_name','last_name','job_title','organization_name','organization_domain', 'organization_contact_number','primary_professional_role','address1','address2','city']
+        labels = {'organization_name': 'Organization Name', 'organization_email': 'Email', 'organization_domain': 'Organization Domain', 'organization_contact_number': 'Contact Number'}
+    
+    
 
     def clean_organization_name(self):
-        organization_name = self.cleaned_data.get('organization_name')
-        organization_name = organization_name.lower()
+        organization_name = self.cleaned_data.get('organization_name')        
+        organization_name1 = organization_name.lower()
         pattern_org_name ='^[a-z_ ]*$'
-	result = re.match(pattern_org_name,organization_name)
-	if not result:
-	    raise forms.ValidationError("Organization should contain only alphabets!")
-	return organization_name
+        result = re.match(pattern_org_name,organization_name1)
+        print("organi name-----",result)
+        if not result:
+            raise forms.ValidationError("Organization should contain only alphabets!")
+        return organization_name
+
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get('first_name')
+        first_name_1 = first_name.lower()
+        pattern_org_name = '^[a-z_ ]*$'        
+        name_result = re.match(pattern_org_name,first_name_1)
+        print("first name---",name_result)
+        if not name_result:
+            raise forms.ValidationError("First Name should contain only alphabets!")
+        return first_name
+
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get('last_name')
+        last_name_1 = last_name.lower()
+        pattern_org_name = '^[a-z_ ]*$'
+        last_result = re.match(pattern_org_name,last_name_1)
+        print("last name----",last_result)
+        if not last_result:
+            raise forms.ValidationError("Last Name should contain only alphabets!")
+        return last_name
+
+
+    def clean_job_title(self):
+        job_title = self.cleaned_data.get('job_title')
+        job_title1 = job_title.lower()
+        pattern_org_name = '^[a-z_ ]*$'
+        job_result = re.match(pattern_org_name,job_title1)
+        print("job title----",job_result)
+        if not job_result:
+            raise forms.ValidationError("Last Name should contain only alphabets!")
+        return job_title
+
+    def clean_organization_domain(self):
+        organization_domain = self.cleaned_data.get('organization_domain')
+        return organization_domain
+        
+    # def clean_organization_domain(self):
+    #     organization_domain = self.cleaned_data.get('organization_domain')
+    #     organization_email = self.cleaned_data.get('organization_email')
+    #     domain_list = organization_email.split('@')[1]
+    #     print('domain----',domain_list)
+    #     print("org domain---",organization_domain)
+    #     if organization_domain not in domain_list:
+    #         raise forms.ValidationError("Please Enter valid domain or valid email address")
+    #     return organization_domain
+
+
+    def clean_city(self):        
+        city = self.cleaned_data.get('city')
+        city1 = city.lower()
+        pattern_org_name = '^[a-z_ ]*$'
+        city_result = re.match(pattern_org_name,city1)
+        print("city result----",city_result)
+        if not city_result:
+            raise forms.ValidationError("City should contain only alphabets!")
+        return city   
+
 
     def clean_organization_email(self):
         organization_email = self.cleaned_data.get('organization_email')
+        
         if settings.REGISTRATION_EMAIL_PATTERNS_ALLOWED is not None:
             # This Open edX instance has restrictions on what email addresses are allowed.
             allowed_patterns = settings.REGISTRATION_EMAIL_PATTERNS_ALLOWED
@@ -390,16 +462,18 @@ class OrganizationRegistrationForm(forms.ModelForm):
         return organization_email
 
 
-    def clean_organization_domain(self):
-        organization_domain = self.cleaned_data.get('organization_domain')
-        return organization_domain
+    def clean_confirm_email(self):        
+        organization_email = self.cleaned_data.get('organization_email')
+        confirm_email = self.cleaned_data.get('confirm_email')
+
+        if organization_email != confirm_email:
+            raise forms.ValidationError(
+                "Email and Confirm Email does not match"
+            )
+
+        return confirm_email  
 
 
     def clean_organization_contact_number(self):
         organization_contact_number = self.cleaned_data.get('organization_contact_number')
         return organization_contact_number
-    
-    # def clean_user_id(self):
-    #     user = self.cleaned_data.get("user")
-    #     AUDIT_LOG.info("user inside form======%s----" % user)
-    #     return user

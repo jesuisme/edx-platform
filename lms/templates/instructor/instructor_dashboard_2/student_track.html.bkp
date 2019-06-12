@@ -1,0 +1,71 @@
+<%page args="section_data" expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+%if section_data['access']['staff'] or section_data['access']['instructor']:
+<head>
+<style>
+table {
+font-family: arial, sans-serif;
+border-collapse: collapse;
+width: 100%;
+}
+
+td, th {
+border: 1px solid #dddddd;
+text-align: left;
+padding: 8px;
+}
+
+tr:nth-child(even) {
+background-color: #dddddd;
+}
+</style>
+</head>
+
+
+
+
+
+%if section_data['all_organization_base_records']:
+<div class="action-type-container">
+
+
+<h2>User Details</h2>
+<table>
+<tr> <!-- Header Row -->
+<th title="">User</th>
+<th title="">Course</th>
+<th title="">Grade</th>
+<th title="">Organization</th>
+<th title="">Coherts</th>
+<th title="">Course Progres</th>
+</tr>
+%for row in section_data['all_organization_base_records']:
+<tr class="">
+
+<td >
+<div style="word-wrap: break-word;">
+${_("{user_email}").format(user_email=row.user_email)}
+</div>
+</td>
+
+<td >
+<div style="word-wrap: break-word;">
+${_("{course_display_name}").format(course_display_name=row.course_display_name)}
+</div>
+</td>
+<td >${_("{Total_grade}").format(Total_grade=row.Total_grade)}</td>
+<td >${_("{organization_name}").format(organization_name=row.organization_name)}</td>
+<!-- <td >${_(row.organization_name) }</td> -->
+<td >${_("{coherts_name}").format(coherts_name=row.coherts_name)}</td>
+<td >${_("{student_course_progress}").format(student_course_progress=row.student_course_progress)}</td>
+</tr>
+% endfor
+<!-- <tr class="highlight"> -->
+</table>
+
+</div>
+
+
+%endif
+%endif
+

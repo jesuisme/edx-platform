@@ -10,8 +10,6 @@ http://${ domain }/activate/${ uid }/${ token }
 <p>${_("Username: {org_username}").format(org_username=org_username)}</p>
 <p>${_("Email: {org_email}").format(org_email=org_email)}</p>
 
-<p>${_("Package Selected: {item_name}").format(item_name=item_name)}</p>
-
 <p>${_("Amount: {amount}").format(amount=amount)}</p>
 <p>${_("Payment Status: {payment_status}").format(payment_status=payment_status)}</p>
 

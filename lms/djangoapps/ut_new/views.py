@@ -5,13 +5,10 @@ from django.contrib.auth.decorators import login_required
 from student.models import CohertsOrganization, OrganizationRegistration, UserProfile
 from django.http import HttpResponse,HttpResponseRedirect
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
-
+from django.contrib import messages
 
 @login_required
 def ut_coherts(request):
-    #organization_object = OrganizationRegistration.objects.get(user=request.user)
-    #org_value = str(organization_object.organization_name)
-    #print("org val====%s---" % org_value)
     user_detail = UserProfile.objects.get(user=request.user)
     org_value = None
     if user_detail.organization and request.user.is_staff:
@@ -22,11 +19,13 @@ def ut_coherts(request):
         courses = request.POST.getlist("courses")
         organization_id = request.POST.get("org_id")
         organization_object = OrganizationRegistration.objects.get(organization_name=organization_id)
-        coherts_item = CohertsOrganization(coherts_name=coherts,organization=organization_object,course_list=str(courses))
-        coherts_item.save()
-        return HttpResponseRedirect("/dashboard")
+        if CohertsOrganization.objects.filter(coherts_name=coherts):
+            messages.add_message(request,messages.SUCCESS,"COHERTS NAME ALREADY EXISTS!!")
+        else:
+            coherts_item = CohertsOrganization(coherts_name=coherts,organization=organization_object,course_list=str(courses))
+            coherts_item.save()
+            messages.add_message(request,messages.SUCCESS,"COHERTS ADDED SUCCESSFULLY!!")
     return render(request,'coherts.html',{'org_value':org_value, 'course_list':course_list})
-
 
 from instructor.views.api import coherts_students_update_enrollment
 from student.models import UserCohertsOrganizationDetails

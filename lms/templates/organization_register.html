@@ -203,8 +203,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
+  
 
   
       <title>
@@ -441,6 +440,11 @@
      <!--  <link rel="stylesheet" href="/static/css/vendor/font-awesome.css" type="text/css" media="all" / > -->
     <!--   <link rel="stylesheet" href="/static/css/vendor/jquery.qtip.min.css" type="text/css" media="all" / > -->
       <link rel="stylesheet" href="/static/css/lms-main-v1.css" type="text/css" media="all" / >
+
+       <link rel="stylesheet" type="text/css" href="https://bootstrapformhelpers.com/assets/css/bootstrap-formhelpers.min.css">
+    <link rel="stylesheet" type="text/css" href="https://bootstrapformhelpers.com/assets/css/bootstrap.min.css">
+
+
       <!-- <script type="text/javascript" src="/static/common/js/vendor/jquery.js"></script> -->
       <!-- <script type="text/javascript" src="/static/common/js/vendor/jquery-migrate.js"></script> -->
       <!-- <script type="text/javascript" src="/static/js/vendor/jquery.cookie.js"></script> -->
@@ -655,9 +659,11 @@ function hideall() {
  -->
 <!-- </head> -->
 
-<div class="form-actions">
+
+
+<!-- <div class="form-actions">
   <button type="button" class="action action-primary action-update register-button button_regist" onclick="location.href='/register';">Register through edX</button>
-</div>
+</div> -->
 
 
 
@@ -672,9 +678,29 @@ function hideall() {
     </b> 
     <b></b> 
    
+   <div class="field required text select" id="field-country">
+        <label for="country">Country</label>
+<select id="country-select" name="country" class="bfh-countries form-control" data-country="US" data-flags="true"></select>
+      </div>
+
+
+
+  <div class="field required text select" id="field-state">
+        <label  for="state">State</label>
+        <select class="input-medium bfh-states form-control" data-country="country-select" name="state">
+
+        </select>
+      </div>
+
+
+  <label for="zip_code">Zip Code<br/><br/>
+    <span id='zip_code_message' style="color:Black;font-weight: bold;"></span>
+    <input type="text" name="zip_code" required='required'>
+  </label>
+
     
 
-  <div class="tooltip"><p style="text-align:center" class="hh"><b style="color: white;">i</b></p>
+  <!-- div class="tooltip"><p style="text-align:center" class="hh"><b style="color: white;">i</b></p>
         
   <span class="tooltiptext"> <table style="color: white;">
                                      
@@ -694,16 +720,16 @@ function hideall() {
 
                                 </table>
   </span>
-  </div>
+  </div> -->
 
 
-    <input type="radio" onClick="javascript:selectOptionTwo();" name="seat_id" value="Number Of Seats" id="seat_id" style="margin-top: 15px;" /><strong class="blue">Number Of Packages</strong><br/><br>
+    <!-- <input type="radio" onClick="javascript:selectOptionTwo();" name="seat_id" value="Number Of Seats" id="seat_id" style="margin-top: 15px;" /><strong class="blue">Number Of Packages</strong><br/><br>
 
 
 
 
-     <input id="seat_type2" type='number', name='no_of_seats' min=1, value="1" style="display: none;" />  
-
+     <input id="seat_type2" type='number', name='additional_seats_purchased' min=1, value="1" style="display: none;" />  
+ -->
 
     
     <label for="password">Password:<br/><br/>
@@ -718,6 +744,8 @@ function hideall() {
     <input type="password" name="confirm_password" required="required" />
    
     </label>
+
+
 
 
    <!--  <select id="license_type2" name="license_type" disabled="disabled" style="display: none;"> -->
@@ -858,6 +886,12 @@ function hideall() {
 
 </body>
 
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="https://bootstrapformhelpers.com/assets/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="https://bootstrapformhelpers.com/assets/js/bootstrap-formhelpers.min.js"></script>
+
+
 
 <script type="text/javascript">
 
@@ -867,8 +901,15 @@ function hideall() {
     var password=document.forms["validate"]["password"].value;
     var confirm_password=document.forms["validate"]["confirm_password"].value;
 
+    var zip_code = document.forms["validate"]["zip_code"].value;
+
+
     var confirm_field = document.getElementById("confirm_message")
     var password_field = document.getElementById("password_message")
+
+    var zip_field = document.getElementById("zip_code_message")
+
+    
 
     if (password==null || password==""){
       password_field.innerHTML = 'Password field should not be empty'    
@@ -898,6 +939,15 @@ function hideall() {
       confirm_field.innerHTML = ''
     }
 
+    if (zip_code==null || zip_code==""){     
+      zip_field.innerHTML = "Zip Code should not be empty"
+      return(false);
+
+    }
+    else{
+      zip_field.innerHTML = ''
+    }
+
     return true;
 
   }
@@ -909,6 +959,8 @@ function hideall() {
 }
 
 </script>
+
+
 <style>
 .tooltip {
   position: relative;
@@ -954,7 +1006,6 @@ function hideall() {
   border-radius: 50%;
 }
 </style>
-
 
 
 

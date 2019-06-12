@@ -286,7 +286,7 @@ from openedx.core.djangoapps.user_api.models import UserPreference
 @admin.register(OrganizationRegistration)
 class OrganizationRegistrationAdmin(admin.ModelAdmin):
     """ Admin interface for the CourseEnrollmentAllowed model. """
-    list_display = ('organization_name', 'organization_email', 'is_active', 'package_name')
+    list_display = ('organization_name', 'organization_email', 'is_active')
 
     class Meta(object):
         model = OrganizationRegistration
@@ -301,7 +301,7 @@ class CohertsOrganizationAdmin(admin.ModelAdmin):
 @admin.register(UserCohertsOrganizationDetails)
 class UserCohertsOrganizationDetailsAdmin(admin.ModelAdmin):
     """ Admin interface for the CourseEnrollmentAllowed model. """
-    list_display = ('selected_coherts', 'organization_detail', 'learner_id')
+    list_display = ('selected_coherts', 'organization_detail')
 
     class Meta(object):
         model = UserCohertsOrganizationDetails
@@ -318,7 +318,7 @@ class CourseProgressAdmin(admin.ModelAdmin):
 @admin.register(UserGradeRecords)
 class UserGradeRecordsAdmin(admin.ModelAdmin):
     """ Admin interface for the CourseEnrollmentAllowed model. """
-    list_display = ('user_id', 'course_id', 'coherts_name', 'Total_grade', 'organization_name')
+    list_display = ('course_id', 'coherts_name', 'Total_grade', 'organization_name')
 
     class Meta(object):
         model = UserGradeRecords

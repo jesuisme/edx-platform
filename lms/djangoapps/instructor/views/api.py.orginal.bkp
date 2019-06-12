@@ -649,17 +649,8 @@ def students_update_enrollment(request, course_id):
     reason = request.POST.get('reason')
     role = request.POST.get('role')
 
-    allowed_role_choices = configuration_helpers.get_value('MANUAL_ENROLLMENT_ROLE_CHOICES',settings.MANUAL_ENROLLMENT_ROLE_CHOICES)
-    print("allowed_role_choices====%s====" % allowed_role_choices)
-    print("allowed_role_choices====%s====" % type(allowed_role_choices))
-    print("course id mmmmmmm======%s-------" % course_id)
-    print("action id mmmmmmm======%s-------" % action)
-    print("identifiers_raw id mmmmmmm======%s-------" % identifiers_raw)
-    print("identifiers id mmmmmmm======%s-------" % identifiers)
-    print("auto_enroll id mmmmmmm======%s-------" % auto_enroll)
-    print("email_students id mmmmmmm======%s-------" % email_students)
-    print("reason id mmmmmmm======%s-------" % reason)
-    print("role id mmmmmmm======%s-------" % role)
+    allowed_role_choices = configuration_helpers.get_value('MANUAL_ENROLLMENT_ROLE_CHOICES',
+                                                           settings.MANUAL_ENROLLMENT_ROLE_CHOICES)
     if role and role not in allowed_role_choices:
         return JsonResponse(
             {
@@ -758,12 +749,6 @@ def students_update_enrollment(request, course_id):
             })
 
         else:
-            print("manuallly===============%s==" % request.user)
-            print("email==============%s===" % email)
-            print("state_transition===============%s==" % state_transition)
-            print("reason===============%s==" % reason)
-            print("enrollment_obj==============%s===" % enrollment_obj)
-            print("role==============%s===" % role)
             ManualEnrollmentAudit.create_manual_enrollment_audit(
                 request.user, email, state_transition, reason, enrollment_obj, role
             )
@@ -3447,131 +3432,3 @@ def _create_error_response(request, msg):
     in JSON form.
     """
     return JsonResponse({"error": _(msg)}, 400)
-
-
-def coherts_students_update_enrollment(request, course_id,user_mail):
-    course_id = CourseKey.from_string(course_id)
-    action = "enroll"
-    # identifiers_raw = request.user.email
-    identifiers_raw = user_mail
-    identifiers = _split_input_list(identifiers_raw)
-    auto_enroll = True
-    email_students = True
-    reason = "learner add to coherts"
-    role = "Learner"
-
-    allowed_role_choices = configuration_helpers.get_value('MANUAL_ENROLLMENT_ROLE_CHOICES',settings.MANUAL_ENROLLMENT_ROLE_CHOICES)
-    if role and role not in allowed_role_choices:
-        return JsonResponse(
-            {
-                'action': action,
-                'results': [{'error': True, 'message': 'Not a valid role choice'}],
-                'auto_enroll': auto_enroll,
-            }, status=400)
-
-    enrollment_obj = None
-    state_transition = DEFAULT_TRANSITION_STATE
-
-    email_params = {}
-    if email_students:
-        course = get_course_by_id(course_id)
-        email_params = get_email_params(course, auto_enroll, secure=request.is_secure())
-
-    results = []
-    for identifier in identifiers:
-        # First try to get a user object from the identifer
-        user = None
-        email = None
-        language = None
-        try:
-            user = get_student_from_identifier(identifier)
-        except User.DoesNotExist:
-            email = identifier
-        else:
-            email = user.email
-            language = get_user_email_language(user)
-
-        try:
-            # Use django.core.validators.validate_email to check email address
-            # validity (obviously, cannot check if email actually /exists/,
-            # simply that it is plausibly valid)
-            validate_email(email)  # Raises ValidationError if invalid
-            if action == 'enroll':
-                before, after, enrollment_obj = enroll_email(
-                    course_id, email, auto_enroll, email_students, email_params, language=language
-                )
-                before_enrollment = before.to_dict()['enrollment']
-                before_user_registered = before.to_dict()['user']
-                before_allowed = before.to_dict()['allowed']
-                after_enrollment = after.to_dict()['enrollment']
-                after_allowed = after.to_dict()['allowed']
-
-                if before_user_registered:
-                    if after_enrollment:
-                        if before_enrollment:
-                            state_transition = ENROLLED_TO_ENROLLED
-                        else:
-                            if before_allowed:
-                                state_transition = ALLOWEDTOENROLL_TO_ENROLLED
-                            else:
-                                state_transition = UNENROLLED_TO_ENROLLED
-                else:
-                    if after_allowed:
-                        state_transition = UNENROLLED_TO_ALLOWEDTOENROLL
-
-            elif action == 'unenroll':
-                before, after = unenroll_email(
-                    course_id, email, email_students, email_params, language=language
-                )
-                before_enrollment = before.to_dict()['enrollment']
-                before_allowed = before.to_dict()['allowed']
-                enrollment_obj = CourseEnrollment.get_enrollment(user, course_id) if user else None
-
-                if before_enrollment:
-                    state_transition = ENROLLED_TO_UNENROLLED
-                else:
-                    if before_allowed:
-                        state_transition = ALLOWEDTOENROLL_TO_UNENROLLED
-                    else:
-                        state_transition = UNENROLLED_TO_UNENROLLED
-
-            else:
-                return HttpResponseBadRequest(strip_tags(
-                    "Unrecognized action '{}'".format(action)
-                ))
-
-        except ValidationError:
-            # Flag this email as an error if invalid, but continue checking
-            # the remaining in the list
-            results.append({
-                'identifier': identifier,
-                'invalidIdentifier': True,
-            })
-
-        except Exception as exc:  # pylint: disable=broad-except
-            # catch and log any exceptions
-            # so that one error doesn't cause a 500.
-            log.exception(u"Error while #{}ing student")
-            log.exception(exc)
-            results.append({
-                'identifier': identifier,
-                'error': True,
-            })
-
-        else:
-            ManualEnrollmentAudit.create_manual_enrollment_audit(
-                request.user, email, state_transition, reason, enrollment_obj, role
-            )
-            results.append({
-                'identifier': identifier,
-                'before': before.to_dict(),
-                'after': after.to_dict(),
-            })
-
-    response_payload = {
-        'action': action,
-        'results': results,
-        'auto_enroll': auto_enroll,
-    }
-    return HttpResponse(" is done|||")
-

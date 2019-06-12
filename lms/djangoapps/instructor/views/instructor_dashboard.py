@@ -61,6 +61,11 @@ from .tools import get_units_with_due_date, title_or_url
 
 from django.contrib.auth.models import User
 
+
+from instructor.views.api import coherts_students_update_enrollment
+from django.contrib import messages
+from django.core.mail import EmailMessage
+
 log = logging.getLogger(__name__)
 
 
@@ -124,9 +129,12 @@ def instructor_dashboard_2(request, course_id):
 
     reports_enabled = configuration_helpers.get_value('SHOW_ECOMMERCE_REPORTS', False)
     
-    get_organization = UserProfile.objects.get(user=request.user)
-    organization_staff = get_organization.organization
-
+    try:
+        get_organization = UserProfile.objects.get(user=request.user)
+        organization_staff = get_organization.organization
+    except OrganizationRegistration.DoesNotExist:
+        organization_staff = None
+    
     sections = [
         _section_course_info(course, access),
         _section_membership(course, access),
@@ -136,6 +144,7 @@ def instructor_dashboard_2(request, course_id):
         _section_data_download(course, access),
     ]
     if organization_staff:
+       sections.append(_section_coherts_register(request,course, access))
        sections.append(_section_student_track(request,course, access))
     analytics_dashboard_message = None
     if show_analytics_dashboard_message(course_key):
@@ -792,18 +801,18 @@ def is_ecommerce_course(course_key):
     sku_count = len([mode.sku for mode in CourseMode.modes_for_course(course_key) if mode.sku])
     return sku_count > 0
 
+
 def _section_student_track(request,course, access):
     """ Provide data for the corresponding dashboard section """
-    print('course---in student track---------',course)
     course_key = course.id
+    user_detail=None
+    all_organization_base_records=None
     is_small_course = _is_small_course(course_key)
     get_organization = UserProfile.objects.get(user=request.user)
-    user_detail = None
     if get_organization.organization:
         organization_object = OrganizationRegistration.objects.get(organization_name=get_organization.organization)
         org_value = str(organization_object.organization_name)
         user_detail = UserCohertsOrganizationDetails.objects.filter(organization_detail=org_value)
-        print("user_detail--",user_detail)
     if user_detail:
         for learner_data in user_detail:
             selected_coherts = learner_data.selected_coherts
@@ -811,59 +820,111 @@ def _section_student_track(request,course, access):
             coherts_list = coherts_object.course_list
             convert_to_utf = coherts_list.encode('UTF8')
             coherts_result = convert_to_utf.strip('][').split(',')
-            student1 = User.objects.get(email=learner_data.learner_id)
-            print('----user----',student1.email)
-            
-            if student1.is_staff:                
-                continue
+            student1 = User.objects.get(id=learner_data.learner_details.id)
             for courses in coherts_result:
                 unicode_convert= courses.strip('u').split("'")[1]
                 get_grade = student_progress(request,u'%s'%unicode_convert,student_id=student1.id)
                 total_percent = get_grade['grade_summary']
                 course_key = CourseKey.from_string(unicode_convert)
-
-                if UserGradeRecords.objects.filter(organization_name=learner_data.organization_detail, user_id=int(student1.id), course_id=course_key,coherts_name=learner_data.selected_coherts):
-                    update_user=UserGradeRecords.objects.get(organization_name=learner_data.organization_detail, user_id=int(student1.id), course_id=course_key,coherts_name=learner_data.selected_coherts)
-                    update_user.Total_grade = total_percent['percent']*100
-                    
-                    course_progress_student,progress_created = CourseProgress.objects.get_or_create(user=student1,course_id=course.id)
-
-                    print("course_progress_student----",course_progress_student.student_course_progress)
-                    update_user.student_course_progress = course_progress_student.student_course_progress
-                    
-                    update_user.save()
-
+                usergradeobject, create = UserGradeRecords.objects.get_or_create(organization_name=learner_data.organization_detail, user_id=student1, course_id=course_key,coherts_name=learner_data.selected_coherts)
+                if create:
+                    pass
                 else:
-                    try:
-                        save_user_records, created = UserGradeRecords.objects.get_or_create(organization_name=learner_data.organization_detail, user_id=int(student1.id), course_id=course_key, coherts_name=learner_data.selected_coherts,user_email=student1.email,Total_grade=total_percent['percent']*100)
-                        
-                        course_progress_student,progress_created = CourseProgress.objects.get_or_create(user=student1,course_id=course.id)
-
-                        print("course_progress_student----",course_progress_student.student_course_progress)
-                        save_user_records.student_course_progress = course_progress_student.student_course_progress
-
-                        save_user_records.save()                  
-                    except Exception as e:
-                        print("Exception Occured---.-",e)
-
-
+                    usergradeobject.Total_grade = total_percent['percent']*100
+                    usergradeobject.save() 
+                #if UserGradeRecords.objects.filter(organization_name=learner_data.organization_detail, user_id=student1, course_id=course_key,coherts_name=learner_data.selected_coherts):
+                #    update_user=UserGradeRecords.objects.get(organization_name=learner_data.organization_detail, user_id=student1.id, course_id=course_key,coherts_name=learner_data.selected_coherts)
+                #    update_user.Total_grade = total_percent['percent']*100
+                #    update_user.save()
+                #else:
+                #    save_user_records = UserGradeRecords(organization_name=learner_data.organization_detail, user_id=student1, course_id=course_key, coherts_name=learner_data.selected_coherts,Total_grade=total_percent['percent']*100)
+                #    save_user_records.save()
     if get_organization.organization:
-        all_organization_base_records = UserGradeRecords.objects.filter(organization_name=get_organization.organization,course_id=course.id)
-
+        all_organization_base_records = UserGradeRecords.objects.filter(organization_name=get_organization.organization)
         for row in all_organization_base_records:
-            # user_email = User.objects.get(email=row.user_email)
+            user_email = User.objects.get(id=row.user_id.id)
             course_key_id = CourseKey.from_string(u'%s'%row.course_id)
             fetch_course_name = CourseOverview.objects.get(id=course_key_id)
             row.course_display_name = fetch_course_name.display_name
-            
-
+            row.user_email = user_email.email
         all_organization_base_records=all_organization_base_records
-        section_data = {
-            'section_key': 'student_track',
-            'section_display_name': _('Student progress'),
-            'access': access,
-            'is_small_course': is_small_course,
-            'all_organization_base_records': all_organization_base_records,
-                                                              # kwargs={'course_id': unicode(course_key)}),
-        }
-        return section_data
+    section_data = {
+        'section_key': 'student_track',
+        'section_display_name': _('Student progress'),
+        'access': access,
+        'is_small_course': is_small_course,
+        'all_organization_base_records': all_organization_base_records,
+                                                          # kwargs={'course_id': unicode(course_key)}),
+    }
+    return section_data
+
+def _section_coherts_register(request,course, access):
+    """ Provide data for the corresponding dashboard section """
+    course_key = course.id
+    coherts_records=None
+    course_base_coherts=None
+    student_records=None
+    current_user = UserProfile.objects.get(user=request.user)
+    if request.method == "POST":
+        selected_user = str(request.POST.get("selected_item"))
+        coherts = request.POST.get("coherts")
+        selected_user = selected_user.split(',')
+        print("selected_item-----", selected_user)
+        print("coherts-----", coherts)
+        if current_user.organization is not None:
+            organization_obj = OrganizationRegistration.objects.filter(organization_name=current_user.organization)
+            coherts_object = CohertsOrganization.objects.get(coherts_name=coherts)
+            coherts_list = (coherts_object.course_list).encode('UTF8')
+            # convert_to_utf = coherts_list.encode('UTF8')
+            coherts_result = coherts_list.strip('][').split(',')
+            for user_record in selected_user:
+                add_in_track = User.objects.get(email=user_record)
+                if UserCohertsOrganizationDetails.objects.filter(selected_coherts=coherts,organization_detail=current_user.organization, learner_details=add_in_track):
+                    continue
+                
+                user_track = UserCohertsOrganizationDetails(selected_coherts=coherts,organization_detail=current_user.organization, learner_details=add_in_track)
+                user_track.save()
+
+                for enroll_user_for_course in coherts_result:
+                    coherts_value = enroll_user_for_course.strip('u').split("'")[1]
+                    convert_unicode_course_id = unicode(coherts_value)
+                    coherts_students_update_enrollment(request, convert_unicode_course_id, user_record)
+                    subject = "Your added in coherts"
+                    body = """
+                    hi Learner,
+                            you are added in coherts %s.
+
+                    thanks,
+                    
+                    """ % coherts
+                    # user_email = user.email
+                    mail_send = EmailMessage(subject,body,settings.EMAIL_HOST_USER,[user_record])
+                    mail_send.send(fail_silently=False)
+
+
+
+    if current_user.organization:
+        user_org = OrganizationRegistration.objects.filter(organization_name=current_user.organization)
+        coherts_records = CohertsOrganization.objects.filter(organization=user_org)
+        course_base_coherts = []
+        if coherts_records:
+            for row in coherts_records:
+                course_list = (row.course_list).encode('UTF8')
+                coherts_result1 = course_list.strip('][').split(',')
+                for course_name in coherts_result1:
+                    unicode_convert= unicode(course_name.strip('u').split("'")[1])
+                    if unicode_convert == unicode(course_key):
+                        course_base_coherts.append(row)
+    if current_user.organization:
+        # organization_obj = OrganizationRegistration.objects.filter(organization_name=current_user.organization)
+        student_records = UserProfile.objects.filter(organization=current_user.organization)
+    
+    section_data = {
+        'section_key': 'coherts_organization',
+        'student_records': student_records,
+        # 'coherts_records': coherts_records,
+        'course_base_coherts': course_base_coherts,
+        'section_display_name': _('Organization Coherts'),
+        'access': access,
+    }
+    return section_data

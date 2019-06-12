@@ -2893,18 +2893,57 @@ class OrganizationRegistration(models.Model):
 
         
     user = models.ForeignKey(User, db_index=True, related_name="organization", on_delete=models.CASCADE, null=True)
+    first_name = models.CharField(blank=True, max_length=255, db_index=True,null=True)
+    last_name = models.CharField(blank=True, max_length=255, db_index=True,null=True)
+    job_title = models.CharField(blank=True, max_length=255, db_index=True,null=True)
+    PRIMARY_PROFESSIONAL_ROLE = (
+        ('practicing', ugettext_noop('Practicing Clinical Physician')),
+        ('resident', ugettext_noop('Resident Physician')),
+        ('medical', ugettext_noop('Medical Student')),
+        ('undergraduate', ugettext_noop('Undergraduate Student')),
+        ('nursing', ugettext_noop('Nursing Student')),
+        ('pharmacy', ugettext_noop('Pharmacy Student')),
+        ('graduate', ugettext_noop('Graduate Student')),
+        ('social', ugettext_noop('Social Worker')),
+        ('admin', ugettext_noop('Hospital Administrator')),
+        ('researcher', ugettext_noop('Researcher')),
+        ('fellow', ugettext_noop('Fellow')),
+        ('analyst', ugettext_noop('Analyst')),
+        ('admin assistant', ugettext_noop('Administrative Assistant')),
+        ('allied', ugettext_noop('Allied Health Professional')),
+        ('nurse', ugettext_noop('Nurse')),
+        ('nurse prac', ugettext_noop('Nurse Practitioner')),
+        ('m_d', ugettext_noop('Manager/Director')),
+        ('t_p', ugettext_noop('Teacher/Professor')),
+        ('offc_manager', ugettext_noop('Office Manager')),
+        ('program_director', ugettext_noop('Program Director')),
+        ('physician_assistant', ugettext_noop('Physician Assistant')),
+        ('od', ugettext_noop('Other'))
+    )
+    primary_professional_role = models.CharField(
+        blank=True, null=True, max_length=50, db_index=True,
+        choices=PRIMARY_PROFESSIONAL_ROLE
+    )
+    address1 = models.CharField("Address line 1", max_length=1024,null=True)
+    address2 = models.CharField("Address line 2", max_length=1024,null=True)
+    state = models.CharField(blank=True, null=True, max_length=300, db_index=False)
+    city = models.CharField("City",max_length=1024,null=True)
+    country = CountryField(blank=True, null=True)
+    zip_code = models.CharField("ZIP / Postal code",max_length=12,null=True)
     organization_name = models.CharField(blank=True, max_length=255, db_index=True, unique=True)
-    package_name = models.ForeignKey(OrganizationTokenGeneration)
+    confirm_email = models.EmailField(max_length=150,blank=True, null= True, unique= True)
+    #package_name = models.ForeignKey(OrganizationTokenGeneration)
     meta = models.TextField(blank=True)  # JSON dictionary for future expansion
     organization_domain = models.CharField(blank=True, max_length=255, default='')
     organization_email = models.EmailField(max_length=150,blank=True, null= True, unique= True)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
     organization_contact_number = models.CharField(validators=[phone_regex], max_length=17, blank=True)
     is_active = models.BooleanField(default=False)
-    additional_seats_purchased = models.IntegerField(blank=True)
+    #additional_seats_purchased = models.IntegerField(blank=True)
     package_total_price = models.CharField(max_length=200,default='')
     paid = models.BooleanField(default=0)
     invoice_id = models.CharField(max_length=150,null=True)
+    payment_status = models.CharField(blank=True,max_length=200,default='')
 
     def delete(self, *agrs,**kwargs):
         user = User.objects.get(username=self.user)
@@ -2941,8 +2980,9 @@ class UserCohertsOrganizationDetails(models.Model):
 
     selected_coherts = models.CharField(max_length=225, db_index=True)
     organization_detail = models.CharField(max_length=225, db_index=True)
-    learner_id = models.EmailField(max_length=150,blank=True, null= True)
+    #learner_id = models.EmailField(max_length=150,blank=True, null= True)
     Total_grade = models.IntegerField(blank=True, null=True, db_index=True)
+    learner_details = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE)  
 
 class UserGradeRecords(models.Model):
     """ coherts for organization"""
@@ -2951,7 +2991,8 @@ class UserGradeRecords(models.Model):
         db_table = "auth_user_grade_records"
 
 
-    user_id = models.IntegerField(blank=True, null=True, db_index=True)
+    #user_id = models.IntegerField(blank=True, null=True, db_index=True)
+    user_id = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE)
     course_id = CourseKeyField(max_length=255, db_index=True)
     coherts_name = models.CharField(max_length=225, db_index=True)
     Total_grade = models.IntegerField(blank=True, null=True, db_index=True)

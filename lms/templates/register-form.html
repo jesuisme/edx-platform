@@ -91,11 +91,10 @@ Register Organization
   % else:
   <p class="instructions">
 ## Translators: selected_provider is the name of an external, third-party user authentication service (like Google or LinkedIn).
-${_("You've successfully logged into {selected_provider} account,but this account isn't linked with a Dell Medical School account yet.").format(selected_provider='<strong>%s</strong>' % selected_provider)}<br />
-${_("Use your {platform_name} username and password to log in,and then link your {platform_name} account with {selected_provider} from your dashboard.").format(platform_name=settings.PLATFORM_NAME_1, selected_provider=selected_provider)}<br />
-${_("If you don't have a {platform_name} account yet,click Register at the top of the page.").format(platform_name=settings.PLATFORM_NAME_1)}
-  </p>
-
+${_("You've successfully logged into {selected_provider} account, but this account isn't linked with a Dell Medical School account yet.").format(selected_provider='<strong>%s</strong>' % selected_provider)}<br />
+${_("Use your {platform_name} username and password to log in, and then link your {platform_name} account with {selected_provider} from your dashboard.").format(platform_name=settings.PLATFORM_NAME_1, selected_provider=selected_provider)}<br />
+${_("If you don't have a {platform_name} account yet, click Register at the top of the page.").format(platform_name=settings.PLATFORM_NAME_1)}
+</p>
   % endif
 
 % else:

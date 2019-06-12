@@ -342,6 +342,12 @@ def get_notes(request, course, page=DEFAULT_PAGE, page_size=DEFAULT_PAGE_SIZE, t
             results: list with notes info dictionary. each item in this list will be a dict
     """
     path = 'search' if text else 'annotations'
+    log.info(request.user)
+    log.info(course.id)
+    log.info(page)
+    log.info(page_size)
+    log.info(path)
+    log.info(text)
     response = send_request(request.user, course.id, page, page_size, path, text)
 
     try:
