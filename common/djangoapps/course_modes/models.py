@@ -696,7 +696,7 @@ class CourseMode(models.Model):
         #    return False
 
         #return True
-	return mode_slug != cls.AUDIT
+	    return mode_slug != cls.AUDIT
 
     def to_tuple(self):
         """
