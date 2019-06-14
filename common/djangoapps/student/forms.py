@@ -346,6 +346,7 @@ def get_registration_extension_form(*args, **kwargs):
 
 
 class OrganizationRegistrationForm(forms.ModelForm):
+    required_css_class = 'required'
    
     def __init__(self, *args, **kwargs):
         super(OrganizationRegistrationForm, self).__init__(*args, **kwargs)
@@ -356,16 +357,15 @@ class OrganizationRegistrationForm(forms.ModelForm):
         self.fields['first_name'].required = True
         self.fields['confirm_email'].required = True
         self.fields['last_name'].required = True
-        self.fields['job_title'].required = True
-        self.fields['address1'].required = True
-        self.fields['address2'].required = True
+        self.fields['job_title'].required = True      
         self.fields['city'].required = True
+        self.fields['address1'].required = True
         self.fields['primary_professional_role'].required = True
 
     class Meta:
         model = OrganizationRegistration
         # fields = ['organization_name','organization_email','organization_domain','organization_contact_number','package_name','first_name','last_name','job_title', 'primary_professional_role','address1','address2','city','zip_code','confirm_email']
-        fields = ['organization_email','confirm_email','first_name','last_name','job_title','organization_name','organization_domain', 'organization_contact_number','primary_professional_role','address1','address2','city']
+        fields = ['organization_email','confirm_email','first_name','last_name','job_title','organization_name','organization_domain', 'organization_contact_number','primary_professional_role','city','address1']
         labels = {'organization_name': 'Organization Name', 'organization_email': 'Email', 'organization_domain': 'Organization Domain', 'organization_contact_number': 'Contact Number'}
     
     
