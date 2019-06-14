@@ -108,9 +108,15 @@
 <div class="group group-form group-form-requiredinformation">
   <!-- <ol class="list-input"> -->
 <form id="organization_register" name="validate" action="/organization_register" method="post" onsubmit="return validateForm()" data-remote="true" novalidate>
+<<<<<<< HEAD
     {% csrf_token %} 
 
   <div>
+=======
+    {% csrf_token %}
+
+    <div>
+>>>>>>> ldaa_dev
     {% for field in form %}
       {{ field.errors }}
       <label for="{{ field.auto_id }}">
@@ -121,6 +127,7 @@
     {% endfor %}
   </div>
 
+<<<<<<< HEAD
     <!-- 
     <b>
     {{ form.as_p }}     
@@ -139,18 +146,45 @@
         <label class="required" for="country">Country</label>
 <select id="country-select" name="country" class="bfh-countries form-control" data-country="US" data-flags="true"></select>
       </div><br>
+=======
+
+   <!--  <b>
+    {{ form }}     
+    </b> 
+    <b></b> --> 
+
+
+  <label for="address2">Address line 2:</label>
+    <span id='address2' style="color:Black;font-weight: bold;"></span>
+    <input type="text" name="address2">
+
+   
+   <div id="field-country">
+        <label class="required" for="country">Country:</label>
+<select id="country-select" name="country" class="bfh-countries form-control" data-country="US" data-flags="true"></select><br>
+      </div>
+>>>>>>> ldaa_dev
 
 
 
   <div id="field-state">
+<<<<<<< HEAD
         <label class="required" for="state">State</label>
         <select class="input-medium bfh-states form-control" data-country="country-select" name="state">
         </select>
       </div><br>
+=======
+        <label class="required" for="state">State:</label>
+        <select class="input-medium bfh-states form-control" data-country="country-select" name="state">
+
+        </select><br>
+      </div>
+>>>>>>> ldaa_dev
 
 
   <label class="required" for="zip_code">Zip Code</label>
     <span id='zip_code_message' style="color:Black;font-weight: bold;"></span>
+<<<<<<< HEAD
     <input type="text" name="zip_code">
  
 
@@ -159,12 +193,60 @@
     <span id='password_message' style="color:Black;font-weight: bold;"></span>
     <input type="password" name="password" required="required" />
    
+=======
+    <input type="text" name="zip_code" required='required'>
+
+    
+
+  <!-- div class="tooltip"><p style="text-align:center" class="hh"><b style="color: white;">i</b></p>
+        
+  <span class="tooltiptext"> <table style="color: white;">
+                                     
+                                        <tr>
+                                           <th>Silver Package</th>
+                                            <th>50 Seats</th>&nbsp;&nbsp;
+                                            <th>$25</th>&nbsp;&nbsp;
+                                          </tr><tr>
+                                            <th>Gold Package</th>
+                                            <th>100 Seats</th>&nbsp;&nbsp;
+                                            <th>$50</th>&nbsp;&nbsp;
+                                          </tr><tr>
+                                            <th>Platinum Package</th>
+                                            <th>200 Seats</th>&nbsp;&nbsp;
+                                            <th>$100</th>&nbsp;&nbsp;
+                                         </tr>
+
+                                </table>
+  </span>
+  </div> -->
+
+
+    <!-- <input type="radio" onClick="javascript:selectOptionTwo();" name="seat_id" value="Number Of Seats" id="seat_id" style="margin-top: 15px;" /><strong class="blue">Number Of Packages</strong><br/><br>
+
+
+
+
+     <input id="seat_type2" type='number', name='additional_seats_purchased' min=1, value="1" style="display: none;" />  
+ -->
+
+    
+    <label class="required" for="password">Password:</label>
+    <span id='password_message' style="color:Black;font-weight: bold;"></span>
+    <input type="password" name="password" required="required" />
+>>>>>>> ldaa_dev
 
 
     
     <label class="required" for="confirm_password">Confirm Password:</label>
     <span id='confirm_message' style="color:Black;font-weight: bold;"></span>
     <input type="password" name="confirm_password" required="required" />
+<<<<<<< HEAD
+=======
+   
+
+
+
+>>>>>>> ldaa_dev
 
     <button type="submit" class="action action-primary action-update register-button">Register Organization</button>
 </form> 
@@ -190,18 +272,18 @@
 
 
 <div class="cta cta-welcome">
-  <h3>Welcome to Your Platform Name Here</h3>
-  <p>Registering with Your Platform Name Here gives you access to all of our current and future free courses. Not ready to take a course just yet? Registering puts you on our mailing list - we will update you as courses are added.</p>
+  <h3>Welcome to Dell Medical School, The University of Texas at Austin</h3>
+  <p>Registering with Dell Medical School, The University of Texas at Austin gives you access to all of our current and future free courses. Not ready to take a course just yet? Registering puts you on our mailing list - we will update you as courses are added.</p>
 </div>
 
 <div class="cta cta-nextsteps">
   <h3>Next Steps</h3>
-    <p>As part of joining Your Platform Name Here, you will receive an email message with instructions for activating your account. Don&#39;t see the email? Check your spam folder and mark Your Platform Name Here emails as &#39;not spam&#39;. At Your Platform Name Here, we communicate mostly through email.</p>
+    <p>As part of joining Dell Medical School, The University of Texas at Austin, you will receive an email message with instructions for activating your account. Don&#39;t see the email? Check your spam folder and mark Your Platform Name Here emails as &#39;not spam&#39;. At Dell Medical School, The University of Texas at Austin, we communicate mostly through email.</p>
 </div>
 
   <div class="cta cta-help">
     <h3>Need Help?</h3>
-    <p>Need help registering with Your Platform Name Here?
+    <p>Need help registering with Dell Medical School, The University of Texas at Austin?
       <a href="/faq">
           View our FAQs for answers to commonly asked questions.
       </a>
@@ -363,7 +445,11 @@
 
 
 <style type="text/css">
+<<<<<<< HEAD
     .required:after { content: '*'; }
+=======
+    .required:after { content: '*';  color: red;}
+>>>>>>> ldaa_dev
 </style>
 
 
