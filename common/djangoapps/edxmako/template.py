@@ -22,7 +22,9 @@ from .request_context import get_template_request_context
 from .shortcuts import is_any_marketing_link_set, is_marketing_link_set, marketing_link
 
 KEY_CSRF_TOKENS = ('csrf_token', 'csrf')
+import logging
 
+log = logging.getLogger(__name__)
 
 class Template(object):
     """
@@ -55,7 +57,7 @@ class Template(object):
 
         self._add_core_context(context_dictionary)
         self._evaluate_lazy_csrf_tokens(context_dictionary)
-
+        log.info("template info log   %s "% context_dictionary)
         return self.mako_template.render_unicode(**context_dictionary)
 
     @staticmethod

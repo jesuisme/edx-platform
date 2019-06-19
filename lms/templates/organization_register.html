@@ -163,8 +163,8 @@
 
 
 <!-- <form id="organization_register" action="/organization_register" method="post" data-remote="true" novalidate>
-	{% csrf_token %} -->
-	<!-- {{ form }}    -->
+  {% csrf_token %} -->
+  <!-- {{ form }}    -->
 
    <!--  <div class="g-recaptcha" data-sitekey="6Le4ZXYUAAAAAMiFQLIvp0iUXhZtzBUo1alng5Oa"></div> -->
   
@@ -706,6 +706,7 @@ function hideall() {
 
   <div id="field-state">
         <label class="required" for="state">State:</label>
+        <span id='state_message' style="color:Black;font-weight: bold;"></span>
         <select class="input-medium bfh-states form-control" data-country="country-select" name="state">
 
         </select><br>
@@ -916,6 +917,7 @@ function hideall() {
   function validateForm(){
 
     var password=document.forms["validate"]["password"].value;
+    var state = document.forms["validate"]["state"].value;
     var confirm_password=document.forms["validate"]["confirm_password"].value;
 
     var zip_code = document.forms["validate"]["zip_code"].value;
@@ -925,6 +927,8 @@ function hideall() {
     var password_field = document.getElementById("password_message")
 
     var zip_field = document.getElementById("zip_code_message")
+
+    var state_field = document.getElementById("state_message")   
 
     
 
@@ -963,6 +967,15 @@ function hideall() {
     }
     else{
       zip_field.innerHTML = ''
+    }
+
+    if (state==null || state==""){     
+      state_field.innerHTML = "Please select the State"
+      return(false);
+
+    }
+    else{
+      state_field.innerHTML = ''
     }
 
     return true;

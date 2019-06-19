@@ -346,6 +346,7 @@ def get_registration_extension_form(*args, **kwargs):
 
 
 class OrganizationRegistrationForm(forms.ModelForm):
+    required_css_class = 'required'
    
     def __init__(self, *args, **kwargs):
         super(OrganizationRegistrationForm, self).__init__(*args, **kwargs)
@@ -356,7 +357,7 @@ class OrganizationRegistrationForm(forms.ModelForm):
         self.fields['first_name'].required = True
         self.fields['confirm_email'].required = True
         self.fields['last_name'].required = True
-        self.fields['job_title'].required = True        
+        self.fields['job_title'].required = True      
         self.fields['city'].required = True
         self.fields['address1'].required = True
         self.fields['primary_professional_role'].required = True
