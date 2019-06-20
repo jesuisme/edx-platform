@@ -284,7 +284,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
     if (file_check){
       $('#demo').css("display","block");
-      document.getElementById("demo").innerHTML = "Please Wait Uploading CSV File..";
+      document.getElementById("demo").innerHTML = "<b>Please Wait Uploading CSV File..</b>";
 
     }   
     window.setInterval(function(){
@@ -295,7 +295,7 @@ from openedx.core.djangolib.markup import HTML, Text
 
   function enroll_validation() {
     $('#enroll_validate').css("display","block");
-    document.getElementById("enroll_validate").innerHTML = "Please Wait Enrolling Users...";
+    document.getElementById("enroll_validate").innerHTML = "<b>Please Wait Enrolling Users...</b>";
     window.setInterval(function(){
       alertFunc();
       /// call your function here
