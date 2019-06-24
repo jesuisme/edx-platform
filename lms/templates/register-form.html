@@ -184,6 +184,26 @@ ${_("If you don't have a {platform_name} account yet, click Register at the top 
   % endif
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="group group-form group-form-secondary group-form-personalinformation">
   <h2 class="sr">${_("Additional Personal Information")}</h2>
 
@@ -194,6 +214,37 @@ ${_("If you don't have a {platform_name} account yet, click Register at the top 
       <input id="city" type="text" name="city" value="" placeholder="${_('example: New York')}" aria-describedby="city-tip" ${'required aria-required="true"' if settings.REGISTRATION_EXTRA_FIELDS['city'] == 'required' else ''} />
     </li>
     % endif
+
+
+
+
+
+
+% if settings.REGISTRATION_EXTRA_FIELDS['organization'] != 'hidden':
+    <li class="field required text" id="field-organization">
+      <label for="organization"><b>${_('Organization')}</b></label>
+      %for organization in student_list:
+      <input id="organization" type='radio' checked="" name="organization" value="${organization}" onclick="hideit('x2'); "${'required aria-required="true"' if settings.REGISTRATION_EXTRA_FIELDS['organization'] == 'required' else ''}/>${_(organization)}
+      %endfor
+      <input type='radio' name="organization" onclick="showit('x2');"/>I am from organization
+      <span id="x2" style="display:none">
+      <select id="org" name="organization" ${'required aria-required="true"' if settings.REGISTRATION_EXTRA_FIELDS['organization'] == 'required' else ''}>
+        <option value="">--</option>
+        %for org in organization_list:
+        <option value="${org}">${_(org)}</option>
+        %endfor
+      </select>
+      </span>
+    </li>
+    % endif
+
+
+
+
+
+
+
+    
     % if settings.REGISTRATION_EXTRA_FIELDS['country'] != 'hidden':
     <li class="field-group">
     <div class="field ${settings.REGISTRATION_EXTRA_FIELDS['country']} select" id="field-country">
@@ -303,3 +354,24 @@ ${_("If you don't have a {platform_name} account yet, click Register at the top 
 <div class="form-actions">
   <button name="submit" type="submit" id="submit" class="action action-primary action-update register-button">${_('Register')} <span class="orn-plus">+</span> ${_('Create My Account')}</button>
 </div>
+
+
+
+
+<script>
+function showit(it) {
+  document.getElementById(it).style.display = "block";
+}
+
+function hideit(it) {
+  document.getElementById(it).style.display = "none";
+  $("#org").prop("selectedIndex", -1);
+}
+
+function hideall() {
+  // alert('Yes in hide all it!!!');
+  for (var i=1; i<=4; i++) {
+    hideit("organization" + i);
+  }
+}
+</script>

@@ -613,8 +613,6 @@ def render_html_view(request, user_id, course_id):
         _track_certificate_events(request, context, course, user, user_certificate)
 
         # Render the certificate
-        log.info("====616 webview==context====%s==="% context)
-        log.info("====616 webview===custom_template===%s==="% custom_template)
         return _render_valid_certificate(request, context, custom_template)
 
 
@@ -671,7 +669,7 @@ def _render_invalid_certificate(course_id, platform_name, configuration):
 
 def _render_valid_certificate(request, context, custom_template=None):
     if custom_template:
-        log.info("inside custome template==================")
+        # log.info("inside custome template==================")
         template = Template(
             custom_template.template,
             output_encoding='utf-8',
@@ -680,8 +678,6 @@ def _render_valid_certificate(request, context, custom_template=None):
             encoding_errors='replace',
         )
         context = RequestContext(request, context)
-        log.info("=======context--------%s-----"% context)
         return HttpResponse(template.render(context))
     else:
-        log.info("=======context--else------%s-----"% context)
         return render_to_response("certificates/valid.html", context)

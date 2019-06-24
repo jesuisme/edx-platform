@@ -410,7 +410,7 @@ def organization_register(request):
                     email.attach_alternative(message_for_activation, "text/html")
                     email.mixed_subtype = 'related'
                     email.attach(logo_data())
-                    email.send()
+                    # email.send()
 
                 user_prof = UserProfile(
                     user=user,
@@ -507,6 +507,8 @@ def register_user(request, extra_context=None):
     student_list.append('Student')
 
     context = {
+        'organization_list': active_organization_list,
+        'student_list': student_list,
         'login_redirect_url': redirect_to,  # This gets added to the query string of the "Sign In" button in the header
         'email': '',
         'name': '',
@@ -584,7 +586,7 @@ def compose_and_send_activation_email(user, profile, user_registration=None):
 
     email.attach(logo_data())
 
-    email.send()
+    # email.send()
 
     # send_activation_email.delay(subject, message_for_activation, from_address, dest_addr)
 
@@ -931,6 +933,7 @@ def create_account_with_params(request, params):
     """
     # Copy params so we can modify it; we can't just do dict(params) because if
     # params is request.POST, that results in a dict containing lists of values
+    log.info("==create account with param====%s----" % params)
     params = dict(params.items())
 
     # allow to define custom set of required/optional/hidden fields via configuration
@@ -1364,7 +1367,20 @@ def create_account(request, post_override=None):
 
     #request.POST['reason_for_registration'] = reason_for_registration
     #AUDIT_LOG.info("dddddddddsssssffgfff-----create account------%s--------" % request.POST)
-
+    user_mail = request.POST.getlist('email')
+    selected_organization = request.POST.getlist('organization')
+    # if selected_organization[0] == "Student":
+    if selected_organization[0] == "on":
+        print("==selected_organization[1]====%s----"% selected_organization[1])
+        if selected_organization[1]:
+            organization_object = OrganizationRegistration.objects.get(organization_name=selected_organization[1])
+            organization_mail = organization_object.organization_email
+            user_mail = user_mail[0].split('@')
+            organization_mail = organization_mail.split('@')
+            if user_mail[1] != organization_mail[1]:
+                return JsonResponse({'success': False, 'value': "your mail does not match to organization mail", 'field': "organization"}, status=400)
+        else:
+            return JsonResponse({'success': False, 'value': "Select valid organization!!", 'field': "organization"}, status=400)
 
 
     warnings.warn("Please use RegistrationView instead.", DeprecationWarning)
