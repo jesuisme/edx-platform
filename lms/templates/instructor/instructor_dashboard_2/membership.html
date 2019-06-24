@@ -64,7 +64,7 @@ from openedx.core.djangolib.markup import HTML, Text
     </div>
     <div class="request-response"></div>
     <div class="request-response-error"></div>
-    <p id="enroll_validate" style="display: none;"></p>
+    <p class="tests" id="enroll_validate" style="display: none;"></p>
 </fieldset>
 
 %if static.get_value('ALLOW_AUTOMATED_SIGNUPS', settings.FEATURES.get('ALLOW_AUTOMATED_SIGNUPS', False)):
@@ -278,21 +278,17 @@ from openedx.core.djangolib.markup import HTML, Text
 </div>
 
 <script type="text/javascript">  
-
   function myFunction() {
     var file_check = document.getElementById("browseBtn-auto-enroll").value;
-
     if (file_check){
       $('#demo').css("display","block");
       document.getElementById("demo").innerHTML = "<b>Please Wait Uploading CSV File..</b>";
-
     }   
     window.setInterval(function(){
       display();
       /// call your function here
     }, 1000);
   }
-
   function enroll_validation() {
     $('#enroll_validate').css("display","block");
     document.getElementById("enroll_validate").innerHTML = "<b>Please Wait Enrolling Users...</b>";
@@ -301,8 +297,6 @@ from openedx.core.djangolib.markup import HTML, Text
       /// call your function here
     }, 1000);
   }
-
-
   function alertFunc() {
     var success_msg = $('.request-res-section').text();
     if (success_msg){
@@ -311,11 +305,9 @@ from openedx.core.djangolib.markup import HTML, Text
       setTimeout(clear_msg, 6000);   
     }  
   }
-
   function clear_msg() {
     $('.request-res-section').empty();
   }
-
   function display(){
     var success_message = $('.message-title').text();
     var success = success_message.trim();
@@ -324,13 +316,10 @@ from openedx.core.djangolib.markup import HTML, Text
       clearInterval();
       setTimeout(clear_display, 6000);
     }
-
   }
-
   function clear_display() {
   $('.results').empty();
   }
-
 </script>
 
 

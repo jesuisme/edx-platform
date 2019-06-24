@@ -601,22 +601,25 @@ such that the value can be defined later than this assignment (file load order).
             this.$checkbox_emailstudents = this.$container.find("input[name='email-students']");
             this.checkbox_emailstudents_initialstate = this.$checkbox_emailstudents.is(':checked');
             this.$task_response = this.$container.find('.request-response');
-            
+            this.$test = this.$container.find('.tests');            
             this.$request_response_error = this.$container.find('.request-response-error');
             this.$enrollment_button.click(function(event) {
                 var sendData;
 
                 if (!batchEnroll.$reason_field.val()) {
+                    $(batchEnroll.$test).css("display","none");
                     batchEnroll.fail_with_error(gettext('Reason field should not be left blank.'));
                     return false;
                 }    
 
                 if (!batchEnroll.$identifier_input.val()) {
+                    $(batchEnroll.$test).css("display","none");
                     batchEnroll.fail_with_error(gettext('Email Adddresses should not be left blank.'));
                     return false;
                 }                
 
                 if (!batchEnroll.$role.val()) {
+                    $(batchEnroll.$test).css("display","none");
                     batchEnroll.fail_with_error(gettext('Role field should not be left unselected.'));
                     return false;
                 }
