@@ -311,7 +311,7 @@ from openedx.core.djangolib.markup import HTML, Text
   function display(){
     var success_message = $('.message-title').text();
     var success = success_message.trim();
-    if (success == 'Success'){
+    if (success == 'Success' || success == 'Warnings' || success == 'Errors'){
       $('#demo').css("display","none");
       clearInterval();
       setTimeout(clear_display, 6000);
