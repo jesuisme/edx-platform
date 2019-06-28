@@ -586,7 +586,7 @@ def compose_and_send_activation_email(user, profile, user_registration=None):
 
     email.attach(logo_data())
 
-    # email.send()
+    email.send()
 
     # send_activation_email.delay(subject, message_for_activation, from_address, dest_addr)
 
