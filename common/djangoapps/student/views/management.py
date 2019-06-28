@@ -410,7 +410,7 @@ def organization_register(request):
                     email.attach_alternative(message_for_activation, "text/html")
                     email.mixed_subtype = 'related'
                     email.attach(logo_data())
-                    # email.send()
+                    email.send()
 
                 user_prof = UserProfile(
                     user=user,
