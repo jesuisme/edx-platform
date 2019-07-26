@@ -769,7 +769,7 @@ def course_about(request, course_id):
     #                unicode_convert= unicode(course_name.strip('u').split("'")[1])
     #                if unicode_convert == course_id:
     #                    current_user_list.append(row)
-    if not request.user.is_anonymous():
+    if request.user.is_authenticated():
         get_organization = UserProfile.objects.get(user=request.user)
         user_related_organization = False
         if get_organization.organization is not None:
