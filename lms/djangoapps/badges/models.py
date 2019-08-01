@@ -147,6 +147,7 @@ class BadgeAssertion(TimeStampedModel):
     image_url = models.URLField()
     drive_image_url = models.URLField(blank=True)
     assertion_url = models.URLField()
+    date_updated = models.DateField(auto_now_add=True, null=True)
 
     def __unicode__(self):
         return u"<{username} Badge Assertion for {slug} for {issuing_component}".format(

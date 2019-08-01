@@ -6,9 +6,10 @@ from mako.template import Template
 
 from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
+from datetime import date
 from django.urls import reverse
 from course_modes.models import CourseMode
-from student.models import UserProfile,CourseProgress
+from student.models import UserProfile,CourseProgress, StudentCourseDetails,LoginUpdate
 from course_modes.helpers import enrollment_mode_display
 from openedx.core.djangolib.js_utils import dump_js_escaped_json, js_escaped_string
 from openedx.core.djangolib.markup import HTML, Text
@@ -41,6 +42,15 @@ from util.course import get_link_for_about_page, get_encoded_course_sharing_utm_
 <%
 value_list = []
 total_value_list = []
+
+total_sections_display = []
+
+students_data = {}
+
+students_data_dict = {}
+
+last_accessed = {}
+
 %>
 
 % if blocks:
@@ -50,17 +60,37 @@ total_value_list = []
   
   %>
   % if course_sections is not None:
-    % for section in course_sections:
-      <% total_value_list.append(section['display_name']) %>
+    % for section in course_sections:  
+
+      % if section['display_name']:       
+      <%      
+      students_data_dict['section_name'] = section['display_name']
+      students_data_dict['completed'] = section['complete']
+
+      total_sections_display.extend([{'section_name': section['display_name'],'completed': section['complete']}])
+      %> 
+      % endif     
+
+      <%       
+      total_value_list.append(section['display_name'])       
+      %>
+
+      % if section.get('resume_block'):
+        <% 
+        last_accessed['last_accessed_section'] = section['display_name']
+        %>        
+      % endif
      
+
       % if section.get('complete'):
         <% 
         value_list.append(section['display_name']) 
         %>        
       % endif
       
-      % for subsection in section.get('children', []):
+      % for subsection in section.get('children', []):        
         <% total_value_list.append(subsection['display_name']) %>
+
 
         % if subsection.get('complete'):
           <% 
@@ -89,6 +119,26 @@ total_value_list = []
 length_value_list = len(value_list)
 length_total_list = len(total_value_list)
 %>
+
+
+<%
+  student_details = StudentCourseDetails.objects.filter(user=user,module_name=course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today()).exists()
+%>
+
+% if student_details:
+  <%
+  student_courses = StudentCourseDetails.objects.get(user=user,module_name=course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today())
+  student_courses.completed = students_data_dict['completed']
+  student_courses.save()
+  %>
+% else:
+  <%
+   StudentCourseDetails.objects.create(user=user,module_name=course_overview.display_name_with_default,section=students_data_dict['section_name'],completed=students_data_dict['completed'])  
+  %>
+% endif
+
+<% students_data_dict = {} %>
+
 
 
 <%namespace name='static' file='../static_content.html'/>
@@ -553,7 +603,9 @@ length_total_list = len(total_value_list)
   </footer>
 </article>
 </div>
-% if length_value_list:
+
+
+% if length_value_list:    
     <%    
     percent_div = (length_value_list/length_total_list)
     percent_round = percent_div * 100
@@ -561,32 +613,17 @@ length_total_list = len(total_value_list)
 
     %>
 
-
     % if CourseProgress.objects.filter(user=user,course_id=enrollment.course_id).exists():
-
-    % if percent:
       <% 
       course_prog = CourseProgress.objects.get(user=user,course_id=enrollment.course_id)
       course_prog.student_course_progress = percent
       course_prog.save()
       %>
     % else:
-      <% 
-      course_prog = CourseProgress.objects.get(user=user,course_id=enrollment.course_id)
-      course_prog.student_course_progress = 0
-      course_prog.save()
-      %>
-    % endif
-
-    % else:
       <%
-      course_progress = CourseProgress(user=user,course_id=enrollment.course_id)
-      course_progress.save()
+      CourseProgress.objects.create(user=user,course_id=enrollment.course_id,student_course_progress=0)      
       %>
-
-    % endif   
-    
-    
+    % endif 
     
     <div class="row">
         <div class="col-md-4">            
@@ -598,7 +635,18 @@ length_total_list = len(total_value_list)
             </div>            
         </div>
     </div>    
-  % else:
+% else:  
+
+    % if CourseProgress.objects.filter(user=user,course_id=enrollment.course_id).exists():
+      <% 
+      course_prog = CourseProgress.objects.get(user=user,course_id=enrollment.course_id)      
+      %>
+    % else:
+      <%
+      CourseProgress.objects.create(user=user,course_id=enrollment.course_id,student_course_progress=0)      
+      %>
+    % endif 
+
    <div class="row">
         <div class="col-md-4">            
             <div class="progress-outer">
@@ -694,4 +742,3 @@ $(document).ready(function(){
 <%static:require_module_async module_name="js/dateutil_factory" class_name="DateUtilFactory">
     DateUtilFactory.transform(iterationKey=".localized-datetime");
 </%static:require_module_async>
-

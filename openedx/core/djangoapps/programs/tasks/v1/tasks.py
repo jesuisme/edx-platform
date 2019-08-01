@@ -280,3 +280,22 @@ def award_course_certificate(self, username, course_run_key):
     except Exception as exc:
         LOGGER.exception('Failed to determine course certificates to be awarded for user %s', username)
         raise self.retry(exc=exc, countdown=countdown, max_retries=MAX_RETRIES)
+
+
+import logging
+log = logging.getLogger(__name__)
+from celery.task.schedules import crontab
+from celery.decorators import periodic_task
+from datetime import date, timedelta
+from student.models import StudentCourseViews,StudentCourseDetails
+
+
+@periodic_task(run_every=(crontab(minute='*/1')), name="some_task", ignore_result=True)
+def some_task():
+    print("some TASK CELERY----")
+    log.info("TEST SOME TASK----")
+    LOGGER.info("SOME TASK CELE----D---") 
+    dee=date.today()-timedelta(days=5)
+    de2=date.today()-timedelta(days=11)
+    log.info("DATE PREIVIOS------%s----"% dee)
+    # StudentCourseDetails.objects.filter(date_updated__lte=date.today()-timedelta(days=30)).delete()

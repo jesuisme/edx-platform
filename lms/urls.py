@@ -53,6 +53,7 @@ from student import views as student_views
 from student_account import views as student_account_views
 from track import views as track_views
 from util import views as util_views
+from cohert_dashboard import views as cohort_dashboard_views
 
 if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
     django_autodiscover()
@@ -66,6 +67,15 @@ if settings.DEBUG or settings.FEATURES.get('ENABLE_DJANGO_ADMIN_SITE'):
 urlpatterns = [
     url(r'^$', branding_views.index, name='root'),   # Main marketing page, or redirect to courseware
     url(r'^ut_new/', include('lms.djangoapps.ut_new.urls')),
+
+    #django vistor tracking
+    url(r'^tracking/', include('tracking.urls')),
+
+    # Cohort tracking
+    url(r'^admin_dashboard/$', cohort_dashboard_views.dash, name='admin_dashboard'),
+    url(r'^student_dashboard/$', cohort_dashboard_views.dash, name='student_dashboard'),
+    url(r'^_dash', cohort_dashboard_views.dash_ajax),
+
     url(r'^paypal/', include('paypal.standard.ipn.urls')),
     url(r'', include('student.urls')),
     # TODO: Move lms specific student views out of common code

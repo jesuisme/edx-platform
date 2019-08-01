@@ -407,7 +407,6 @@ class UserProfile(models.Model):
 
     meta = models.TextField(blank=True)  # JSON dictionary for future expansion
     courseware = models.CharField(blank=True, max_length=255, default='course.xml')
-
     # Location is no longer used, but is held here for backwards compatibility
     # for users imported from our first class.
     language = models.CharField(blank=True, max_length=255, db_index=True)
@@ -672,6 +671,7 @@ def user_post_save_callback(sender, **kwargs):
         excluded_fields=['last_login', 'first_name', 'last_name'],
         hidden_fields=['password']
     )
+
 
 
 class UserSignupSource(models.Model):
@@ -2963,6 +2963,7 @@ class CohertsOrganization(models.Model):
     coherts_name = models.CharField(max_length=225, db_index=True, unique=True)
     organization = models.ForeignKey(OrganizationRegistration, db_index=True, on_delete=models.CASCADE, null=True)
     course_list = models.TextField(blank=True)
+    instructor = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE, null=True, blank=True)
 
 
 def organization_email_exists(email):
@@ -2971,35 +2972,36 @@ def organization_email_exists(email):
     """
     return OrganizationRegistration.objects.filter(organization_email=email).exists()
 
-class UserCohertsOrganizationDetails(models.Model):
-    """ coherts for organization"""
+# class UserCohertsOrganizationDetails(models.Model):
+#     """ coherts for organization"""
  
-    class Meta(object):
-        # app_label = "ut_new"
-        db_table = "ut_new_UserCohertsOrganizationDetails"
+#     class Meta(object):
+#         # app_label = "ut_new"
+#         db_table = "ut_new_UserCohertsOrganizationDetails"
 
-    selected_coherts = models.CharField(max_length=225, db_index=True)
-    organization_detail = models.CharField(max_length=225, db_index=True)
-    #learner_id = models.EmailField(max_length=150,blank=True, null= True)
-    Total_grade = models.IntegerField(blank=True, null=True, db_index=True)
-    learner_details = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE)  
+#     selected_coherts = models.CharField(max_length=225, db_index=True)
+#     organization_detail = models.CharField(max_length=225, db_index=True)
+#     #learner_id = models.EmailField(max_length=150,blank=True, null= True)
+#     Total_grade = models.IntegerField(blank=True, null=True, db_index=True)
+#     learner_details = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE)  
 
-class UserGradeRecords(models.Model):
-    """ coherts for organization"""
+# class UserGradeRecords(models.Model):
+#     """ coherts for organization"""
 
-    class Meta(object):        
-        db_table = "auth_user_grade_records"
+#     class Meta(object):        
+#         db_table = "auth_user_grade_records"
 
 
-    #user_id = models.IntegerField(blank=True, null=True, db_index=True)
-    user_id = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE)
-    course_id = CourseKeyField(max_length=255, db_index=True)
-    coherts_name = models.CharField(max_length=225, db_index=True)
-    Total_grade = models.IntegerField(blank=True, null=True, db_index=True)
-    organization_name = models.CharField(max_length=225, db_index=True)
-    user_email = models.EmailField(max_length=150,blank=True, null= True)
-    student_course_progress = models.IntegerField(blank=True, null=True,default=0)
+#     #user_id = models.IntegerField(blank=True, null=True, db_index=True)
+#     user_id = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE)
+#     course_id = CourseKeyField(max_length=255, db_index=True)
+#     coherts_name = models.CharField(max_length=225, db_index=True)
+#     Total_grade = models.IntegerField(blank=True, null=True, db_index=True)
+#     organization_name = models.CharField(max_length=225, db_index=True)
+#     user_email = models.EmailField(max_length=150,blank=True, null= True)
+#     student_course_progress = models.IntegerField(blank=True, null=True,default=0)
 
+from datetime import date
 
 class CourseProgress(models.Model):
     user = models.ForeignKey(
@@ -3010,3 +3012,102 @@ class CourseProgress(models.Model):
     )
     course_id = CourseKeyField(max_length=255, db_index=True)
     student_course_progress = models.IntegerField(blank=True, null=True, default=0)
+
+
+class LoginUpdate(models.Model):
+    date_updated = models.DateField(auto_now_add=True, null=True)
+    action_type = models.CharField(max_length=5)
+    action_user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    login_count = models.IntegerField(default=0)
+    total_time = models.TimeField(blank=True,null=True)
+
+    def __str__(self):
+        return str(self.action_user)
+
+
+def update_user_login(sender, **kwargs):
+    user = kwargs.pop('user', None)    
+    if LoginUpdate.objects.filter(action_user=user,date_updated=date.today()).exists():
+        login_user = LoginUpdate.objects.get(action_user=user,date_updated=date.today())
+        login_user.login_count += 1
+        login_user.save()
+    else:
+        LoginUpdate.objects.create(action_type="Login", action_user=user, login_count=1)
+
+user_logged_in.connect(update_user_login, sender=User)
+
+class StudentModuleViews(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    date_updated = models.DateField(auto_now_add=True, null=True)
+    module_name = models.CharField(max_length=350,null=True,blank=True)
+    course_views = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.module_name)
+
+
+class StudentCourseDetails(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    date_updated = models.DateField(auto_now_add=True,null=True)
+    module_name = models.CharField(max_length=350,null=True,blank=True)
+    course_views = models.IntegerField(default=0)
+    section = models.CharField(max_length=350,default='',null=True,blank=True)    
+    completed = models.CharField(max_length=350,null=True,blank=True)
+
+
+    def __str__(self):
+        return str(self.user)
+
+class StudentCourseViews(models.Model):
+    date_updated = models.DateField(auto_now_add=True, null=True)
+    module_name = models.CharField(max_length=350,null=True,blank=True)
+    course_views = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.module_name)
+
+class CohertsUserDetail(models.Model):
+    """ coherts for organization"""
+
+    
+
+    # coherts_name = models.CharField(max_length=225, db_index=True, unique=True)
+    learner = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE, null=True)
+    instructor = models.ForeignKey(UserProfile, db_index=True, on_delete=models.CASCADE, null=True)
+    coherts_name = models.ForeignKey(CohertsOrganization, db_index=True, on_delete=models.CASCADE, null=True)
+    organization = models.ForeignKey(OrganizationRegistration, db_index=True, on_delete=models.CASCADE, null=True)
+    course_progress = models.IntegerField(blank=True, null=True,default=0)
+    total_grade = models.IntegerField(blank=True, null=True,default=0)
+
+
+    class Meta(object):
+        # Ensure that at most one value exists for a given learner and coherts.
+        unique_together = (('learner', 'coherts_name', 'organization'),)
+
+    def __str__(self):
+        return str(self.learner)
+
+
+class CohertsUserGradeRecords(models.Model):
+    """ coherts for organization"""
+
+    class Meta(object):        
+        db_table = "auth_coherts_user_grade_records"
+
+
+    #user_id = models.IntegerField(blank=True, null=True, db_index=True)
+    user_id = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE)
+    course_id = CourseKeyField(max_length=255, db_index=True)
+    coherts_name = models.ForeignKey(CohertsOrganization, db_index=True, on_delete=models.CASCADE)
+    Total_grade = models.IntegerField(blank=True, null=True, db_index=True,default=0)
+    organization_name = models.ForeignKey(OrganizationRegistration, db_index=True, on_delete=models.CASCADE)
+    student_course_progress = models.IntegerField(blank=True, null=True,default=0)
+
+    class Meta(object):
+        # Ensure that at most one value exists for a given learner and coherts.
+        unique_together = (('user_id', 'course_id', 'coherts_name', 'organization_name'),)
+
+    def __str__(self):
+        return str(self.user_id)
+
+

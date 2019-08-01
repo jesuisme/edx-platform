@@ -63,7 +63,7 @@ div.ex1 {
 
 </div>
 
-      <form action="" method="post" data-remote="true" novalidate>
+      <form method="post"  data-remote="true" novalidate>
       <input type="hidden" name="selected_item" id="selected_item">
       <br>
 %if section_data['course_base_coherts']:
@@ -77,7 +77,7 @@ div.ex1 {
 </div>
 %endif
 <br>
-      <button type="submit" onclick="myFunction()" class="action action-primary action-update register-button">Submit</button>
+       <button type="submit" onclick="myFunction()" class="action action-primary action-update register-button">Submit</button>
 
       </form>
 %endif
@@ -116,9 +116,11 @@ div.ex1 {
 $(".checkbox_check").click(function () {
 var checkedIds = returnCheckedIds();
 var total_ids_selected = $.makeArray(checkedIds).join(",");
+console.log("total_ids_selected======", total_ids_selected);
 $("#selected_item").val(total_ids_selected);
 });
 function myFunction() {
+  console.log("my functionssssssss");
   document.getElementById("demo").innerHTML = "User added to coherts successfully!!";
 }
 function returnCheckedIds() {
@@ -128,9 +130,9 @@ return this.id;
 return checkedIds;
 }
 
-$('#exportall').click(function () {
-var checkedIds = returnCheckedIds();
-var total_ids_selected = $.makeArray(checkedIds).join(",");
+// $('#exportall').click(function () {
+// var checkedIds = returnCheckedIds();
+// var total_ids_selected = $.makeArray(checkedIds).join(",");
 // $("#csvitems").val(total_ids_selected);
 // $.ajax(
 // {
@@ -147,5 +149,5 @@ var total_ids_selected = $.makeArray(checkedIds).join(",");
 // }
 // });
 // return false;
-});
+// });
 </script>

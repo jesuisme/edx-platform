@@ -1,0 +1,13 @@
+/* Added by Larry 17 June 2019 */
+
+/* Define a flexible container to allow
+multiple graphs to be displayed in a single line */
+.container{
+    display: flex;
+}
+.fixed{
+    width: 200px;
+}
+.flex-item{
+    flex-grow: 1;
+}

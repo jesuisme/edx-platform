@@ -8,7 +8,8 @@ from lms.djangoapps.course_blocks.utils import get_student_module_as_dict
 from opaque_keys.edx.keys import CourseKey
 from openedx.core.djangoapps.request_cache.middleware import request_cached
 from xmodule.modulestore.django import modulestore
-
+import logging
+log = logging.getLogger(__name__)
 
 @request_cached
 def get_course_outline_block_tree(request, course_id):
@@ -41,6 +42,7 @@ def get_course_outline_block_tree(request, course_id):
         block['resume_block'] = False
         block['complete'] = False
         for child in block.get('children', []):
+            # log.info("last accessed----%s---"% set_last_accessed_default(child))
             set_last_accessed_default(child)
 
     def mark_blocks_completed(block, user, course_key):
@@ -53,6 +55,7 @@ def get_course_outline_block_tree(request, course_id):
 
         if last_completed_child_position:
             # Mutex w/ NOT 'course_block_completions'
+            
             recurse_mark_complete(
                 course_block_completions=BlockCompletion.get_course_completions(user, course_key),
                 latest_completion=last_completed_child_position,
@@ -105,10 +108,12 @@ def get_course_outline_block_tree(request, course_id):
         student_module_dict = get_student_module_as_dict(user, course_key, block_key)
 
         last_accessed_child_position = student_module_dict.get('position')
+        # log.info("mark last accessed child-----%s---"% last_accessed_child_position)
         if last_accessed_child_position and block.get('children'):
             block['resume_block'] = True
             if last_accessed_child_position <= len(block['children']):
                 last_accessed_child_block = block['children'][last_accessed_child_position - 1]
+                # log.info("MARK LAST ACCESSED---%s==="% last_accessed_child_block)
                 last_accessed_child_block['resume_block'] = True
                 mark_last_accessed(user, course_key, last_accessed_child_block)
             else:

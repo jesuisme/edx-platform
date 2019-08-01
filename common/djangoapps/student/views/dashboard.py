@@ -4,6 +4,7 @@ Dashboard view and supporting methods
 
 import datetime
 import logging
+import csv
 from collections import defaultdict
 
 from completion.exceptions import UnavailableCompletionData
@@ -15,6 +16,7 @@ from django.urls import reverse
 from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.contrib.auth.models import User
 
 from opaque_keys.edx.keys import CourseKey
 from pytz import UTC
@@ -50,7 +52,16 @@ from student.models import (
     CourseEnrollment,
     CourseEnrollmentAttribute,
     DashboardConfiguration,
-    UserProfile
+    UserProfile,
+    LoginUpdate,
+    StudentCourseDetails,
+    StudentCourseViews,
+    StudentModuleViews,
+    CohertsUserDetail,
+    CohertsOrganization,
+    OrganizationRegistration,
+    CohertsUserGradeRecords,
+    CourseProgress
 )
 from util.milestones_helpers import get_pre_requisite_courses_not_completed
 from xmodule.modulestore.django import modulestore
@@ -533,6 +544,346 @@ def _get_urls_for_resume_buttons(user, enrollments):
     return resume_button_urls
 
 
+# @login_required
+# @ensure_csrf_cookie
+# @add_maintenance_banner
+# def student_dashboard(request):
+#     """
+#     Provides the LMS dashboard view
+
+#     TODO: This is lms specific and does not belong in common code.
+
+#     Arguments:
+#         request: The request object.
+
+#     Returns:
+#         The dashboard response.
+
+#     """
+#     user = request.user
+#     if not UserProfile.objects.filter(user=user).exists():
+#         return redirect(reverse('account_settings'))
+
+#     platform_name = configuration_helpers.get_value("platform_name", settings.PLATFORM_NAME)
+
+#     enable_verified_certificates = configuration_helpers.get_value(
+#         'ENABLE_VERIFIED_CERTIFICATES',
+#         settings.FEATURES.get('ENABLE_VERIFIED_CERTIFICATES')
+#     )
+#     display_course_modes_on_dashboard = configuration_helpers.get_value(
+#         'DISPLAY_COURSE_MODES_ON_DASHBOARD',
+#         settings.FEATURES.get('DISPLAY_COURSE_MODES_ON_DASHBOARD', True)
+#     )
+#     activation_email_support_link = configuration_helpers.get_value(
+#         'ACTIVATION_EMAIL_SUPPORT_LINK', settings.ACTIVATION_EMAIL_SUPPORT_LINK
+#     ) or settings.SUPPORT_SITE_LINK
+#     hide_dashboard_courses_until_activated = configuration_helpers.get_value(
+#         'HIDE_DASHBOARD_COURSES_UNTIL_ACTIVATED',
+#         settings.FEATURES.get('HIDE_DASHBOARD_COURSES_UNTIL_ACTIVATED', False)
+#     )
+#     empty_dashboard_message = configuration_helpers.get_value(
+#         'EMPTY_DASHBOARD_MESSAGE', None
+#     )
+
+#     # Get the org whitelist or the org blacklist for the current site
+#     site_org_whitelist, site_org_blacklist = get_org_black_and_whitelist_for_site()
+#     course_enrollments = list(get_course_enrollments(user, site_org_whitelist, site_org_blacklist))
+
+#     # Get the entitlements for the user and a mapping to all available sessions for that entitlement
+#     # If an entitlement has no available sessions, pass through a mock course overview object
+#     (course_entitlements,
+#      course_entitlement_available_sessions,
+#      unfulfilled_entitlement_pseudo_sessions) = get_filtered_course_entitlements(
+#         user,
+#         site_org_whitelist,
+#         site_org_blacklist
+#     )
+
+#     # Record how many courses there are so that we can get a better
+#     # understanding of usage patterns on prod.
+#     monitoring_utils.accumulate('num_courses', len(course_enrollments))
+
+#     # Sort the enrollment pairs by the enrollment date
+#     course_enrollments.sort(key=lambda x: x.created, reverse=True)
+
+#     # Retrieve the course modes for each course
+#     enrolled_course_ids = [enrollment.course_id for enrollment in course_enrollments]
+#     __, unexpired_course_modes = CourseMode.all_and_unexpired_modes_for_courses(enrolled_course_ids)
+#     course_modes_by_course = {
+#         course_id: {
+#             mode.slug: mode
+#             for mode in modes
+#         }
+#         for course_id, modes in iteritems(unexpired_course_modes)
+#     }
+
+#     # Check to see if the student has recently enrolled in a course.
+#     # If so, display a notification message confirming the enrollment.
+#     enrollment_message = _create_recent_enrollment_message(
+#         course_enrollments, course_modes_by_course
+#     )
+#     course_optouts = Optout.objects.filter(user=user).values_list('course_id', flat=True)
+
+#     # Display activation message
+#     activate_account_message = ''
+#     if not user.is_active:
+#         activate_account_message = Text(_(
+#             "Check your {email_start}{email}{email_end} inbox for an account activation link from {platform_name}. "
+#             "If you need help, contact {link_start}{platform_name} Support{link_end}."
+#         )).format(
+#             platform_name=platform_name,
+#             email_start=HTML("<strong>"),
+#             email_end=HTML("</strong>"),
+#             email=user.email,
+#             link_start=HTML("<a target='_blank' href='{activation_email_support_link}'>").format(
+#                 activation_email_support_link=activation_email_support_link,
+#             ),
+#             link_end=HTML("</a>"),
+#         )
+
+#     enterprise_message = get_dashboard_consent_notification(request, user, course_enrollments)
+
+#     # Disable lookup of Enterprise consent_required_course due to ENT-727
+#     # Will re-enable after fixing WL-1315
+#     consent_required_courses = set()
+#     enterprise_customer_name = None
+
+#     # Account activation message
+#     account_activation_messages = [
+#         message for message in messages.get_messages(request) if 'account-activation' in message.tags
+#     ]
+
+#     # Global staff can see what courses encountered an error on their dashboard
+#     staff_access = False
+#     errored_courses = {}
+#     if has_access(user, 'staff', 'global'):
+#         # Show any courses that encountered an error on load
+#         staff_access = True
+#         errored_courses = modulestore().get_errored_courses()
+
+#     show_courseware_links_for = frozenset(
+#         enrollment.course_id for enrollment in course_enrollments
+#         if has_access(request.user, 'load', enrollment.course_overview)
+#     )
+
+#     # Find programs associated with course runs being displayed. This information
+#     # is passed in the template context to allow rendering of program-related
+#     # information on the dashboard.
+#     meter = ProgramProgressMeter(request.site, user, enrollments=course_enrollments)
+#     ecommerce_service = EcommerceService()
+#     inverted_programs = meter.invert_programs()
+
+#     urls, programs_data = {}, {}
+#     bundles_on_dashboard_flag = WaffleFlag(WaffleFlagNamespace(name=u'student.experiments'), u'bundles_on_dashboard')
+
+#     # TODO: Delete this code and the relevant HTML code after testing LEARNER-3072 is complete
+#     if bundles_on_dashboard_flag.is_enabled() and inverted_programs and inverted_programs.items():
+#         if len(course_enrollments) < 4:
+#             for program in inverted_programs.values():
+#                 try:
+#                     program_uuid = program[0]['uuid']
+#                     program_data = get_programs(request.site, uuid=program_uuid)
+#                     program_data = ProgramDataExtender(program_data, request.user).extend()
+#                     skus = program_data.get('skus')
+#                     checkout_page_url = ecommerce_service.get_checkout_page_url(*skus)
+#                     program_data['completeProgramURL'] = checkout_page_url + '&bundle=' + program_data.get('uuid')
+#                     programs_data[program_uuid] = program_data
+#                 except:  # pylint: disable=bare-except
+#                     pass
+
+#     # Construct a dictionary of course mode information
+#     # used to render the course list.  We re-use the course modes dict
+#     # we loaded earlier to avoid hitting the database.
+#     course_mode_info = {
+#         enrollment.course_id: complete_course_mode_info(
+#             enrollment.course_id, enrollment,
+#             modes=course_modes_by_course[enrollment.course_id]
+#         )
+#         for enrollment in course_enrollments
+#     }
+
+#     # Determine the per-course verification status
+#     # This is a dictionary in which the keys are course locators
+#     # and the values are one of:
+#     #
+#     # VERIFY_STATUS_NEED_TO_VERIFY
+#     # VERIFY_STATUS_SUBMITTED
+#     # VERIFY_STATUS_APPROVED
+#     # VERIFY_STATUS_MISSED_DEADLINE
+#     #
+#     # Each of which correspond to a particular message to display
+#     # next to the course on the dashboard.
+#     #
+#     # If a course is not included in this dictionary,
+#     # there is no verification messaging to display.
+#     verify_status_by_course = check_verify_status_by_course(user, course_enrollments)
+#     cert_statuses = {
+#         enrollment.course_id: cert_info(request.user, enrollment.course_overview)
+#         for enrollment in course_enrollments
+#     }
+
+#     # only show email settings for Mongo course and when bulk email is turned on
+#     show_email_settings_for = frozenset(
+#         enrollment.course_id for enrollment in course_enrollments if (
+#             BulkEmailFlag.feature_enabled(enrollment.course_id)
+#         )
+#     )
+
+#     # Verification Attempts
+#     # Used to generate the "you must reverify for course x" banner
+#     verification_status = IDVerificationService.user_status(user)
+#     verification_errors = get_verification_error_reasons_for_display(verification_status['error'])
+
+#     # Gets data for midcourse reverifications, if any are necessary or have failed
+#     statuses = ["approved", "denied", "pending", "must_reverify"]
+#     reverifications = reverification_info(statuses)
+
+#     block_courses = frozenset(
+#         enrollment.course_id for enrollment in course_enrollments
+#         if is_course_blocked(
+#             request,
+#             CourseRegistrationCode.objects.filter(
+#                 course_id=enrollment.course_id,
+#                 registrationcoderedemption__redeemed_by=request.user
+#             ),
+#             enrollment.course_id
+#         )
+#     )
+
+#     enrolled_courses_either_paid = frozenset(
+#         enrollment.course_id for enrollment in course_enrollments
+#         if enrollment.is_paid_course()
+#     )
+
+#     # If there are *any* denied reverifications that have not been toggled off,
+#     # we'll display the banner
+#     denied_banner = any(item.display for item in reverifications["denied"])
+
+#     # Populate the Order History for the side-bar.
+#     order_history_list = order_history(
+#         user,
+#         course_org_filter=site_org_whitelist,
+#         org_filter_out_set=site_org_blacklist
+#     )
+
+#     # get list of courses having pre-requisites yet to be completed
+#     courses_having_prerequisites = frozenset(
+#         enrollment.course_id for enrollment in course_enrollments
+#         if enrollment.course_overview.pre_requisite_courses
+#     )
+#     courses_requirements_not_met = get_pre_requisite_courses_not_completed(user, courses_having_prerequisites)
+
+#     if 'notlive' in request.GET:
+#         redirect_message = _("The course you are looking for does not start until {date}.").format(
+#             date=request.GET['notlive']
+#         )
+#     elif 'course_closed' in request.GET:
+#         redirect_message = _("The course you are looking for is closed for enrollment as of {date}.").format(
+#             date=request.GET['course_closed']
+#         )
+#     else:
+#         redirect_message = ''
+
+#     valid_verification_statuses = ['approved', 'must_reverify', 'pending', 'expired']
+#     display_sidebar_on_dashboard = (len(order_history_list) or
+#                                     (verification_status['status'] in valid_verification_statuses and
+#                                     verification_status['should_display']))
+
+#     # Filter out any course enrollment course cards that are associated with fulfilled entitlements
+#     for entitlement in [e for e in course_entitlements if e.enrollment_course_run is not None]:
+#         course_enrollments = [
+#             enr for enr in course_enrollments if entitlement.enrollment_course_run.course_id != enr.course_id
+#         ]
+	
+#     # For custom progress bar on student dashboard page
+#     complete_list = []
+#     for enrollment in course_enrollments:
+#         value_unicode = str(enrollment.course_id).decode("utf-8")
+#         course_block_tree = get_course_outline_block_tree(request,value_unicode)
+#         complete_list.append(course_block_tree)
+    
+#     context = {
+#         'urls': urls,
+#         'programs_data': programs_data,
+#         'enterprise_message': enterprise_message,
+#         'consent_required_courses': consent_required_courses,
+#         'enterprise_customer_name': enterprise_customer_name,
+#         'enrollment_message': enrollment_message,
+#         'redirect_message': redirect_message,
+#         'account_activation_messages': account_activation_messages,
+#         'activate_account_message': activate_account_message,
+#         'course_enrollments': course_enrollments,
+#         'course_entitlements': course_entitlements,
+#         'course_entitlement_available_sessions': course_entitlement_available_sessions,
+#         'unfulfilled_entitlement_pseudo_sessions': unfulfilled_entitlement_pseudo_sessions,
+#         'course_optouts': course_optouts,
+#         'staff_access': staff_access,
+#         'errored_courses': errored_courses,
+#         'show_courseware_links_for': show_courseware_links_for,
+#         'all_course_modes': course_mode_info,
+#         'cert_statuses': cert_statuses,
+#         'credit_statuses': _credit_statuses(user, course_enrollments),
+#         'show_email_settings_for': show_email_settings_for,
+#         'reverifications': reverifications,
+#         'verification_display': verification_status['should_display'],
+#         'verification_status': verification_status['status'],
+#         'verification_status_by_course': verify_status_by_course,
+#         'verification_errors': verification_errors,
+#         'block_courses': block_courses,
+#         'denied_banner': denied_banner,
+#         'billing_email': settings.PAYMENT_SUPPORT_EMAIL,
+#         'user': user,
+#         'logout_url': reverse('logout'),
+#         'platform_name': platform_name,
+#         'enrolled_courses_either_paid': enrolled_courses_either_paid,
+#         'provider_states': [],
+#         'order_history_list': order_history_list,
+#         'courses_requirements_not_met': courses_requirements_not_met,
+#         'nav_hidden': True,
+#         'inverted_programs': inverted_programs,
+#         'show_program_listing': ProgramsApiConfig.is_enabled(),
+#         'show_dashboard_tabs': True,
+#         'disable_courseware_js': True,
+#         'display_course_modes_on_dashboard': enable_verified_certificates and display_course_modes_on_dashboard,
+#         'display_sidebar_on_dashboard': display_sidebar_on_dashboard,
+#         'display_sidebar_account_activation_message': not(user.is_active or hide_dashboard_courses_until_activated),
+#         'display_dashboard_courses': (user.is_active or not hide_dashboard_courses_until_activated),
+#         'empty_dashboard_message': empty_dashboard_message,
+# 	'blocks_list': complete_list, # For custom progress bar on student dashboard
+#     }
+
+#     if ecommerce_service.is_enabled(request.user):
+#         context.update({
+#             'use_ecommerce_payment_flow': True,
+#             'ecommerce_payment_page': ecommerce_service.payment_page_url(),
+#         })
+
+#     # Gather urls for course card resume buttons.
+#     resume_button_urls = _get_urls_for_resume_buttons(user, course_enrollments)
+#     # There must be enough urls for dashboard.html. Template creates course
+#     # cards for "enrollments + entitlements".
+#     resume_button_urls += ['' for entitlement in course_entitlements]
+#     context.update({
+#         'resume_button_urls': resume_button_urls
+#     })
+
+#     response = render_to_response('dashboard.html', context)
+#     set_user_info_cookie(response, request)
+#     return response
+
+
+
+import time
+from django.utils import timezone
+from badges.models import BadgeAssertion, BadgeClass, CourseCompleteImageConfiguration, CourseCompleteBadges
+from courseware.views.views import student_progress
+from datetime import date, timedelta
+from collections import Counter
+
+def Merge(dict1, dict2): 
+    return(dict2.update(dict1)) 
+
+
 @login_required
 @ensure_csrf_cookie
 @add_maintenance_banner
@@ -550,6 +901,178 @@ def student_dashboard(request):
 
     """
     user = request.user
+
+    if user.is_staff:
+        try:
+            staff_organization = UserProfile.objects.get(user=user).organization
+            log.info("STAFF ORGANIZATION IS-----%s----"% staff_organization )
+        except: 
+            staff_organization = None
+
+        total_cohort_list = []
+        cohorts_data = {} 
+
+        cohort_final_data = {}     
+        cohort_final_list = []
+
+
+
+        started = 0
+        completed = 0
+        registered = 0
+
+        if staff_organization:
+            organization_name = OrganizationRegistration.objects.get(organization_name=staff_organization)
+            cohorts = CohertsOrganization.objects.filter(organization=organization_name)
+            cohorts_data_list = []
+            for cohort_li in cohorts:
+                total_cohort_list.append(cohort_li.coherts_name)
+
+
+            log.info("TOtal COhort list=====%s========="% total_cohort_list)
+
+
+            for cohort_l in total_cohort_list:
+                log.info("cohort name----%s----"% cohort_l)
+
+                cohort_ob = CohertsOrganization.objects.get(coherts_name=cohort_l, organization=organization_name)
+                
+                cohort_user_val = CohertsUserGradeRecords.objects.filter(coherts_name=cohort_ob)
+
+                log.info("COHORT USER VAL------%s------"% cohort_user_val)
+                
+
+                for cohorts_user_value in cohort_user_val:
+                    key = cohort_l
+                    cohorts_data.setdefault(key, [])                   
+                    
+                    
+                    user_prof = User.objects.get(username=cohorts_user_value.user_id)
+                    log.info("user is---%s----"% user_prof.username)
+
+                    try:                    
+                        progress_course = CourseProgress.objects.get(user=user_prof,course_id=cohorts_user_value.course_id).student_course_progress
+                    except:
+                        progress_course = 0
+
+                    log.info("COURSE ID IS------%s-----"% cohorts_user_value.course_id)
+                    log.info("progress_course----%s----"% progress_course)
+
+                    if progress_course == 0:   
+                        cohorts_data[key].append('not started')
+                    elif progress_course == 100:
+                        cohorts_data[key].append('completed')
+                    else:
+                        cohorts_data[key].append('started') 
+
+                   
+                    cohorts_data_list.append(cohorts_data)
+
+                    cohorts_data = {}
+
+            log.info("COHORT DATA LIST----%s-----"% cohorts_data_list)
+
+            cohort_module_details = "/edx/app/edxapp/edx-platform/common/djangoapps/student/cohort_details.csv"        
+            with open(cohort_module_details, 'wb') as cohort_module_csv: 
+                
+                log.info("FINAL COHORT LIST-------%s-----"% cohorts_data_list)
+                # cohort_writer_module = csv.writer(cohort_module_csv)
+                fieldnames = ['cohort', 'not started', 'started', 'completed']
+                cohort_writer_module = csv.DictWriter(cohort_module_csv, fieldnames=fieldnames)
+                cohort_writer_module.writeheader()
+
+                for cohort_values_list in cohorts_data_list:
+                    for cohort_key,cohort_value in cohort_values_list.items():
+                        res = Counter(cohort_value)
+                        log.info("result---------%s-----"% res)
+                        cohort_a = {'cohort': cohort_key}
+                        cohort_b = dict(res)
+                        cohort_c = {}
+                        
+                        log.info("COHORT B------%s-----"% cohort_b)
+
+                        log.info("Only keys----%s----"% cohort_b.keys())
+
+                        fields = ['not started', 'started', 'completed']
+
+                        key_not_present = [cohortkey for cohortkey in fields if cohortkey not in cohort_b.keys()]
+
+                        log.info("KEY NOT PRESENT-------%s----"% key_not_present)
+
+                        for not_present in key_not_present:
+                            cohort_c[not_present] = 0                      
+
+                        Merge(cohort_c,cohort_b)
+                        
+                        Merge(cohort_a,cohort_b)
+                        cohort_final_list.append(cohort_b)
+                        # cohort_writer_module.writerow(cohort_b)
+
+
+                log.info("cohort final list----%s----"% cohort_final_list)                   
+
+            
+                import pandas as pd
+
+                
+                # cohortss_lists =  [{'started': 0, 'cohort': u'testing_coherts', 'completed': 1, 'not started': 0}, {'started': 0, 'cohort': u'testing_coherts', 'completed': 0, 'not started': 1}, {'started': 0, 'cohort': u'testing_coherts', 'completed': 0, 'not started': 1}, {'started': 0, 'cohort': u'certificate_coherts', 'completed': 0, 'not started': 1}]
+
+                graph_dict = dict()
+
+                df = pd.DataFrame(cohort_final_list)
+                group = df.groupby('cohort')['not started'].sum().to_dict()
+                group_2 = df.groupby('cohort')['started'].sum().to_dict()
+                group_3 = df.groupby('cohort')['completed'].sum().to_dict()
+
+
+                for cohort, value in group.items():
+                    graph_dict.setdefault(cohort,{})
+                    if cohort in graph_dict:
+                        graph_dict[cohort].update({'not started': value})
+                    else:
+                        graph_dict[cohort].update({'not started': value})
+
+
+                for cohort, value in group_2.items():
+                    graph_dict.setdefault(cohort,{})
+                    if cohort in graph_dict:
+                        graph_dict[cohort].update({'started': value})
+                    else:
+                        graph_dict[cohort].update({'started': value})
+
+
+                for cohort, value in group_3.items():
+                    graph_dict.setdefault(cohort,{})
+                    if cohort in graph_dict:
+                        graph_dict[cohort].update({'completed': value})
+                    else:
+                        graph_dict[cohort].update({'completed': value})
+
+
+
+                log.info("graph_dict-----%s-----"% graph_dict)  
+
+                for grph_k, graphv in graph_dict.items():
+                    graph_dic1 = {'cohort': grph_k}
+                    Merge(graph_dic1,graphv)
+                    log.info("GRAPH V FINAL------%s------"% graphv)
+                    cohort_writer_module.writerow(graphv)
+
+
+
+
+    from tracking.models import Visitor
+    login_user = LoginUpdate.objects.filter(action_user=request.user,date_updated=date.today()).exists()
+
+    if login_user:
+        login_date = LoginUpdate.objects.get(action_user=request.user,date_updated=date.today())
+        visitor_tracking_data = Visitor.objects.filter(user=request.user).first()
+        visitor_date = time.strftime('%H:%M:%S', time.gmtime(visitor_tracking_data.time_on_site))
+        log.info("final value-----%s-----"% visitor_date)
+        login_date.total_time = visitor_date
+        login_date.save()
+     
+
     if not UserProfile.objects.filter(user=user).exists():
         return redirect(reverse('account_settings'))
 
@@ -594,6 +1117,51 @@ def student_dashboard(request):
 
     # Sort the enrollment pairs by the enrollment date
     course_enrollments.sort(key=lambda x: x.created, reverse=True)
+
+
+    course_ids = [enrollment.course_id for enrollment in course_enrollments]
+
+    log.info("COURSE IDSSSS--------%s-----"% course_ids)
+
+    from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+
+    badge_module = "/edx/app/edxapp/edx-platform/common/djangoapps/student/student_badges.csv"
+    with open(badge_module, 'wb') as badge_csvfile_module: 
+        badge_writer_module = csv.writer(badge_csvfile_module)
+        badge_writer_module.writerow(['Student','ModuleName','Badge','Progress','Grade','Homework'])
+        
+        for courseids in course_ids:
+            user_badges = BadgeClass.objects.filter(course_id=courseids)
+            badges = BadgeAssertion.objects.filter(user=user,badge_class=user_badges)
+            course_name = CourseOverview.objects.get(id=courseids)
+            progress_details = CourseProgress.objects.filter(user=user,course_id=courseids)
+            log.info("course_name--MODULE ID----%s-----"% course_name)
+
+            # unicode_convert= courseids.strip('u').split("'")[1]
+            log.info("courseidsss-----%s----"% courseids)
+            log.info("REQU UNICODE----%s----"% u'%s'%courseids)
+            get_grade = student_progress(request,u'%s'%courseids,student_id=user.id)
+            total_percent = get_grade['grade_summary']
+
+            log.info("GRADE----%s----"% get_grade['grade_summary'])
+            log.info("PERCENT---%s----"% total_percent['percent']*100)
+            log.info("HOMEWORK---%s----"% dict(total_percent['grade_breakdown'])['Homework']['detail'])
+
+            for progress_key in progress_details:
+                log.info("progress key----%s-----"% progress_key.student_course_progress)
+           
+
+                if badges:
+                    for badge in badges:
+                        log.info("BADGE---------%s-----"% badge)
+                        log.info("THIS COURSE HAS BADGE------%s----"% course_name.display_name)
+                        badge_writer_module.writerow((str(user.username),str(course_name.display_name), '1', progress_key.student_course_progress, total_percent['percent']*100, dict(total_percent['grade_breakdown'])['Homework']['detail']))
+                else:
+                     
+                    log.info("THIS COURSE HAS NO BADGE----%s----"% course_name.display_name)   
+                    badge_writer_module.writerow((str(user.username),str(course_name.display_name), '0', progress_key.student_course_progress, total_percent['percent']*100, dict(total_percent['grade_breakdown'])['Homework']['detail']))
+
+
 
     # Retrieve the course modes for each course
     enrolled_course_ids = [enrollment.course_id for enrollment in course_enrollments]
@@ -783,13 +1351,17 @@ def student_dashboard(request):
         course_enrollments = [
             enr for enr in course_enrollments if entitlement.enrollment_course_run.course_id != enr.course_id
         ]
-	
+    
     # For custom progress bar on student dashboard page
     complete_list = []
+    log.info("TESTING BEFOREEE----")
     for enrollment in course_enrollments:
         value_unicode = str(enrollment.course_id).decode("utf-8")
         course_block_tree = get_course_outline_block_tree(request,value_unicode)
+        course_sections_v = course_block_tree.get('children')
+        log.info("COURSE SECTIONSSSSSS V======%s------"% course_sections_v)
         complete_list.append(course_block_tree)
+
     
     context = {
         'urls': urls,
@@ -838,9 +1410,76 @@ def student_dashboard(request):
         'display_sidebar_account_activation_message': not(user.is_active or hide_dashboard_courses_until_activated),
         'display_dashboard_courses': (user.is_active or not hide_dashboard_courses_until_activated),
         'empty_dashboard_message': empty_dashboard_message,
-	'blocks_list': complete_list, # For custom progress bar on student dashboard
-    }
+        'blocks_list': complete_list, # For custom progress bar on student dashboard
+    }  
 
+
+    csvfile_badge = '/edx/app/edxapp/edx-platform/common/djangoapps/student/student_badges.csv'
+    csvfile_badge_2 = '/edx/app/edxapp/edx-platform/common/djangoapps/student/new_student_badges.csv'
+        
+    log.info("CERTIFICATE--------%s-----"% cert_statuses)
+    with open(csvfile_badge, 'r') as fin, open(csvfile_badge_2, 'w') as fout:
+        
+        reader = csv.reader(fin)
+        badgewriter = csv.writer(fout)
+
+        badgewriter.writerow(next(reader) + ['Certificate'])
+
+        for row in reader:
+            for key,value in cert_statuses.items():
+                course_name = CourseOverview.objects.get(id=key)
+                # log.info("COURSE NAME CERTIFICATE--------%s------"% course_name.display_name)
+                data = value['status']
+           
+                if str(row[1]) == str(course_name.display_name):
+                    log.info("ROWWWWWWW-----%s-----"% row)
+                    log.info("course----%s----"% course_name)
+                    log.info("cert status is----%s----"% data) 
+                    if data == 'downloadable':
+                        badgewriter.writerow(row + [1])
+                    else:                      
+                        badgewriter.writerow(row + [0])
+
+
+    #Students dashboard csv(modules.csv)
+    file_module = "/edx/app/edxapp/edx-platform/common/djangoapps/student/university_modules.csv"
+    with open(file_module, 'w') as csvfile_module: 
+        writer_module = csv.writer(csvfile_module)
+        writer_module.writerow(['ModuleName','Date','Views'])
+
+        module_list = StudentModuleViews.objects.filter(user=user,date_updated__gte=date.today()-timedelta(days=7)).values_list('module_name','date_updated','course_views')
+
+        for modules_value in module_list:
+            writer_module.writerow(modules_value)
+
+            # writer_module.writerow((str(modules_value[0]), str(modules_value[1]), modules_value[2]))
+
+
+    #Student dashboard csv(students.csv)
+    # login_update_count = LoginUpdate.objects.get(action_user=request.user)
+    file_module_2 = "/edx/app/edxapp/edx-platform/common/djangoapps/student/login_details.csv"
+    with open(file_module_2, 'w') as csvfile_module2: 
+        writer_module2 = csv.writer(csvfile_module2)
+        writer_module2.writerow(['Student','Date','Logins','Time'])
+        module_list2 = LoginUpdate.objects.filter(action_user=user,date_updated__gte=date.today()-timedelta(days=7)).values_list('date_updated','login_count','total_time')
+        
+        log.info("module_list2-----%s-----"% module_list2)
+        for modules_val in module_list2:
+            writer_module2.writerow((user.username,) + modules_val)
+
+
+
+    filename = "/edx/app/edxapp/edx-platform/common/djangoapps/student/university_records.csv"
+    with open(filename, 'w') as csvfile: 
+        writer = csv.writer(csvfile)
+        writer.writerow(['Student','Module','Section','Completed','Date'])
+        students_list = StudentCourseDetails.objects.filter(user=user,date_updated__gte=date.today()-timedelta(days=7)).values_list('module_name','section','completed','date_updated')
+        log.info("user name---%s---"% user.first_name)
+
+        log.info("STUDENTS LIST------====%s==========="% students_list)
+        for students in students_list:
+            writer.writerow((user.username,) + students)
+   
     if ecommerce_service.is_enabled(request.user):
         context.update({
             'use_ecommerce_payment_flow': True,
@@ -852,6 +1491,7 @@ def student_dashboard(request):
     # There must be enough urls for dashboard.html. Template creates course
     # cards for "enrollments + entitlements".
     resume_button_urls += ['' for entitlement in course_entitlements]
+    log.info("RESUME BUTTON URLSSSS----%s---"% resume_button_urls)
     context.update({
         'resume_button_urls': resume_button_urls
     })

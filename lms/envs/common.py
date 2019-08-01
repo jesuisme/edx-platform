@@ -1258,7 +1258,8 @@ MIDDLEWARE_CLASSES = [
 
     'openedx.core.djangoapps.request_cache.middleware.RequestCache',
     'openedx.core.djangoapps.monitoring_utils.middleware.MonitoringCustomMetrics',
-
+    'tracking.middleware.VisitorTrackingMiddleware',
+    
     'mobile_api.middleware.AppVersionUpgrade',
     'openedx.core.djangoapps.header_control.middleware.HeaderControlMiddleware',
     'microsite_configuration.middleware.MicrositeMiddleware',
@@ -1916,7 +1917,10 @@ CELERY_IMPORTS = (
     'openedx.core.djangoapps.programs.tasks.v1.tasks',
 )
 
+CELERYBEAT_SCHEDULE = {}  
+
 # Message configuration
+
 
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -2354,6 +2358,9 @@ INSTALLED_APPS = [
 
     'paypal.standard.ipn',
     'ut_new',
+    'cohert_dashboard',
+    'tracking'
+    
 ]
 
 #DJango-paypal setting

@@ -44,6 +44,14 @@ displayname = get_enterprise_learner_generic_name(request) or username
           % endif
         % endif
         <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('learner_profile', kwargs={'username': username})}" role="menuitem">${_("Profile")}</a></div>
+            % if request.user.is_staff:
+                % if current_user.organization is not None:
+                    <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('admin_dashboard')}" role="menuitem">${_("Cohorts Performance Tracking")}</a></div>
+                % endif
+            % elif request.user.organization and not request.user.is_staff:
+                <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('student_dashboard')}" role="menuitem">${_("Performance Tracking Dashboard")}</a></div>            
+            % endif
+
         <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('account_settings')}" role="menuitem">${_("Account")}</a></div>
         <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('logout')}" role="menuitem">${_("Sign Out")}</a></div>
     </div>

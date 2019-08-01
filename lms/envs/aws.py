@@ -99,7 +99,19 @@ CELERY_QUEUES = {
 }
 
 CELERY_ROUTES = "{}celery.Router".format(QUEUE_VARIANT)
-CELERYBEAT_SCHEDULE = {}  # For scheduling tasks, entries can be added to this dict
+CELERYBEAT_SCHEDULE = {}   
+
+from datetime import timedelta
+
+
+CELERYBEAT_SCHEDULE['every-1min'] = {
+    'task': 'openedx.core.djangoapps.programs.tasks.v1.tasks.some_task',
+    'schedule': timedelta(seconds=60),
+}
+
+# CELERY_TIMEZONE = TIMEZONE
+
+# For scheduling tasks, entries can be added to this dict
 
 ########################## NON-SECURE ENV CONFIG ##############################
 # Things like server locations, ports, etc.
@@ -305,6 +317,8 @@ MOBILE_STORE_URLS = ENV_TOKENS.get('MOBILE_STORE_URLS', MOBILE_STORE_URLS)
 
 # Timezone overrides
 TIME_ZONE = ENV_TOKENS.get('TIME_ZONE', TIME_ZONE)
+
+CELERY_TIMEZONE = TIME_ZONE
 
 # Translation overrides
 LANGUAGES = ENV_TOKENS.get('LANGUAGES', LANGUAGES)

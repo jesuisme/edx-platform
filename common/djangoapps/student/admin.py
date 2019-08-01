@@ -26,9 +26,14 @@ from student.models import (
     UserTestGroup,
     OrganizationRegistration,
     CohertsOrganization,
-    UserCohertsOrganizationDetails,
-    UserGradeRecords,
-    CourseProgress
+    CohertsUserGradeRecords,
+    CourseProgress,
+    CohertsUserDetail,
+    LoginUpdate,
+    StudentCourseDetails,
+    StudentCourseViews,
+    StudentModuleViews,
+    
 )
 from student.roles import REGISTERED_ACCESS_ROLES
 from xmodule.modulestore.django import modulestore
@@ -298,13 +303,13 @@ class CohertsOrganizationAdmin(admin.ModelAdmin):
     class Meta(object):
         model = CohertsOrganization
 
-@admin.register(UserCohertsOrganizationDetails)
-class UserCohertsOrganizationDetailsAdmin(admin.ModelAdmin):
-    """ Admin interface for the CourseEnrollmentAllowed model. """
-    list_display = ('selected_coherts', 'organization_detail')
+# @admin.register(UserCohertsOrganizationDetails)
+# class UserCohertsOrganizationDetailsAdmin(admin.ModelAdmin):
+#     """ Admin interface for the CourseEnrollmentAllowed model. """
+#     list_display = ('selected_coherts', 'organization_detail')
 
-    class Meta(object):
-        model = UserCohertsOrganizationDetails
+#     class Meta(object):
+#         model = UserCohertsOrganizationDetails
 
 @admin.register(CourseProgress)
 class CourseProgressAdmin(admin.ModelAdmin):
@@ -315,10 +320,64 @@ class CourseProgressAdmin(admin.ModelAdmin):
         model = CourseProgress
 
 
-@admin.register(UserGradeRecords)
-class UserGradeRecordsAdmin(admin.ModelAdmin):
+# @admin.register(UserGradeRecords)
+# class UserGradeRecordsAdmin(admin.ModelAdmin):
+#     """ Admin interface for the CourseEnrollmentAllowed model. """
+#     list_display = ('course_id', 'coherts_name', 'Total_grade', 'organization_name')
+
+#     class Meta(object):
+#         model = UserGradeRecords
+
+
+@admin.register(CohertsUserGradeRecords)
+class CohertsUserGradeRecordsAdmin(admin.ModelAdmin):
     """ Admin interface for the CourseEnrollmentAllowed model. """
-    list_display = ('course_id', 'coherts_name', 'Total_grade', 'organization_name')
+    list_display = ('course_id', 'coherts_name', 'Total_grade', 'organization_name', 'student_course_progress')
 
     class Meta(object):
-        model = UserGradeRecords
+        model = CohertsUserGradeRecords
+
+@admin.register(CohertsUserDetail)
+class CohertsUserDetailAdmin(admin.ModelAdmin):
+    """ Admin interface for the CourseEnrollmentAllowed model. """
+    list_display = ('learner', 'coherts_name', 'total_grade', 'organization', 'course_progress', 'instructor')
+
+    class Meta(object):
+        model = CohertsUserDetail
+
+
+@admin.register(LoginUpdate)
+class LoginUpdateAdmin(admin.ModelAdmin):
+    """ Admin interface for the LoginUpdate model. """
+    readonly_fields = ('date_updated',)
+
+    class Meta(object):
+        model = LoginUpdate
+
+@admin.register(StudentCourseDetails)
+class StudentCourseDetailsAdmin(admin.ModelAdmin):
+    """ Admin interface for the StudentCourseDetails model. """
+    readonly_fields = ['date_updated']
+
+    class Meta(object):
+        model = StudentCourseDetails
+
+
+@admin.register(StudentCourseViews)
+class StudentCourseViewsAdmin(admin.ModelAdmin):
+    """ Admin interface for the StudentCourseViews model. """
+    readonly_fields = ['date_updated']    
+
+    class Meta(object):
+        model = StudentCourseViews
+
+
+@admin.register(StudentModuleViews)
+class StudentModuleViewsAdmin(admin.ModelAdmin):
+    """ Admin interface for the StudentModuleViews model. """
+    readonly_fields = ['date_updated']    
+
+    class Meta(object):
+        model = StudentModuleViews
+
+
