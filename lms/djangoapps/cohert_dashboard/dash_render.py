@@ -72,7 +72,7 @@ def _create_admin_dashboard_app(request):
     cohort_options_set = list(set(df_cohorts["cohort"]))
     # cohort_options_set.sort()
 
-    log.info("df cohorts list----%s----"% df_cohorts["cohort"])
+    # log.info("df cohorts list----%s----"% list(df_cohorts["cohort"]))
     log.info("Cohort OPTIONS SET-----%s-----"% cohort_options_set)
 
     # cohort_list = [val['cohort'] for val in cohort_options_set]
@@ -208,9 +208,9 @@ def _create_admin_dashboard_app(request):
                         id='cohort-graph',
                         figure={
                             'data': [
-                                {'x': cohort_options_set, 'y': df_cohorts['started'],'type': 'bar', 'name': 'Started'},
-                                {'x': cohort_options_set, 'y': df_cohorts['not started'], 'type': 'bar', 'name': 'Not Yet Started'},
-                                {'x': cohort_options_set, 'y': df_cohorts['completed'], 'type': 'bar', 'name': 'Completed'},
+                                {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['started'],'type': 'bar', 'name': 'Started'},
+                                {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['not started'], 'type': 'bar', 'name': 'Not Yet Started'},
+                                {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['completed'], 'type': 'bar', 'name': 'Completed'},
                                 {'x': ['Not Registered'], 'y': [len(leaners_not_registered)], 'type': 'bar', 'name': 'Not Registered'},
 
                             ],  
