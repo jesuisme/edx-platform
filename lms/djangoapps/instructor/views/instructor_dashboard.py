@@ -859,15 +859,15 @@ def _section_student_track(request,course, access):
 
                     if usergradeobject:
                         usergradeobject.Total_grade = total_percent['percent']*100
+                        try:
+                            course_progress_student = CourseProgress.objects.get(user=learner_data.learner,course_id=course.id)
+                        except:
+                            course_progress_student = None
+
+                        if course_progress_student:
+                            usergradeobject.student_course_progress = course_progress_student.student_course_progress
                         usergradeobject.save()
-                        # course_progress_student,progress_created = CourseProgress.objects.get(user=learner_data.learner,course_id=course.id)
-                        # log.info("COURSE PROGRESS IN Instructor DASHBOARD------%s------"% course_progress_student)
-                        # log.info("Progress created IN Instructor DASHBOARD------%s------"% progress_created)
-                        # if progress_created:
-                        #     usergradeobject.student_course_progress = 0
-                        # else:
-                        #     usergradeobject.student_course_progress = course_progress_student.student_course_progress
-                        # usergradeobject.save()
+                       
                     else:
                         print("unable to create coherts user grade")
     if current_user.organization:

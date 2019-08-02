@@ -876,7 +876,6 @@ def _get_urls_for_resume_buttons(user, enrollments):
 import time
 from django.utils import timezone
 from badges.models import BadgeAssertion, BadgeClass, CourseCompleteImageConfiguration, CourseCompleteBadges
-from courseware.views.views import student_progress
 from datetime import date, timedelta
 from collections import Counter
 
@@ -944,7 +943,7 @@ def student_dashboard(request):
 
                 for cohorts_user_value in cohort_user_val:
                     key = cohort_l
-                    cohorts_data.setdefault(key, [])                   
+                    cohorts_data.setdefault(key, {})                   
                     
                     
                     user_prof = User.objects.get(username=cohorts_user_value.user_id)
@@ -958,29 +957,62 @@ def student_dashboard(request):
                     log.info("COURSE ID IS------%s-----"% cohorts_user_value.course_id)
                     log.info("progress_course----%s----"% progress_course)
 
-                    if progress_course == 0:   
-                        cohorts_data[key].append('not started')
+                    log.info("cohorts data----%s-----"% cohorts_data)
+                    log.info("VALUE---%s----"% cohorts_data.values())
+
+
+                    if progress_course == 0:
+                        if cohorts_data.values():
+                            for not_started_key in cohorts_data.values():
+                                log.info("NOT STARTED KEY----%s-----"% not_started_key)
+                                log.info("COHORT DATA IN NOT STARTED----%s----"% cohorts_data)
+
+                                if 'not started' in not_started_key:
+                                    not_started_key['not started'] +=1
+                                else:
+                                    cohorts_data[key].update({'not started': 1})
+                        else:
+                            log.info("IN THE ELSE OF NOT STARTED----%s-----"% cohorts_data)
+                            cohorts_data[key].update({'not started': 1})
+
                     elif progress_course == 100:
-                        cohorts_data[key].append('completed')
+                        if cohorts_data.values():                            
+                            for completed_key in cohorts_data.values():
+                                log.info("Completed KEY----%s-----"% completed_key)
+                                log.info("COHORT DATA IN Completed----%s----"% cohorts_data)
+
+                                if 'completed' in completed_key:
+                                    completed_key['completed'] +=1
+                                else:
+                                    cohorts_data[key].update({'completed': 1})
+                        else:
+                            log.info("IN THE ELSE OF completed----%s----"% cohorts_data)
+                            cohorts_data[key].update({'completed': 1})
+
                     else:
-                        cohorts_data[key].append('started') 
+                        if cohorts_data.values():
+                            for started_key in cohorts_data.values():
+                                log.info("started key-----%s-----"% started_key)
+                                log.info("COHORT DATA IN STARTED----%s----"% cohorts_data)
 
-                   
-                    cohorts_data_list.append(cohorts_data)
+                                if 'started' in started_key:
+                                    started_key['started'] +=1
+                                else:
+                                    cohorts_data[key].update({'started': 1})
+                        else:
+                            log.info("COHORT DATA IN STARTED- elsee---%s----"% cohorts_data)
+                            cohorts_data[key].update({'started': 1})
 
-                    cohorts_data = {}
+                cohorts_data_list.append(cohorts_data)            
+                cohorts_data = {}                  
+                log.info("COHORT LIST DATA-----%s-----"% cohorts_data_list)
 
-            log.info("COHORT DATA LIST----%s-----"% cohorts_data_list)
-
-            cohort_module_details = "/edx/app/edxapp/edx-platform/common/djangoapps/student/cohort_details.csv"        
-            with open(cohort_module_details, 'wb') as cohort_module_csv: 
-                
-                log.info("FINAL COHORT LIST-------%s-----"% cohorts_data_list)
-                # cohort_writer_module = csv.writer(cohort_module_csv)
+            cohort_module_details = "/edx/app/edxapp/edx-platform/common/djangoapps/student/cohort_details.csv" 
+            with open(cohort_module_details, 'wb') as cohort_module_csv:
+                cohort_writer_module = csv.writer(cohort_module_csv)
                 fieldnames = ['cohort', 'not started', 'started', 'completed']
                 cohort_writer_module = csv.DictWriter(cohort_module_csv, fieldnames=fieldnames)
                 cohort_writer_module.writeheader()
-
                 for cohort_values_list in cohorts_data_list:
                     for cohort_key,cohort_value in cohort_values_list.items():
                         res = Counter(cohort_value)
@@ -988,75 +1020,20 @@ def student_dashboard(request):
                         cohort_a = {'cohort': cohort_key}
                         cohort_b = dict(res)
                         cohort_c = {}
-                        
-                        log.info("COHORT B------%s-----"% cohort_b)
 
-                        log.info("Only keys----%s----"% cohort_b.keys())
+                        log.info("COHORT B----%s----"% cohort_b)
 
                         fields = ['not started', 'started', 'completed']
-
                         key_not_present = [cohortkey for cohortkey in fields if cohortkey not in cohort_b.keys()]
 
                         log.info("KEY NOT PRESENT-------%s----"% key_not_present)
-
                         for not_present in key_not_present:
-                            cohort_c[not_present] = 0                      
+                            cohort_c[not_present] = 0 
 
+                        log.info("COHORT C----%s----"% cohort_c)
                         Merge(cohort_c,cohort_b)
-                        
                         Merge(cohort_a,cohort_b)
-                        cohort_final_list.append(cohort_b)
-                        # cohort_writer_module.writerow(cohort_b)
-
-
-                log.info("cohort final list----%s----"% cohort_final_list)                   
-
-            
-                import pandas as pd
-
-                
-                # cohortss_lists =  [{'started': 0, 'cohort': u'testing_coherts', 'completed': 1, 'not started': 0}, {'started': 0, 'cohort': u'testing_coherts', 'completed': 0, 'not started': 1}, {'started': 0, 'cohort': u'testing_coherts', 'completed': 0, 'not started': 1}, {'started': 0, 'cohort': u'certificate_coherts', 'completed': 0, 'not started': 1}]
-
-                graph_dict = dict()
-
-                df = pd.DataFrame(cohort_final_list)
-                group = df.groupby('cohort')['not started'].sum().to_dict()
-                group_2 = df.groupby('cohort')['started'].sum().to_dict()
-                group_3 = df.groupby('cohort')['completed'].sum().to_dict()
-
-
-                for cohort, value in group.items():
-                    graph_dict.setdefault(cohort,{})
-                    if cohort in graph_dict:
-                        graph_dict[cohort].update({'not started': value})
-                    else:
-                        graph_dict[cohort].update({'not started': value})
-
-
-                for cohort, value in group_2.items():
-                    graph_dict.setdefault(cohort,{})
-                    if cohort in graph_dict:
-                        graph_dict[cohort].update({'started': value})
-                    else:
-                        graph_dict[cohort].update({'started': value})
-
-
-                for cohort, value in group_3.items():
-                    graph_dict.setdefault(cohort,{})
-                    if cohort in graph_dict:
-                        graph_dict[cohort].update({'completed': value})
-                    else:
-                        graph_dict[cohort].update({'completed': value})
-
-
-
-                log.info("graph_dict-----%s-----"% graph_dict)  
-
-                for grph_k, graphv in graph_dict.items():
-                    graph_dic1 = {'cohort': grph_k}
-                    Merge(graph_dic1,graphv)
-                    log.info("GRAPH V FINAL------%s------"% graphv)
-                    cohort_writer_module.writerow(graphv)
+                        cohort_writer_module.writerow(cohort_b)
 
 
 
@@ -1127,9 +1104,14 @@ def student_dashboard(request):
 
     badge_module = "/edx/app/edxapp/edx-platform/common/djangoapps/student/student_badges.csv"
     with open(badge_module, 'wb') as badge_csvfile_module: 
+        student_badges_dict = {}
+
         badge_writer_module = csv.writer(badge_csvfile_module)
-        badge_writer_module.writerow(['Student','ModuleName','Badge','Progress','Grade','Homework'])
-        
+        fieldnames_student = ['Student','ModuleName','Badge','Progress','Grade','Homework','Midterm Exam','Final Exam']
+        # badge_writer_module.writerow(['Student','ModuleName','Badge','Progress','Grade','Homework','Midterm Exam','Final Exam'])
+        badge_writer_module = csv.DictWriter(badge_csvfile_module, fieldnames=fieldnames_student)
+        badge_writer_module.writeheader()
+
         for courseids in course_ids:
             user_badges = BadgeClass.objects.filter(course_id=courseids)
             badges = BadgeAssertion.objects.filter(user=user,badge_class=user_badges)
@@ -1139,13 +1121,16 @@ def student_dashboard(request):
 
             # unicode_convert= courseids.strip('u').split("'")[1]
             log.info("courseidsss-----%s----"% courseids)
+            from courseware.views.views import student_progress
             log.info("REQU UNICODE----%s----"% u'%s'%courseids)
             get_grade = student_progress(request,u'%s'%courseids,student_id=user.id)
             total_percent = get_grade['grade_summary']
 
-            log.info("GRADE----%s----"% get_grade['grade_summary'])
-            log.info("PERCENT---%s----"% total_percent['percent']*100)
-            log.info("HOMEWORK---%s----"% dict(total_percent['grade_breakdown'])['Homework']['detail'])
+            log.info("TOTAL---%s------"% total_percent)
+
+            log.info("GET GRADE----%s----"% get_grade['grade_summary'])
+            # log.info("PERCENT---%s----"% total_percent['percent']*100)
+            log.info("GRADE BREAKDOWN---%s----"% dict(total_percent['grade_breakdown']))
 
             for progress_key in progress_details:
                 log.info("progress key----%s-----"% progress_key.student_course_progress)
@@ -1155,13 +1140,44 @@ def student_dashboard(request):
                     for badge in badges:
                         log.info("BADGE---------%s-----"% badge)
                         log.info("THIS COURSE HAS BADGE------%s----"% course_name.display_name)
-                        badge_writer_module.writerow((str(user.username),str(course_name.display_name), '1', progress_key.student_course_progress, total_percent['percent']*100, dict(total_percent['grade_breakdown'])['Homework']['detail']))
-                else:
+                        student_badges_dict['Student'] = user.username
+                        student_badges_dict['ModuleName'] = course_name.display_name
+                        student_badges_dict['Badge'] = 1
+                        student_badges_dict['Progress'] = progress_key.student_course_progress
+                        student_badges_dict['Grade'] = total_percent['percent']*100
+                        student_badges_dict['Homework'] = dict(total_percent['grade_breakdown'])['Homework']['detail']
+                        if 'Midterm Exam' in dict(total_percent['grade_breakdown']):
+                            student_badges_dict['Midterm Exam'] = dict(total_percent['grade_breakdown'])['Midterm Exam']['detail']
+
+                        if 'Final Exam' in dict(total_percent['grade_breakdown']):
+                            student_badges_dict['Final Exam'] = dict(total_percent['grade_breakdown'])['Final Exam']['detail']
+
+                        badge_writer_module.writerow(student_badges_dict)
+                        # student_badges_dict['Student']
+                        # student_badges_dict['Student']
+                        # badge_writer_module.writerow((str(user.username),str(course_name.display_name), '1', progress_key.student_course_progress, total_percent['percent']*100, dict(total_percent['grade_breakdown'])['Homework']['detail']))
+                        
+
+                else:                    
+
+                    student_badges_dict['Student'] = user.username
+                    student_badges_dict['ModuleName'] = course_name.display_name
+                    student_badges_dict['Badge'] = 0
+                    student_badges_dict['Progress'] = progress_key.student_course_progress
+                    student_badges_dict['Grade'] = total_percent['percent']*100
+                    student_badges_dict['Homework'] = dict(total_percent['grade_breakdown'])['Homework']['detail']
+                    if 'Midterm Exam' in dict(total_percent['grade_breakdown']):
+                        student_badges_dict['Midterm Exam'] = dict(total_percent['grade_breakdown'])['Midterm Exam']['detail']
+
+                    if 'Final Exam' in dict(total_percent['grade_breakdown']):
+                        student_badges_dict['Final Exam'] = dict(total_percent['grade_breakdown'])['Final Exam']['detail']
+
+                    badge_writer_module.writerow(student_badges_dict)
                      
-                    log.info("THIS COURSE HAS NO BADGE----%s----"% course_name.display_name)   
-                    badge_writer_module.writerow((str(user.username),str(course_name.display_name), '0', progress_key.student_course_progress, total_percent['percent']*100, dict(total_percent['grade_breakdown'])['Homework']['detail']))
+                    # log.info("THIS COURSE HAS NO BADGE----%s----"% course_name.display_name)   
+                    # badge_writer_module.writerow((str(user.username),str(course_name.display_name), '0', progress_key.student_course_progress, total_percent['percent']*100, dict(total_percent['grade_breakdown'])['Homework']['detail']))
 
-
+            student_badges_dict = {}
 
     # Retrieve the course modes for each course
     enrolled_course_ids = [enrollment.course_id for enrollment in course_enrollments]

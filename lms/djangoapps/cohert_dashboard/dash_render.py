@@ -103,6 +103,7 @@ def _create_admin_dashboard_app(request):
     
     on_track = round(sum(on_graph)/ len(on_graph),2)
     performance_track = (sum(perform_track_pie_graph) / sum(final_total)) * 100
+    performance_track = round(performance_track,2)
 
     try:
         user_prof = UserProfile.objects.get(user=request.user).organization
@@ -329,7 +330,9 @@ def _create_student_dashboard_app():
 
 
     if not module_options_set:
-        module_options_set = ['test_data']
+        module_options_set = ['no_data']
+
+    bar_colors = 'rgbkymc'
 
 
     # This lays out the screen and where the graphs appear
@@ -393,7 +396,7 @@ def _create_student_dashboard_app():
                                 y=module_data['Views'],
                                 name='Number of Views',
                                 marker=go.bar.Marker(
-                                    color='rgb(26, 118, 255)'
+                                    color='mediumpurple',                                    
                                 )
                             ),                            
                         ],
@@ -424,7 +427,7 @@ def _create_student_dashboard_app():
                                 y=df_logins['Logins'],
                                 name='Number of Logins',
                                 marker=go.bar.Marker(
-                                    color='rgb(26, 118, 255)'
+                                    color= 'indianred',                                        
                                 )
                             ),                            
                         ],
@@ -462,7 +465,7 @@ def _create_student_dashboard_app():
                                     y=badges_data['Badge'],
                                     name='Badge',
                                     marker=go.bar.Marker(
-                                        color='rgb(55, 83, 109)'
+                                        color='lightslategray'
                                     )
                                 ),
                                 go.Bar(
@@ -470,12 +473,12 @@ def _create_student_dashboard_app():
                                     y=badges_data['Certificate'],
                                     name='Certificate',
                                     marker=go.bar.Marker(
-                                        color='rgb(26, 118, 255)'
+                                        color='darkgray'
                                     )
                                 )
                             ],
                             layout=go.Layout(
-                                title='Badges and Certificates Earned',
+                                title='<b>Badges and Certificates Earned</b>',
                                 showlegend=True,                            
                                 margin=go.layout.Margin(l=40, r=0, t=40, b=40)
                             )
@@ -513,14 +516,14 @@ def _create_student_dashboard_app():
 
         graphs.append(
             html.Div([
-                html.H3('Current Progress:'),
-                html.H3(badges_data['Progress'], style={})               
+                html.H3('Module Progress:'),
+                html.H3(str(float(badges_data['Progress']))+'%', style={})               
             ], style={"display": "table-cell"})
         ) 
 
         graphs.append(
             html.Div([
-                html.H3('Grade:'),
+                html.H3('Final Grade:'),
                 html.H3(str(float(badges_data['Grade']))+'%', style={})               
             ], style={"display": "table-cell"})
         ) 
@@ -528,6 +531,18 @@ def _create_student_dashboard_app():
         graphs.append(
             html.Div([                
                 html.H3(badges_data['Homework'], style={})               
+            ], style={})
+        ) 
+
+        graphs.append(
+            html.Div([                
+                html.H3(badges_data['Midterm Exam'], style={})               
+            ], style={})
+        ) 
+
+        graphs.append(
+            html.Div([                
+                html.H3(badges_data['Final Exam'], style={})               
             ], style={})
         ) 
 
