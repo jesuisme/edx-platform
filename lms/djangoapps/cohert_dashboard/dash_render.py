@@ -57,7 +57,7 @@ def _create_admin_dashboard_app(request):
     app = dash.Dash(__name__, csrf_protect=False)
 
     try:        
-        df_cohorts = pd.read_csv('/edx/app/edxapp/edx-platform/common/djangoapps/student/cohort_details.csv')    
+        df_cohorts = pd.read_csv('/edx/app/edxapp/edx-platform/common/djangoapps/student/student_data_csvs/cohort_details.csv')    
     except:
         log.info("EMPTY CSV FILE")
         pass
@@ -87,7 +87,7 @@ def _create_admin_dashboard_app(request):
     perform_track_pie_graph = []
     modules_assigned = []
 
-    cohorts_data = pd.read_csv('/edx/app/edxapp/edx-platform/common/djangoapps/student/cohort_details.csv', index_col="cohort")
+    cohorts_data = pd.read_csv('/edx/app/edxapp/edx-platform/common/djangoapps/student/student_data_csvs/cohort_details.csv', index_col="cohort")
     for cohorts_detail in cohort_options_set:
         total = cohorts_data.loc[cohorts_detail,['not started','completed','started']].sum()
         pie_graph[cohorts_detail] =  total
@@ -292,10 +292,10 @@ def _create_student_dashboard_app():
 
     try:
         log.info("IN THE TRY BLOCK READING CSV FILE------")
-        df_modules = pd.read_csv('/edx/app/edxapp/edx-platform/common/djangoapps/student/university_modules.csv')
-        df_students = pd.read_csv('/edx/app/edxapp/edx-platform/common/djangoapps/student/university_records.csv', dtype={'Completed': np.bool})
-        df_badges = pd.read_csv('/edx/app/edxapp/edx-platform/common/djangoapps/student/new_student_badges.csv')
-        df_logins = pd.read_csv('/edx/app/edxapp/edx-platform/common/djangoapps/student/login_details.csv')
+        df_modules = pd.read_csv('/edx/app/edxapp/edx-platform/common/djangoapps/student/student_data_csvs/university_modules.csv')
+        df_students = pd.read_csv('/edx/app/edxapp/edx-platform/common/djangoapps/student/student_data_csvs/university_records.csv', dtype={'Completed': np.bool})
+        df_badges = pd.read_csv('/edx/app/edxapp/edx-platform/common/djangoapps/student/student_data_csvs/new_student_badges.csv')
+        df_logins = pd.read_csv('/edx/app/edxapp/edx-platform/common/djangoapps/student/student_data_csvs/login_details.csv')
     except:
         log.info("EMPTY CSV FILE")
         pass

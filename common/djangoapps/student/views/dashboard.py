@@ -1007,7 +1007,7 @@ def student_dashboard(request):
                 cohorts_data = {}                  
                 log.info("COHORT LIST DATA-----%s-----"% cohorts_data_list)
 
-            cohort_module_details = "/edx/app/edxapp/edx-platform/common/djangoapps/student/cohort_details.csv" 
+            cohort_module_details = "/edx/app/edxapp/edx-platform/common/djangoapps/student/student_data_csvs/cohort_details.csv" 
             with open(cohort_module_details, 'wb') as cohort_module_csv:
                 cohort_writer_module = csv.writer(cohort_module_csv)
                 fieldnames = ['cohort', 'not started', 'started', 'completed']
@@ -1102,7 +1102,7 @@ def student_dashboard(request):
 
     from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 
-    badge_module = "/edx/app/edxapp/edx-platform/common/djangoapps/student/student_badges.csv"
+    badge_module = "/edx/app/edxapp/edx-platform/common/djangoapps/student/student_data_csvs/student_badges.csv"
     with open(badge_module, 'wb') as badge_csvfile_module: 
         student_badges_dict = {}
 
@@ -1430,8 +1430,8 @@ def student_dashboard(request):
     }  
 
 
-    csvfile_badge = '/edx/app/edxapp/edx-platform/common/djangoapps/student/student_badges.csv'
-    csvfile_badge_2 = '/edx/app/edxapp/edx-platform/common/djangoapps/student/new_student_badges.csv'
+    csvfile_badge = '/edx/app/edxapp/edx-platform/common/djangoapps/student/student_data_csvs/student_badges.csv'
+    csvfile_badge_2 = '/edx/app/edxapp/edx-platform/common/djangoapps/student/student_data_csvs/new_student_badges.csv'
         
     log.info("CERTIFICATE--------%s-----"% cert_statuses)
     with open(csvfile_badge, 'r') as fin, open(csvfile_badge_2, 'w') as fout:
@@ -1458,7 +1458,7 @@ def student_dashboard(request):
 
 
     #Students dashboard csv(modules.csv)
-    file_module = "/edx/app/edxapp/edx-platform/common/djangoapps/student/university_modules.csv"
+    file_module = "/edx/app/edxapp/edx-platform/common/djangoapps/student/student_data_csvs/university_modules.csv"
     with open(file_module, 'w') as csvfile_module: 
         writer_module = csv.writer(csvfile_module)
         writer_module.writerow(['ModuleName','Date','Views'])
@@ -1473,7 +1473,7 @@ def student_dashboard(request):
 
     #Student dashboard csv(students.csv)
     # login_update_count = LoginUpdate.objects.get(action_user=request.user)
-    file_module_2 = "/edx/app/edxapp/edx-platform/common/djangoapps/student/login_details.csv"
+    file_module_2 = "/edx/app/edxapp/edx-platform/common/djangoapps/student/student_data_csvs/login_details.csv"
     with open(file_module_2, 'w') as csvfile_module2: 
         writer_module2 = csv.writer(csvfile_module2)
         writer_module2.writerow(['Student','Date','Logins','Time'])
@@ -1485,7 +1485,7 @@ def student_dashboard(request):
 
 
 
-    filename = "/edx/app/edxapp/edx-platform/common/djangoapps/student/university_records.csv"
+    filename = "/edx/app/edxapp/edx-platform/common/djangoapps/student/student_data_csvs/university_records.csv"
     with open(filename, 'w') as csvfile: 
         writer = csv.writer(csvfile)
         writer.writerow(['Student','Module','Section','Completed','Date'])
