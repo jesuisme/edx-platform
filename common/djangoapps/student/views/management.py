@@ -152,7 +152,7 @@ def payment_process(request):
     request.session['new_user'] = new_user
 
     host = request.get_host()
-    print("hOTS---",host)
+    # print("hOTS---",host)
     paypal_dict = {                
         'business': settings.PAYPAL_RECEIVER_EMAIL,        
         'amount': str(org.package_total_price),
@@ -181,7 +181,7 @@ def payment_done(request):
     password_data = request.session.get('password') 
  
 
-    print('invoice id of this user----',invoice) 
+    # print('invoice id of this user----',invoice) 
     order = get_object_or_404(OrganizationRegistration, invoice_id=int(invoice))
          
     token = account_activation_token.make_token(order)
@@ -235,7 +235,7 @@ def payment_canceled(request):
     order = get_object_or_404(OrganizationRegistration, invoice_id=int(request.session.get('invoice')))
     if order.paid == False:
         #new_user.delete()
-        print('deleted----')
+        # print('deleted----')
         string_msg = "Payment failed."
         messages.add_message(request, messages.ERROR, string_msg)        
         return HttpResponseRedirect('/organization_register') 
@@ -313,7 +313,7 @@ def index(request, extra_context=None, user=AnonymousUser()):
 @csrf_protect
 def organization_register(request):
     if request.method == 'POST':
-        print('request.po=====',request.POST)
+        # print('request.po=====',request.POST)
 
         form = OrganizationRegistrationForm(request.POST or None)
         try:
@@ -328,7 +328,7 @@ def organization_register(request):
 
                 organization_email = form.cleaned_data.get('organization_email')
 
-                print("password----",password)
+                # print("password----",password)
 
                 org_username = (str(post.organization_email)).split("@")[0]
                 chars=ascii_lowercase+digits
@@ -336,7 +336,7 @@ def organization_register(request):
                 set_default_username = "{}{}".format(org_username,default_username)
                 password_data = password
 
-                print('user---org---',set_default_username)
+                # print('user---org---',set_default_username)
                 
                 user = User(
                     username=set_default_username,
@@ -355,11 +355,11 @@ def organization_register(request):
                     return HttpResponseRedirect("/organization_register")
                 registration = Registration()
 
-                print("here new_user------")
+                # print("here new_user------")
 
                 new_user = authenticate_new_user(request, user.username, password_data)
 
-                print("user---oi---")
+                # print("user---oi---")
                 post.user = user
 
                 post.invoice_id = uuid.uuid1().int>>64                
@@ -374,10 +374,10 @@ def organization_register(request):
 
                 post.payment_status = 'Pending'
                 
-                print("before save----")
+                # print("before save----")
                 post.save()
 
-                print("post save-----")
+                # print("post save-----")
 
                 current_site = configuration_helpers.get_value('LMS_ROOT_URL', settings.LMS_ROOT_URL)
                 mail_subject = 'Organization Admin Registration'
@@ -394,7 +394,7 @@ def organization_register(request):
 
                 }
                 
-                print('context before sending site admin email---',context)
+                # print('context before sending site admin email---',context)
                 
                 to_email = form.cleaned_data.get('organization_email')
                 
@@ -449,18 +449,18 @@ from django.utils.http import urlsafe_base64_decode
 
 def activate(request, uid, token):
     try:    
-        print("inside activate method===")            
+        # print("inside activate method===")            
         uid = force_text(urlsafe_base64_decode(uid))
-        print('uid----',uid)
+        # print('uid----',uid)
         post = OrganizationRegistration.objects.get(pk=uid)
-        print("Post-----",post)
+        # print("Post-----",post)
     except(TypeError, ValueError, OverflowError, OrganizationRegistration.DoesNotExist):
         post = None
     except Exception as e:
         log.info("exception=====%s-------" % e)
 
-    print('outside=-=====')
-    print('post===',post)
+    # print('outside=-=====')
+    # print('post===',post)
 
 
     if post is not None and account_activation_token.check_token(post, token):
@@ -600,7 +600,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from os.path import dirname, abspath
 
 def logo_data(): 
-    print('file image logo---') 
+    # print('file image logo---') 
     #file_path = staticfiles_storage.url('images/logo_ut.jpg')
     file_path = settings.STATIC_ROOT_BASE + '/images/logo_ut.jpg'
     f = 'logo_ut.jpg'
@@ -1371,7 +1371,7 @@ def create_account(request, post_override=None):
     selected_organization = request.POST.getlist('organization')
     # if selected_organization[0] == "Student":
     if selected_organization[0] == "on":
-        print("==selected_organization[1]====%s----"% selected_organization[1])
+        # print("==selected_organization[1]====%s----"% selected_organization[1])
         if selected_organization[1]:
             organization_object = OrganizationRegistration.objects.get(organization_name=selected_organization[1])
             organization_mail = organization_object.organization_email
