@@ -1763,7 +1763,6 @@ def get_financial_aid_courses(user):
 def student_progress(request, course_id, student_id=None):
     """ Display the progress page. """
     course_key = CourseKey.from_string(course_id)
-    print("student progress------------")
 
     with modulestore().bulk_operations(course_key):
         return _student_progress(request, course_key, student_id)
