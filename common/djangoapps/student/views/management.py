@@ -486,7 +486,7 @@ def register_user(request, extra_context=None):
     Deprecated. To be replaced by :class:`student_account.views.login_and_registration_form`.
     """
     # Determine the URL to redirect to following login:
-    AUDIT_LOG.info("REGISTER USER-----")
+    # AUDIT_LOG.info("REGISTER USER-----")
     redirect_to = get_next_url_for_login_page(request)
     if request.user.is_authenticated:
         return redirect(redirect_to)
@@ -501,7 +501,7 @@ def register_user(request, extra_context=None):
     organization_obj = OrganizationRegistration.objects.all()
     for row in organization_obj.iterator():
         if row.is_active:
-            AUDIT_LOG.info("CONTEXT objecttsssss---------------- %s--------" % row.organization_name)
+            # AUDIT_LOG.info("CONTEXT objecttsssss---------------- %s--------" % row.organization_name)
             active_organization_list.append(row.organization_name)
 
     student_list.append('Student')
