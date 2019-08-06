@@ -348,14 +348,11 @@ def _create_student_dashboard_app(request,admin_organization):
                         value=module_options_set[0]
                     ),
                 ], style={"width": "25%"}),
-                html.Div(id="cohort-container", style={"display": "table-row"}),    # Table row for the three cohort graphs
-                
-                html.Div([                  
-                    
+                html.Div(id="cohort-container", style={"display": "table-row"}),    # Table row for the three cohort graphs                
+                html.Div([  
                     
                 ], id='student-dropdown', style={"width": "25%"}),
-                html.Div(id="student-container", style={"display": "table-row"}),             
-
+                html.Div(id="student-container", style={"width": "200%"}),   
               
             ], style={"width": "100%", "display": "table"}),
 
@@ -371,6 +368,8 @@ def _create_student_dashboard_app(request,admin_organization):
             module_data = df_modules[df_modules['ModuleName'] == value]
             student_data = df_students[df_students['Module'] == value]
             badges_data = df_badges[df_badges['ModuleName'] == value]
+
+            log.info('Badge DATA---%s----'% badges_data['Badge'])
             
             dates_list = []
 
@@ -409,7 +408,7 @@ def _create_student_dashboard_app(request,admin_organization):
                         ),           
             )   
 
-                ],style={"height": 550,"width": "34%", "display": "table-cell"})             
+                ],style={"height": 550,"width": "50%", "display": "table-cell"})             
             )
                 
 
@@ -440,52 +439,9 @@ def _create_student_dashboard_app(request,admin_organization):
                         ),           
             )   
 
-                ],style={"height": 550, "width": "33%", "display": "table-cell"})             
+                ],style={"height": 550, "width": "50%", "display": "table-cell"})             
             )
-
-
-            if (int(badges_data['Badge']) == 0) & (int(badges_data['Certificate']) == 0):
-                graphs.append(
-                    html.Div([
-                        html.H3('No Badge/Certificate Earned'),
-                        
-                    ], style={"display": "table-cell", "horizontal-align": "center", "vertical-align": "bottom"})
-                )
-            else:
-                graphs.append(
-                    html.Div([
-                        dcc.Graph(
-                            figure=go.Figure(
-                                data=[
-                                    go.Bar(
-                                        x=badges_data['ModuleName'],
-                                        y=badges_data['Badge'],
-                                        name='Badge',
-                                        marker=go.bar.Marker(
-                                            color='lightslategray'
-                                        )
-                                    ),
-                                    go.Bar(
-                                        x=badges_data['ModuleName'],
-                                        y=badges_data['Certificate'],
-                                        name='Certificate',
-                                        marker=go.bar.Marker(
-                                            color='darkgray'
-                                        )
-                                    )
-                                ],
-                                layout=go.Layout(
-                                    title='<b>Badges and Certificates Earned</b>',
-                                    showlegend=True,                            
-                                    margin=go.layout.Margin(l=40, r=0, t=40, b=40)
-                                )
-                            ),                    
-                            id='graph3'
-                        )  
-                       
-                    ], style={"height": 300, "width": "33%", "display": "table-cell"})
-                ) 
-
+     
             return graphs
 
         @app.callback(      # decorator that defines the targets of the interaction
@@ -509,41 +465,56 @@ def _create_student_dashboard_app(request,admin_organization):
 
             graphs.append(
                 html.Div([
-                    html.H3('Module Progress:'),
-                    html.H3(str(float(badges_data['Progress']))+'%', style={})               
-                ], style={"display": "table-cell"})
+                    html.H3('Module Progress:',style={"text-align": "center", "width": "100%"}),
+                    html.H3(str(float(badges_data['Progress']))+'%', style={"text-align": "center"})               
+                ], style={"width": "14%", "display": "inline-block"})
             ) 
 
             graphs.append(
                 html.Div([
-                    html.H3('Final Grade:'),
-                    html.H3(str(float(badges_data['Grade']))+'%', style={})               
-                ], style={"display": "table-cell"})
+                    html.H3('Final Grade:',style={"text-align": "center"}),
+                    html.H3(str(float(badges_data['Grade']))+'%', style={"text-align": "center"})               
+                ], style={"width": "14%", "display": "inline-block"})
+            ) 
+
+            if (int(badges_data['Badge']) == 0) & (int(badges_data['Certificate']) == 0):
+                graphs.append(
+                    html.Div([
+                        html.H3('No Badge/Certificate Earned'),
+                        
+                    ], style={"width": "14%", "display": "inline-block", "height": "100.16"})
+                )
+            else:     
+                graphs.append(
+                    html.Div([   
+                        html.H3("Certificates Earned: "+ str(int(badges_data['Certificate'])), style={"text-align": "center", "width": "100%"}),
+                        html.H3("Badges Earned: "+ str(int(badges_data['Badge'])), style={"text-align": "center", "width": "100%"})               
+                    ], style={"width": "14%", "display": "inline-block"})
+                ) 
+
+            graphs.append(
+                html.Div([      
+                    html.H3(badges_data['Homework'], style={"text-align": "center"})               
+                ], style={"width": "14%", "display": "inline-block"})
             ) 
 
             graphs.append(
-                html.Div([                
-                    html.H3(badges_data['Homework'], style={})               
-                ], style={})
+                html.Div([    
+                    html.H3(badges_data['Midterm Exam'], style={"text-align": "center"})               
+                ], style={"width": "14%", "display": "inline-block"})
             ) 
 
             graphs.append(
-                html.Div([                
-                    html.H3(badges_data['Midterm Exam'], style={})               
-                ], style={})
+                html.Div([    
+                    html.H3(badges_data['Final Exam'], style={"text-align": "center"})               
+                ], style={"width": "14%", "display": "inline-block"})
             ) 
 
             graphs.append(
-                html.Div([                
-                    html.H3(badges_data['Final Exam'], style={})               
-                ], style={})
-            ) 
-
-            graphs.append(
-                html.Div([                
-                    html.H3('Average Time per Login'),
-                    html.H3(avg, style={})                
-                ], style={})
+                html.Div([   
+                    html.H3('Average Time per Login',style={"text-align": "center"}),
+                    html.H3(avg, style={"text-align": "center"})                
+                ], style={"width": "14%", "display": "inline-block"})
 
             )
             return graphs
@@ -554,6 +525,9 @@ def _create_student_dashboard_app(request,admin_organization):
             html.H3('No Data Found')
             ])
         return app                
+
+
+
         
 
 

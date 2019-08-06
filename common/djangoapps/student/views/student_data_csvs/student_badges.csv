@@ -1,4 +1,3 @@
 Student,ModuleName,Organization,Badge,Certificate,Progress,Grade,Homework,Midterm Exam,Final Exam
-shruti_test2,Introduction to computer science,lumina,0,0,0,0.0,Homework = 0.00% of a possible 15.00%,Midterm Exam = 0.00% of a possible 30.00%,Final Exam = 0.00% of a possible 40.00%
-shruti_test2,certificate_testing,lumina,1,1,100,100.0,Homework = 100.00% of a possible 100.00%,,
-shruti_test2,testing,lumina,0,0,0,0.0,Homework = 0.00% of a possible 100.00%,,
+shruti_test,Introduction to computer science,lumina,0,0,67,22.0,Homework = 0.75% of a possible 15.00%,Midterm Exam = 20.10% of a possible 30.00%,Final Exam = 0.00% of a possible 40.00%
+shruti_test,testing,lumina,1,1,100,100.0,Homework = 100.00% of a possible 100.00%,,
