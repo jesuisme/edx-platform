@@ -1,0 +1,284 @@
+/* CSS for PopUpXBlock */
+
+.popupxblock_block .count {
+    font-weight: bold;
+}
+
+.popupxblock_block p {
+    cursor: pointer;
+}
+
+.hover_bkgr_fricc{
+    background:rgba(0,0,0,.4);
+    cursor:pointer;
+    display:none;
+    height:100%;
+    position:fixed;
+    text-align:center;
+    top:0;
+    width:100%;
+    z-index:10000;
+}
+.hover_bkgr_fricc1{
+    background:rgba(0,0,0,.4);
+    cursor:pointer;
+    display:none;
+    height:100%;
+    position:fixed;
+    text-align:center;
+    top:0;
+    width:100%;
+    z-index:10000;
+}
+.hover_bkgr_fricc2{
+    background:rgba(0,0,0,.4);
+    cursor:pointer;
+    display:none;
+    height:100%;
+    position:fixed;
+    text-align:center;
+    top:0;
+    width:100%;
+    z-index:10000;
+}
+.hover_bkgr_fricc .helper{
+    display:inline-block;
+    height:100%;
+    vertical-align:middle;
+}
+.hover_bkgr_fricc1 .helper1{
+    display:inline-block;
+    height:100%;
+    vertical-align:middle;
+}
+.hover_bkgr_fricc2 .helper2{
+    display:inline-block;
+    height:100%;
+    vertical-align:middle;
+}
+.hover_bkgr_fricc > div {
+    background-color: #fff;
+    box-shadow: 10px 10px 60px #555;
+    display: inline-block;
+    height: auto;
+    /*max-width: 551px;*/
+    min-height: 100px;
+    vertical-align: middle;
+    width: 60%;
+    position: relative;
+    border-radius: 8px;
+    padding: 5px;
+    /*font-family: "GothamHTF-Book";*/
+}
+.hover_bkgr_fricc1 > div {
+    background-color: #fff;
+    box-shadow: 10px 10px 60px #555;
+    display: inline-block;
+    height: auto;
+    /*max-width: 551px;*/
+    min-height: 100px;
+    vertical-align: middle;
+    width: 60%;
+    position: relative;
+    border-radius: 8px;
+    padding: 5px;
+}
+.hover_bkgr_fricc2 > div {
+    background-color: #fff;
+    box-shadow: 10px 10px 60px #555;
+    display: inline-block;
+    height: auto;
+    /*max-width: 551px;*/
+    min-height: 100px;
+    vertical-align: middle;
+    width: 60%;
+    position: relative;
+    border-radius: 8px;
+    padding: 5px;
+}
+.popupCloseButton {
+    background-color: #fff;
+    /*border: 3px solid #999;*/
+    border-radius: 50px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: arial;
+    font-weight: bold;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    font-size: 25px;
+    line-height: 30px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+.popupCloseButton1 {
+    background-color: #fff;
+    /*border: 3px solid #999;*/
+    border-radius: 50px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: arial;
+    font-weight: bold;
+    position: absolute;
+    top: 1;
+    right: 1px;
+    font-size: 25px;
+    line-height: 30px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+.popupCloseButton2 {
+    background-color: #fff;
+    /*border: 3px solid #999;*/
+    border-radius: 50px;
+    cursor: pointer;
+    display: inline-block;
+    font-family: arial;
+    font-weight: bold;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    font-size: 25px;
+    line-height: 30px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+}
+.popupCloseButton:hover {
+    background-color: #ccc;
+}
+.popupCloseButton1:hover {
+    background-color: #ccc;
+}
+.popupCloseButton2:hover {
+    background-color: #ccc;
+}
+.trigger_popup_fricc {
+    cursor: pointer;
+    margin: 20px;
+    display: inline-block;
+    font-weight: bold;
+}
+.trigger_popup_fricc1 {
+    cursor: pointer;
+    margin: 20px;
+    display: inline-block;
+    font-weight: bold;
+}
+.trigger_popup_fricc2 {
+    cursor: pointer;
+    margin: 20px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+
+div.container_data {
+  height: 305px;
+}
+div.patient_desc {
+}
+
+
+* {
+  box-sizing: border-box;
+}
+.column {
+  float: left;
+}
+
+
+
+
+.mySlides {display:none;}
+.w3-badge {cursor:pointer}
+.w3-badge {height:13px;width:13px;padding:0}
+.w3-display-left {
+    position: absolute;
+    top: 50%;
+    left: -50px;
+    transform: translate(0%,-50%);
+    -ms-transform: translate(-0%,-50%);
+}
+.w3-display-right {
+    position: absolute;
+    top: 50%;
+    right: -90px;
+    transform: translate(0%,-50%);
+    -ms-transform: translate(0%,-50%);
+}
+.col-sm-4 p {
+    font-size: 15px !important;
+    font-family: "GothamHTF-Medium";
+    overflow: hidden;
+    color: #FFFFFF !important;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+.col-sm-4 {
+  background-color:#535B72;;
+  float: left;
+  height: 60px;
+  width: 300px;
+  text-align: center;
+  margin-left: 20px;
+  cursor: pointer;
+  padding: 15px;
+
+}
+
+.col-sm-3 {
+    float: left;
+    width: 30%;
+}
+.col-sm-9 {
+  float: left;
+  width: 70%;
+}
+
+
+.question_title {
+  color: #3C4252;
+  font-size: 16px;
+  font-weight: 600;
+  padding-bottom: 5px;
+  text-align: center;
+}
+.incorrect_msg{
+    height: 110px;
+    background: #F06858;
+    margin-top: 50px;
+    padding: 10px;
+    color: white;
+}
+.correct_msg{
+    height: 110px;
+    background: #2CB69D;;
+    margin-top: 50px;
+    padding: 5px;
+    color: white;
+}
+.tryagain {
+      background: #fff;
+    width: 155px;
+    color: #F06858;
+    padding: 7px 0;
+    text-transform: uppercase;
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
+    text-align: center;
+
+}
+.nextquestion {
+      background: #DCDDDF;
+    width: 155px;
+    color: #545C71;
+    cursor: pointer;
+    padding: 10px;
+}
+
