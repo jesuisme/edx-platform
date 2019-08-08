@@ -1919,6 +1919,15 @@ CELERY_IMPORTS = (
 
 CELERYBEAT_SCHEDULE = {}  
 
+from datetime import timedelta
+from celery.schedules import crontab
+
+
+CELERYBEAT_SCHEDULE['every-8hour'] = {
+    'task': 'openedx.core.djangoapps.programs.tasks.v1.tasks.clear_students_data',
+    'schedule': crontab(hour="*/6"),
+}
+
 # Message configuration
 
 
@@ -2382,7 +2391,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'edx_rest_framework_extensions.paginators.DefaultPagination',
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
-    ),
+    ),    
     'PAGE_SIZE': 10,
     'URL_FORMAT_OVERRIDE': None,
     'DEFAULT_THROTTLE_RATES': {

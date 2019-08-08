@@ -18,21 +18,29 @@ padding: 8px;
 tr:nth-child(even) {
 background-color: #dddddd;
 }
+
+h3.hd-3{
+  font-weight: bold;
+}
 </style>
 </head>
 
-
-
+<form action="" method="GET">
+	<input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
+	<input type="text" placeholder="Search using email/username" name="q" style="width: 300px">
+  	<button type="submit"><i class="fa fa-search"></i></button>
+</form><br>
 
 
 %if section_data['all_organization_base_records']:
 <div class="action-type-container">
 
 
-<h2>User Details</h2>
+<h2><b>Learner Details</b></h2>
 <table>
 <tr> <!-- Header Row -->
 <th title="">User</th>
+<th title="">Username</th>
 <th title="">Course</th>
 <th title="">Grade</th>
 <th title="">Organization</th>
@@ -46,17 +54,26 @@ background-color: #dddddd;
 
 <td >
 <div style="word-wrap: break-word;">
-${_("{user_email}").format(user_email=row.user_email)}
+${_("{user_email}").format(user_email=row.user_id.email)}
 </div>
 </td>
+
+<td >
+<div style="word-wrap: break-word;">
+${_("{user_email}").format(user_email=row.user_id.username)}
+</div>
+</td>
+
+
+
 <td>
 <div style="word-wrap: break-word;">${_("{user_email}").format(user_email=row.course_id)}
 </div>
 </td>
 
 <td >${_("{Total_grade}").format(Total_grade=row.Total_grade)}</td>
-<td >${_("{organization}").format(organization=row.organization)}</td>
-<td >${_("{coherts}").format(coherts=row.coherts)}</td>
+<td >${_("{organization}").format(organization=row.organization_name)}</td>
+<td >${_("{coherts}").format(coherts=row.coherts_name.coherts_name)}</td>
 
 
 
@@ -64,20 +81,14 @@ ${_("{user_email}").format(user_email=row.user_email)}
 </tr>
 
 
-
-
-
-
-
-
-
-
 % endfor
 <!-- <tr class="highlight"> -->
 </table>
 
 </div>
-
+% else:
+<p style="margin-left: 40px;margin-top: 10px;color: black;"><b>No results found</b></p>
 
 %endif
+	
 %endif

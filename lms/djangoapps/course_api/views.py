@@ -106,7 +106,6 @@ class CourseDetailView(DeveloperErrorViewMixin, RetrieveAPIView):
             }
     """
 
-    log.info("COURSE CLICKED-----")
 
     serializer_class = CourseDetailSerializer
 

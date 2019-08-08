@@ -222,15 +222,21 @@ def _create_admin_dashboard_app(request,admin_organization):
                             id='cohort-graph',
                             figure={
                                 'data': [
-                                    {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['started'],'type': 'bar', 'name': 'Started'},
-                                    {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['not started'], 'type': 'bar', 'name': 'Not Yet Started'},
-                                    {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['completed'], 'type': 'bar', 'name': 'Completed'},
-                                    {'x': ['Not Registered'], 'y': [len(leaners_not_registered)], 'type': 'bar', 'name': 'Not Registered'},
+                                    {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['started'],'type': 'bar', 'name': 'Started', 'marker': dict(color='#f8971f')},
+                                    {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['not started'], 'type': 'bar', 'name': 'Not Yet Started', 'marker': dict(color='#00a9b7')},
+                                    {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['completed'], 'type': 'bar', 'name': 'Completed', 'marker': dict(color='#a6cd57')},
+                                    {'x': ['Not Registered'], 'y': [len(leaners_not_registered)], 'type': 'bar', 'name': 'Not Registered', 'marker': dict(color='#005f86')},
 
                                 ],  
                                 'layout': {
-                                    'title': 'Cohort progress',
-                                    'barmode': 'stack'
+                                    'title': '<b>Cohort progress</b>',
+                                    'barmode': 'stack',
+                                    'xaxis' : {
+                                        'title': '<b>Cohorts</b>',
+                                    },
+                                    'yaxis': {
+                                        'title': '<b>Learners</b>',
+                                    },
                                 }
                             }
                         ),
@@ -245,6 +251,7 @@ def _create_admin_dashboard_app(request,admin_organization):
         @app.callback(      # decorator that defines the targets of the interaction
             dash.dependencies.Output('cohort-pie', 'children'),     # The update will happen on the cohort pie chart
             [dash.dependencies.Input('cohort-dropdown', 'value')])  # The values from the cohort dropdown are the input
+        
         def update_cohort_pie(value):
             graphs = list()
             graphs.append(
@@ -256,11 +263,13 @@ def _create_admin_dashboard_app(request,admin_organization):
                                 "values": pie_graph.values(),
                                 "labels": pie_graph.keys(),
                                 "hole": 0.4,
-                                'type': 'pie'
+                                'type': 'pie',
+                                "marker": {'colors': ['#9cadb7', '#333f48', 'rgb(166, 205, 87)', '#bf5700', '#ffd600', '#a6cd57', ' #00a9b7', '#f8971f', '#579d42', '#005f86', '#9cadb7', '#d6d2c4'                                    
+                                ]},
                             },
                         ],
                         'layout': {
-                            'title': 'Cohorts',
+                            'title': '<b>Cohorts</b>',
                         }
                     }
                 ),
@@ -333,8 +342,6 @@ def _create_student_dashboard_app(request,admin_organization):
         if not module_options_set:
             module_options_set = ['no_data']
 
-        bar_colors = 'rgbkymc'
-
 
         # This lays out the screen and where the graphs appear
         app.layout = html.Div([
@@ -368,8 +375,6 @@ def _create_student_dashboard_app(request,admin_organization):
             module_data = df_modules[df_modules['ModuleName'] == value]
             student_data = df_students[df_students['Module'] == value]
             badges_data = df_badges[df_badges['ModuleName'] == value]
-
-            log.info('Badge DATA---%s----'% badges_data['Badge'])
             
             dates_list = []
 
@@ -392,7 +397,7 @@ def _create_student_dashboard_app(request,admin_organization):
                                     y=module_data['Views'],
                                     name='Number of Views',
                                     marker=go.bar.Marker(
-                                        color='mediumpurple',                                    
+                                        color='#a6cd57',                                    
                                     )
                                 ),                            
                             ],
@@ -423,7 +428,7 @@ def _create_student_dashboard_app(request,admin_organization):
                                     y=df_logins['Logins'],
                                     name='Number of Logins',
                                     marker=go.bar.Marker(
-                                        color= 'indianred',                                        
+                                        color= '#9cadb7',                                        
                                     )
                                 ),                            
                             ],

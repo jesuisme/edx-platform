@@ -551,6 +551,7 @@ def _get_urls_for_resume_buttons(user, enrollments):
     return resume_button_urls
 
 
+    
 def Merge(dict1, dict2): 
     return(dict2.update(dict1)) 
 
@@ -1092,3 +1093,7 @@ def student_dashboard(request):
     response = render_to_response('dashboard.html', context)
     set_user_info_cookie(response, request)
     return response
+
+
+
+

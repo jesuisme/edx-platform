@@ -111,7 +111,6 @@ def get_course_overview_with_access(user, action, course_key, check_if_enrolled=
     check_if_enrolled: If true, additionally verifies that the user is either enrolled in the course
       or has staff access.
     """
-    log.info("get course overview----")
 
     try:
         course_overview = CourseOverview.get_from_id(course_key)
@@ -130,18 +129,15 @@ def get_course_overview_with_access(user, action, course_key, check_if_enrolled=
 
 
         if module_name:
-            print("module COURSE VIEWS EXISTS----")
             module_views = StudentCourseViews.objects.get(date_updated=date.today(),module_name=course_name.display_name)
             module_views.course_views +=1
             module_views.save()
         else:
-            print("DOES NOT EXITS===")
             StudentCourseViews.objects.create(date_updated=date.today(),module_name=course_name.display_name,course_views=1)            
 
     except CourseOverview.DoesNotExist:
         raise Http404("Course not found.")
     check_course_access(course_overview, user, action, check_if_enrolled)
-    log.info("course ov----%s---"% course_overview)
     return course_overview
 
 

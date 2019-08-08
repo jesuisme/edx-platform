@@ -101,14 +101,6 @@ CELERY_QUEUES = {
 CELERY_ROUTES = "{}celery.Router".format(QUEUE_VARIANT)
 CELERYBEAT_SCHEDULE = {}   
 
-from datetime import timedelta
-
-
-CELERYBEAT_SCHEDULE['every-1min'] = {
-    'task': 'openedx.core.djangoapps.programs.tasks.v1.tasks.some_task',
-    'schedule': timedelta(seconds=60),
-}
-
 # CELERY_TIMEZONE = TIMEZONE
 
 # For scheduling tasks, entries can be added to this dict

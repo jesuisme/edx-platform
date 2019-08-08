@@ -1,6 +1,7 @@
 """
 This file contains celery tasks for programs-related functionality.
 """
+import logging
 from celery import task
 from celery.utils.log import get_task_logger  # pylint: disable=no-name-in-module, import-error
 from django.conf import settings
@@ -16,7 +17,13 @@ from openedx.core.djangoapps.content.course_overviews.models import CourseOvervi
 from openedx.core.djangoapps.credentials.models import CredentialsApiConfig
 from openedx.core.djangoapps.credentials.utils import get_credentials, get_credentials_api_client
 from openedx.core.djangoapps.programs.utils import ProgramProgressMeter
+#celerybeat configured
+from celery.task.schedules import crontab
+from celery.decorators import periodic_task
+from datetime import date, timedelta
+from student.models import StudentModuleViews,LoginUpdate,StudentCourseDetails
 
+log = logging.getLogger(__name__)
 LOGGER = get_task_logger(__name__)
 # Under cms the following setting is not defined, leading to errors during tests.
 ROUTING_KEY = getattr(settings, 'CREDENTIALS_GENERATION_ROUTING_KEY', None)
@@ -282,20 +289,13 @@ def award_course_certificate(self, username, course_run_key):
         raise self.retry(exc=exc, countdown=countdown, max_retries=MAX_RETRIES)
 
 
-import logging
-log = logging.getLogger(__name__)
-from celery.task.schedules import crontab
-from celery.decorators import periodic_task
-from datetime import date, timedelta
-from student.models import StudentCourseViews,StudentCourseDetails
-
-
-@periodic_task(run_every=(crontab(minute='*/1')), name="some_task", ignore_result=True)
-def some_task():
-    print("some TASK CELERY----")
-    log.info("TEST SOME TASK----")
-    LOGGER.info("SOME TASK CELE----D---") 
-    dee=date.today()-timedelta(days=5)
-    de2=date.today()-timedelta(days=11)
-    log.info("DATE PREIVIOS------%s----"% dee)
-    # StudentCourseDetails.objects.filter(date_updated__lte=date.today()-timedelta(days=30)).delete()
+# Deletes a month old student login and module views.(runs every 2hours) 
+@periodic_task(run_every=(crontab(hour="*/6")), name="clear_students_data", ignore_result=True)
+def clear_students_data():
+    try:
+        LOGGER.info("Cleaning the Students Data")
+        StudentModuleViews.objects.filter(date_updated__lte=date.today()-timedelta(days=30)).delete()
+        LoginUpdate.objects.filter(date_updated__lte=date.today()-timedelta(days=30)).delete()
+        StudentCourseDetails.objects.filter(date_updated__lte=date.today()-timedelta(days=30)).delete()
+    except Exception as exc:        
+        LOGGER.exception('Exception occured while deleting students data %s', exc)
