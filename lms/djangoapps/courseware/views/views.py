@@ -769,13 +769,15 @@ def course_about(request, course_id):
     #                unicode_convert= unicode(course_name.strip('u').split("'")[1])
     #                if unicode_convert == course_id:
     #                    current_user_list.append(row)
-    get_organization = UserProfile.objects.get(user=request.user)
-    user_related_organization = False
-    if get_organization.organization is not None:
-        user_related_organization = True
-    if request.user.is_staff:
+    if request.user.is_authenticated():
+        get_organization = UserProfile.objects.get(user=request.user)
         user_related_organization = False
-    
+        if get_organization.organization is not None:
+            user_related_organization = True
+        if request.user.is_staff:
+            user_related_organization = False
+    else:
+        user_related_organization = False
     course_key = CourseKey.from_string(course_id)
     # If a user is not able to enroll in a course then redirect
     # them away from the about page to the dashboard.
@@ -904,7 +906,7 @@ def course_about(request, course_id):
             'reviews_fragment_view': reviews_fragment_view,
             'sidebar_html_enabled': sidebar_html_enabled,
             # 'current_user': current_user_list,
-	    'organization_name': get_organization.organization,
+	    # 'organization_name': get_organization.organization,
             'course_key_enrollment': course_key,
             'user_related_organization': user_related_organization,
         }
