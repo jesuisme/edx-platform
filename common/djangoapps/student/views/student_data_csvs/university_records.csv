@@ -1,3 +1,21 @@
 Student,Module,Section,Completed,Date
-student_test,Introduction to computer science,Introduction,False,2019-08-05
-student_test,Introduction to computer science,Introduction,False,2019-08-08
+shruti_test2,certificate_testing,CertificateSection,False,2019-08-01
+shruti_test2,testing,TestingSection,False,2019-08-01
+shruti_test2,certificate_testing,CertificateSection,True,2019-08-02
+shruti_test2,testing,TestingSection,False,2019-08-02
+shruti_test2,Introduction to computer science,Introduction,False,2019-08-02
+shruti_test2,Introduction to computer science,Introduction,False,2019-08-03
+shruti_test2,certificate_testing,CertificateSection,True,2019-08-03
+shruti_test2,testing,TestingSection,False,2019-08-03
+shruti_test2,Introduction to computer science,Introduction,False,2019-08-04
+shruti_test2,certificate_testing,CertificateSection,True,2019-08-04
+shruti_test2,testing,TestingSection,False,2019-08-04
+shruti_test2,Introduction to computer science,Introduction,False,2019-08-05
+shruti_test2,certificate_testing,CertificateSection,True,2019-08-05
+shruti_test2,testing,TestingSection,False,2019-08-05
+shruti_test2,Introduction to computer science,Introduction,False,2019-08-06
+shruti_test2,certificate_testing,CertificateSection,True,2019-08-06
+shruti_test2,testing,TestingSection,False,2019-08-06
+shruti_test2,Introduction to computer science,Introduction,False,2019-08-08
+shruti_test2,certificate_testing,CertificateSection,True,2019-08-08
+shruti_test2,testing,TestingSection,False,2019-08-08
