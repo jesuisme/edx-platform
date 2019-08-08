@@ -953,7 +953,7 @@ def student_dashboard(request):
             cohorts_data = {}                  
 
         cohort_module_details = os.path.join(str(data_folder), "cohort_details.csv")
-        with open(cohort_module_details, 'wb') as cohort_module_csv:
+        with open(cohort_module_details, 'w') as cohort_module_csv:
             cohort_writer_module = csv.writer(cohort_module_csv)
             fieldnames = ['cohort','organization','not started', 'started', 'completed']
             cohort_writer_module = csv.DictWriter(cohort_module_csv, fieldnames=fieldnames)
@@ -982,7 +982,7 @@ def student_dashboard(request):
         from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 
         badge_module = os.path.join(str(data_folder), "student_badges.csv")
-        with open(badge_module, 'wb') as badge_csvfile_module: 
+        with open(badge_module, 'w') as badge_csvfile_module: 
             student_badges_dict = {}
 
             badge_writer_module = csv.writer(badge_csvfile_module)
