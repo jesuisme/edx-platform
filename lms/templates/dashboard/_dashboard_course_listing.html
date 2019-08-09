@@ -60,15 +60,15 @@ last_accessed = {}
   
   %>
   % if course_sections is not None:
-    % for section in course_sections:  
+    % for section in course_sections:       
 
-      % if section['display_name']:       
-      <%      
-      students_data_dict['section_name'] = section['display_name']
-      students_data_dict['completed'] = section['complete']
+      % if section.get('display_name'):       
+        <%      
+        students_data_dict['section_name'] = section['display_name']
+        students_data_dict['completed'] = section['complete']
 
-      total_sections_display.extend([{'section_name': section['display_name'],'completed': section['complete']}])
-      %> 
+        total_sections_display.extend([{'section_name': section['display_name'],'completed': section['complete']}])
+        %> 
       % endif     
 
       <%       
@@ -121,23 +121,26 @@ length_total_list = len(total_value_list)
 %>
 
 
-<%
-  student_details = StudentCourseDetails.objects.filter(user=user,module_name=course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today()).exists()
-%>
+% if 'section_name' and 'completed' in students_data_dict.keys():
+  <%
+    student_details = StudentCourseDetails.objects.filter(user=user,module_name=course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today()).exists()
+  %>
 
-% if student_details:
-  <%
-  student_courses = StudentCourseDetails.objects.get(user=user,module_name=course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today())
-  student_courses.completed = students_data_dict['completed']
-  student_courses.save()
-  %>
-% else:
-  <%
-   StudentCourseDetails.objects.create(user=user,module_name=course_overview.display_name_with_default,section=students_data_dict['section_name'],completed=students_data_dict['completed'])  
-  %>
+  % if student_details:
+    <%
+    student_courses = StudentCourseDetails.objects.get(user=user,module_name=course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today())
+    student_courses.completed = students_data_dict['completed']
+    student_courses.save()
+    %>
+  % else:
+    <%
+     StudentCourseDetails.objects.create(user=user,module_name=course_overview.display_name_with_default,section=students_data_dict['section_name'],completed=students_data_dict['completed'])  
+    %>
+  % endif
+
+  <% students_data_dict = {} %>
+
 % endif
-
-<% students_data_dict = {} %>
 
 
 
