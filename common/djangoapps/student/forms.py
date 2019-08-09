@@ -375,7 +375,6 @@ class OrganizationRegistrationForm(forms.ModelForm):
         organization_name1 = organization_name.lower()
         pattern_org_name ='^[a-z_ ]*$'
         result = re.match(pattern_org_name,organization_name1)
-        print("organi name-----",result)
         if not result:
             raise forms.ValidationError("Organization should contain only alphabets!")
         return organization_name
@@ -386,7 +385,6 @@ class OrganizationRegistrationForm(forms.ModelForm):
         first_name_1 = first_name.lower()
         pattern_org_name = '^[a-z_ ]*$'        
         name_result = re.match(pattern_org_name,first_name_1)
-        print("first name---",name_result)
         if not name_result:
             raise forms.ValidationError("First Name should contain only alphabets!")
         return first_name
@@ -397,7 +395,6 @@ class OrganizationRegistrationForm(forms.ModelForm):
         last_name_1 = last_name.lower()
         pattern_org_name = '^[a-z_ ]*$'
         last_result = re.match(pattern_org_name,last_name_1)
-        print("last name----",last_result)
         if not last_result:
             raise forms.ValidationError("Last Name should contain only alphabets!")
         return last_name
@@ -408,7 +405,6 @@ class OrganizationRegistrationForm(forms.ModelForm):
         job_title1 = job_title.lower()
         pattern_org_name = '^[a-z_ ]*$'
         job_result = re.match(pattern_org_name,job_title1)
-        print("job title----",job_result)
         if not job_result:
             raise forms.ValidationError("Last Name should contain only alphabets!")
         return job_title
@@ -421,8 +417,6 @@ class OrganizationRegistrationForm(forms.ModelForm):
     #     organization_domain = self.cleaned_data.get('organization_domain')
     #     organization_email = self.cleaned_data.get('organization_email')
     #     domain_list = organization_email.split('@')[1]
-    #     print('domain----',domain_list)
-    #     print("org domain---",organization_domain)
     #     if organization_domain not in domain_list:
     #         raise forms.ValidationError("Please Enter valid domain or valid email address")
     #     return organization_domain
@@ -433,7 +427,6 @@ class OrganizationRegistrationForm(forms.ModelForm):
         city1 = city.lower()
         pattern_org_name = '^[a-z_ ]*$'
         city_result = re.match(pattern_org_name,city1)
-        print("city result----",city_result)
         if not city_result:
             raise forms.ValidationError("City should contain only alphabets!")
         return city   

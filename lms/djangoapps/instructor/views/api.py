@@ -650,16 +650,6 @@ def students_update_enrollment(request, course_id):
     role = request.POST.get('role')
 
     allowed_role_choices = configuration_helpers.get_value('MANUAL_ENROLLMENT_ROLE_CHOICES',settings.MANUAL_ENROLLMENT_ROLE_CHOICES)
-    print("allowed_role_choices====%s====" % allowed_role_choices)
-    print("allowed_role_choices====%s====" % type(allowed_role_choices))
-    print("course id mmmmmmm======%s-------" % course_id)
-    print("action id mmmmmmm======%s-------" % action)
-    print("identifiers_raw id mmmmmmm======%s-------" % identifiers_raw)
-    print("identifiers id mmmmmmm======%s-------" % identifiers)
-    print("auto_enroll id mmmmmmm======%s-------" % auto_enroll)
-    print("email_students id mmmmmmm======%s-------" % email_students)
-    print("reason id mmmmmmm======%s-------" % reason)
-    print("role id mmmmmmm======%s-------" % role)
     if role and role not in allowed_role_choices:
         return JsonResponse(
             {
@@ -758,12 +748,6 @@ def students_update_enrollment(request, course_id):
             })
 
         else:
-            print("manuallly===============%s==" % request.user)
-            print("email==============%s===" % email)
-            print("state_transition===============%s==" % state_transition)
-            print("reason===============%s==" % reason)
-            print("enrollment_obj==============%s===" % enrollment_obj)
-            print("role==============%s===" % role)
             ManualEnrollmentAudit.create_manual_enrollment_audit(
                 request.user, email, state_transition, reason, enrollment_obj, role
             )

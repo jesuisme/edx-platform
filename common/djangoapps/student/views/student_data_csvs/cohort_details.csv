@@ -1,4 +1,4 @@
 cohort,organization,not started,started,completed
-testing_coherts,lumina,1,0,2
-certificate_coherts,lumina,0,0,1
-introduction_computers,lumina,2,1,0
+demo_testing,example,5,4,0
+certificate_cohort,example,2,0,1
+testing_progress,example,0,0,1

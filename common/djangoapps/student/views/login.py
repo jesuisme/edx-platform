@@ -437,7 +437,6 @@ def login_user(request):
     """
     AJAX request to log in the user.
     """
-    print('in the login_user method-----')
     third_party_auth_requested = third_party_auth.is_enabled() and pipeline.running(request)
     trumped_by_first_party_auth = bool(request.POST.get('email')) or bool(request.POST.get('password'))
     was_authenticated_third_party = False
@@ -485,7 +484,6 @@ def login_user(request):
             redirect_url = pipeline.get_complete_url(backend_name=running_pipeline['backend'])
 
         
-        print('response in login user-----',redirect_url)
 
         response = JsonResponse({
             'success': True,
@@ -546,8 +544,6 @@ def login_oauth_token(request, backend):
 @ensure_csrf_cookie
 def signin_user(request):
     """Deprecated. To be replaced by :class:`student_account.views.login_and_registration_form`."""
-    print("in the signin user method-------")
-    print("in the sign in user---",request.user)
     
     external_auth_response = external_auth_login(request)
     if external_auth_response is not None:
@@ -555,7 +551,6 @@ def signin_user(request):
     # Determine the URL to redirect to following login:
     redirect_to = get_next_url_for_login_page(request)
     if request.user.is_authenticated:
-        print("user is authenticated----in sign in user-----")
         return redirect(redirect_to)
 
     third_party_auth_error = None
@@ -579,7 +574,6 @@ def signin_user(request):
         'third_party_auth_error': third_party_auth_error
     }
 
-    print("----last-------singn in ------",context)
     return render_to_response('login.html', context)
 
 
