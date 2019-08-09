@@ -91,8 +91,7 @@ def _create_admin_dashboard_app(request,admin_organization):
     userprofile_list_2 = []
     facilitator_assigned = []
 
-    if df_cohorts is not None and admin_organization == str(df_cohorts['organization'][0]):
-
+    if df_cohorts is not None: 
         cohort_options_set = list(set(df_cohorts["cohort"]))
         cohort_dict = [{'label': val, 'value': val} for val in cohort_options_set]
         on_graph = []
