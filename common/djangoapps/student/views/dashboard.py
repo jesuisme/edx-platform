@@ -892,7 +892,11 @@ def student_dashboard(request):
     if user.is_staff and staff_organization is not None:
 
         total_cohort_list = []
-        cohorts_data = {} 
+        cohorts_data = {}  
+
+        cohorts_only_dict = []
+
+        cohort_cohert = None       
 
         organization_name = OrganizationRegistration.objects.get(organization_name=staff_organization)
         cohorts = CohertsOrganization.objects.filter(organization=organization_name)
@@ -904,7 +908,14 @@ def student_dashboard(request):
 
             cohort_ob = CohertsOrganization.objects.get(coherts_name=cohort_l, organization=organization_name)
             
-            cohort_user_val = CohertsUserGradeRecords.objects.filter(coherts_name=cohort_ob)                
+            cohort_user_val = CohertsUserGradeRecords.objects.filter(coherts_name=cohort_ob)  
+
+            if not cohort_user_val:
+                try:
+                    cohort_cohert = CohertsOrganization.objects.get(coherts_name=cohort_l, organization=organization_name).coherts_name
+                except:
+                    cohort_ob = None
+
 
             for cohorts_user_value in cohort_user_val:
                 key = cohort_l
@@ -952,6 +963,7 @@ def student_dashboard(request):
             cohorts_data_list.append(cohorts_data)            
             cohorts_data = {}                  
 
+
         cohort_module_details = os.path.join(str(data_folder), "cohort_details.csv")
         with open(cohort_module_details, 'w') as cohort_module_csv:
             cohort_writer_module = csv.writer(cohort_module_csv)
@@ -960,6 +972,8 @@ def student_dashboard(request):
             cohort_writer_module.writeheader()
             for cohort_values_list in cohorts_data_list:
                 for cohort_key,cohort_value in cohort_values_list.items():
+                    cohorts_only_dict.append(cohort_key)
+
                     res = Counter(cohort_value)
                     cohort_a = {'cohort': cohort_key, 'organization': staff_organization}
                     cohort_b = dict(res)
@@ -974,6 +988,16 @@ def student_dashboard(request):
                     Merge(cohort_c,cohort_b)
                     Merge(cohort_a,cohort_b)
                     cohort_writer_module.writerow(cohort_b)
+
+            empty_cohort = list(set(total_cohort_list) - set(cohorts_only_dict))
+
+            if empty_cohort:
+                for emp_cohort in empty_cohort:
+                    empty_cohort_dict = {'cohort': emp_cohort, 'organization': staff_organization, 'not started': 0, 'completed': 0, 'started': 0}
+                    cohort_writer_module.writerow(empty_cohort_dict)
+
+                empty_cohort_dict = {}
+
 
     elif staff_organization and not user.is_staff:
 
