@@ -33,6 +33,7 @@ from student.models import (
     StudentCourseDetails,
     StudentCourseViews,
     StudentModuleViews,
+    ManualEnrollmentAudit
     
 )
 from student.roles import REGISTERED_ACCESS_ROLES
@@ -379,5 +380,15 @@ class StudentModuleViewsAdmin(admin.ModelAdmin):
 
     class Meta(object):
         model = StudentModuleViews
+
+
+@admin.register(ManualEnrollmentAudit)
+class ManualEnrollmentAuditAdmin(admin.ModelAdmin):
+    """ Admin interface for the ManualEnrollmentAudit model. """
+    list_display = ('enrolled_by', 'enrolled_email', 'state_transition', 'role')
+    readonly_fields = ['time_stamp']    
+
+    class Meta(object):
+        model = ManualEnrollmentAudit
 
 

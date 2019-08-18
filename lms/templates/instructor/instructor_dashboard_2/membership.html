@@ -24,6 +24,19 @@ from openedx.core.djangolib.markup import HTML, Text
         </label>
     </div>
 
+    <div class="cohort_name">
+        <label>
+            ${_("Select Cohort:")}
+            <select name="cohort_name">
+                % if 'cohort_choices' in section_data:
+                  % for cohort_name in section_data['cohort_choices']:
+                    <option value="${cohort_name}">${cohort_name}</option>
+                  % endfor
+                % endif
+            </select>
+        </label>
+    </div>
+
     <label>
         ${_("Enter the reason why the students are to be manually enrolled or unenrolled.")}
         ${_("This cannot be left blank and will be recorded and presented in Enrollment Reports.")}
@@ -72,7 +85,9 @@ from openedx.core.djangolib.markup import HTML, Text
 
   <div class="auto_enroll auto_enroll_csv membership-section">
     <h3 class="hd hd-3">${_("Register/Enroll Students")}</h3>
-    <p>${_("To register and enroll a list of users in this course, choose a CSV file that contains the following columns in this exact order: email, username, name, and country. Please include one student per row and do not include any headers, footers, or blank lines.")}</p>
+
+    <p><b>${_("Note: To register and enroll a list of users in this course, choose a CSV file that contains the following columns in this exact order: email, username, name, country and cohort name.")}</b></p>
+    <p><b>${_("Please include one student per row and do not include any headers, footers, or blank lines.")}</b></p>
     <form id="student-auto-enroll-form" method="post" action="${ section_data['upload_student_csv_button_url'] }" enctype="multipart/form-data">
       <div class="customBrowseBtn">
         <label for="browseBtn-auto-enroll">${_("Upload a CSV for bulk enrollment")}</label>

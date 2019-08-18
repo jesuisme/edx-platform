@@ -5,6 +5,7 @@ Instructor Dashboard Views
 import datetime
 import logging
 import uuid
+import ast
 
 import pytz
 from django.conf import settings
@@ -137,7 +138,7 @@ def instructor_dashboard_2(request, course_id):
     
     sections = [
         _section_course_info(course, access),
-        _section_membership(course, access),
+        _section_membership(request, course, access),
         _section_cohort_management(course, access),
         _section_discussions_management(course, access),
         _section_student_admin(course, access),
@@ -497,12 +498,19 @@ def _section_course_info(course, access):
     return section_data
 
 
-def _section_membership(course, access):
+def _section_membership(request, course, access):
     """ Provide data for the corresponding dashboard section """
     course_key = course.id
     ccx_enabled = settings.FEATURES.get('CUSTOM_COURSES_EDX', False) and course.enable_ccx
     enrollment_role_choices = configuration_helpers.get_value('MANUAL_ENROLLMENT_ROLE_CHOICES',
                                                               settings.MANUAL_ENROLLMENT_ROLE_CHOICES)
+    cohort_names_list = []
+
+    try:
+        staff_organization = UserProfile.objects.get(user=request.user).organization
+        organization_staff = OrganizationRegistration.objects.get(organization_name=staff_organization)        
+    except OrganizationRegistration.DoesNotExist:
+        organization_staff = None
 
     section_data = {
         'section_key': 'membership',
@@ -519,6 +527,23 @@ def _section_membership(course, access):
         'update_forum_role_membership_url': reverse('update_forum_role_membership', kwargs={'course_id': unicode(course_key)}),
         'enrollment_role_choices': enrollment_role_choices
     }
+
+
+    if organization_staff:
+        cohort_names_org = CohertsOrganization.objects.filter(organization=organization_staff)
+
+        if cohort_names_org:
+            for coherts_object in cohort_names_org:
+                coherts_l = coherts_object.course_list
+                lq = ast.literal_eval(coherts_l)
+
+                for list_item in range(len(lq)):
+                    course_key_new = CourseKey.from_string(str(lq[list_item]))
+                    if course_key_new == course_key:
+                        cohort_names_list.append(coherts_object.coherts_name)  
+        section_data['cohort_choices'] = cohort_names_list
+
+    log.info("Section DAta COnatins---%s----"% section_data)
     return section_data
 
 
