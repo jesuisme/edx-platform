@@ -389,6 +389,12 @@ such that the value can be defined later than this assignment (file load order).
                 );
             };
             if (errors.length) {
+                console.log("errors:",errors)
+                console.log("errors are:",errors[0]['response']);
+                console.log("cohort err--",(typeof errors[0]['response']));
+                if (errors[0]['response'] == "Cohort Name is not Registered for this course.") {
+                    $('.cohort-register-error').html("Click <a href='/ut_new/ut_coherts/'>here</a> to register cohort.");
+                }
                 renderResponse(gettext('Errors'),
                     gettext('The following errors were generated:'), 'error', errors
                 );
@@ -627,7 +633,8 @@ such that the value can be defined later than this assignment (file load order).
 
                 if (!batchEnroll.$cohort_name.val()) {
                     $(batchEnroll.$test).css("display","none");
-                    batchEnroll.fail_with_error(gettext('Cohort field should not be left unselected.'));
+                    $('.request-cohort-error').html("Cohort field should not be left unselected. Click <a href='/ut_new/ut_coherts/'>here</a> to register cohort.");
+                    // batchEnroll.fail_with_error(gettext('cohort error'));
                     return false;
                 }
 

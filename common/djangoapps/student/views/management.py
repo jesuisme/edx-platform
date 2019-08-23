@@ -459,16 +459,12 @@ def activate(request, uid, token):
     except Exception as e:
         log.info("exception=====%s-------" % e)
 
-    # print('outside=-=====')
-    # print('post===',post)
-
 
     if post is not None and account_activation_token.check_token(post, token):
 
         post.is_active = True
         
         post.save()
-
 
         string_msg = _('Successfully Registered')
         messages.add_message(request, messages.SUCCESS, string_msg)
@@ -486,7 +482,6 @@ def register_user(request, extra_context=None):
     Deprecated. To be replaced by :class:`student_account.views.login_and_registration_form`.
     """
     # Determine the URL to redirect to following login:
-    # AUDIT_LOG.info("REGISTER USER-----")
     redirect_to = get_next_url_for_login_page(request)
     if request.user.is_authenticated:
         return redirect(redirect_to)
@@ -501,7 +496,6 @@ def register_user(request, extra_context=None):
     organization_obj = OrganizationRegistration.objects.all()
     for row in organization_obj.iterator():
         if row.is_active:
-            # AUDIT_LOG.info("CONTEXT objecttsssss---------------- %s--------" % row.organization_name)
             active_organization_list.append(row.organization_name)
 
     student_list.append('Student')
@@ -933,7 +927,6 @@ def create_account_with_params(request, params):
     """
     # Copy params so we can modify it; we can't just do dict(params) because if
     # params is request.POST, that results in a dict containing lists of values
-    log.info("==create account with param====%s----" % params)
     params = dict(params.items())
 
     # allow to define custom set of required/optional/hidden fields via configuration
@@ -1286,10 +1279,8 @@ def default_username(first_name):
         default_username = ''.join([choice(chars) for i in range(10)])
         set_default_username = "{}{}".format(first_name,default_username)
         if User.objects.filter(username=set_default_username).count():
-            AUDIT_LOG.info("inside default user if---------")
             pass
         else:
-            AUDIT_LOG.info("inside default user else fgnghj fjgh fjh fjh---------")
             break
     return set_default_username
 
@@ -1371,7 +1362,6 @@ def create_account(request, post_override=None):
     selected_organization = request.POST.getlist('organization')
     # if selected_organization[0] == "Student":
     if selected_organization[0] == "on":
-        # print("==selected_organization[1]====%s----"% selected_organization[1])
         if selected_organization[1]:
             organization_object = OrganizationRegistration.objects.get(organization_name=selected_organization[1])
             organization_mail = organization_object.organization_email
@@ -1412,7 +1402,6 @@ def create_account(request, post_override=None):
         'redirect_url': redirect_url,
     })
 
-    AUDIT_LOG.info("lastt create account=============== %s---------" % response)
     set_logged_in_cookies(request, response, user)
     return response
 

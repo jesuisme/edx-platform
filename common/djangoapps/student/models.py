@@ -649,7 +649,6 @@ def user_post_save_callback(sender, **kwargs):
 
                 manual_enrollment_audit = ManualEnrollmentAudit.get_manual_enrollment_by_email(user.email)
 
-                log.info("manual_enrollment_audit-----%s-----"% manual_enrollment_audit)
                
                 if manual_enrollment_audit is not None:
                     # get the enrolled by user and reason from the ManualEnrollmentAudit table.
@@ -669,11 +668,6 @@ def user_post_save_callback(sender, **kwargs):
 
                         if update_manual_enrollment:  
 
-                            log.info("enrolled_by----%s----"% update_manual_enrollment.enrolled_by)
-                            log.info("enrolled_email----%s----"% update_manual_enrollment.enrolled_email)
-                            log.info("coherts_name----%s----"% update_manual_enrollment.coherts_name)
-                            log.info("organization_name----%s----"% update_manual_enrollment.organization_name)
-
                             userprof = UserProfile.objects.get(user=update_manual_enrollment.enrolled_by)
                             learner_user = User.objects.get(email=update_manual_enrollment.enrolled_email)
                             orgregs = OrganizationRegistration.objects.get(organization_name=update_manual_enrollment.organization_name)
@@ -684,7 +678,6 @@ def user_post_save_callback(sender, **kwargs):
                                 learner_userprofile_obj.save()
                                 
                             if not CohertsUserDetail.objects.filter(learner=learner_user, instructor=userprof, coherts_name=update_manual_enrollment.coherts_name, organization=orgregs).exists():
-                                log.info("create cohert user detail----")
                                 CohertsUserDetail.objects.create(learner=learner_user, instructor=userprof, coherts_name=update_manual_enrollment.coherts_name, organization=orgregs)
                             update_manual_enrollment.state_transition = ALLOWEDTOENROLL_TO_ENROLLED
                             update_manual_enrollment.save()
@@ -2988,7 +2981,6 @@ class OrganizationRegistration(models.Model):
         UserPreference.objects.filter(user=user).delete()
         user.delete()
         user_profile_field.delete()
-        AUDIT_LOG.info("Delete in student organization models.......")       
         super(OrganizationRegistration, self).delete()
 
 class CohertsOrganization(models.Model):
@@ -3185,17 +3177,12 @@ class ManualEnrollmentAudit(models.Model):
         try:
             user_ob = User.objects.get(email=email)
         except User.DoesNotExist:
-            log.info("in the else user objects---")
             user_ob = None
 
         if user_ob:
-            log.info("in user ob---")
-            log.info("cohort name---%s----"% cohort_name)
-            log.info("cohort_organization---%s----"% cohort_organization)
 
             if UserProfile.objects.filter(user=user).exists() and CohertsOrganization.objects.filter(coherts_name=cohort_name.coherts_name).exists() and OrganizationRegistration.objects.filter(organization_name=cohort_organization):
                 
-                log.info("INSIDE THE IF STATEMENT TO CREATE----")
                 userprof = UserProfile.objects.get(user=user)
                 cohertorg = CohertsOrganization.objects.get(coherts_name=cohort_name.coherts_name)
                 orgregs = OrganizationRegistration.objects.get(organization_name=cohort_organization)
@@ -3206,22 +3193,18 @@ class ManualEnrollmentAudit(models.Model):
                 except:
                     userprof_learner = None
 
-                log.info('userprof learner-----%s----'% userprof_learner)
 
                 if userprof_learner:
-                    log.info("in the learner org-----%s-----"% cohort_organization)
-
                     userprof_learner.organization = str(cohort_organization)
                     userprof_learner.save()
 
 
                 if not CohertsUserDetail.objects.filter(learner=user_ob, instructor=userprof, coherts_name=cohort_name, organization=orgregs).exists():
-                    log.info("create cohert user detail----")
                     CohertsUserDetail.objects.create(learner=user_ob, instructor=userprof, coherts_name=cohort_name, organization=orgregs)                
             else:
-                log.info("in the else of statement of not create")
+                log.info("Else of statement of not create")
         else:
-            log.info("USER DOES NOT EXISTSSS-----")
+            log.info("USER DOES NOT EXISTS-")
 
         return manual_enrollment
 

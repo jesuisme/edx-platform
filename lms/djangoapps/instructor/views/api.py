@@ -320,7 +320,6 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
     -If the username already exists (but not the email), assume it is a different user and fail to create the new account.
      The failure will be messaged in a response in the browser.
     """
-    log.info("ENROLL STUDENTS USING CSV-----")
     
     if not configuration_helpers.get_value(
             'ALLOW_AUTOMATED_SIGNUPS',
@@ -350,7 +349,6 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
             if upload_file.name.endswith('.csv'):
                 students = [row for row in csv.reader(upload_file.read().splitlines())]
 
-                log.info("STUDENTS-----%s-----"% students)
 
                 course = get_course_by_id(course_id)
             else:
@@ -387,9 +385,6 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
             name = student[NAME_INDEX]
             country = student[COUNTRY_INDEX][:2]
             cohort_name = student[COHORT_NAME]
-
-            log.info("cohort name----%s----"% cohort_name)
-
 
             try:
                 staff_organization = UserProfile.objects.get(user=request.user).organization
@@ -433,8 +428,6 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                             if course_key_new == course_id:
                                 cohort_names_list.append(coherts_object.coherts_name) 
 
-            log.info("COHORT NAME LIST----%s-----"% cohort_names_list)
-            log.info("cohort name----%s----"% cohort_name)
             
             if cohort_names_list:
                 for cohort_name_ls in cohort_names_list: 
@@ -733,7 +726,7 @@ def students_update_enrollment(request, course_id):
     }
     """
 
-    log.info('students_update_enrollment-------')
+   
 
     course_id = CourseKey.from_string(course_id)
     action = request.POST.get('action')
@@ -746,17 +739,6 @@ def students_update_enrollment(request, course_id):
     cohort_name = request.POST.get('cohort_name')
 
     allowed_role_choices = configuration_helpers.get_value('MANUAL_ENROLLMENT_ROLE_CHOICES',settings.MANUAL_ENROLLMENT_ROLE_CHOICES)
-    log.info("allowed_role_choices====%s====" % allowed_role_choices)
-    log.info("allowed_role_choices====%s====" % type(allowed_role_choices))
-    log.info("course id mmmmmmm======%s-------" % course_id)
-    log.info("action id mmmmmmm======%s-------" % action)
-    log.info("identifiers_raw id mmmmmmm======%s-------" % identifiers_raw)
-    log.info("identifiers id mmmmmmm======%s-------" % identifiers)
-    log.info("auto_enroll id mmmmmmm======%s-------" % auto_enroll)
-    log.info("email_students id mmmmmmm======%s-------" % email_students)
-    log.info("reason id mmmmmmm======%s-------" % reason)
-    log.info("role id mmmmmmm======%s-------" % role)
-    log.info("cohort name----%s---"% cohort_name)
 
     if role and role not in allowed_role_choices:
         return JsonResponse(
@@ -794,8 +776,6 @@ def students_update_enrollment(request, course_id):
             # simply that it is plausibly valid)
             validate_email(email)  # Raises ValidationError if invalid
             if action == 'enroll':
-                log.info("Action is enroll----")
-
                 before, after, enrollment_obj = enroll_email(
                     course_id, email, auto_enroll, email_students, email_params, language=language
                 )
@@ -858,23 +838,15 @@ def students_update_enrollment(request, course_id):
             })
 
         else:
-            log.info("manuallly===============%s==" % request.user)
-            log.info("email==============%s===" % email)
-            log.info("state_transition===============%s==" % state_transition)
-            log.info("reason===============%s==" % reason)
-            log.info("enrollment_obj==============%s===" % enrollment_obj)
-            log.info("role==============%s===" % role)
-
             try:
                 cohort_org_name = CohertsOrganization.objects.get(coherts_name=cohort_name)
                 cohort_organization = cohort_org_name.organization.organization_name
             except CohertsOrganization.DoesNotExist:
                 cohort_org_name = None         
 
-            a_tesss = ManualEnrollmentAudit.create_manual_enrollment_audit(
+            ManualEnrollmentAudit.create_manual_enrollment_audit(
                 request.user, email, state_transition, cohort_org_name, cohort_organization, reason, enrollment_obj, role
             )
-            log.info("CHEDEWEWFWEFE----%s-----"% a_tesss)
             results.append({
                 'identifier': identifier,
                 'before': before.to_dict(),
