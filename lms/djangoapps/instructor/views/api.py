@@ -418,7 +418,6 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
 
             if organization_staff:
                 cohort_names_org = CohertsOrganization.objects.filter(organization=organization_staff)
-
                 if cohort_names_org:
                     for coherts_object in cohort_names_org:
                         coherts_l = coherts_object.course_list
@@ -428,20 +427,19 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                             if course_key_new == course_id:
                                 cohort_names_list.append(coherts_object.coherts_name) 
 
-            
+
             if cohort_names_list:
-                for cohort_name_ls in cohort_names_list: 
-                    if str(cohort_name) == str(cohort_name_ls):
-                        final_cohort_name = CohertsOrganization.objects.get(coherts_name=cohort_name)
-                    else:                        
-                        general_errors.append({
-                            'username': '', 'email': '', 'response': _('Cohort Name in CSV and Cohort Name Registered for this course does not Match. Cohort Name Registered is %s'% cohort_name_ls) })   
-                        results = {
-                            'row_errors': row_errors,
-                            'general_errors': general_errors,
-                            'warnings': warnings
-                        }
-                        return JsonResponse(results)  
+                if any(cohort_name_ls in cohort_name for cohort_name_ls in cohort_names_list):
+                    final_cohort_name = CohertsOrganization.objects.get(coherts_name=cohort_name)
+                else:
+                    general_errors.append({                        
+                        'username': '', 'email': '', 'response': _('Cohort Name in CSV and Cohort Name Registered for this course does not Match. Cohort Name Registered for this course:  %s'% ', '.join(cohort_names_list)) })   
+                    results = {
+                        'row_errors': row_errors,
+                        'general_errors': general_errors,
+                        'warnings': warnings
+                    }
+                    return JsonResponse(results)  
             else:
                 general_errors.append({
                             'username': '', 'email': '', 'response': _('Cohort Name is not Registered for this course.') })
