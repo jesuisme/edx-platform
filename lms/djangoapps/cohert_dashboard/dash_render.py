@@ -361,7 +361,7 @@ def _create_admin_dashboard_app(request,admin_organization):
                                                 'title': '<b>Cohort progress</b>',
                                                 'barmode': 'stack',
                                                 'xaxis' : {
-                                                    'title': '<b>Cohorts</b>',
+                                                    'title': '<b>Cohorts</b>',                                                    
                                                 },
                                                 'yaxis': {
                                                     'title': '<b>Learners</b>',

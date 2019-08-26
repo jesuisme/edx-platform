@@ -401,19 +401,19 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                 }
                 return JsonResponse(results)
 
-            try:
-                cohort_org_name = CohertsOrganization.objects.get(coherts_name=cohort_name)
-            except CohertsOrganization.DoesNotExist:
-                cohort_org_name = None
-                general_errors.append({
-                    'username': '', 'email': '', 'response': _('Register the Cohort.')
-                })
-                results = {
-                    'row_errors': row_errors,
-                    'general_errors': general_errors,
-                    'warnings': warnings
-                }
-                return JsonResponse(results)  
+            # try:
+            #     cohort_org_name = CohertsOrganization.objects.get(coherts_name=cohort_name)
+            # except CohertsOrganization.DoesNotExist:
+            #     cohort_org_name = None
+            #     general_errors.append({
+            #         'username': '', 'email': '', 'response': _('Register the Cohort.')
+            #     })
+            #     results = {
+            #         'row_errors': row_errors,
+            #         'general_errors': general_errors,
+            #         'warnings': warnings
+            #     }
+            #     return JsonResponse(results)  
 
 
             if organization_staff:
