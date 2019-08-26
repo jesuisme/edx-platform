@@ -126,14 +126,14 @@ def _create_admin_dashboard_app(request,admin_organization):
 
             completed_pie = (cohorts_data.loc[cohorts_detail,['completed']]/ total) * 100
             track_pie = cohorts_data.loc[cohorts_detail,['completed','started']].sum() 
-
-
             perform_track_pie_graph.append(float(track_pie))
             on_graph.append(round(float(completed_pie),2))
             final_total.append(total)
 
         try:
-            on_track = round(sum(on_graph)/ len(on_graph),2)
+            track_v = np.nansum(on_graph)
+            track_t = round(np.nansum(on_graph)/ len(on_graph),2)
+            on_track = track_t
         except:
             on_track = 0
 
