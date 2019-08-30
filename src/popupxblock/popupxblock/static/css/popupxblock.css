@@ -210,7 +210,7 @@ div.patient_desc {
     transform: translate(0%,-50%);
     -ms-transform: translate(0%,-50%);
 }
-.col-sm-4 p {
+.col_sm_4 p {
     font-size: 15px !important;
     font-family: "GothamHTF-Medium";
     overflow: hidden;
@@ -219,7 +219,7 @@ div.patient_desc {
     justify-content: center;
     font-weight: bold;
 }
-.col-sm-4 {
+.col_sm_4 {
   background-color:#535B72;;
   float: left;
   height: 60px;
@@ -231,11 +231,11 @@ div.patient_desc {
 
 }
 
-.col-sm-3 {
+.col_sm_3 {
     float: left;
     width: 30%;
 }
-.col-sm-9 {
+.col_sm_9 {
   float: left;
   width: 70%;
 }
