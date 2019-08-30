@@ -489,7 +489,7 @@ def _create_admin_dashboard_app(request,admin_organization):
                             html.Img(
                                 src="https://files.edx.org/openedx-logos/edx-openedx-logo-tag.png",
                                 alt="Powered by Open edX", 
-                                width="140"  
+                                width="100"  
                             )
                         ],href="http://open.edx.org")
                     )
@@ -633,7 +633,7 @@ def _create_student_dashboard_app(request,admin_organization):
                 html.Div([                     
                     
                 ], id='student-dropdown', style={"width": "25%"}),
-                html.Div(id="student-container", style={"width": "200%"}),   
+                html.Div(id="student-container", style={"width": "100%"}),   
               
             ], style={"width": "100%", "display": "table", "margin-top": "7px"}),
 

@@ -641,6 +641,7 @@ def auto_auth(request):
     # Parse roles, stripping whitespace, and filtering out empty strings
     roles = _clean_roles(request.GET.get('roles', '').split(','))
     course_access_roles = _clean_roles(request.GET.get('course_access_roles', '').split(','))
+    log.info("LOGIN.PY COurse ACCESS ROLES---%s--"% course_access_roles)
 
     redirect_when_done = str2bool(request.GET.get('redirect', '')) or redirect_to
     login_when_done = 'no_login' not in request.GET
@@ -705,7 +706,9 @@ def auto_auth(request):
             assign_role(course_key, user, role)
 
         for role in course_access_roles:
-            CourseAccessRole.objects.update_or_create(user=user, course_id=course_key, org=course_key.org, role=role)
+            log.info("course_access_roles--Update or Create---")
+            value_course_access = CourseAccessRole.objects.update_or_create(user=user, course_id=course_key, org=course_key.org, role=role)
+            log.info("value_course_access---%s---"% value_course_access)
 
     # Log in as the user
     if login_when_done:
