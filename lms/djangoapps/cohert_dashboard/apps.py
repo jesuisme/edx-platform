@@ -6,3 +6,4 @@ from django.apps import AppConfig
 
 class DashboardConfig(AppConfig):
     name = 'cohert_dashboard'
+

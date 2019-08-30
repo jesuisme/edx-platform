@@ -389,6 +389,12 @@ such that the value can be defined later than this assignment (file load order).
                 );
             };
             if (errors.length) {
+                console.log("errors:",errors)
+                console.log("errors are:",errors[0]['response']);
+                console.log("cohort err--",(typeof errors[0]['response']));
+                if (errors[0]['response'] == "Cohort Name is not Registered for this course.") {
+                    $('.cohort-register-error').html("Click <a href='/ut_new/ut_coherts/'>here</a> to register cohort.");
+                }
                 renderResponse(gettext('Errors'),
                     gettext('The following errors were generated:'), 'error', errors
                 );
@@ -595,6 +601,7 @@ such that the value can be defined later than this assignment (file load order).
             this.$container = $container;
             this.$identifier_input = this.$container.find("textarea[name='student-ids']");
             this.$role = this.$container.find("select[name='role']");
+            this.$cohort_name = this.$container.find("select[name='cohort_name']");
             this.$enrollment_button = this.$container.find('.enrollment-button');
             this.$reason_field = this.$container.find("textarea[name='reason-field']");            
             this.$checkbox_autoenroll = this.$container.find("input[name='auto-enroll']");
@@ -624,11 +631,19 @@ such that the value can be defined later than this assignment (file load order).
                     return false;
                 }
 
+                if (!batchEnroll.$cohort_name.val()) {
+                    $(batchEnroll.$test).css("display","none");
+                    $('.request-cohort-error').html("Cohort field should not be left unselected. Click <a href='/ut_new/ut_coherts/'>here</a> to register cohort.");
+                    // batchEnroll.fail_with_error(gettext('cohort error'));
+                    return false;
+                }
+
                 emailStudents = batchEnroll.$checkbox_emailstudents.is(':checked');
                 sendData = {
                     action: $(event.target).data('action'),
                     identifiers: batchEnroll.$identifier_input.val(),
                     role: batchEnroll.$role.val(),
+                    cohort_name: batchEnroll.$cohort_name.val(),
                     auto_enroll: batchEnroll.$checkbox_autoenroll.is(':checked'),
                     email_students: emailStudents,
                     reason: batchEnroll.$reason_field.val()

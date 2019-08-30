@@ -1,0 +1,261 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: sans-serif;
+    background: #f7f7f7;
+}
+
+header {
+    position: relative;
+    width: 100%;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    margin: 0;
+    background: #fff;
+}
+
+header .inner {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 8px 20px;
+}
+
+.logo {
+    width: 250px;
+}
+
+.header-menu,
+.header-logo {
+    display: inline-block;
+}
+
+.header-menu {
+    float: right;
+}
+.header-menu ul{
+    padding: 10px 0;
+    margin: 0;
+}
+.header-menu li {
+    float: left;
+    list-style: none;
+    padding: 5px 10px;
+}
+
+.header-menu li a {
+    color: #424242;
+    text-decoration: none;
+}
+
+.container {
+    padding: 15px;
+}
+
+.width50 {
+    width: 50%;
+    position: relative;
+    min-height: 1px;
+    float: left;
+}
+
+.width25 {
+    width: auto;
+    position: relative;
+    min-height: 1px;
+    float: left;
+}
+
+.box {
+    border: 1px solid #4da3d2;
+    margin: 10px;
+    background: #fff;
+}
+
+.box .box-header {
+    border-bottom: 1px solid #ddd;
+    padding: 12px 10px;
+    background: #4da3d2;
+    color: #fff;
+}
+
+.box .box-header h4 {
+    padding: 0;
+    margin: 0;
+}
+
+.box .box-body {
+    padding: 10px;
+}
+
+.widget {
+    border: 1px solid #ddd;
+    margin: 10px;
+    position: relative;
+    margin-top: 40px;
+    background: #fff;
+    box-shadow: 5px 5px 5px #ddd;
+    padding: 10px;
+    min-width: 200px;
+}
+
+.widget .widget-header {
+    color: #424242;
+}
+
+.widget .widget-header .widget-header-icon {
+    background: #4DA3D2;
+    height: 70px;
+    width: 70px;
+    border-radius: 70px;
+    line-height: 70px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 35px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -35px;
+    color: #fff;
+}
+
+.widget .widget-body {
+    text-align: center;
+    margin-top: 35px;
+}
+
+.widget .widget-body .text {
+    font-size: 12px;
+}
+
+.widget .widget-body .number {
+    font-size: 25px;
+    margin: 10px 0 0 0;
+    color: #555;
+}
+
+.custom-row {
+    display: inline-block;
+    width: 100%;
+}
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.navbar a {
+  float: left;
+  font-size: 16px;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+.dropdown {
+  float: left;
+  overflow: hidden;
+}
+
+.dropdown .dropbtn {
+  font-size: 16px;  
+  border: none;
+  outline: none;
+  color: #312d2d;
+  padding: 8px 7px;
+  background-color: white;
+  font-family: inherit;
+  margin: 0;
+}
+
+.navbar a:hover, .dropdown:hover .dropbtn {
+  background-color: grey;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  right: 0;
+}
+
+.dropdown-content a {
+  float: none;
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+footer .colophon {
+    display: inline-block;
+    width: 65.88078%;
+}
+
+.colophon .nav-colophon {
+    margin: 5px 0 30px 0;
+}
+
+.colophon .nav-colophon li {
+    float: left;
+    margin-right: 15px;
+    list-style: none;
+}
+
+footer .wrapper-logo {
+    margin: 15px 0;
+}
+
+footer .copyright {
+    margin: -2px 0 8px 0;
+    font-size: 0.6875em;
+    color: #767676;
+    text-align: left;
+}
+
+footer .nav-legal li {
+    display: inline-block;
+    font-size: 0.6875em;
+    margin: 10px;
+}
+
+footer .nav-legal li a {
+    color: #0075b4;
+    text-decoration: none;
+}
+
+footer .nav-legal li a:hover {
+    border-bottom: 1px dotted #0075b4
+}
+
+footer ul,
+footer ol {
+    padding: 0;
+}
+
+footer .colophon .nav-colophon li a {
+    color: #333;
+    text-decoration: none;
+}
+
+footer .colophon .nav-colophon li a:hover {
+    color: #0075b4;
+}
+
+footer .footer-about-openedx {
+    display: inline-block;
+    width: 31.76157%;
+    text-align: right;
+    vertical-align: top;
+}
+

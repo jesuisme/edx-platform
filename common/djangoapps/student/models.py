@@ -648,17 +648,41 @@ def user_post_save_callback(sender, **kwargs):
                 enrollment = CourseEnrollment.enroll(user, cea.course_id)
 
                 manual_enrollment_audit = ManualEnrollmentAudit.get_manual_enrollment_by_email(user.email)
+
+               
                 if manual_enrollment_audit is not None:
                     # get the enrolled by user and reason from the ManualEnrollmentAudit table.
                     # then create a new ManualEnrollmentAudit table entry for the same email
                     # different transition state.
-                    ManualEnrollmentAudit.create_manual_enrollment_audit(
-                        manual_enrollment_audit.enrolled_by,
-                        user.email,
-                        ALLOWEDTOENROLL_TO_ENROLLED,
-                        manual_enrollment_audit.reason,
-                        enrollment
-                    )
+                    try:
+                        user_ob = User.objects.get(username=manual_enrollment_audit)
+                    except User.DoesNotExist:
+                        user_ob = None
+
+                    if user_ob is not None:
+                        try:                        
+                            update_manual_enrollment = ManualEnrollmentAudit.objects.get(enrolled_by=user_ob, enrolled_email = user.email)
+
+                        except ManualEnrollmentAudit.DoesNotExist:
+                            update_manual_enrollment = None
+
+                        if update_manual_enrollment:  
+
+                            userprof = UserProfile.objects.get(user=update_manual_enrollment.enrolled_by)
+                            learner_user = User.objects.get(email=update_manual_enrollment.enrolled_email)
+                            orgregs = OrganizationRegistration.objects.get(organization_name=update_manual_enrollment.organization_name)
+
+                            learner_userprofile_obj = UserProfile.objects.get(user__email=update_manual_enrollment.enrolled_email)
+                            if str(learner_userprofile_obj.organization) !=  str(update_manual_enrollment.organization_name):
+                                learner_userprofile_obj.organization = update_manual_enrollment.organization_name
+                                learner_userprofile_obj.save()
+                                
+                            if not CohertsUserDetail.objects.filter(learner=learner_user, instructor=userprof, coherts_name=update_manual_enrollment.coherts_name, organization=orgregs).exists():
+                                CohertsUserDetail.objects.create(learner=learner_user, instructor=userprof, coherts_name=update_manual_enrollment.coherts_name, organization=orgregs)
+                            update_manual_enrollment.state_transition = ALLOWEDTOENROLL_TO_ENROLLED
+                            update_manual_enrollment.save()
+
+
 
     # Because `emit_field_changed_events` removes the record of the fields that
     # were changed, wait to do that until after we've checked them as part of
@@ -2122,61 +2146,67 @@ def invalidate_enrollment_mode_cache(sender, instance, **kwargs):  # pylint: dis
     cache.delete(cache_key)
 
 
-class ManualEnrollmentAudit(models.Model):
-    """
-    Table for tracking which enrollments were performed through manual enrollment.
-    """
-    enrollment = models.ForeignKey(CourseEnrollment, null=True, on_delete=models.CASCADE)
-    enrolled_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
-    enrolled_email = models.CharField(max_length=255, db_index=True)
-    time_stamp = models.DateTimeField(auto_now_add=True, null=True)
-    state_transition = models.CharField(max_length=255, choices=TRANSITION_STATES)
-    reason = models.TextField(null=True)
-    role = models.CharField(blank=True, null=True, max_length=64)
 
-    @classmethod
-    def create_manual_enrollment_audit(cls, user, email, state_transition, reason, enrollment=None, role=None):
-        """
-        saves the student manual enrollment information
-        """
-        return cls.objects.create(
-            enrolled_by=user,
-            enrolled_email=email,
-            state_transition=state_transition,
-            reason=reason,
-            enrollment=enrollment,
-            role=role,
-        )
+# class ManualEnrollmentAudit(models.Model):
+#     """
+#     Table for tracking which enrollments were performed through manual enrollment.
+#     """
+#     enrollment = models.ForeignKey(CourseEnrollment, null=True, on_delete=models.CASCADE)
+#     enrolled_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+#     enrolled_email = models.CharField(max_length=255, db_index=True)
+#     time_stamp = models.DateTimeField(auto_now_add=True, null=True)
+#     state_transition = models.CharField(max_length=255, choices=TRANSITION_STATES)
+#     coherts_name = models.ForeignKey(CohertsOrganization, on_delete=models.CASCADE, null=True, blank=True)
+#     reason = models.TextField(null=True)
 
-    @classmethod
-    def get_manual_enrollment_by_email(cls, email):
-        """
-        if matches returns the most recent entry in the table filtered by email else returns None.
-        """
-        try:
-            manual_enrollment = cls.objects.filter(enrolled_email=email).latest('time_stamp')
-        except cls.DoesNotExist:
-            manual_enrollment = None
-        return manual_enrollment
+#     role = models.CharField(blank=True, null=True, max_length=64)
 
-    @classmethod
-    def get_manual_enrollment(cls, enrollment):
-        """
-        if matches returns the most recent entry in the table filtered by enrollment else returns None,
-        """
-        try:
-            manual_enrollment = cls.objects.filter(enrollment=enrollment).latest('time_stamp')
-        except cls.DoesNotExist:
-            manual_enrollment = None
-        return manual_enrollment
+#     def __str__(self):
+#         return (self.enrolled_by, self.enrolled_email, self.state_transition, self.role)
 
-    @classmethod
-    def retire_manual_enrollments(cls, enrollments, retired_email):
-        """
-        Removes PII (enrolled_email and reason) from any rows corresponding to
-        the enrollment passed in. Bubbles up any exceptions.
-        """
-        return cls.objects.filter(enrollment__in=enrollments).update(reason="", enrolled_email=retired_email)
+#     @classmethod
+#     def create_manual_enrollment_audit(cls, user, email, state_transition, reason, enrollment=None, role=None):
+#         """
+#         saves the student manual enrollment information
+#         """
+#         return cls.objects.create(
+#             enrolled_by=user,
+#             enrolled_email=email,
+#             state_transition=state_transition,
+#             reason=reason,
+#             enrollment=enrollment,
+#             role=role,
+#         )
+
+#     @classmethod
+#     def get_manual_enrollment_by_email(cls, email):
+#         """
+#         if matches returns the most recent entry in the table filtered by email else returns None.
+#         """
+#         try:
+#             manual_enrollment = cls.objects.filter(enrolled_email=email).latest('time_stamp')
+#         except cls.DoesNotExist:
+#             manual_enrollment = None
+#         return manual_enrollment
+
+#     @classmethod
+#     def get_manual_enrollment(cls, enrollment):
+#         """
+#         if matches returns the most recent entry in the table filtered by enrollment else returns None,
+#         """
+#         try:
+#             manual_enrollment = cls.objects.filter(enrollment=enrollment).latest('time_stamp')
+#         except cls.DoesNotExist:
+#             manual_enrollment = None
+#         return manual_enrollment
+
+#     @classmethod
+#     def retire_manual_enrollments(cls, enrollments, retired_email):
+#         """
+#         Removes PII (enrolled_email and reason) from any rows corresponding to
+#         the enrollment passed in. Bubbles up any exceptions.
+#         """
+#         return cls.objects.filter(enrollment__in=enrollments).update(reason="", enrolled_email=retired_email)
 
 
 class CourseEnrollmentAllowed(DeletableByUserValue, models.Model):
@@ -2945,7 +2975,6 @@ class OrganizationRegistration(models.Model):
         UserPreference.objects.filter(user=user).delete()
         user.delete()
         user_profile_field.delete()
-        AUDIT_LOG.info("Delete in student organization models.......")       
         super(OrganizationRegistration, self).delete()
 
 class CohertsOrganization(models.Model):
@@ -3105,3 +3134,100 @@ class CohertsUserGradeRecords(models.Model):
         return str(self.user_id)
 
 
+class ManualEnrollmentAudit(models.Model):
+    """
+    Table for tracking which enrollments were performed through manual enrollment.
+    """
+    enrollment = models.ForeignKey(CourseEnrollment, null=True, on_delete=models.CASCADE)
+    enrolled_by = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
+    enrolled_email = models.CharField(max_length=255, db_index=True)
+    time_stamp = models.DateTimeField(auto_now_add=True, null=True)
+    state_transition = models.CharField(max_length=255, choices=TRANSITION_STATES)
+    coherts_name = models.ForeignKey(CohertsOrganization, on_delete=models.CASCADE, null=True, blank=True)
+    reason = models.TextField(null=True)
+    organization_name = models.CharField(blank=True,null=True,max_length=150)
+    role = models.CharField(blank=True, null=True, max_length=64)
+
+    def __str__(self):
+        return str(self.enrolled_by)
+
+    @classmethod
+    def create_manual_enrollment_audit(cls, user, email, state_transition, cohort_name, cohort_organization, reason, enrollment=None, role=None):
+        """
+        saves the student manual enrollment information
+        """        
+
+        manual_enrollment = cls.objects.create(            
+            enrolled_by=user,
+            enrolled_email=email,
+            state_transition=state_transition,
+            coherts_name =cohort_name,
+            organization_name = cohort_organization,
+            reason=reason,
+            enrollment=enrollment,
+            role=role,
+        )
+
+        try:
+            user_ob = User.objects.get(email=email)
+        except User.DoesNotExist:
+            user_ob = None
+
+        if user_ob:
+
+            if UserProfile.objects.filter(user=user).exists() and CohertsOrganization.objects.filter(coherts_name=cohort_name.coherts_name).exists() and OrganizationRegistration.objects.filter(organization_name=cohort_organization):
+                
+                userprof = UserProfile.objects.get(user=user)
+                cohertorg = CohertsOrganization.objects.get(coherts_name=cohort_name.coherts_name)
+                orgregs = OrganizationRegistration.objects.get(organization_name=cohort_organization)
+
+                #save organization in userprofile 
+                try:
+                    userprof_learner = UserProfile.objects.get(user__email=email)
+                except:
+                    userprof_learner = None
+
+
+                if userprof_learner:
+                    userprof_learner.organization = str(cohort_organization)
+                    userprof_learner.save()
+
+
+                if not CohertsUserDetail.objects.filter(learner=user_ob, instructor=userprof, coherts_name=cohort_name, organization=orgregs).exists():
+                    CohertsUserDetail.objects.create(learner=user_ob, instructor=userprof, coherts_name=cohort_name, organization=orgregs)                
+            else:
+                log.info("Else of statement of not create")
+        else:
+            log.info("USER DOES NOT EXISTS-")
+
+        return manual_enrollment
+
+    @classmethod
+    def get_manual_enrollment_by_email(cls, email):
+        """
+        if matches returns the most recent entry in the table filtered by email else returns None.
+        """
+        try:
+            manual_enrollment = cls.objects.filter(enrolled_email=email).latest('time_stamp')
+        except cls.DoesNotExist:
+            manual_enrollment = None
+        return manual_enrollment
+
+    @classmethod
+    def get_manual_enrollment(cls, enrollment):
+        """
+        if matches returns the most recent entry in the table filtered by enrollment else returns None,
+        """
+        try:
+            manual_enrollment = cls.objects.filter(enrollment=enrollment).latest('time_stamp')
+        except cls.DoesNotExist:
+            manual_enrollment = None
+        return manual_enrollment
+
+    @classmethod
+    def retire_manual_enrollments(cls, enrollments, retired_email):
+        """
+        Removes PII (enrolled_email and reason) from any rows corresponding to
+        the enrollment passed in. Bubbles up any exceptions.
+        """
+        return cls.objects.filter(enrollment__in=enrollments).update(reason="", enrolled_email=retired_email)
