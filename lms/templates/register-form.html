@@ -39,6 +39,28 @@ color: initial;
 }
 */
 
+.question-mark-help {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.question-mark-help .question-mark-help-text {
+  visibility: hidden;
+  width: 100px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+.question-mark-help:hover .question-mark-help-text {
+	visibility: visible;
+}
 </style>
 </head>
 <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }">
@@ -52,7 +74,9 @@ color: initial;
   <h3 class="message-title">${_("The following errors occurred while processing your registration:")} </h3>
   <ul class="message-copy"> </ul>
 </div>
-
+  <button type="button" class="button_regist" data-type="" onclick="location.href='/organization_register';">
+Register Organization
+</button><span class="question-mark-help"><span class="question-mark-help-text">?</span></span>
 % if third_party_auth.is_enabled():
 
   % if not running_pipeline:
@@ -72,10 +96,6 @@ color: initial;
   % endfor
 
   </div>
-  <button type="button" class="button_regist" data-type="" onclick="location.href='/organization_register';">
-Register Organization
-</button>
-
   <span class="deco-divider">
     ## Developers: this is a sentence fragment, which is usually frowned upon.  The design of the pags uses this fragment to provide an "else" clause underneath a number of choices.  It's OK to leave it.
     ## Translators: this is the last choice of a number of choices of how to log in to the site.
