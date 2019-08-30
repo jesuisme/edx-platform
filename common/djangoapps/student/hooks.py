@@ -18,16 +18,11 @@ from django.contrib.auth.signals import user_logged_in,user_logged_out
 def show_me_the_money(sender,**kwargs):
     ipn = sender
     if ipn.payment_status == 'Pending':
-        print('ipn signal system is pending----')
         order = get_object_or_404(OrganizationRegistration, invoice_id=int(ipn.invoice))
         
-        print('order in sign-----')
-        print('org emaik------',order.organization_email)
         if int(order.package_total_price) == int(ipn.mc_gross):
-            print("in the sinals====order=")
             order.paid = True
             order.save() 
-            print('after saving---',order.paid)
 
 
 @receiver(invalid_ipn_received)

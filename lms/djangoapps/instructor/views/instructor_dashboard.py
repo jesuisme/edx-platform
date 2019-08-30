@@ -914,9 +914,8 @@ def _section_coherts_register(request,course, access):
             for user_record in selected_user:
                 add_in_track = User.objects.get(email=user_record)
                 if CohertsUserDetail.objects.filter(coherts_name=coherts_object, learner=add_in_track, organization=organization_obj).exists():
-                    print("user exist for this coherts")
+                    log.info("user exist for this coherts")
                 else:
-                    print("new user added to coherts")
                     saving_user_coherts = CohertsUserDetail(coherts_name=coherts_object, learner=add_in_track, organization=organization_obj, instructor=current_user)
                     saving_user_coherts.save()
 
@@ -934,7 +933,6 @@ def _section_coherts_register(request,course, access):
                     """ % coherts
                     mail_send = EmailMessage(subject,body,settings.EMAIL_HOST_USER,[user_record])
                     # mail_send.send(fail_silently=False)
-                    print("successfully ffffff")
 
 
     if current_user.organization:

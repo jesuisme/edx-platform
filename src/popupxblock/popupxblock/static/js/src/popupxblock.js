@@ -28,28 +28,13 @@ $('#plusDivs_right', element).click(function (eventObject) {
 
 });
 $('#currentDiv1', element).click(function (eventObject) {
-    // var currentDiv11 = document.getElementById("currentDiv1");
     var currentDiv1 = document.getElementById("currentDiv1").getAttribute('value');
-    // var currentDiv_1 = document.getElementById("current_div1").innerText;
-    console.log("current div 1 ");
-    // console.log(currentDiv_1);
-    console.log(currentDiv1);
-    console.log("current div 1 ");
-    // var integer = parseInt(currentDiv1, 10);
-    // console.log(integer);
     currentDiv(parseInt(currentDiv1, 10));
 
 });
 
 $('#currentDiv2', element).click(function (eventObject) {
     var currentDiv2 = document.getElementById("currentDiv2").getAttribute('value');
-    // var currentDiv_2 = document.getElementById("current_div2").innerText;
-    // currentDiv(currentDiv2);
-    // console.log("current div 2 ");
-    // console.log(currentDiv2);
-    // console.log("current div 2 ");
-    // var integer = parseInt(currentDiv2, 10);
-    // console.log(integer);
     currentDiv(parseInt(currentDiv2, 10));
 
 });
@@ -634,40 +619,28 @@ var slideIndex = 1;
 showDivs(slideIndex);
 function try_again_function(){
   var msg_slide = document.getElementsByClassName("incorrect_msg");
-  console.log("try again ====length", msg_slide.length);
   for (var i = 0; i < msg_slide.length; i++) {
     msg_slide[i].style.display = "none";
   }
-  console.log("inside try function");
-  console.log(slideIndex);
   showDivs(slideIndex);
-  console.log("try function myslide");
 }
 function next_question_function(){
   var msg_slide = document.getElementsByClassName("correct_msg");
   for (i = 0; i < msg_slide.length; i++) {
     msg_slide[i].style.display = "none";
   }
-  console.log("inside try function");
-  console.log(slideIndex);
   plusDivs(1);
 }
 
 function plusDivs(n) {
     var msg_slide_incorrect = document.getElementsByClassName("incorrect_msg");
-    console.log("try again ====length", msg_slide_incorrect.length);
     for (var i = 0; i < msg_slide_incorrect.length; i++) {
         msg_slide_incorrect[i].style.display = "none";
     }
     var msg_slide_correct = document.getElementsByClassName("correct_msg");
-    console.log("try again ====length", msg_slide_correct.length);
     for (var i = 0; i < msg_slide_correct.length; i++) {
         msg_slide_correct[i].style.display = "none";
     }
-  console.log("plus div");
-  console.log(n);
-  console.log("slideIndex=======");
-  console.log(slideIndex);
   showDivs(slideIndex += n);
 }
 function answer_check(answer, n) {
@@ -685,9 +658,9 @@ function answer_check(answer, n) {
       var msg_div1 = document.createElement("div");
       msg_div1.className = "row";
       var msg_div2 = document.createElement("div");
-      msg_div2.className = "col-sm-9";
+      msg_div2.className = "col_sm_9";
       var msg_div3 = document.createElement("div");
-      msg_div3.className = "col-sm-3";
+      msg_div3.className = "col_sm_3";
 
     var try_again_head = document.createElement("center");
     var try_tag = document.createElement("p");
@@ -741,9 +714,9 @@ function answer_check(answer, n) {
   var msg_div1 = document.createElement("div");
   msg_div1.className = "row";
   var msg_div2 = document.createElement("div");
-  msg_div2.className = "col-sm-9";
+  msg_div2.className = "col_sm_9";
   var msg_div3 = document.createElement("div");
-  msg_div3.className = "col-sm-3";
+  msg_div3.className = "col_sm_3";
 
   var try_again_head = document.createElement("center");
   var try_tag = document.createElement("p");
@@ -790,13 +763,8 @@ function currentDiv(n) {
 }
 
 function showDivs(n) {
-  console.log("showDivs========");
-  console.log(n);
-  console.log("showDivs=====");
   var i;
   var x = document.getElementsByClassName("mySlides");
-  console.log("myslide value======");
-  console.log(x);
   var dots = document.getElementsByClassName("demo");
   if (n > x.length) {slideIndex = 1}
   if (n < 1) {slideIndex = x.length}
@@ -807,12 +775,7 @@ function showDivs(n) {
 for (i = 0; i < dots.length; i++) {
     dots[i].className = dots[i].className.replace(" w3-grey", "");
   }
-  console.log("before show========");
   x[slideIndex-1].style.display = "block";
-  console.log(slideIndex);
-  console.log(slideIndex-1);
-  console.log(x.length);
-  console.log("after =========");  
   dots[slideIndex-1].className += " w3-grey";
 
   var slider_show = slideIndex - 1;
