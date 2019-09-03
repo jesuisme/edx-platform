@@ -94,8 +94,12 @@ def get_course_with_access(user, action, course_key, depth=0, check_if_enrolled=
       these special cases could not only be handled inside has_access, but could
       be plugged in as additional callback checks for different actions.
     """
+    log.info("fun name- get_course_with_access---")
+    log.info("get course with access course_key---%s---"% course_key)
     course = get_course_by_id(course_key, depth)
+    # log.info("get_course_with_access----COurse---%s----"% course)
     check_course_access(course, user, action, check_if_enrolled, check_survey_complete)
+    log.info("after check_course_access course ---%s----"% course)
     return course
 
 from datetime import datetime, date
@@ -111,10 +115,14 @@ def get_course_overview_with_access(user, action, course_key, check_if_enrolled=
     check_if_enrolled: If true, additionally verifies that the user is either enrolled in the course
       or has staff access.
     """
-
+    log.info("GET COurse overview with Access--")
     try:
         course_overview = CourseOverview.get_from_id(course_key)
-        course_name = CourseOverview.objects.get(id=course_key) 
+        log.info("course_overview---%s---"% course_overview)
+        log.info("type of course_overview---%s---"% type(course_overview))
+        course_name = CourseOverview.objects.get(id=course_key)
+        log.info("course_name---%s---"% course_name) 
+        log.info("course_name--type--%s---"% type(course_name)) 
 
         # if not user.is_staff:
         module_name = StudentCourseViews.objects.filter(date_updated=date.today(),module_name=course_name.display_name).exists()
@@ -136,8 +144,12 @@ def get_course_overview_with_access(user, action, course_key, check_if_enrolled=
             StudentCourseViews.objects.create(date_updated=date.today(),module_name=course_name.display_name,course_views=1)            
 
     except CourseOverview.DoesNotExist:
+        log.info("CourseOverview.DOES NOT EXIST")
         raise Http404("Course not found.")
+
     check_course_access(course_overview, user, action, check_if_enrolled)
+    log.info("check_course_access------%s----"% check_course_access(course_overview, user, action, check_if_enrolled))
+    log.info("course_overview--%s---"% course_overview)
     return course_overview
 
 
@@ -150,13 +162,25 @@ def check_course_access(course, user, action, check_if_enrolled=False, check_sur
     check_survey_complete: If true, additionally verifies that the user has completed the survey.
     """
     # Allow staff full access to the course even if not enrolled
+
+    log.info("check course_access---")
+    log.info("check_course_access course-----%s----"% course)
+    log.info("check course access action----%s---"% action)
+    log.info("check course_access course id ----%s---"% course.id)
+    log.info("user----course_access----%s---"% user)
+    
     if has_access(user, 'staff', course.id):
+        log.info("in the has_access check course_access fun")
         return
 
     access_response = has_access(user, action, course, course.id)
+    log.info("ACCESS RESPONSE--in check_course_access---%s---"% access_response)
     if not access_response:
         # Redirect if StartDateError
+        log.info("if not access_response--")
+
         if isinstance(access_response, StartDateError):
+            log.info("not access response---StartDateError---")
             start_date = strftime_localized(course.start, 'SHORT_DATE')
             params = QueryDict(mutable=True)
             params['notlive'] = start_date
@@ -167,17 +191,22 @@ def check_course_access(course, user, action, check_if_enrolled=False, check_sur
 
         # Redirect if the user must answer a survey before entering the course.
         if isinstance(access_response, MilestoneAccessError):
+            log.info("not access response---MilestoneAccessError---")
             raise CourseAccessRedirect('{dashboard_url}'.format(
                 dashboard_url=reverse('dashboard'),
             ), access_response)
 
         # Deliberately return a non-specific error message to avoid
         # leaking info about access control settings
+        log.info("raise courseware_access_exception---")
         raise CoursewareAccessException(access_response)
 
+    log.info("check_if_enrolled-----%s----"% check_if_enrolled)
     if check_if_enrolled:
         # If the user is not enrolled, redirect them to the about page
+        log.info("if enrolled---check--")
         if not CourseEnrollment.is_enrolled(user, course.id):
+            log.info("if not CourseEnrollment---")
             raise CourseAccessRedirect(reverse('about_course', args=[unicode(course.id)]))
 
     # Redirect if the user must answer a survey before entering the course.
@@ -467,7 +496,11 @@ def get_courses(user, org=None, filter_=None):
         settings.COURSE_CATALOG_VISIBILITY_PERMISSION
     )
 
+    log.info("get courses permission_name---%s---"% permission_name)
+
     courses = [c for c in courses if has_access(user, permission_name, c)]
+
+    log.info("get courses--get_courses----%s--"% courses)
 
     return courses
 
@@ -476,6 +509,8 @@ def get_permission_for_course_about():
     """
     Returns the CourseOverview object for the course after checking for access.
     """
+    log.info("GET PERMISSION FOR COURSE ABOUT---%s-----"% configuration_helpers.get_value('COURSE_ABOUT_VISIBILITY_PERMISSION',settings.COURSE_ABOUT_VISIBILITY_PERMISSION))
+    
     return configuration_helpers.get_value(
         'COURSE_ABOUT_VISIBILITY_PERMISSION',
         settings.COURSE_ABOUT_VISIBILITY_PERMISSION

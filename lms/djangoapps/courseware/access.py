@@ -126,43 +126,73 @@ def has_access(user, action, obj, course_key=None):
     deny access in a way that makes sense in context.
     """
     # Just in case user is passed in as None, make them anonymous
+
+    # log.info("has access---")
+
+    log.info("has_access---User---%s---"% user)
+    log.info("has_access---action---%s---"% action)
+    log.info("has_access---COurse---%s---"% obj)
+    log.info("has_access---COurse-Id--%s---"% course_key)
+
     if not user:
+        log.info("not user--")
         user = AnonymousUser()
 
     # Preview mode is only accessible by staff.
-    if in_preview_mode() and course_key:
-        if not has_staff_access_to_preview_mode(user, course_key):
-            return ACCESS_DENIED
+    if user.is_staff:
+        if in_preview_mode() and course_key:
+            if not has_staff_access_to_preview_mode(user, course_key):
+                log.info("preview mode access to staff---")
+                return ACCESS_DENIED
 
     # delegate the work to type-specific functions.
     # (start with more specific types, then get more general)
     if isinstance(obj, CourseDescriptor):
+        # log.info("CourseDescriptor---HAS ACCESS---")
+        log.info("CourseDescriptor---HAS ACCESS---%s---"% _has_access_course(user, action, obj))
         return _has_access_course(user, action, obj)
 
     if isinstance(obj, CourseOverview):
+        # log.info("COURSEOVERIEW---HAS ACCESS---")
+        log.info("COURSEOVERIEW---HAS ACCESS----%s----"% _has_access_course(user, action, obj))
         return _has_access_course(user, action, obj)
 
     if isinstance(obj, ErrorDescriptor):
+        # log.info("CourseDescriptor---HAS ACCESS---")
+        log.info("CourseDescriptor---HAS ACCESS------%s---"% _has_access_error_desc(user, action, obj, course_key))
         return _has_access_error_desc(user, action, obj, course_key)
 
     if isinstance(obj, XModule):
+        # log.info("XModule--HAS ACCESS---")
+        log.info("XModule--HAS ACCESS---%s------"% _has_access_xmodule(user, action, obj, course_key))
         return _has_access_xmodule(user, action, obj, course_key)
 
     # NOTE: any descriptor access checkers need to go above this
     if isinstance(obj, XBlock):
+        # log.info("XBLOCK---HAS ACCESS---")
+        log.info("XBLOCK---HAS ACCESS---%s-----"%_has_access_descriptor(user, action, obj, course_key))
         return _has_access_descriptor(user, action, obj, course_key)
 
     if isinstance(obj, CourseKey):
+        # log.info("COURSE KEY---HAS ACCESS---")
+        log.info("course key in has access locat----COURSEKEY--%s---"% CourseKey)
+        log.info("course key in has access locat---obj----%s---"% obj)
+        log.info("COURSE KEY---HAS ACCESS---%s-----"%_has_access_course_key(user, action, obj))
         return _has_access_course_key(user, action, obj)
 
     if isinstance(obj, UsageKey):
+        # log.info("access loca----HAS ACCESS---")
+        log.info("access location--UsageKey---HAS ACCESS---%s----"%_has_access_location(user, action, obj, course_key))
         return _has_access_location(user, action, obj, course_key)
 
     if isinstance(obj, basestring):
+        # log.info("basestring loca----HAS ACCESS---")
+        log.info("basestring loca----HAS ACCESS--%s---"% _has_access_string(user, action, obj))
         return _has_access_string(user, action, obj)
 
     # Passing an unknown object here is a coding error, so rather than
     # returning a default, complain.
+    log.info('TypeError---HAS ACCESS---%s---'% type(obj))
     raise TypeError("Unknown object type in has_access(): '{0}'"
                     .format(type(obj)))
 
@@ -318,11 +348,26 @@ def _has_access_course(user, action, courselike):
 
         NOTE: this is not checking whether user is actually enrolled in the course.
         """
+        log.info("fUNC----Has access Course----")
+        log.info("can_load Func--")
+        log.info("User---%s---"% user)
+        log.info("action---%s---"% action)
+        log.info("courselike---%s---"% courselike)
+
+
+
         response = (
             _visible_to_nonstaff_users(courselike) and
             check_course_open_for_learner(user, courselike) and
             _can_view_courseware_with_prerequisites(user, courselike)
         )
+
+        log.info("response--Has access Course----%s---"% response)
+        access_descriptor = (            
+            ACCESS_GRANTED if (response or _has_staff_access_to_descriptor(user, courselike, courselike.id))
+            else response
+        )
+        log.info("Access descriptor-----%s-----"% access_descriptor)
 
         return (
             ACCESS_GRANTED if (response or _has_staff_access_to_descriptor(user, courselike, courselike.id))
@@ -359,6 +404,9 @@ def _has_access_course(user, action, courselike):
         In this case we use the catalog_visibility property on the course descriptor
         but also allow course staff to see this.
         """
+
+        log.info("can see about page----")
+
         return (
             _has_catalog_visibility(courselike, CATALOG_VISIBILITY_CATALOG_AND_ABOUT)
             or _has_catalog_visibility(courselike, CATALOG_VISIBILITY_ABOUT)
@@ -375,7 +423,7 @@ def _has_access_course(user, action, courselike):
         'see_in_catalog': can_see_in_catalog,
         'see_about_page': can_see_about_page,
     }
-
+    # log.info("checkerss about page---%s---"% checkers)
     return _dispatch(checkers, action, user, courselike)
 
 
@@ -483,6 +531,7 @@ def _has_access_descriptor(user, action, descriptor, course_key=None):
     has_access(), it will not do the right thing.
     """
     def can_load():
+        log.info("HAS ACCESS DESP---")
         """
         NOTE: This does not check that the student is enrolled in the course
         that contains this module.  We may or may not want to allow non-enrolled
@@ -513,6 +562,7 @@ def _has_access_descriptor(user, action, descriptor, course_key=None):
         'staff': lambda: _has_staff_access_to_descriptor(user, descriptor, course_key),
         'instructor': lambda: _has_instructor_access_to_descriptor(user, descriptor, course_key)
     }
+
 
     return _dispatch(checkers, action, user, descriptor)
 
@@ -667,6 +717,9 @@ def _has_access_to_course(user, access_level, course_key):
 
     access_level = string, either "staff" or "instructor"
     """
+    # log.info("_HAS_ACCESS_TO_COURSE--func---")
+    # log.info("access_level----%s---"% access_level)
+
     if user is None or (not user.is_authenticated):
         debug("Deny: no user or anon user")
         return ACCESS_DENIED
@@ -694,6 +747,7 @@ def _has_access_to_course(user, access_level, course_key):
         return ACCESS_GRANTED
 
     debug("Deny: user did not have correct access")
+    # log.info("ACCESS DENIED _has_access_to_course")
     return ACCESS_DENIED
 
 
@@ -731,6 +785,7 @@ def _has_staff_access_to_descriptor(user, descriptor, course_key):
 
     descriptor: something that has a location attribute
     """
+    log.info("HAS STAFF ACCESS TO descriptor---%s----"% _has_staff_access_to_location(user, descriptor.location, course_key))
     return _has_staff_access_to_location(user, descriptor.location, course_key)
 
 
@@ -798,6 +853,7 @@ def _has_catalog_visibility(course, visibility_type):
     """
     Returns whether the given course has the given visibility type
     """
+    log.info("CATALOG_VISIBILITY_---")
     return ACCESS_GRANTED if course.catalog_visibility == visibility_type else ACCESS_DENIED
 
 
