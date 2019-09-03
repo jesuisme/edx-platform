@@ -170,6 +170,7 @@ def check_course_access(course, user, action, check_if_enrolled=False, check_sur
     log.info("user----course_access----%s---"% user)
     
     if has_access(user, 'staff', course.id):
+        log.info("in the has_access check course_access fun")
         return
 
     access_response = has_access(user, action, course, course.id)
