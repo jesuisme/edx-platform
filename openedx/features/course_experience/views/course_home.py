@@ -55,7 +55,8 @@ class CourseHomeView(CourseTabView):
         """
         Displays the home page for the specified course.
         """
-        log.info("CourseHomeView get func")        
+        log.info("CourseHomeView get func")  
+        log.info('in the get coursehomeview courseid---%s---'% course_id)      
         return super(CourseHomeView, self).get(request, course_id, 'courseware', **kwargs)
 
     def uses_bootstrap(self, request, course, tab):
@@ -67,6 +68,7 @@ class CourseHomeView(CourseTabView):
     def render_to_fragment(self, request, course=None, tab=None, **kwargs):
         log.info("CourseHomeView render_to_fragment func")
         course_id = unicode(course.id)
+        log.info("course_id in render_to_fragment---%s---"% course_id)
         log.info("Type of courseid render_to_fragment")
         log.info(type(course_id))
         home_fragment_view = CourseHomeFragmentView()
@@ -121,7 +123,9 @@ class CourseHomeFragmentView(EdxFragmentView):
         log.info("render_to_fragment CourseHomeFragmentView")
 
         course_key = CourseKey.from_string(course_id)
+        log.info("course_key in render_to_fragment----%s---"% course_key)
         course = get_course_with_access(request.user, 'load', course_key)
+        log.info("course in render_to_fragment----%s----"% course)
 
         # Render the course dates as a fragment
         dates_fragment = CourseDatesFragmentView().render_to_fragment(request, course_id=course_id, **kwargs)

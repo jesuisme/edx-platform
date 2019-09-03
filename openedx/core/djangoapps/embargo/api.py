@@ -61,6 +61,8 @@ def check_course_access(course_key, user=None, ip_address=None, url=None):
 
     """
     # No-op if the country access feature is not enabled
+    log.info("check_course_access in openedx-api.py func------")
+    
     if not settings.FEATURES.get('EMBARGO'):
         return True
 

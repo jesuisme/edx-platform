@@ -98,7 +98,7 @@ from openedx.core.djangolib.markup import HTML, Text
             <input class="file_field" id="browseBtn-auto-enroll" name="students_list" type="file" accept=".csv"/>
         </div>
       </div>
-      <button type="submit" class="btn-blue" id="submitBtn-auto_enroll_csv" name="enrollment_signup_button" onclick="myFunction()">${_("Upload CSV")}</button>
+      <button type="submit" class="btn-blue" id="submitBtn-auto_enroll_csv" name="enrollment_signup_button" onclick="csv_enroll()">${_("Upload CSV")}</button>
       <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }">
     </form>
     <br>
@@ -295,8 +295,9 @@ from openedx.core.djangolib.markup import HTML, Text
 </div>
 
 <script type="text/javascript">  
-  function myFunction() {
+  function csv_enroll() {
     var file_check = document.getElementById("browseBtn-auto-enroll").value;
+    console.log('file check value---', file_check);
     if (file_check){
       $('#demo').css("display","block");
       document.getElementById("demo").innerHTML = "<b>Please Wait Uploading CSV File..</b>";
@@ -308,7 +309,7 @@ from openedx.core.djangolib.markup import HTML, Text
   }
   function enroll_validation() {
     $('#enroll_validate').css("display","block");
-    document.getElementById("enroll_validate").innerHTML = "<b>Please Wait Enrolling Users...</b>";
+    document.getElementById("enroll_validate").innerHTML = "<b>Please Wait...</b>";
     window.setInterval(function(){
       alertFunc();
       /// call your function here

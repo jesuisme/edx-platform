@@ -94,8 +94,12 @@ def get_course_with_access(user, action, course_key, depth=0, check_if_enrolled=
       these special cases could not only be handled inside has_access, but could
       be plugged in as additional callback checks for different actions.
     """
+    log.info("fun name- get_course_with_access---")
+    log.info("get course with access course_key---%s---"% course_key)
     course = get_course_by_id(course_key, depth)
+    # log.info("get_course_with_access----COurse---%s----"% course)
     check_course_access(course, user, action, check_if_enrolled, check_survey_complete)
+    log.info("after check_course_access course ---%s----"% course)
     return course
 
 from datetime import datetime, date
@@ -160,6 +164,11 @@ def check_course_access(course, user, action, check_if_enrolled=False, check_sur
     # Allow staff full access to the course even if not enrolled
 
     log.info("check course_access---")
+    log.info("check_course_access course-----%s----"% course)
+    log.info("check course access action----%s---"% action)
+    log.info("check course_access course id ----%s---"% course.id)
+    log.info("user----course_access----%s---"% user)
+    
     if has_access(user, 'staff', course.id):
         return
 

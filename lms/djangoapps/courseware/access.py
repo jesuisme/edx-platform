@@ -127,7 +127,13 @@ def has_access(user, action, obj, course_key=None):
     """
     # Just in case user is passed in as None, make them anonymous
 
-    log.info("has access---")
+    # log.info("has access---")
+
+    log.info("has_access---User---%s---"% user)
+    log.info("has_access---action---%s---"% action)
+    log.info("has_access---COurse---%s---"% obj)
+    log.info("has_access---COurse-Id--%s---"% course_key)
+
     if not user:
         log.info("not user--")
         user = AnonymousUser()
@@ -141,43 +147,45 @@ def has_access(user, action, obj, course_key=None):
     # delegate the work to type-specific functions.
     # (start with more specific types, then get more general)
     if isinstance(obj, CourseDescriptor):
-        log.info("CourseDescriptor---HAS ACCESS---")
+        # log.info("CourseDescriptor---HAS ACCESS---")
         log.info("CourseDescriptor---HAS ACCESS---%s---"% _has_access_course(user, action, obj))
         return _has_access_course(user, action, obj)
 
     if isinstance(obj, CourseOverview):
-        log.info("COURSEOVERIEW---HAS ACCESS---")
+        # log.info("COURSEOVERIEW---HAS ACCESS---")
         log.info("COURSEOVERIEW---HAS ACCESS----%s----"% _has_access_course(user, action, obj))
         return _has_access_course(user, action, obj)
 
     if isinstance(obj, ErrorDescriptor):
-        log.info("CourseDescriptor---HAS ACCESS---")
+        # log.info("CourseDescriptor---HAS ACCESS---")
         log.info("CourseDescriptor---HAS ACCESS------%s---"% _has_access_error_desc(user, action, obj, course_key))
         return _has_access_error_desc(user, action, obj, course_key)
 
     if isinstance(obj, XModule):
-        log.info("XModule--HAS ACCESS---")
+        # log.info("XModule--HAS ACCESS---")
         log.info("XModule--HAS ACCESS---%s------"% _has_access_xmodule(user, action, obj, course_key))
         return _has_access_xmodule(user, action, obj, course_key)
 
     # NOTE: any descriptor access checkers need to go above this
     if isinstance(obj, XBlock):
-        log.info("XBLOCK---HAS ACCESS---")
+        # log.info("XBLOCK---HAS ACCESS---")
         log.info("XBLOCK---HAS ACCESS---%s-----"%_has_access_descriptor(user, action, obj, course_key))
         return _has_access_descriptor(user, action, obj, course_key)
 
     if isinstance(obj, CourseKey):
-        log.info("COURSE KEY---HAS ACCESS---")
+        # log.info("COURSE KEY---HAS ACCESS---")
+        log.info("course key in has access locat----COURSEKEY--%s---"% CourseKey)
+        log.info("course key in has access locat---obj----%s---"% obj)
         log.info("COURSE KEY---HAS ACCESS---%s-----"%_has_access_course_key(user, action, obj))
         return _has_access_course_key(user, action, obj)
 
     if isinstance(obj, UsageKey):
-        log.info("access loca----HAS ACCESS---")
-        log.info("access loca----HAS ACCESS---%s----"%_has_access_location(user, action, obj, course_key))
+        # log.info("access loca----HAS ACCESS---")
+        log.info("access location--UsageKey---HAS ACCESS---%s----"%_has_access_location(user, action, obj, course_key))
         return _has_access_location(user, action, obj, course_key)
 
     if isinstance(obj, basestring):
-        log.info("basestring loca----HAS ACCESS---")
+        # log.info("basestring loca----HAS ACCESS---")
         log.info("basestring loca----HAS ACCESS--%s---"% _has_access_string(user, action, obj))
         return _has_access_string(user, action, obj)
 
@@ -693,7 +701,7 @@ def _has_access_to_course(user, access_level, course_key):
 
     access_level = string, either "staff" or "instructor"
     """
-    log.info("_HAS_ACCESS_TO_COURSE--func---")
+    # log.info("_HAS_ACCESS_TO_COURSE--func---")
     # log.info("access_level----%s---"% access_level)
 
     if user is None or (not user.is_authenticated):
@@ -723,7 +731,7 @@ def _has_access_to_course(user, access_level, course_key):
         return ACCESS_GRANTED
 
     debug("Deny: user did not have correct access")
-    log.info("ACCESS DENIED _has_access_to_course")
+    # log.info("ACCESS DENIED _has_access_to_course")
     return ACCESS_DENIED
 
 
