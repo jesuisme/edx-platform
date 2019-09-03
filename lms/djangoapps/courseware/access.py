@@ -347,11 +347,26 @@ def _has_access_course(user, action, courselike):
 
         NOTE: this is not checking whether user is actually enrolled in the course.
         """
+        log.info("fUNC----Has access Course----")
+        log.info("can_load Func--")
+        log.info("User---%s---"% user)
+        log.info("action---%s---"% action)
+        log.info("courselike---%s---"% courselike)
+
+
+
         response = (
             _visible_to_nonstaff_users(courselike) and
             check_course_open_for_learner(user, courselike) and
             _can_view_courseware_with_prerequisites(user, courselike)
         )
+
+        log.info("response--Has access Course----%s---"% response)
+        access_descriptor = (            
+            ACCESS_GRANTED if (response or _has_staff_access_to_descriptor(user, courselike, courselike.id))
+            else response
+        )
+        log.info("Access descriptor-----%s-----"% access_descriptor)
 
         return (
             ACCESS_GRANTED if (response or _has_staff_access_to_descriptor(user, courselike, courselike.id))
@@ -769,6 +784,7 @@ def _has_staff_access_to_descriptor(user, descriptor, course_key):
 
     descriptor: something that has a location attribute
     """
+    log.info("HAS STAFF ACCESS TO descriptor---%s----"% _has_staff_access_to_location(user, descriptor.location, course_key))
     return _has_staff_access_to_location(user, descriptor.location, course_key)
 
 
