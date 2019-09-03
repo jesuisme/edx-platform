@@ -489,7 +489,7 @@ def _create_admin_dashboard_app(request,admin_organization):
                             html.Img(
                                 src="https://files.edx.org/openedx-logos/edx-openedx-logo-tag.png",
                                 alt="Powered by Open edX", 
-                                width="140"  
+                                width="100"  
                             )
                         ],href="http://open.edx.org")
                     )
