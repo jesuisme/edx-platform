@@ -770,9 +770,7 @@ def course_about(request, course_id):
     #                if unicode_convert == course_id:
     #                    current_user_list.append(row)
 
-    log.info("COURSE ABOUT PAGE---")
     if request.user.is_authenticated():
-        log.info("in the if of course about--")
         get_organization = UserProfile.objects.get(user=request.user)
         user_related_organization = False
         if get_organization.organization is not None:
@@ -780,7 +778,6 @@ def course_about(request, course_id):
         if request.user.is_staff:
             user_related_organization = False
     else:
-        log.info("in the else of course about---")
         user_related_organization = False
     course_key = CourseKey.from_string(course_id)
     # If a user is not able to enroll in a course then redirect
