@@ -60,28 +60,20 @@ def check_start_date(user, days_early_for_beta, start, course_key):
     Returns:
         AccessResponse: Either ACCESS_GRANTED or StartDateError.
     """
-    log.info("check start date------")
 
     start_dates_disabled = settings.FEATURES['DISABLE_START_DATES']
-    log.info("start_dates_disabled----%s--"% start_dates_disabled)
     if start_dates_disabled and not is_masquerading_as_student(user, course_key):
-        log.info("ACCESS_GRANTED---CHeck Start DAte----")
         return ACCESS_GRANTED
     else:
         now = datetime.now(UTC)
         if start is None or in_preview_mode():
-            log.info("ACCESS_GRANTED IN else CHeck start date---")
             return ACCESS_GRANTED
 
         effective_start = adjust_start_date(user, days_early_for_beta, start, course_key)
-        log.info("effective_start-----%s---"% effective_start)
 
         if now > effective_start:
-            log.info("in else effective_start0---Access Granted---")
             return ACCESS_GRANTED
 
-        log.info("START DATE ERROR---")
-        log.info("start---%s---"% start)
         return StartDateError(start)
 
 
@@ -101,11 +93,6 @@ def check_course_open_for_learner(user, course):
     Returns:
         AccessResponse: Either ACCESS_GRANTED or StartDateError.
     """
-    log.info("check_course_open_for_learner----")
-    log.info("user--check_course_open_for_learner---%s---"% user)
-    log.info("course--check_course_open_for_learner---%s---"% course.id)
     if COURSE_PRE_START_ACCESS_FLAG.is_enabled(course.id):
-        log.info("ACCESS_GRANTED check_course_open_for_learner----")
         return ACCESS_GRANTED
-    log.info("else statement check_course_open_for_learner---")
     return check_start_date(user, course.days_early_for_beta, course.start, course.id)

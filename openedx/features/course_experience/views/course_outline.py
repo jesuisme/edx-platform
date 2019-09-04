@@ -35,16 +35,12 @@ class CourseOutlineFragmentView(EdxFragmentView):
         """
         Renders the course outline as a fragment.
         """
-        log.info("CourseOutlineFragmentView---render_to_fragment---")
         course_key = CourseKey.from_string(course_id)
         course_overview = get_course_overview_with_access(request.user, 'load', course_key, check_if_enrolled=True)
-        log.info("course_overview access---%s---"% course_overview)        
         course = modulestore().get_course(course_key)
-        log.info("course--CourseOutlineFragmentView---%s---"% course)
 
         course_block_tree = get_course_outline_block_tree(request, course_id)
         if not course_block_tree:
-            log.info("not course_block_tree")
             return None
 
         context = {
@@ -64,10 +60,7 @@ class CourseOutlineFragmentView(EdxFragmentView):
         context['gated_content'] = gated_content
         context['xblock_display_names'] = xblock_display_names
 
-        # log.info("course-outline-fragment.html---CONTEXT---%s---"% context)
-        log.info("Course-outline-fragment.html=======")
         html = render_to_string('course_experience/course-outline-fragment.html', context)
-        log.info("Course-outline-fragment.html====22===")
         return Fragment(html)
 
     def create_xblock_id_and_name_dict(self, course_block_tree, xblock_display_names=None):

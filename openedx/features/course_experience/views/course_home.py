@@ -55,8 +55,6 @@ class CourseHomeView(CourseTabView):
         """
         Displays the home page for the specified course.
         """
-        log.info("CourseHomeView get func")  
-        log.info('in the get coursehomeview courseid---%s---'% course_id)      
         return super(CourseHomeView, self).get(request, course_id, 'courseware', **kwargs)
 
     def uses_bootstrap(self, request, course, tab):
@@ -66,14 +64,8 @@ class CourseHomeView(CourseTabView):
         return USE_BOOTSTRAP_FLAG.is_enabled(course.id)
 
     def render_to_fragment(self, request, course=None, tab=None, **kwargs):
-        log.info("CourseHomeView render_to_fragment func")
         course_id = unicode(course.id)
-        log.info("course_id in render_to_fragment---%s---"% course_id)
-        log.info("Type of courseid render_to_fragment")
-        log.info(type(course_id))
         home_fragment_view = CourseHomeFragmentView()
-        log.info("home fragment view Render to fragment func")
-        log.info("home fragment view Render to fragment func--%s---"% home_fragment_view.render_to_fragment(request, course_id=course_id, **kwargs))
         return home_fragment_view.render_to_fragment(request, course_id=course_id, **kwargs)
 
 
@@ -81,7 +73,6 @@ class CourseHomeFragmentView(EdxFragmentView):
     """
     A fragment to render the home page for a course.
     """
-    log.info("Course HOme fragment view---")
 
     def _get_resume_course_info(self, request, course_id):
         """
@@ -93,7 +84,6 @@ class CourseHomeFragmentView(EdxFragmentView):
                 otherwise the URL of the course root.
 
         """
-        log.info("get resume course info CourseHomeFragmentView")
 
         course_outline_root_block = get_course_outline_block_tree(request, course_id)
         resume_block = get_resume_block(course_outline_root_block) if course_outline_root_block else None
@@ -109,7 +99,6 @@ class CourseHomeFragmentView(EdxFragmentView):
         """
         Returns the handouts for the specified course.
         """
-        log.info("get_course_handouts CourseHomeFragmentView")
 
         handouts = get_course_info_section(request, request.user, course, 'handouts')
         if not handouts or handouts == EMPTY_HANDOUTS_HTML:
@@ -120,12 +109,9 @@ class CourseHomeFragmentView(EdxFragmentView):
         """
         Renders the course's home page as a fragment.
         """
-        log.info("render_to_fragment CourseHomeFragmentView")
 
         course_key = CourseKey.from_string(course_id)
-        log.info("course_key in render_to_fragment----%s---"% course_key)
         course = get_course_with_access(request.user, 'load', course_key)
-        log.info("course in render_to_fragment----%s----"% course)
 
         # Render the course dates as a fragment
         dates_fragment = CourseDatesFragmentView().render_to_fragment(request, course_id=course_id, **kwargs)
@@ -139,14 +125,10 @@ class CourseHomeFragmentView(EdxFragmentView):
             'is_staff': has_access(request.user, 'staff', course_key),
         }
 
-        log.info("USER access CourseHomeFragmentView--")
-        log.info(user_access)
 
         if user_access['is_enrolled'] or user_access['is_staff']:
-            log.info("User_access is enrolled or staff---")
 
             outline_fragment = CourseOutlineFragmentView().render_to_fragment(request, course_id=course_id, **kwargs)
-            log.info("outline_fragment---%s---"% outline_fragment)
 
             if LATEST_UPDATE_FLAG.is_enabled(course_key):
                 log.info("LATEST_UPDATE_FLAG ENABLED--")
@@ -159,16 +141,12 @@ class CourseHomeFragmentView(EdxFragmentView):
                     request, course_id=course_id, **kwargs
                 )
             course_sock_fragment = CourseSockFragmentView().render_to_fragment(request, course=course, **kwargs)
-            log.info("COurse Sock fragment--")
-            log.info(course_sock_fragment)
             has_visited_course, resume_course_url = self._get_resume_course_info(request, course_id)
         else:
             # Redirect the user to the dashboard if they are not enrolled and
             # this is a course that does not support direct enrollment.
-            log.info(" Redirect the user to the dashboard if they are not enrolled--")
 
             if not can_self_enroll_in_course(course_key):
-                log.info("Course that does not support direct enrollment---")
                 raise CourseAccessRedirect(reverse('dashboard'))
 
             # Set all the fragments
@@ -233,6 +211,5 @@ class CourseHomeFragmentView(EdxFragmentView):
             'upgrade_price': upgrade_price,
             'upgrade_url': upgrade_url,
         }
-        log.info("CONTEXT--CourseHomeFragmentView--%s---"% context)
         html = render_to_string('course_experience/course-home-fragment.html', context)
         return Fragment(html)
