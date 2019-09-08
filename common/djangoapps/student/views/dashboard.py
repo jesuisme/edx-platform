@@ -822,12 +822,41 @@ def student_dashboard(request):
         ]
     
     # For custom progress bar on student dashboard page
+    students_data_dict = {}
     complete_list = []
+
     for enrollment in course_enrollments:
         value_unicode = str(enrollment.course_id).decode("utf-8")
         course_block_tree = get_course_outline_block_tree(request,value_unicode)
         course_sections_v = course_block_tree.get('children')
         complete_list.append(course_block_tree)
+
+        blocks_view = {
+            'blocks': course_block_tree
+        }
+
+        course_sections_view = blocks_view['blocks'].get('children')
+
+        if course_sections_view is not None:
+            for section in course_sections_view:  
+                if section.get('display_name'):
+                    students_data_dict['section_name'] = section['display_name']
+                    students_data_dict['completed'] = section['complete']
+
+
+        if 'section_name' and 'completed' in students_data_dict.keys():
+            log.info("PRESENT IN STUDENT DICT")
+            student_details = StudentCourseDetails.objects.filter(user=user,module_name=enrollment.course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today()).exists()
+
+            if student_details:
+                student_courses = StudentCourseDetails.objects.get(user=user,module_name=enrollment.course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today())
+                student_courses.completed = students_data_dict['completed']
+                student_courses.save()
+            else:
+                StudentCourseDetails.objects.create(user=user,module_name=enrollment.course_overview.display_name_with_default,section=students_data_dict['section_name'],completed=students_data_dict['completed'])
+
+        students_data_dict = {}
+     
     
     context = {
         'urls': urls,

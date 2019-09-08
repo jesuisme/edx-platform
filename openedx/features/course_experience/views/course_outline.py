@@ -70,7 +70,8 @@ class CourseOutlineFragmentView(EdxFragmentView):
         if course_sections is not None:            
             for section in course_sections:
                 for subsection in section.get('children', []):
-                    if str(subsection['display_name']) != 'User Feedback Survey':
+                    lower_subsection_display_name = (subsection['display_name']).lower()
+                    if lower_subsection_display_name != 'user feedback survey':
                         sections_list.append(subsection['display_name'])
                         if subsection.get('complete'):
                             completed_sections_list.append(subsection['display_name'])

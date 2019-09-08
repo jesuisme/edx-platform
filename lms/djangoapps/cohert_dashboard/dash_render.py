@@ -360,16 +360,11 @@ def _create_admin_dashboard_app(request,admin_organization):
                                             'layout': {
                                                 'title': '<b>Cohort progress</b>',
                                                 'barmode': 'stack',
-                                                'xaxis' : {
-                                                    'title': '<b>Cohorts</b>', 
-                                                    # 'tickmode': 'array',
-                                                    # 'tickangle': '0',
-                                                    # 'automargin': 'true',
-                                                    # 'tickfont': {   
-                                                    #     'family': "Old Standard TT, serif",
-                                                    #     'size': 10,
-                                                    #     'color': "black"
-                                                    # },                                              
+                                                'xaxis' : {      
+                                                    'title': '', 
+                                                    'autotick': False,                                                                                                  
+                                                    'tickmode': 'array',
+                                                                                                                                                                                  
                                                 },
                                                 'yaxis': {
                                                     'title': '<b>Learners</b>',
