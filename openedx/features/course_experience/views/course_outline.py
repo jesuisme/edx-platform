@@ -48,6 +48,7 @@ class CourseOutlineFragmentView(EdxFragmentView):
             'course': course_overview,
             'due_date_display_format': course.due_date_display_format,
             'blocks': course_block_tree
+            
         }
 
         resume_block = get_resume_block(course_block_tree)
@@ -59,6 +60,27 @@ class CourseOutlineFragmentView(EdxFragmentView):
 
         context['gated_content'] = gated_content
         context['xblock_display_names'] = xblock_display_names
+
+
+        sections_list = []
+        completed_sections_list = []
+       
+
+        course_sections = context['blocks'].get('children')
+        if course_sections is not None:            
+            for section in course_sections:
+                for subsection in section.get('children', []):
+                    if str(subsection['display_name']) != 'User Feedback Survey':
+                        sections_list.append(subsection['display_name'])
+                        if subsection.get('complete'):
+                            completed_sections_list.append(subsection['display_name'])
+
+        length_sections_list = len(sections_list)
+        length_completed_sections_list = len(completed_sections_list)
+
+        total_completed_list = (float(length_completed_sections_list) / float(length_sections_list)) * 100
+
+        context['total_completed_list'] = total_completed_list
 
         html = render_to_string('course_experience/course-outline-fragment.html', context)
         return Fragment(html)

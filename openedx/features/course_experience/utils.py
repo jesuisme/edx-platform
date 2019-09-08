@@ -31,6 +31,7 @@ def get_course_outline_block_tree(request, course_id):
         for i in range(len(children)):
             child_id = block['children'][i]
             child_detail = populate_children(all_blocks[child_id], all_blocks)
+
             block['children'][i] = child_detail
 
         return block
@@ -42,7 +43,6 @@ def get_course_outline_block_tree(request, course_id):
         block['resume_block'] = False
         block['complete'] = False
         for child in block.get('children', []):
-            # log.info("last accessed----%s---"% set_last_accessed_default(child))
             set_last_accessed_default(child)
 
     def mark_blocks_completed(block, user, course_key):
@@ -108,12 +108,10 @@ def get_course_outline_block_tree(request, course_id):
         student_module_dict = get_student_module_as_dict(user, course_key, block_key)
 
         last_accessed_child_position = student_module_dict.get('position')
-        # log.info("mark last accessed child-----%s---"% last_accessed_child_position)
         if last_accessed_child_position and block.get('children'):
             block['resume_block'] = True
             if last_accessed_child_position <= len(block['children']):
                 last_accessed_child_block = block['children'][last_accessed_child_position - 1]
-                # log.info("MARK LAST ACCESSED---%s==="% last_accessed_child_block)
                 last_accessed_child_block['resume_block'] = True
                 mark_last_accessed(user, course_key, last_accessed_child_block)
             else:

@@ -131,12 +131,10 @@ class CourseHomeFragmentView(EdxFragmentView):
             outline_fragment = CourseOutlineFragmentView().render_to_fragment(request, course_id=course_id, **kwargs)
 
             if LATEST_UPDATE_FLAG.is_enabled(course_key):
-                log.info("LATEST_UPDATE_FLAG ENABLED--")
                 update_message_fragment = LatestUpdateFragmentView().render_to_fragment(
                     request, course_id=course_id, **kwargs
                 )
             else:
-                log.info("LATEST_UPDATE_FLAG NOT ENABLED--")
                 update_message_fragment = WelcomeMessageFragmentView().render_to_fragment(
                     request, course_id=course_id, **kwargs
                 )

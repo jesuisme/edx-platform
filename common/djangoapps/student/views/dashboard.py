@@ -828,7 +828,6 @@ def student_dashboard(request):
         course_block_tree = get_course_outline_block_tree(request,value_unicode)
         course_sections_v = course_block_tree.get('children')
         complete_list.append(course_block_tree)
-
     
     context = {
         'urls': urls,

@@ -12,6 +12,8 @@ from django.utils.translation import ugettext as _
 from openedx.core.djangolib.markup import HTML, Text
 %>
 
+
+
 <%
 course_sections = blocks.get('children')
 %>
@@ -50,8 +52,17 @@ course_sections = blocks.get('children')
                 gated_subsection = subsection['id'] in gated_content
                 completed_prereqs = gated_content[subsection['id']]['completed_prereqs'] if gated_subsection else False
                 subsection_is_auto_opened = subsection.get('resume_block') is True
-                %>
-                      <li class="subsection accordion ${ 'current' if subsection['resume_block'] else '' }">
+                %>  
+                    <%
+                    subsection_display_name = (subsection['display_name']).lower()                    
+                    %>                                         
+                        
+                    % if int(total_completed_list) != 100 and subsection_display_name == 'user feedback survey': 
+
+                    % else:                  
+
+                      <li class="subsection accordion ${ 'current' if subsection['resume_block'] else '' }">                        
+                        
                 % if gated_subsection and not completed_prereqs:
                                 <a href="${ subsection['lms_web_url'] }">
                                     <button class="subsection-text prerequisite-button"
@@ -60,7 +71,7 @@ course_sections = blocks.get('children')
                                             aria-hidden="true">
                                     </span>
                                     <h4 class="subsection-title">
-                                        ${ subsection['display_name'] }
+                                        ${ subsection['display_name'] }                                        
                                     </h4>
                                     <div class="details prerequisite">
                                         ${ _("Prerequisite: ") }
@@ -78,11 +89,16 @@ course_sections = blocks.get('children')
                                         <span class="fa fa-chevron-right ${ 'fa-rotate-90' if subsection_is_auto_opened else '' }"
                                               aria-hidden="true"></span>
                                         <h4 class="subsection-title">
-                                            ${ subsection['display_name'] }
+                                            ${ subsection['display_name'] }  
                                         </h4>
-                    % if subsection.get('complete'):
-                                        <span class="complete-checkmark fa fa-check"></span>
+                    % if subsection.get('complete'):                                    
+                                        <span class="complete-checkmark fa fa-check"></span>                   
+
                     % endif
+
+                    % endif
+                    
+                
                 % endif
                                         <div class="details">
 
@@ -145,19 +161,21 @@ course_sections = blocks.get('children')
                 % if gated_subsection and not completed_prereqs:
                                 </a>
                 % endif
+
                 % if not gated_subsection or (gated_subsection and completed_prereqs):
                                 <ol class="outline-item accordion-panel ${ '' if subsection_is_auto_opened else 'is-hidden' }"
                                     id="${ subsection['id'] }_contents"
                                     aria-labelledby="${ subsection['id'] }"
                                 >
                     % for vertical in subsection.get('children', []):
+
                                     <li class="vertical outline-item focusable">
                                         <a class="outline-item focusable"
                                             href="${ vertical['lms_web_url'] }"
                                             id="${ vertical['id'] }">
                                             <div class="vertical-details">
                                               <div class="vertical-title">
-                                                ${ vertical['display_name'] }
+                                                ${ vertical['display_name'] }  
                                               </div>
                                             </div>
                         % if vertical.get('complete'):
@@ -167,6 +185,7 @@ course_sections = blocks.get('children')
                                     </li>
                     % endfor
                                 </ol>
+                    
                 % endif
                             </li>
             % endfor
