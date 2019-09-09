@@ -844,8 +844,7 @@ def student_dashboard(request):
                     students_data_dict['completed'] = section['complete']
 
 
-        if 'section_name' and 'completed' in students_data_dict.keys():
-            log.info("PRESENT IN STUDENT DICT")
+        if 'section_name' and 'completed' in students_data_dict.keys():            
             student_details = StudentCourseDetails.objects.filter(user=user,module_name=enrollment.course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today()).exists()
 
             if student_details:
