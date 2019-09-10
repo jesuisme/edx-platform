@@ -55,13 +55,16 @@ course_sections = blocks.get('children')
                 %>  
                     <%
                     subsection_display_name = subsection['display_name'].lower()                    
-                    %>                                         
+                    %>  
+
+                    <p>DISPLAY NAME SUB: ${subsection['display_name']}</p>                                       
                         
                     % if int(total_completed_list) != int(100) and subsection_display_name == 'user feedback survey':
                         <p>Sub-section: ${subsection['display_name']}, Percentage: ${total_completed_list}</p>                        
 
-                    % else:                  
+                    % else:
 
+                      <p>User feedback else: ${subsection['display_name']}</p>
                       <li class="subsection accordion ${ 'current' if subsection['resume_block'] else '' }">                        
                         
                 % if gated_subsection and not completed_prereqs:
