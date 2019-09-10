@@ -54,10 +54,11 @@ course_sections = blocks.get('children')
                 subsection_is_auto_opened = subsection.get('resume_block') is True
                 %>  
                     <%
-                    subsection_display_name = (subsection['display_name']).lower()                    
+                    subsection_display_name = subsection['display_name'].lower()                    
                     %>                                         
                         
-                    % if int(total_completed_list) != 100 and subsection_display_name == 'user feedback survey': 
+                    % if int(total_completed_list) != int(100) and subsection_display_name == 'user feedback survey':
+                        <p>Sub-section: ${subsection['display_name']}, Percentage: ${total_completed_list}</p>                        
 
                     % else:                  
 

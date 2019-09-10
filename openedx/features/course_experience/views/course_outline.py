@@ -81,7 +81,8 @@ class CourseOutlineFragmentView(EdxFragmentView):
 
         total_completed_list = (float(length_completed_sections_list) / float(length_sections_list)) * 100
 
-        context['total_completed_list'] = total_completed_list
+        context['total_completed_list'] = int(total_completed_list)
+        log.info("Completed List---%s----"% context['total_completed_list'])
 
         html = render_to_string('course_experience/course-outline-fragment.html', context)
         return Fragment(html)

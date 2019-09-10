@@ -333,6 +333,8 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
             'disable_navigation': not self.is_user_authenticated(context),
             'gated_content': self._get_gated_content_info(prereq_met, prereq_meta_info)
         }
+        log.info("seq_module.html-----------")
+        log.info("context sequence module---%s----"% params)
         fragment.add_content(self.system.render_template("seq_module.html", params))
 
         self._capture_full_seq_item_metrics(display_items)
