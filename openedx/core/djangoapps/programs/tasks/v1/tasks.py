@@ -289,7 +289,7 @@ def award_course_certificate(self, username, course_run_key):
         raise self.retry(exc=exc, countdown=countdown, max_retries=MAX_RETRIES)
 
 
-# Deletes a month old student login and module views.(runs every 2hours) 
+# Deletes a month old student login and module views.(runs every 6hours) 
 @periodic_task(run_every=(crontab(hour="*/6")), name="clear_students_data", ignore_result=True)
 def clear_students_data():
     try:

@@ -34,12 +34,7 @@ course_sections = blocks.get('children')
             section_is_auto_opened = section.get('resume_block') is True
             section_display_name = section['display_name'].lower()
             %>  
-            <p>Section Name: ${section['display_name']}</p>    
-            <p>Percentage: ${int(total_completed_list)}</p>
 
-            % if int(total_completed_list) != int(100) and section_display_name == 'user feedback survey':
-
-            % else:  
                 <li class="outline-item section">
                     <button class="section-name accordion-trigger"
                             aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
@@ -60,17 +55,16 @@ course_sections = blocks.get('children')
                 gated_subsection = subsection['id'] in gated_content
                 completed_prereqs = gated_content[subsection['id']]['completed_prereqs'] if gated_subsection else False
                 subsection_is_auto_opened = subsection.get('resume_block') is True
+                subsection_display_name = subsection['display_name'].lower()
                 %>  
-                    <%
-                    subsection_display_name = subsection['display_name'].lower()                    
-                    %> 
-                                                                      
-                    <p>SubSection: ${subsection['display_name']}</p>
-                    <p>Percentage: ${int(total_completed_list)}</p>
+                <p>Percentage: ${total_completed_list}</p>
+                <p>Type Percentage: ${type(total_completed_list)}</p>
+                <p>Sub-section: ${str(subsection['display_name'])}</p>
+                <p>Type Sub-section: ${type(str(subsection['display_name']))}</p>
 
-                    % if int(total_completed_list) != int(100) and subsection_display_name == 'user feedback survey':                                      
+                % if total_completed_list != int(100) and str(subsection['display_name']) == 'User Feedback Survey':                                      
 
-                    % else:
+                % else:
                      
                       <li class="subsection accordion ${ 'current' if subsection['resume_block'] else '' }">                        
                         
@@ -105,9 +99,7 @@ course_sections = blocks.get('children')
                     % if subsection.get('complete'):                                    
                                         <span class="complete-checkmark fa fa-check"></span>                   
 
-                    % endif
-
-                    % endif
+                    % endif                    
                     
                 
                 % endif
@@ -200,13 +192,12 @@ course_sections = blocks.get('children')
                 % endif
             
                             </li>
+                % endif
             % endfor
 
                     </ol>               
 
-                </li>
-
-            % endif
+                </li>           
                
         % endfor
         </ol>
