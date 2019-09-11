@@ -34,8 +34,7 @@ course_sections = blocks.get('children')
             section_is_auto_opened = section.get('resume_block') is True
             section_display_name = section['display_name'].lower()
             %>  
-            % if int(total_completed_list) != int(100) and section_display_name == 'user feedback survey':
-		        <p>NOT COMPLETED</p>
+            % if int(total_completed_list) != int(100) and section_display_name == 'user feedback survey':		       
 
             % else:  
                 <li class="outline-item section">
@@ -65,8 +64,8 @@ course_sections = blocks.get('children')
                                                                       
                     <p>SubSection Type: ${type(subsection_display_name)}</p>             
 
-                    % if int(total_completed_list) != int(100) and subsection_display_name == 'user feedback survey':                
-			            <p>NOT COMPLETED</p>                     
+                    % if int(total_completed_list) != int(100) and str(subsection_display_name) == 'user feedback survey':
+			    <% continue %>		                                 
 
                     % else:
                      
