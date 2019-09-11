@@ -34,9 +34,6 @@ course_sections = blocks.get('children')
             section_is_auto_opened = section.get('resume_block') is True
             section_display_name = section['display_name'].lower()
             %>  
-            <p>Section Name: ${section['display_name']}</p>    
-            <p>Percentage: ${int(total_completed_list)}</p>
-
             % if int(total_completed_list) != int(100) and section_display_name == 'user feedback survey':
 		        <p>NOT COMPLETED</p>
 
@@ -63,11 +60,10 @@ course_sections = blocks.get('children')
                 subsection_is_auto_opened = subsection.get('resume_block') is True
                 %>  
                     <%
-                    subsection_display_name = subsection['display_name'].lower()                    
+                    subsection_display_name = (subsection['display_name']).lower()                    
                     %> 
                                                                       
-                    <p>SubSection: ${subsection['display_name']}</p>
-                    <p>Percentage: ${int(total_completed_list)}</p>
+                    <p>SubSection Type: ${type(subsection_display_name)}</p>             
 
                     % if int(total_completed_list) != int(100) and subsection_display_name == 'user feedback survey':                
 			            <p>NOT COMPLETED</p>                     
