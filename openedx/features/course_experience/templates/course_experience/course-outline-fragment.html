@@ -60,7 +60,7 @@ course_sections = blocks.get('children')
                     %>                                             
                                 
 
-                    % if int(total_completed_list) != int(100) and str(subsection_display_name) == 'user feedback survey':
+                    % if int(total_completed_list) != int(100) and subsection_display_name == 'user feedback survey':
                         <% continue %>  
                     % else:
                      
