@@ -33,7 +33,7 @@ course_sections = blocks.get('children')
             <%
             section_is_auto_opened = section.get('resume_block') is True            
             %>   
-          	              
+                          
                 <li class="outline-item section">
                     <button class="section-name accordion-trigger"
                             aria-expanded="${ 'true' if section_is_auto_opened else 'false' }"
@@ -61,7 +61,7 @@ course_sections = blocks.get('children')
                                 
 
                     % if int(total_completed_list) != int(100) and str(subsection_display_name) == 'user feedback survey':
-			            <% continue %>	
+                        <% continue %>  
                     % else:
                      
                       <li class="subsection accordion ${ 'current' if subsection['resume_block'] else '' }">                        
