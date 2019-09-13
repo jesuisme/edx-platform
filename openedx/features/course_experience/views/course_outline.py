@@ -12,6 +12,7 @@ from opaque_keys.edx.keys import CourseKey
 from pytz import UTC
 from waffle.models import Switch
 from web_fragments.fragment import Fragment
+from django.contrib.auth.models import User
 
 from courseware.courses import get_course_overview_with_access
 from openedx.core.djangoapps.plugin_api.views import EdxFragmentView
@@ -20,6 +21,7 @@ from student.models import CourseEnrollment
 from util.milestones_helpers import get_course_content_milestones
 from xmodule.modulestore.django import modulestore
 from ..utils import get_course_outline_block_tree, get_resume_block
+from student.models import CourseProgress
 import logging
 log = logging.getLogger(__name__)
 
@@ -82,7 +84,15 @@ class CourseOutlineFragmentView(EdxFragmentView):
         total_completed_list = (float(length_completed_sections_list) / float(length_sections_list)) * 100
 
         context['total_completed_list'] = int(total_completed_list)
-        log.info("Completed List---%s----"% context['total_completed_list'])
+        
+
+        user_prof = User.objects.get(username=request.user.username)       
+        course_progress = CourseProgress.objects.filter(user=user_prof,course_id=course_key).exists()
+
+        if course_progress:
+            course_progress = CourseProgress.objects.get(user=user_prof,course_id=course_key)
+            course_progress.feedback_progress = int(total_completed_list)
+            course_progress.save()
 
         html = render_to_string('course_experience/course-outline-fragment.html', context)
         return Fragment(html)

@@ -17,13 +17,15 @@ from web_fragments.fragment import Fragment
 from xblock.completable import XBlockCompletionMode
 from xblock.core import XBlock
 from xblock.fields import Boolean, Integer, List, Scope, String
-
+from django.contrib.auth.models import User
 from .exceptions import NotFoundError
 from .fields import Date
 from .mako_module import MakoModuleDescriptor
 from .progress import Progress
 from .x_module import STUDENT_VIEW, XModule
 from .xml_module import XmlDescriptor
+
+
 
 log = logging.getLogger(__name__)
 
@@ -320,6 +322,7 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
             banner_text = _('This section is a prerequisite. You must complete this section in order to unlock additional content.')
 
         fragment = Fragment()
+
         params = {
             'items': self._render_student_view_for_items(context, display_items, fragment) if prereq_met else [],
             'element_id': self.location.html_id(),
@@ -331,10 +334,9 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
             'prev_url': context.get('prev_url'),
             'banner_text': banner_text,
             'disable_navigation': not self.is_user_authenticated(context),
-            'gated_content': self._get_gated_content_info(prereq_met, prereq_meta_info)
+            'gated_content': self._get_gated_content_info(prereq_met, prereq_meta_info)            
         }
-        log.info("seq_module.html-----------")
-        log.info("context sequence module---%s----"% params)
+
         fragment.add_content(self.system.render_template("seq_module.html", params))
 
         self._capture_full_seq_item_metrics(display_items)
@@ -424,6 +426,7 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
         elif self.position is None or self.position > number_of_display_items:
             self.position = 1
 
+
     def _render_student_view_for_items(self, context, display_items, fragment):
         """
         Updates the given fragment with rendered student views of the given
@@ -435,6 +438,7 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
         completion_service = self.runtime.service(self, 'completion')
         context['username'] = self.runtime.service(self, 'user').get_current_user().opt_attrs.get(
             'edx-platform.username')
+
         display_names = [
             self.get_parent().display_name_with_default,
             self.display_name_with_default

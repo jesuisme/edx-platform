@@ -3035,6 +3035,7 @@ class CourseProgress(models.Model):
     )
     course_id = CourseKeyField(max_length=255, db_index=True)
     student_course_progress = models.IntegerField(blank=True, null=True, default=0)
+    feedback_progress = models.IntegerField(blank=True,null=True,default=0)
 
 
 class LoginUpdate(models.Model):

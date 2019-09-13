@@ -54,19 +54,17 @@ course_sections = blocks.get('children')
                 gated_subsection = subsection['id'] in gated_content
                 completed_prereqs = gated_content[subsection['id']]['completed_prereqs'] if gated_subsection else False
                 subsection_is_auto_opened = subsection.get('resume_block') is True
-                %>  
-                    <%
-                    subsection_display_name = str(subsection['display_name']).lower()                    
-                    %>                                             
-                                
+                user_feedback_display_name = subsection.get('display_name')
+                %>      
 
-                    % if int(total_completed_list) != int(100) and subsection_display_name == 'user feedback survey':
+                    % if total_completed_list != int(100) and user_feedback_display_name == 'User Feedback Survey':
                         <% continue %>  
                     % else:
                      
                       <li class="subsection accordion ${ 'current' if subsection['resume_block'] else '' }">                        
-                        
-                % if gated_subsection and not completed_prereqs:
+                    
+                    % endif
+                % if gated_subsection and not completed_prereqs:                                
                                 <a href="${ subsection['lms_web_url'] }">
                                     <button class="subsection-text prerequisite-button"
                                             id="${ subsection['id'] }">
@@ -95,12 +93,9 @@ course_sections = blocks.get('children')
                                             ${ subsection['display_name'] }  
                                         </h4>
                     % if subsection.get('complete'):                                    
-                                        <span class="complete-checkmark fa fa-check"></span>                   
+                                        <span class="complete-checkmark fa fa-check"></span>                     
 
-                    % endif
-
-                    % endif
-                    
+                    % endif                    
                 
                 % endif
                                         <div class="details">

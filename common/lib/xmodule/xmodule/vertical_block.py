@@ -11,6 +11,7 @@ from lxml import etree
 import six
 from web_fragments.fragment import Fragment
 from xblock.core import XBlock
+from django.contrib.auth.models import User
 
 from xmodule.mako_module import MakoTemplateBlockBase
 from xmodule.progress import Progress
@@ -89,6 +90,19 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
                 'content': rendered_child.content
             })
 
+        course_id = self.runtime.course_id
+
+        user_name = self.runtime.service(self, 'user').get_current_user().opt_attrs.get('edx-platform.username')        
+
+        from student.models import CourseProgress
+
+        user_prof = User.objects.get(username=user_name)
+
+        try:
+            course_progress = CourseProgress.objects.get(user=user_prof,course_id=course_id).feedback_progress
+        except:
+            course_progress = 0        
+
         fragment.add_content(self.system.render_template('vert_module.html', {
             'items': contents,
             'xblock_context': context,
@@ -96,11 +110,12 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
             'show_bookmark_button': child_context.get('show_bookmark_button', not is_child_of_vertical),
             'bookmarked': child_context['bookmarked'],
             'bookmark_id': u"{},{}".format(child_context['username'], unicode(self.location)),  # pylint: disable=no-member
+            'course_progress': int(course_progress)
         }))
 
         for tag in webpack_loader.utils.get_as_tags('VerticalStudentView'):
             fragment.add_resource(tag, mimetype='text/html', placement='head')
-        fragment.initialize_js('VerticalStudentView')
+        fragment.initialize_js('VerticalStudentView')     
 
         return fragment
 

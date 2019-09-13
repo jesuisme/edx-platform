@@ -1,17 +1,23 @@
 <%page expression_filter="h"/>
 <%! from openedx.core.djangolib.markup import HTML %>
-%if unit_title:
-  <h2 class="hd hd-2 unit-title">${unit_title}</h2>
-% endif
 
-% if show_bookmark_button:
-    <%include file='bookmark_button.html' args="bookmark_id=bookmark_id, is_bookmarked=bookmarked"/>
-% endif
+<% s_value='User Feedback Survey' %>
+% if unit_title == s_value.decode('utf-8') and course_progress != 100:
+	<p style="padding-left: 450px;color: red;"><b>Access Restricted<b></p>
+% else:
+	%if unit_title:  
+	  <h2 class="hd hd-2 unit-title">${unit_title}</h2>
+	% endif
 
-<div class="vert-mod">
-% for idx, item in enumerate(items):
-  <div class="vert vert-${idx}" data-id="${item['id']}">
-    ${HTML(item['content'])}
-  </div>
-% endfor
-</div>
+	% if show_bookmark_button:
+	    <%include file='bookmark_button.html' args="bookmark_id=bookmark_id, is_bookmarked=bookmarked"/>
+	% endif
+
+	<div class="vert-mod">
+	% for idx, item in enumerate(items):
+	  <div class="vert vert-${idx}" data-id="${item['id']}">
+	    ${HTML(item['content'])}
+	  </div>
+	% endfor
+	</div>
+% endif
