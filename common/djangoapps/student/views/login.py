@@ -554,8 +554,15 @@ def signin_user(request):
         return redirect(redirect_to)
 
     third_party_auth_error = None
+    staff_no_organization = None
+   
+
     for msg in messages.get_messages(request):
-        if msg.extra_tags.split()[0] == "social-auth":
+        if str(msg) == 'no_organization_staff_logout':
+            staff_no_organization = _(text_type('As as a staff, you are not registered to any organization'))
+            break
+            
+        elif msg.extra_tags.split()[0] == "social-auth":
             # msg may or may not be translated. Try translating [again] in case we are able to:
             third_party_auth_error = _(text_type(msg))  # pylint: disable=translation-of-non-string
             break
@@ -571,7 +578,9 @@ def signin_user(request):
             'platform_name',
             settings.PLATFORM_NAME
         ),
-        'third_party_auth_error': third_party_auth_error
+        'third_party_auth_error': third_party_auth_error,
+        'staff_no_organization': staff_no_organization
+
     }
 
     return render_to_response('login.html', context)
