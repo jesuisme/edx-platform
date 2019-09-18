@@ -2,11 +2,12 @@
 <%! from openedx.core.djangolib.markup import HTML %>
 
 <% s_value='User Feedback Survey' %>
+
 % if unit_title == s_value.decode('utf-8') and course_progress != 100:
 	<p style="padding-left: 450px;color: red;"><b>Access Restricted<b></p>
 % else:
-	%if unit_title:  
-	  <h2 class="hd hd-2 unit-title">${unit_title}</h2>
+	%if unit_title:   
+	  <h2 class="hd hd-2 unit-title"><b>${unit_title}</b></h2>
 	% endif
 
 	% if show_bookmark_button:
