@@ -285,7 +285,6 @@ class AccountViewSet(ViewSet):
         try:
             account_settings = get_account_settings(
                 request, [username], view=request.query_params.get('view'))
-            for accc in account_settings:
         except UserNotFound:
             return Response(status=status.HTTP_403_FORBIDDEN if request.user.is_staff else status.HTTP_404_NOT_FOUND)
 
