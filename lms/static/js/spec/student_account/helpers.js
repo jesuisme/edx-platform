@@ -39,7 +39,9 @@ define(['underscore'], function(_) {
             options: FIELD_OPTIONS
         }, language: {
             options: FIELD_OPTIONS
-        }, level_of_education: {
+        },  beta_language: {
+            options: []
+        },  level_of_education: {
             options: FIELD_OPTIONS
         }, password: {
             url: '/password_reset'

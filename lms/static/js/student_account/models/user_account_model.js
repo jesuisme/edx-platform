@@ -3,6 +3,7 @@
     define([
         'gettext', 'underscore', 'backbone'
     ], function(gettext, _, Backbone) {
+        console.log("useraccountmodel==========");
         var UserAccountModel = Backbone.Model.extend({
             idAttribute: 'username',
             defaults: {
@@ -25,7 +26,8 @@
                 profile_image: null,
                 accomplishments_shared: false,
                 default_public_account_fields: [],
-                extended_profile: []
+                extended_profile: [],
+                secondary_email: ''
             },
 
             parse: function(response) {

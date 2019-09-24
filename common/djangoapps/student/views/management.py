@@ -8,7 +8,7 @@ import logging
 import uuid
 import warnings
 from collections import namedtuple
-
+from django.contrib.sites.models import Site
 import analytics
 import dogstats_wrapper as dog_stats_api
 from bulk_email.models import Optout
@@ -58,15 +58,17 @@ from openedx.core.djangoapps import monitoring_utils
 from openedx.core.djangoapps.catalog.utils import (
     get_programs_with_type,
 )
+from openedx.core.djangoapps.ace_common.template_context import get_base_template_context
 from openedx.core.djangoapps.embargo import api as embargo_api
 from openedx.core.djangoapps.external_auth.login_and_register import register as external_auth_register
 from openedx.core.djangoapps.lang_pref import LANGUAGE_KEY
+from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_feature_enabled
 from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.theming import helpers as theming_helpers
 from openedx.core.djangoapps.user_api import accounts as accounts_settings
 from openedx.core.djangoapps.user_api.accounts.utils import generate_password
-from openedx.core.djangoapps.user_api.models import UserRetirementRequest
+from openedx.core.djangoapps.user_api.models import UserRetirementRequest, UserRetirementStatus
 from openedx.core.djangoapps.user_api.preferences import api as preferences_api
 from openedx.core.djangoapps.user_api.config.waffle import PREVENT_AUTH_USER_WRITES, SYSTEM_MAINTENANCE_MSG, waffle
 from openedx.core.djangolib.markup import HTML, Text
@@ -84,10 +86,13 @@ from student.helpers import (
     generate_activation_email_context,
     get_next_url_for_login_page
 )
+from student.message_types import EmailChange, RecoveryEmailCreate
 from student.models import (
     CourseEnrollment,
+    AccountRecovery,
     PasswordHistory,
     PendingEmailChange,
+    PendingSecondaryEmailChange,
     Registration,
     RegistrationCookieConfiguration,
     UserAttribute,
@@ -111,10 +116,11 @@ from util.password_policy_validators import SecurityPolicyError, validate_passwo
 from student.tokens import account_activation_token
 from django.views.decorators.csrf import csrf_protect
 from django.shortcuts import render
-
+from edx_ace import ace
+from edx_ace.recipient import Recipient
 from random import choice
 from string import ascii_lowercase, digits
-
+lmslog = logging.getLogger(__name__)
 log = logging.getLogger("edx.student")
 
 AUDIT_LOG = logging.getLogger("audit")
@@ -467,6 +473,7 @@ def register_user(request, extra_context=None):
     Deprecated. To be replaced by :class:`student_account.views.login_and_registration_form`.
     """
     # Determine the URL to redirect to following login:
+    log.info("register user===========")
     redirect_to = get_next_url_for_login_page(request)
     if request.user.is_authenticated:
         return redirect(redirect_to)
@@ -1548,6 +1555,7 @@ def password_reset(request):
     """
     Attempts to send a password reset e-mail.
     """
+    lmslog.info("inside password reset========")
     # Add some rate limiting here by re-using the RateLimitMixin as a helper class
     limiter = BadRequestRateLimiter()
     if limiter.is_rate_limit_exceeded(request):
@@ -1607,9 +1615,13 @@ def password_reset_confirm_wrapper(request, uidb36=None, token=None):
     """
     # convert old-style base36-encoded user id to base64
     uidb64 = uidb36_to_uidb64(uidb36)
+    get_primary_email = None
     platform_name = {
         "platform_name": configuration_helpers.get_value('platform_name', settings.PLATFORM_NAME)
     }
+
+    if 'is_account_recovery' in request.GET and not is_secondary_email_feature_enabled():
+        raise Http404
     try:
         uid_int = base36_to_int(uidb36)
         user = User.objects.get(id=uid_int)
@@ -1620,18 +1632,19 @@ def password_reset_confirm_wrapper(request, uidb36=None, token=None):
             request, uidb64=uidb64, token=token, extra_context=platform_name
         )
 
-    if UserRetirementRequest.has_user_requested_retirement(user):
-        # Refuse to reset the password of any user that has requested retirement.
-        context = {
-            'validlink': True,
-            'form': None,
-            'title': _('Password reset unsuccessful'),
-            'err_msg': _('Error in resetting your password.'),
-        }
-        context.update(platform_name)
-        return TemplateResponse(
-            request, 'registration/password_reset_confirm.html', context
-        )
+    # if UserRetirementRequest.has_user_requested_retirement(user):
+    #     # Refuse to reset the password of any user that has requested retirement.
+    #     context = {
+    #         'validlink': True,
+    #         'form': None,
+    #         'title': _('Password reset unsuccessful'),
+    #         'err_msg': _('Error in resetting your password.'),
+    #     }
+    #     context.update(platform_name)
+    #     return TemplateResponse(
+    #         request, 'registration/password_reset_confirm.html', context
+    #     )
+    
 
     if waffle().is_enabled(PREVENT_AUTH_USER_WRITES):
         context = {
@@ -1647,7 +1660,6 @@ def password_reset_confirm_wrapper(request, uidb36=None, token=None):
 
     if request.method == 'POST':
         password = request.POST['new_password1']
-
         try:
             validate_password(password, user=user)
         except ValidationError as err:
@@ -1668,9 +1680,21 @@ def password_reset_confirm_wrapper(request, uidb36=None, token=None):
         # remember what the old password hash is before we call down
         old_password_hash = user.password
 
-        response = password_reset_confirm(
-            request, uidb64=uidb64, token=token, extra_context=platform_name
-        )
+        if 'is_account_recovery' in request.GET:
+            lmslog.info("post method if recovery====")
+            response = password_reset_confirm(
+                request,
+                uidb64=uidb64,
+                token=token,
+                extra_context=platform_name,
+                template_name='registration/password_reset_confirm.html',
+                post_reset_redirect='signin_user',
+            )
+        else:
+            lmslog.info("post method else recovery====")
+            response = password_reset_confirm(
+                request, uidb64=uidb64, token=token, extra_context=platform_name
+            )
 
         # If password reset was unsuccessful a template response is returned (status_code 200).
         # Check if form is invalid then show an error to the user.
@@ -1688,11 +1712,89 @@ def password_reset_confirm_wrapper(request, uidb36=None, token=None):
 
         # get the updated user
         updated_user = User.objects.get(id=uid_int)
-
-        # did the password hash change, if so record it in the PasswordHistory
+        if 'is_account_recovery' in request.GET:
+            lmslog.info("1740---------------")
+            try:
+                updated_user.email = updated_user.account_recovery.secondary_email
+                updated_user.account_recovery.delete()
+                # emit an event that the user changed their secondary email to the primary email
+                tracker.emit(
+                    SETTING_CHANGE_INITIATED,
+                    {
+                        "setting": "email",
+                        "old": user.email,
+                        "new": updated_user.email,
+                        "user_id": updated_user.id,
+                    }
+                )
+            except ObjectDoesNotExist:
+                log.error(
+                    'Account recovery process initiated without AccountRecovery instance for user {username}'.format(
+                        username=updated_user.username
+                    )
+                )
+        updated_user.save()
         if updated_user.password != old_password_hash:
             entry = PasswordHistory()
             entry.create(updated_user)
+
+        if response.status_code == 302 and 'is_account_recovery' in request.GET:
+            messages.success(
+                request,
+                HTML(_(
+                    '{html_start}Password Creation Complete{html_end}'
+                    'Your password has been created. {bold_start}{email}{bold_end} is now your primary login email.'
+                )).format(
+                    support_url=configuration_helpers.get_value('SUPPORT_SITE_LINK', settings.SUPPORT_SITE_LINK),
+                    html_start=HTML('<p class="message-title">'),
+                    html_end=HTML('</p>'),
+                    bold_start=HTML('<b>'),
+                    bold_end=HTML('</b>'),
+                    email=updated_user.email,
+                ),
+                extra_tags='account-recovery aa-icon submission-success'
+            )
+
+        # did the password hash change, if so record it in the PasswordHistory
+
+
+        if UserRetirementRequest.has_user_requested_retirement(user):
+            lmslog.info("user retive and delete ====")
+            # UserRetirementStatus
+            try:
+
+                retirmentstatus = UserRetirementStatus.objects.filter(user=user)
+                if retirmentstatus:
+                    lmslog.info("inside change email=======")
+                    for email in retirmentstatus:
+                        lmslog.info("email.original_email======%s=======", email.original_email)
+                        get_primary_email = email.original_email
+                    retirmentstatus.delete()
+                lmslog.info("111111111before get_primary_email=======%s==" % get_primary_email)
+                userretirment = UserRetirementRequest.objects.filter(user=user)
+                if userretirment:
+                    lmslog.info("delete user retirement")
+                    userretirment.delete()
+
+                lmslog.info("555555 get_primary_email=======%s==" % get_primary_email)
+                # delete retirment model
+            except Exception as err:
+                lmslog.info("Erro Occured wile deleting retirement request==")
+                lmslog.info("Error type is : %s " % err)
+
+            check_account_recovery = AccountRecovery.objects.filter(user=user)
+            lmslog.info("check_account_recovery======%s====" % check_account_recovery)
+            lmslog.info("check_account_recovery=================")
+            if check_account_recovery:
+                lmslog.info("if  ==check_account_recovery=================")
+                check_account_recovery.delete()
+        lmslog.info("before change_email=========")
+        lmslog.info("before get_primary_email=======%s==" % get_primary_email)
+        if get_primary_email:
+                lmslog.info("lat in inside change email")
+                lmslog.info("change_email change_email============%s=====" % get_primary_email)
+                obj, creating =AccountRecovery.objects.get_or_create(user=user, secondary_email=get_primary_email, is_active=True)
+        
 
     else:
         response = password_reset_confirm(
@@ -1724,60 +1826,198 @@ def validate_new_email(user, new_email):
         raise ValueError(_('An account with this e-mail already exists.'))
 
 
-def do_email_change_request(user, new_email, activation_key=None):
+def validate_secondary_email(account_recovery, new_email):
+    """
+    Enforce valid email addresses.
+    """
+
+    from openedx.core.djangoapps.user_api.accounts.api import get_email_validation_error, \
+        get_secondary_email_validation_error
+
+    if get_email_validation_error(new_email):
+        raise ValueError(_('Valid e-mail address required.'))
+
+    if new_email == account_recovery.secondary_email:
+        raise ValueError(_('Old email is the same as the new email.'))
+
+    # Make sure that secondary email address is not same as user's primary email.
+    if new_email == account_recovery.user.email:
+        raise ValueError(_('Cannot be same as your sign in email address.'))
+
+    # Make sure that secondary email address is not same as any of the primary emails currently in use or retired
+    if email_exists_or_retired(new_email):
+        raise ValueError(
+            _("It looks like {email} belongs to an existing account. Try again with a different email address.").format(
+                email=new_email
+            )
+        )
+
+    message = get_secondary_email_validation_error(new_email)
+    if message:
+        raise ValueError(message)
+
+
+
+def do_email_change_request(user, new_email, activation_key=None, secondary_email_change_request=False):
     """
     Given a new email for a user, does some basic verification of the new address and sends an activation message
     to the new address. If any issues are encountered with verification or sending the message, a ValueError will
     be thrown.
     """
-    pec_list = PendingEmailChange.objects.filter(user=user)
-    if len(pec_list) == 0:
-        pec = PendingEmailChange()
-        pec.user = user
-    else:
-        pec = pec_list[0]
+    # pec_list = PendingEmailChange.objects.filter(user=user)
+    # if len(pec_list) == 0:
+    #     pec = PendingEmailChange()
+    #     pec.user = user
+    # else:
+    #     pec = pec_list[0]
 
-    # if activation_key is not passing as an argument, generate a random key
+    # # if activation_key is not passing as an argument, generate a random key
+    # if not activation_key:
+    #     activation_key = uuid.uuid4().hex
+
+    # pec.new_email = new_email
+    # pec.activation_key = activation_key
+    # pec.save()
+
+    # context = {
+    #     'key': pec.activation_key,
+    #     'old_email': user.email,
+    #     'new_email': pec.new_email
+    # }
+
+    # subject = render_to_string('emails/email_change_subject.txt', context)
+    # subject = ''.join(subject.splitlines())
+
+    # message = render_to_string('emails/email_change.txt', context)
+
+    # from_address = configuration_helpers.get_value(
+    #     'email_from_address',
+    #     settings.DEFAULT_FROM_EMAIL
+    # )
+    # try:
+    #     mail.send_mail(subject, message, from_address, [pec.new_email])
+    # except Exception:
+    #     log.error(u'Unable to send email activation link to user from "%s"', from_address, exc_info=True)
+    #     raise ValueError(_('Unable to send email activation link. Please try again later.'))
+
+    # # When the email address change is complete, a "edx.user.settings.changed" event will be emitted.
+    # # But because changing the email address is multi-step, we also emit an event here so that we can
+    # # track where the request was initiated.
+    # tracker.emit(
+    #     SETTING_CHANGE_INITIATED,
+    #     {
+    #         "setting": "email",
+    #         "old": context['old_email'],
+    #         "new": context['new_email'],
+    #         "user_id": user.id,
+    #     }
+    # )
+
+
+
+
+
+
+    lmslog.info("do_email_change_request=======aaaaaaa==")
     if not activation_key:
         activation_key = uuid.uuid4().hex
 
-    pec.new_email = new_email
-    pec.activation_key = activation_key
-    pec.save()
+    confirm_link = reverse('confirm_email_change', kwargs={'key': activation_key, })
 
-    context = {
-        'key': pec.activation_key,
+    if secondary_email_change_request:
+        lmslog.info("if secondary mail if========")
+        PendingSecondaryEmailChange.objects.update_or_create(
+            user=user,
+            defaults={
+                'new_secondary_email': new_email,
+                'activation_key': activation_key,
+            }
+        )
+        confirm_link = reverse('activate_secondary_email', kwargs={'key': activation_key})
+    else:
+        PendingEmailChange.objects.update_or_create(
+            user=user,
+            defaults={
+                'new_email': new_email,
+                'activation_key': activation_key,
+            }
+        )
+
+    use_https = theming_helpers.get_current_request().is_secure()
+
+    site = Site.objects.get_current()
+    message_context = get_base_template_context(site)
+    message_context.update({
         'old_email': user.email,
-        'new_email': pec.new_email
-    }
+        'new_email': new_email,
+        'confirm_link': '{protocol}://{site}{link}'.format(
+            protocol='https' if use_https else 'http',
+            site=configuration_helpers.get_value('SITE_NAME', settings.SITE_NAME),
+            link=confirm_link,
+        ),
+    })
 
-    subject = render_to_string('emails/email_change_subject.txt', context)
-    subject = ''.join(subject.splitlines())
+    if secondary_email_change_request:
+        msg = RecoveryEmailCreate().personalize(
+            recipient=Recipient(user.username, new_email),
+            language=preferences_api.get_user_preference(user, LANGUAGE_KEY),
+            user_context=message_context,
+        )
+    else:
+        msg = EmailChange().personalize(
+            recipient=Recipient(user.username, new_email),
+            language=preferences_api.get_user_preference(user, LANGUAGE_KEY),
+            user_context=message_context,
+        )
 
-    message = render_to_string('emails/email_change.txt', context)
-
-    from_address = configuration_helpers.get_value(
-        'email_from_address',
-        settings.DEFAULT_FROM_EMAIL
-    )
     try:
-        mail.send_mail(subject, message, from_address, [pec.new_email])
+        lmslog.info("try for send email========")
+        ace.send(msg)
     except Exception:
+        from_address = configuration_helpers.get_value('email_from_address', settings.DEFAULT_FROM_EMAIL)
         log.error(u'Unable to send email activation link to user from "%s"', from_address, exc_info=True)
         raise ValueError(_('Unable to send email activation link. Please try again later.'))
 
-    # When the email address change is complete, a "edx.user.settings.changed" event will be emitted.
-    # But because changing the email address is multi-step, we also emit an event here so that we can
-    # track where the request was initiated.
-    tracker.emit(
-        SETTING_CHANGE_INITIATED,
-        {
-            "setting": "email",
-            "old": context['old_email'],
-            "new": context['new_email'],
-            "user_id": user.id,
-        }
-    )
+    if not secondary_email_change_request:
+        lmslog.info("if not secondary mail =======")
+        # When the email address change is complete, a "edx.user.settings.changed" event will be emitted.
+        # But because changing the email address is multi-step, we also emit an event here so that we can
+        # track where the request was initiated.
+        tracker.emit(
+            SETTING_CHANGE_INITIATED,
+            {
+                "setting": "email",
+                "old": message_context['old_email'],
+                "new": message_context['new_email'],
+                "user_id": user.id,
+            }
+        )
+    lmslog.info("last of sending mail=========")
+
+
+@ensure_csrf_cookie
+def activate_secondary_email(request, key):  # pylint: disable=unused-argument
+    """
+    This is called when the activation link is clicked. We activate the secondary email
+    for the requested user.
+    """
+    try:
+        pending_secondary_email_change = PendingSecondaryEmailChange.objects.get(activation_key=key)
+    except PendingSecondaryEmailChange.DoesNotExist:
+        return render_to_response("invalid_email_key.html", {})
+
+    try:
+        account_recovery_obj = AccountRecovery.objects.get(user_id=pending_secondary_email_change.user)
+    except AccountRecovery.DoesNotExist:
+        return render_to_response("secondary_email_change_failed.html", {
+            'secondary_email': pending_secondary_email_change.new_secondary_email
+        })
+
+    account_recovery_obj.is_active = True
+    account_recovery_obj.save()
+    return render_to_response("secondary_email_change_successful.html")
+
+
 
 
 @ensure_csrf_cookie

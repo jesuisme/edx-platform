@@ -69,6 +69,16 @@ class DarkLangMiddleware(object):
             language_options.append(settings.LANGUAGE_CODE)
         return language_options
 
+    @property
+    def beta_langs(self):
+        """
+        Current list of released languages
+        """
+        language_options = DarkLangConfig.current().beta_languages_list
+        if settings.LANGUAGE_CODE not in language_options:
+            language_options.append(settings.LANGUAGE_CODE)
+        return language_options
+
     def process_request(self, request):
         """
         Prevent user from requesting un-released languages except by using the preview-lang query string.

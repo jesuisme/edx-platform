@@ -27,14 +27,16 @@
             enterpriseReadonlyAccountFields,
             edxSupportUrl,
             extendedProfileFields,
-            displayAccountDeletion
+            displayAccountDeletion,
+            isSecondaryEmailFeatureEnabled,
+            betaLanguage
         ) {
             var $accountSettingsElement, userAccountModel, userPreferencesModel, aboutSectionsData,
                 accountsSectionData, ordersSectionData, accountSettingsView, showAccountSettingsPage,
-                showLoadingError, orderNumber, getUserField, userFields, timeZoneDropdownField, countryDropdownField,
+                showLoadingError, secondaryEmailFieldView, orderNumber, getUserField, userFields, timeZoneDropdownField, countryDropdownField,
                 emailFieldView, socialFields, accountDeletionFields, platformData,
                 aboutSectionMessageType, aboutSectionMessage, fullnameFieldView, countryFieldView,
-                fullNameFieldData, emailFieldData, countryFieldData, additionalFields, fieldItem;
+                fullNameFieldData, emailFieldData, secondaryEmailFieldData, countryFieldData, additionalFields, fieldItem, emailFieldViewIndex;
 
             $accountSettingsElement = $('.wrapper-account-settings');
 
@@ -72,6 +74,7 @@
                 ),
                 persistChanges: true
             };
+            
             if (!allowEmailChange || (syncLearnerProfileData && enterpriseReadonlyAccountFields.fields.indexOf('email') !== -1)) {  // eslint-disable-line max-len
                 emailFieldView = {
                     view: new AccountSettingsFieldViews.ReadonlyFieldView(emailFieldData)
@@ -79,9 +82,18 @@
             } else {
                 emailFieldView = {
                     view: new AccountSettingsFieldViews.EmailFieldView(emailFieldData)
+                    
                 };
             }
-
+            
+            secondaryEmailFieldData = {
+                model: userAccountModel,
+                title: gettext('Recovery Email Address'),
+                valueAttribute: 'secondary_email',
+                helpMessage: gettext('You may access your account with this address if single-sign on or access to your primary email is not available.'),  // eslint-disable-line max-len
+                persistChanges: true
+            };
+            
             fullNameFieldData = {
                 model: userAccountModel,
                 title: gettext('Full Name'),
@@ -233,6 +245,35 @@
             ];
 
             // Add the extended profile fields
+            if (isSecondaryEmailFeatureEnabled) {
+                secondaryEmailFieldView = {
+                    view: new AccountSettingsFieldViews.EmailFieldView(secondaryEmailFieldData),
+                    successMessage: function() {
+                    return HtmlUtils.joinHtml(
+                        this.indicators.success,
+                        StringUtils.interpolate(
+                            gettext('We\'ve sent a confirmation message to {new_secondary_email_address}. Click the link in the message to update your secondary email address.'),  // eslint-disable-line max-len
+                            {
+                                new_secondary_email_address: this.fieldValue()
+                            }
+                        )
+                    );}
+                };
+                emailFieldViewIndex = aboutSectionsData[0].fields.indexOf(emailFieldView);
+
+                // Insert secondary email address after email address field.
+                aboutSectionsData[0].fields.splice(
+                emailFieldViewIndex + 1, 0, secondaryEmailFieldView
+                )
+            }
+
+
+
+
+
+
+
+
             additionalFields = aboutSectionsData[1];
             for (var field in extendedProfileFields) {  // eslint-disable-line guard-for-in, no-restricted-syntax, vars-on-top, max-len
                 fieldItem = extendedProfileFields[field];
@@ -384,7 +425,8 @@
                     accountsTabSections: accountsSectionData,
                     ordersTabSections: ordersSectionData
                 },
-                userPreferencesModel: userPreferencesModel
+                userPreferencesModel: userPreferencesModel,
+                betaLanguage: betaLanguage
             });
 
             accountSettingsView.render();
@@ -412,7 +454,6 @@
                 },
                 error: showLoadingError
             });
-
             return {
                 userAccountModel: userAccountModel,
                 userPreferencesModel: userPreferencesModel,

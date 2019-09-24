@@ -49,6 +49,7 @@ div.ex1 {
 
 
 
+%if section_data['course_base_coherts']:
 %if section_data['student_records']:
 <div>
 
@@ -69,7 +70,7 @@ div.ex1 {
 %if section_data['course_base_coherts']:
 <div >
   <select data-placeholder="Coherts" class="chosen-select" name="coherts">
-    <option value=""></option>
+    <!-- <option value=""></option> -->
     % for coherts_row in section_data['course_base_coherts']:
     <option value="${(coherts_row.coherts_name)}">${(coherts_row.coherts_name)}</option>
     %endfor
@@ -80,6 +81,14 @@ div.ex1 {
        <button type="submit" onclick="myFunction()" class="action action-primary action-update register-button">Submit</button>
 
       </form>
+%endif
+
+
+%else:
+    <h3>Cohorts is not created for this course.</h3>
+    <h3>Please <a href="/ut_new/ut_coherts/"> click here </a> create cohorts for this course.</h3>
+
+
 %endif
 <br>
 <p id="demo"></p>

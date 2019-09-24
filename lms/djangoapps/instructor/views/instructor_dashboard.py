@@ -543,7 +543,6 @@ def _section_membership(request, course, access):
                         cohort_names_list.append(coherts_object.coherts_name)  
         section_data['cohort_choices'] = cohort_names_list
 
-    log.info("Section DAta COnatins---%s----"% section_data)
     return section_data
 
 
@@ -914,7 +913,6 @@ def _section_coherts_register(request,course, access):
             for user_record in selected_user:
                 add_in_track = User.objects.get(email=user_record)
                 if CohertsUserDetail.objects.filter(coherts_name=coherts_object, learner=add_in_track, organization=organization_obj).exists():
-                    log.info("user exist for this coherts")
                 else:
                     saving_user_coherts = CohertsUserDetail(coherts_name=coherts_object, learner=add_in_track, organization=organization_obj, instructor=current_user)
                     saving_user_coherts.save()
@@ -923,10 +921,10 @@ def _section_coherts_register(request,course, access):
                     coherts_value = enroll_user_for_course.strip('u').split("'")[1]
                     convert_unicode_course_id = unicode(coherts_value)
                     coherts_students_update_enrollment(request, convert_unicode_course_id, user_record)
-                    subject = "Your added in coherts"
+                    subject = "Your added in cohorts"
                     body = """
                     hi Learner,
-                            you are added in coherts %s.
+                            you are added in cohorts %s.
 
                     thanks,
                     
@@ -956,7 +954,7 @@ def _section_coherts_register(request,course, access):
         'student_records': student_records,
         # 'coherts_records': coherts_records,
         'course_base_coherts': course_base_coherts,
-        'section_display_name': _('Organization Coherts'),
+        'section_display_name': _('Organization Cohorts'),
         'access': access,
     }
     return section_data

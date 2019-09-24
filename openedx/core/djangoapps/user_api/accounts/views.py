@@ -46,6 +46,7 @@ from openedx.core.lib.api.authentication import (
 )
 from openedx.core.lib.api.parsers import MergePatchParser
 from student.models import (
+    AccountRecovery,
     CourseEnrollment,
     ManualEnrollmentAudit,
     PasswordHistory,
@@ -284,6 +285,7 @@ class AccountViewSet(ViewSet):
         try:
             account_settings = get_account_settings(
                 request, [username], view=request.query_params.get('view'))
+            for accc in account_settings:
         except UserNotFound:
             return Response(status=status.HTTP_403_FORBIDDEN if request.user.is_staff else status.HTTP_404_NOT_FOUND)
 
@@ -315,7 +317,6 @@ class AccountViewSet(ViewSet):
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
-
         return Response(account_settings)
 
 

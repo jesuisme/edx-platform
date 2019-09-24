@@ -14,6 +14,8 @@ from openedx.core.lib.courses import clean_course_id
 from student import STUDENT_WAFFLE_NAMESPACE
 from student.models import (
     CourseAccessRole,
+    AccountRecovery,
+    PendingSecondaryEmailChange,
     CourseEnrollment,
     CourseEnrollmentAllowed,
     DashboardConfiguration,
@@ -235,9 +237,17 @@ class UserProfileInline(admin.StackedInline):
     verbose_name_plural = _('User profile')
 
 
+class AccountRecoveryInline(admin.StackedInline):
+    """ Inline admin interface for AccountRecovery model. """
+    model = AccountRecovery
+    can_delete = False
+    verbose_name = _('Account recovery')
+    verbose_name_plural = _('Account recovery')
+
+
 class UserAdmin(BaseUserAdmin):
     """ Admin interface for the User model. """
-    inlines = (UserProfileInline,)
+    inlines = (UserProfileInline, AccountRecoveryInline)
 
     def get_readonly_fields(self, request, obj=None):
         """
@@ -297,12 +307,25 @@ class OrganizationRegistrationAdmin(admin.ModelAdmin):
     class Meta(object):
         model = OrganizationRegistration
 
+
 @admin.register(CohertsOrganization)
 class CohertsOrganizationAdmin(admin.ModelAdmin):
     """ Admin interface for the CourseEnrollmentAllowed model. """
     list_display = ('coherts_name', 'organization')
     class Meta(object):
         model = CohertsOrganization
+
+@admin.register(AccountRecovery)
+class AccountRecoveryAdmin(admin.ModelAdmin):
+    """ Admin interface for the CourseEnrollmentAllowed model. """
+    class Meta(object):
+        model = AccountRecovery
+
+@admin.register(PendingSecondaryEmailChange)
+class PendingSecondaryEmailChangeAdmin(admin.ModelAdmin):
+    """ Admin interface for the CourseEnrollmentAllowed model. """
+    class Meta(object):
+        model = PendingSecondaryEmailChange
 
 # @admin.register(UserCohertsOrganizationDetails)
 # class UserCohertsOrganizationDetailsAdmin(admin.ModelAdmin):

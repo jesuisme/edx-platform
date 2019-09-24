@@ -23,7 +23,7 @@ from django.contrib.auth.models import User
 from opaque_keys.edx.keys import CourseKey
 from pytz import UTC
 from six import text_type, iteritems
-
+from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_feature_enabled_for_user
 import track.views
 from bulk_email.models import BulkEmailFlag, Optout  # pylint: disable=import-error
 from course_modes.models import CourseMode
@@ -52,6 +52,7 @@ from student.cookies import set_user_info_cookie
 from student.helpers import cert_info, check_verify_status_by_course
 from student.models import (
     CourseEnrollment,
+    AccountRecovery,
     CourseEnrollmentAttribute,
     DashboardConfiguration,
     UserProfile,
@@ -669,6 +670,33 @@ def student_dashboard(request):
 
     enterprise_message = get_dashboard_consent_notification(request, user, course_enrollments)
 
+    
+
+    recovery_email_message = recovery_email_activation_message = None
+    if is_secondary_email_feature_enabled_for_user(user=user):
+        try:
+            account_recovery_obj = AccountRecovery.objects.get(user=user)
+        except AccountRecovery.DoesNotExist:
+            recovery_email_message = Text(
+                _(
+                    "Add a recovery email to retain access when single-sign on is not available. "
+                    "Go to your Account Settings.")
+            )
+            # .format(
+            #     link_start=HTML("<a href='{account_setting_page}'>").format(
+            #         account_setting_page=reverse('account_settings'),
+            #     ),
+            #     link_end=HTML("</a>")
+            # )
+        else:
+            if not account_recovery_obj.is_active:
+                recovery_email_activation_message = Text(
+                    _(
+                        "Recovery email is not activated yet. "
+                        "Kindly visit your email and follow the instructions to activate it."
+                    )
+                )
+
     # Disable lookup of Enterprise consent_required_course due to ENT-727
     # Will re-enable after fixing WL-1315
     consent_required_courses = set()
@@ -861,6 +889,8 @@ def student_dashboard(request):
         'denied_banner': denied_banner,
         'billing_email': settings.PAYMENT_SUPPORT_EMAIL,
         'user': user,
+        'recovery_email_activation_message':recovery_email_activation_message,
+        'recovery_email_message':recovery_email_message,
         'logout_url': reverse('logout'),
         'platform_name': platform_name,
         'enrolled_courses_either_paid': enrolled_courses_either_paid,
@@ -881,15 +911,25 @@ def student_dashboard(request):
     }  
 
     try:
-        staff_organization = UserProfile.objects.get(user=user).organization
-    except: 
+        staff_organization1 = UserProfile.objects.get(user=user)
+        if staff_organization1.organization:
+            log.info("staff_organization1.organization======%s===" % staff_organization1.organization)
+            log.info("staff_organization1.staff_organization1======%s===" % staff_organization1)
+            staff_organization = staff_organization1.organization
+        else:
+            log.info("else staff none=======")
+            staff_organization = None
+    except:
+        log.info("except none=========") 
         staff_organization = None
-
+    log.info("staff_organization===========%s========" % staff_organization)
+    # log.info("staff_organization===========%s========" % staff_organization.organization)
     #Read/Write to CSV Files (Student-Admin Dashboard)
     csv_path = os.path.dirname(__file__)
     data_folder = os.path.join(str(csv_path), "student_data_csvs")
 
     if user.is_staff and staff_organization is not None:
+        log.info("if staff_organization not none")
 
         total_cohort_list = []
         cohorts_data = {}  

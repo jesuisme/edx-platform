@@ -4,7 +4,7 @@ Programmatic integration point for User API Accounts sub-application
 """
 import datetime
 from pytz import UTC
-
+import logging
 from django.utils.translation import override as override_language, ugettext as _
 from django.db import transaction, IntegrityError
 from django.core.exceptions import ObjectDoesNotExist
@@ -14,7 +14,7 @@ from django.http import HttpResponseForbidden
 from openedx.core.djangoapps.theming.helpers import get_current_request
 from six import text_type
 
-from student.models import User, UserProfile, Registration, email_exists_or_retired
+from student.models import User, UserProfile, Registration, email_exists_or_retired, AccountRecovery
 from student import forms as student_forms
 from student import views as student_views
 from util.model_utils import emit_setting_changed_event
@@ -36,6 +36,7 @@ from .serializers import (
     UserReadOnlySerializer, _visible_fields  # pylint: disable=invalid-name
 )
 
+log = logging.getLogger(__name__)
 # Public access point for this function.
 visible_fields = _visible_fields
 
@@ -76,7 +77,6 @@ def get_account_settings(request, usernames=None, configuration=None, view=None)
     requested_users = User.objects.select_related('profile').filter(username__in=usernames)
     if not requested_users:
         raise errors.UserNotFound()
-
     serialized_users = []
     for user in requested_users:
         has_full_access = requesting_user.is_staff or requesting_user.username == user.username
@@ -90,7 +90,6 @@ def get_account_settings(request, usernames=None, configuration=None, view=None)
             custom_fields=admin_fields,
             context={'request': request}
         ).data)
-
     return serialized_users
 
 
@@ -123,6 +122,7 @@ def update_account_settings(requesting_user, update, username=None):
         errors.UserAPIInternalError: the operation failed due to an unexpected error.
 
     """
+    send_msg_for_email_change = {}
     if username is None:
         username = requesting_user.username
 
@@ -137,8 +137,10 @@ def update_account_settings(requesting_user, update, username=None):
     if "email" in update:
         changing_email = True
         new_email = update["email"]
+        send_msg_for_email_change.update(update)
         del update["email"]
-
+    if "secondary_email" in update:
+        send_msg_for_email_change.update(update)
     # If user has requested to change name, store old name because we must update associated metadata
     # after the save process is complete.
     changing_full_name = False
@@ -180,6 +182,9 @@ def update_account_settings(requesting_user, update, username=None):
             }
 
     # If the user asked to change full name, validate it
+    _validate_secondary_email(existing_user, update, field_errors)
+
+
     if changing_full_name:
         try:
             student_forms.validate_name(update['name'])
@@ -256,16 +261,45 @@ def update_account_settings(requesting_user, update, username=None):
         )
 
     # And try to send the email change request if necessary.
-    if changing_email:
-        if not settings.FEATURES['ALLOW_EMAIL_ADDRESS_CHANGE']:
-            raise AccountUpdateError(u"Email address changes have been disabled by the site operators.")
+    _send_email_change_requests_if_needed(send_msg_for_email_change, existing_user)
+    # if changing_email:
+    #     if not settings.FEATURES['ALLOW_EMAIL_ADDRESS_CHANGE']:
+    #         raise AccountUpdateError(u"Email address changes have been disabled by the site operators.")
+    #     try:
+    #         student_views.do_email_change_request(existing_user, new_email)
+    #     except ValueError as err:
+    #         raise AccountUpdateError(
+    #             u"Error thrown from do_email_change_request: '{}'".format(text_type(err)),
+    #             user_message=text_type(err)
+    #         )
+
+
+def _send_email_change_requests_if_needed(data, user):
+    new_email = data.get("email")
+    # asdf = data["email"]
+    if new_email:
         try:
-            student_views.do_email_change_request(existing_user, new_email)
+            student_views.do_email_change_request(user, new_email)
         except ValueError as err:
             raise AccountUpdateError(
                 u"Error thrown from do_email_change_request: '{}'".format(text_type(err)),
                 user_message=text_type(err)
             )
+
+    new_secondary_email = data.get("secondary_email")
+    if new_secondary_email:
+        try:
+            student_views.do_email_change_request(
+                user=user,
+                new_email=new_secondary_email,
+                secondary_email_change_request=True,
+            )
+        except ValueError as err:
+            raise AccountUpdateError(
+                u"Error thrown from do_email_change_request: '{}'".format(text_type(err)),
+                user_message=text_type(err)
+            )
+
 
 
 @helpers.intercept_errors(errors.UserAPIInternalError, ignore_errors=[errors.UserAPIRequestError])
@@ -476,6 +510,19 @@ def get_email_validation_error(email):
     return _validate(_validate_email, errors.AccountEmailInvalid, email)
 
 
+def get_secondary_email_validation_error(email):
+    """
+    Get the built-in validation error message for when the email is invalid in some way.
+
+    Arguments:
+        email (str): The proposed email (unicode).
+    Returns:
+        (str): Validation error message.
+
+    """
+    return _validate(_validate_secondary_email_doesnt_exist, errors.AccountEmailAlreadyExists, email)
+    
+
 def get_confirm_email_validation_error(confirm_email, email):
     """Get the built-in validation error message for when
     the confirmation email is invalid in some way.
@@ -549,6 +596,18 @@ def _get_user_and_profile(username):
     existing_user_profile, _ = UserProfile.objects.get_or_create(user=existing_user)
 
     return existing_user, existing_user_profile
+
+
+def _get_account_recovery(user):
+    """
+    helper method to return the account recovery object based on user.
+    """
+    try:
+        account_recovery = user.account_recovery
+    except ObjectDoesNotExist:
+        account_recovery = AccountRecovery(user=user)
+
+    return account_recovery
 
 
 def _validate(validation_func, err, *args):
@@ -698,6 +757,24 @@ def _validate_email_doesnt_exist(email):
         raise errors.AccountEmailAlreadyExists(_(accounts.EMAIL_CONFLICT_MSG).format(email_address=email))
 
 
+def _validate_secondary_email_doesnt_exist(email):
+    """
+    Validate that the email is not associated as a secondary email of an existing user.
+
+    Arguments:
+        email (unicode): The proposed email.
+
+    Returns:
+        None
+
+    Raises:
+        errors.AccountEmailAlreadyExists: Raised if given email address is already associated as another
+            user's secondary email.
+    """
+    if email is not None and AccountRecovery.objects.filter(secondary_email=email).exists():
+        # pylint: disable=no-member
+        raise errors.AccountEmailAlreadyExists(accounts.EMAIL_CONFLICT_MSG.format(email_address=email))
+
 def _validate_password_works_with_username(password, username=None):
     """Run validation checks on whether the password and username
     go well together.
@@ -742,6 +819,25 @@ def _validate_length(data, min, max, err):
     """
     if len(data) < min or len(data) > max:
         raise errors.AccountDataBadLength(err)
+
+
+def _validate_secondary_email(user, data, field_errors):
+    if "secondary_email" not in data:
+        return
+
+    account_recovery = _get_account_recovery(user)
+    try:
+        student_views.validate_secondary_email(account_recovery, data["secondary_email"])
+    except ValueError as err:
+        field_errors["secondary_email"] = {
+            "developer_message": u"Error thrown from validate_secondary_email: '{}'".format(text_type(err)),
+            "user_message": text_type(err)
+        }
+    else:
+        account_recovery.update_recovery_email(data["secondary_email"])
+
+
+
 
 
 def _validate_unicode(data, err=u"Input not valid unicode"):

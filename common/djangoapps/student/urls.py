@@ -51,6 +51,12 @@ urlpatterns = [
     url(r'^course_run/{}/refund_status$'.format(settings.COURSE_ID_PATTERN),
         views.course_run_refund_status,
         name="course_run_refund_status"),
+
+    url(
+        r'^activate_secondary_email/(?P<key>[^/]*)$',
+        views.activate_secondary_email,
+        name='activate_secondary_email'
+    ),
 ]
 
 # enable automatic login

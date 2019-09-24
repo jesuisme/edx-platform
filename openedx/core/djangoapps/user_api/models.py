@@ -1,6 +1,7 @@
 """
 Django ORM model specifications for the User API application
 """
+import logging
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.db import models
@@ -27,6 +28,7 @@ from student.models import (
 )
 from util.model_utils import emit_setting_changed_event, get_changed_fields_dict
 
+log = logging.getLogger(__name__)
 
 class RetirementStateError(Exception):
     pass
@@ -281,12 +283,16 @@ class UserRetirementStatus(TimeStampedModel):
         Creates a UserRetirementStatus for the given user, in the correct initial state. Will
         fail if the user already has a UserRetirementStatus row or if states are not yet populated.
         """
+        log.info("inside create retirement=========")
         try:
+            log.info("inside try=========")
             pending = RetirementState.objects.all().order_by('state_execution_order')[0]
         except IndexError:
+            log.info("inside except=====")
             raise RetirementStateError('Default state does not exist! Populate retirement states to retire users.')
-
+        log.info("after try bb")
         if cls.objects.filter(user=user).exists():
+            log.info("user exist for retirement=======")
             raise RetirementStateError('User {} already has a retirement status row!'.format(user))
 
         retired_username = get_retired_username_by_username(user.username)
