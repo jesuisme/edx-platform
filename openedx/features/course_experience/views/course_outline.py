@@ -12,6 +12,7 @@ from opaque_keys.edx.keys import CourseKey
 from pytz import UTC
 from waffle.models import Switch
 from web_fragments.fragment import Fragment
+from django.contrib.auth.models import User
 
 from courseware.courses import get_course_overview_with_access
 from openedx.core.djangoapps.plugin_api.views import EdxFragmentView
@@ -20,6 +21,7 @@ from student.models import CourseEnrollment
 from util.milestones_helpers import get_course_content_milestones
 from xmodule.modulestore.django import modulestore
 from ..utils import get_course_outline_block_tree, get_resume_block
+from student.models import CourseProgress
 import logging
 log = logging.getLogger(__name__)
 
@@ -48,6 +50,7 @@ class CourseOutlineFragmentView(EdxFragmentView):
             'course': course_overview,
             'due_date_display_format': course.due_date_display_format,
             'blocks': course_block_tree
+            
         }
 
         resume_block = get_resume_block(course_block_tree)
@@ -59,6 +62,37 @@ class CourseOutlineFragmentView(EdxFragmentView):
 
         context['gated_content'] = gated_content
         context['xblock_display_names'] = xblock_display_names
+
+
+        sections_list = []
+        completed_sections_list = []
+       
+
+        course_sections = context['blocks'].get('children')
+        if course_sections is not None:            
+            for section in course_sections:
+                for subsection in section.get('children', []):
+                    lower_subsection_display_name = (subsection['display_name']).lower()
+                    if lower_subsection_display_name != 'user feedback survey':
+                        sections_list.append(subsection['display_name'])
+                        if subsection.get('complete'):
+                            completed_sections_list.append(subsection['display_name'])
+
+        length_sections_list = len(sections_list)
+        length_completed_sections_list = len(completed_sections_list)
+
+        total_completed_list = (float(length_completed_sections_list) / float(length_sections_list)) * 100
+
+        context['total_completed_list'] = int(total_completed_list)
+        
+
+        user_prof = User.objects.get(username=request.user.username)       
+        course_progress = CourseProgress.objects.filter(user=user_prof,course_id=course_key).exists()
+
+        if course_progress:
+            course_progress = CourseProgress.objects.get(user=user_prof,course_id=course_key)
+            course_progress.feedback_progress = int(total_completed_list)
+            course_progress.save()
 
         html = render_to_string('course_experience/course-outline-fragment.html', context)
         return Fragment(html)

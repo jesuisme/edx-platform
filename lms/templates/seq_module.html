@@ -74,8 +74,8 @@
   <div id="seq_contents_${idx}"
     aria-labelledby="tab_${idx}"
     aria-hidden="true"
-    class="seq_contents tex2jax_ignore asciimath2jax_ignore">
-    ${item['content']}
+    class="seq_contents tex2jax_ignore asciimath2jax_ignore">        
+    ${item['content']}    
   </div>
   % endfor
   <div id="seq_content" role="tabpanel"></div>
@@ -85,10 +85,9 @@
     <button class="sequence-nav-button button-previous">
       <span class="icon fa fa-chevron-prev" aria-hidden="true"></span>
       <span>${_('Previous')}</span>
-    </button>
-    <button class="sequence-nav-button button-next">
-      <span>${_('Next')}</span>
+    </button>   
+    <button class="sequence-nav-button button-next">      
+        <span>${_('Next')}</span>   
       <span class="icon fa fa-chevron-next" aria-hidden="true"></span>
     </button>
-  </nav>
 </div>

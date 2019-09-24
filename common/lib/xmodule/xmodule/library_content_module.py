@@ -354,6 +354,7 @@ class LibraryContentModule(LibraryContentFields, XModule, StudioEditableModule):
             'watched_completable_blocks': set(),
             'completion_delay_ms': None,
         }))
+        logger.info("library content----")
         return fragment
 
     def validate(self):
