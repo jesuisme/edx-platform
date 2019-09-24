@@ -128,8 +128,8 @@ database.sqlite
 courseware/static/js/mathjax/*
 flushdb.sh
 build
-!src/
-/src/
+#!src
+#/src/*
 
 \#*\#
 .env/
