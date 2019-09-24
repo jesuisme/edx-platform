@@ -15,7 +15,10 @@ from student.models import UserProfile
 <%
 ## This template should not use the target student's details when masquerading, see TNL-4895
 current_user = UserProfile.objects.get(user=request.user)
-organization_length = len(current_user.organization)
+if current_user.organization:
+    organization_length = len(current_user.organization)
+else:
+    organization_length = 0
 self.real_user = getattr(user, 'real_user', user)
 profile_image_url = get_profile_image_urls_for_user(self.real_user)['medium']
 username = self.real_user.username
