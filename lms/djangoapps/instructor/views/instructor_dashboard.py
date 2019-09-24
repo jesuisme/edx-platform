@@ -913,6 +913,7 @@ def _section_coherts_register(request,course, access):
             for user_record in selected_user:
                 add_in_track = User.objects.get(email=user_record)
                 if CohertsUserDetail.objects.filter(coherts_name=coherts_object, learner=add_in_track, organization=organization_obj).exists():
+                    log.info("user exist for this coherts")
                 else:
                     saving_user_coherts = CohertsUserDetail(coherts_name=coherts_object, learner=add_in_track, organization=organization_obj, instructor=current_user)
                     saving_user_coherts.save()
