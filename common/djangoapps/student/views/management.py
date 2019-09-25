@@ -1351,17 +1351,18 @@ def create_account(request, post_override=None):
     #AUDIT_LOG.info("dddddddddsssssffgfff-----create account------%s--------" % request.POST)
     user_mail = request.POST.getlist('email')
     selected_organization = request.POST.getlist('organization')
-    # if selected_organization[0] == "Student":
-    if selected_organization[0] == "on":
-        if selected_organization[1]:
-            organization_object = OrganizationRegistration.objects.get(organization_name=selected_organization[1])
-            organization_mail = organization_object.organization_email
-            user_mail = user_mail[0].split('@')
-            organization_mail = organization_mail.split('@')
-            if user_mail[1] != organization_mail[1]:
-                return JsonResponse({'success': False, 'value': "your mail does not match to organization mail", 'field': "organization"}, status=400)
-        else:
-            return JsonResponse({'success': False, 'value': "Select valid organization!!", 'field': "organization"}, status=400)
+    lmslog.info("selected_organization===========%s======" % selected_organization)
+    if selected_organization:
+        if selected_organization[0] == "on":
+            if selected_organization[1]:
+                organization_object = OrganizationRegistration.objects.get(organization_name=selected_organization[1])
+                organization_mail = organization_object.organization_email
+                user_mail = user_mail[0].split('@')
+                organization_mail = organization_mail.split('@')
+                if user_mail[1] != organization_mail[1]:
+                    return JsonResponse({'success': False, 'value': "your mail does not match to organization mail", 'field': "organization"}, status=400)
+            else:
+                return JsonResponse({'success': False, 'value': "Select valid organization!!", 'field': "organization"}, status=400)
 
 
     warnings.warn("Please use RegistrationView instead.", DeprecationWarning)
