@@ -943,6 +943,7 @@ def _section_coherts_register(request,course, access):
                 course_list = (row.course_list).encode('UTF8')
                 coherts_result1 = course_list.strip('][').split(',')
                 for course_name in coherts_result1:
+                    log.info("---inside courses----%s----" % course_name)
                     unicode_convert= unicode(course_name.strip('u').split("'")[1])
                     if unicode_convert == unicode(course_key):
                         course_base_coherts.append(row)

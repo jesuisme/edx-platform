@@ -13,8 +13,6 @@ log = logging.getLogger(__name__)
 
 @login_required
 def ut_coherts(request):
-    # return Response(status=status.HTTP_403_FORBIDDEN if request.user.is_staff else status.HTTP_404_NOT_FOUND)
-    log.info('==inside ut_coherts---')
     user_detail = UserProfile.objects.get(user=request.user)
     if not (user_detail.organization and request.user.is_staff):
         return HttpResponse(status=status.HTTP_403_FORBIDDEN)
