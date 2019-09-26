@@ -559,6 +559,8 @@ def _get_urls_for_resume_buttons(user, enrollments):
 def Merge(dict1, dict2): 
     return(dict2.update(dict1)) 
 
+
+
 @login_required
 @ensure_csrf_cookie
 @add_maintenance_banner

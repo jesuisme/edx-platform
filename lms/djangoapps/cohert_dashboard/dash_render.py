@@ -16,7 +16,7 @@ from datetime import date, timedelta
 log = logging.getLogger(__name__)
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-from student.models import UserProfile, CohertsUserDetail, OrganizationRegistration, CohertsOrganization
+from student.models import UserProfile, CohertsUserDetail, OrganizationRegistration, CohertsOrganization, CourseAccessRole
 from django.contrib.auth import logout
 from django.contrib.staticfiles.storage import staticfiles_storage
 colorscale = cl.scales['9']['qual']['Paired']
@@ -1018,8 +1018,14 @@ def _create_admin_dashboard_app(request,admin_organization):
 
                             for list_item in range(len(lq)):
                                 course_key = CourseKey.from_string(str(lq[list_item]))
-                                course_name = CourseOverview.objects.get(id=course_key)  
+                                course_name = CourseOverview.objects.get(id=course_key) 
                                 modules_assigned_1.append(course_name.display_name)
+
+                                course_access = CourseAccessRole.objects.filter(org=org, course_id=course_key)
+                                for course_acc in course_access:
+                                    if course_acc.role == 'staff' and str(course_acc.user) != 'edx':
+                                        facilitator_assigned.append(course_acc.user)
+
                     
 
                     graphs.append(

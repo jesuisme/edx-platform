@@ -629,6 +629,7 @@ def auto_auth(request):
     randomly generated credentials.
     """
 
+
     # Generate a unique name to use if none provided
     generated_username = uuid.uuid4().hex[0:30]
     generated_password = generate_password()

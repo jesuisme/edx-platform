@@ -28,7 +28,8 @@ from openedx.core.djangoapps.user_api.preferences.api import get_user_preference
 from student.message_types import PasswordReset
 from student.models import CourseEnrollmentAllowed, email_exists_or_retired, OrganizationRegistration, organization_email_exists
 from util.password_policy_validators import password_max_length, password_min_length, validate_password
-
+import logging
+log = logging.getLogger(__name__)
 
 class PasswordResetFormNoActive(PasswordResetForm):
     error_messages = {

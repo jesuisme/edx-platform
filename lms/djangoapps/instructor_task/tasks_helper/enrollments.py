@@ -30,6 +30,8 @@ from util.file import course_filename_prefix_generator
 
 from .runner import TaskProgress
 from .utils import tracker_emit, upload_csv_to_report_store
+import logging
+log = logging.getLogger(__name__)
 
 TASK_LOG = logging.getLogger('edx.celery.task')
 FILTERED_OUT_ROLES = ['staff', 'instructor', 'finance_admin', 'sales_admin']

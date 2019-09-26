@@ -63,6 +63,14 @@ def _change_access(course, user, level, action, send_email=True):
 
     NOTE: will create a group if it does not yet exist.
     """
+    if level == 'instructor' and action == 'allow':
+        user.is_staff = True
+        user.save()
+    elif level == 'instructor' and action == 'revoke':
+        user.is_staff = False
+        user.save()
+    else:
+        pass
 
     try:
         role = ROLES[level](course.id)

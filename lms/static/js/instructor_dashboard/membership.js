@@ -32,6 +32,8 @@ such that the value can be defined later than this assignment (file load order).
     enableAddButton = function(enable, parent) {
         var $addButton = parent.$('input[type="button"].add');
         var $addField = parent.$('input[type="text"].add-field');
+        console.log("add field",$addField);
+
         if (enable) {
             $addButton.removeAttr('disabled');
             $addField.removeAttr('disabled');
@@ -66,6 +68,7 @@ such that the value can be defined later than this assignment (file load order).
         }
 
         memberListWidget.prototype.clear_input = function() {
+            console.log("add field inside",this.$('.add-field').val(''));
             return this.$('.add-field').val('');
         };
 
@@ -128,6 +131,7 @@ such that the value can be defined later than this assignment (file load order).
             this.debug = true;
             this.list_endpoint = $container.data('list-endpoint');
             this.modify_endpoint = $container.data('modify-endpoint');
+
             if (this.rolename == null) {
                 msg = 'AuthListWidget missing @rolename';
                 throw msg;
@@ -220,7 +224,9 @@ such that the value can be defined later than this assignment (file load order).
 
         AuthListWidget.prototype.show_errors = function(msg) {
             var result;
+            console.log("msg error show errors");
             result = this.$errorSection !== undefined ? this.$errorSection.text(msg) : undefined;
+            console.log("after result",result);
             return result;
         };
 
@@ -265,21 +271,41 @@ such that the value can be defined later than this assignment (file load order).
 
         AuthListWidget.prototype.member_response = function(data) {
             var msg;
+            var unique_student;
+
             this.clear_errors();
             this.clear_input();
             if (data.userDoesNotExist) {
-                msg = gettext("Could not find a user with username or email address '<%- identifier %>'.");
-                return this.show_errors(_.template(msg, {
-                    identifier: data.unique_student_identifier
-                }));
+                console.log("userdoes not exist--"); 
+                msg = "Could not find a user with username or email address";
+                unique_student = data.unique_student_identifier;
+                var final_msg = msg +' '+ unique_student;  
+                return this.show_errors(
+                    gettext(final_msg)
+                );               
+                
             } else if (data.inactiveUser) {
-                msg = gettext("Error: User '<%- username %>' has not yet activated their account. Users must create and activate their accounts before they can be assigned a role.");  // eslint-disable-line max-len
-                return this.show_errors(_.template(msg, {
-                    username: data.unique_student_identifier
-                }));
+                var msg_inactive = "Error: User- "+ data.unique_student_identifier + " has not yet activated their account. Users must create and activate their accounts before they can be assigned a role."
+                return this.show_errors(
+                    gettext(msg_inactive)
+                );      
             } else if (data.removingSelfAsInstructor) {
                 return this.show_errors(
                     gettext('Error: You cannot remove yourself from the Instructor group!')
+                );
+            } else if(data.noOrganization) {
+                console.log("data no organization");
+                var msg_no_org = "Error: User- "+ data.unique_student_identifier + " does not belong to any Organization."
+                console.log("msgnoorg",msg_no_org);
+                return this.show_errors(
+                    gettext(msg_no_org)
+                );
+            } else if(data.organizationDoesNotMatch) { 
+                console.log("does not match");               
+                var msg_does_not_match =  "Error: User- "+ data.unique_student_identifier + " does not belong to an Organization: "+ data.organization +". As User Organization name does not match with Staff Organization."
+                console.log("org does not match",msg_does_not_match);
+                return this.show_errors(
+                    gettext(msg_does_not_match)
                 );
             } else {
                 return this.reload_list();
@@ -939,6 +965,7 @@ such that the value can be defined later than this assignment (file load order).
                     }
                 ];
                 tableData = data[ths.rolename];
+
                 $tablePlaceholder = $('<div/>', {
                     class: 'slickgrid'
                 });
@@ -973,6 +1000,7 @@ such that the value can be defined later than this assignment (file load order).
             this.$display_table.empty();
             return this.reload_auth_list();
         };
+        
 
         authList.prototype.access_change = function(email, action, cb) {
             var ths = this;

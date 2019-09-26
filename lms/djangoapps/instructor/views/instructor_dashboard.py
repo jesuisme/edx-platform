@@ -259,6 +259,7 @@ def instructor_dashboard_2(request, course_id):
         'certificate_invalidation_view_url': certificate_invalidation_view_url,
     }
 
+
     return render_to_response('instructor/instructor_dashboard_2/instructor_dashboard_2.html', context)
 
 
@@ -495,6 +496,7 @@ def _section_course_info(course, access):
     except Exception:  # pylint: disable=broad-except
         section_data['course_errors'] = [('Error fetching errors', '')]
 
+
     return section_data
 
 
@@ -543,7 +545,6 @@ def _section_membership(request, course, access):
                         cohort_names_list.append(coherts_object.coherts_name)  
         section_data['cohort_choices'] = cohort_names_list
 
-    log.info("Section DAta COnatins---%s----"% section_data)
     return section_data
 
 

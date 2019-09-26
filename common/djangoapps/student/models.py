@@ -2337,13 +2337,22 @@ def get_user_by_username_or_email(username_or_email):
         MultipleObjectsReturned if more than one user has same email or
         username
     """
+    log.info("get user by email---")
     username_or_email = strip_if_string(username_or_email)
     # there should be one user with either username or email equal to username_or_email
-    user = User.objects.get(Q(email=username_or_email) | Q(username=username_or_email))
+    try:
+        user = User.objects.get(Q(email=username_or_email) | Q(username=username_or_email))
+        log.info("user after----%s----"% user)
+    except User.DoesNotExist:
+        log.info("does not es---")
+        raise User.DoesNotExist()
+
     if user.username == username_or_email:
         UserRetirementRequest = apps.get_model('user_api', 'UserRetirementRequest')
         if UserRetirementRequest.has_user_requested_retirement(user):
+            log.info("user does not exist")
             raise User.DoesNotExist
+    log.info("return user----%s----"% user)
     return user
 
 
@@ -2968,6 +2977,7 @@ class OrganizationRegistration(models.Model):
     paid = models.BooleanField(default=0)
     invoice_id = models.CharField(max_length=150,null=True)
     payment_status = models.CharField(blank=True,max_length=200,default='')
+
 
     def delete(self, *agrs,**kwargs):
         user = User.objects.get(username=self.user)

@@ -669,15 +669,23 @@ function hideall() {
 
 
 <br>
-<div class="group group-form group-form-requiredinformation">
+<div id="outer-container" class="group group-form group-form-requiredinformation">
   <!-- <ol class="list-input"> -->
 <form id="organization_register" name="validate" action="/organization_register" method="post" onsubmit="return validateForm()" data-remote="true" novalidate>
     {% csrf_token %}
 
-    <div>
+    
+    
+  
+  <input type="hidden" id='validation_message' class='evt_validate' value='{{ email_obj }}'/>
+
+    <div>    
+    
     {% for field in form %}
       {{ field.errors }}
-      <label for="{{ field.auto_id }}">
+      <span id='org_email_message' style="color:red;"></span>     
+
+      <label for="{{ field.auto_id }}">           
           {% if field.field.required %}<span class="required">{{ field.label }}</span>
           {% else %}{{ field.label }}{% endif %}
       </label>
@@ -759,7 +767,7 @@ function hideall() {
     
     <label class="required" for="confirm_password">Confirm Password:</label>
     <span id='confirm_message' style="color:Black;font-weight: bold;"></span>
-    <input type="password" name="confirm_password" required="required" />
+    <input type="password" name="confirm_password" id="confirm_password_id" required="required" />
    
 
 
@@ -908,6 +916,37 @@ function hideall() {
 <script type="text/javascript" src="https://bootstrapformhelpers.com/assets/js/bootstrap.min.js"></script>
 
 <script type="text/javascript" src="https://bootstrapformhelpers.com/assets/js/bootstrap-formhelpers.min.js"></script>
+
+
+<script language="javascript"> 
+
+  $(document).click(function() {
+    var org_email_data = document.getElementById('id_organization_email').value;
+    var org_email_message = document.getElementById("org_email_message");
+    var confirm_id_value = document.getElementById("id_confirm_email").value;
+    
+
+
+    if (org_email_data != '' || org_email_data != null){
+      var hidden_data = document.getElementById('validation_message').value;
+      var hidden_data1 = eval(hidden_data).join(",");
+      var data_obj = hidden_data1.split(",");
+
+      if (org_email_data != null || org_email_data != ''){        
+        if (data_obj.indexOf(org_email_data) > -1) {
+          org_email_message.innerHTML = "User with the same email already exists."; 
+          return (false);        
+        } else {
+          org_email_message.innerHTML = "";
+          return true;                        
+        }
+
+      }   
+    }
+    
+  });
+</script>
+
 
 
 
