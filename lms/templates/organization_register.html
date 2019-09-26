@@ -608,9 +608,22 @@
 
 
 
+<section class="introduction">
+ <header>
+   <h1 class="title">
+     <span class="title-super">Organization Registration</span>
+     <!--<span class="title-sub">Register below to create your Dell Medical School | The University of Texas at Austin account</span>-->
+   </h1>
+ </header>
+</section>
 
 <section class="register container">
-  <section role="main" class="content">
+  <h3>Welcome to Dell Medical School, The University of Texas at Austin</h3>
+  <p style="
+    color: #737373;
+">Registering with Dell Medical School, The University of Texas at Austin gives you access to all of our current and future free courses. Not ready to take a course just yet? Registering puts you on our mailing list - we will update you as courses are added.
+ </p><section role="main" class="content">
+  
    <!--  <form role="form" id="register-form" method="post" data-remote="true" action="/create_account" novalidate> -->
 
       
@@ -671,27 +684,29 @@ function hideall() {
 <br>
 <div id="outer-container" class="group group-form group-form-requiredinformation">
   <!-- <ol class="list-input"> -->
-<form id="organization_register" name="validate" action="/organization_register" method="post" onsubmit="return validateForm()" data-remote="true" novalidate>
+<form id="organization_register" name="validate" action="/organization_register" method="post" onsubmit="return validateForm()" data-remote="true" novalidate class="row">
     {% csrf_token %}
 
     
-    
   
-  <input type="hidden" id='validation_message' class='evt_validate' value='{{ email_obj }}'/>
-
-    <div>    
+  <div class="row">
+  
+  <input type="hidden" id='validation_message' class='evt_validate' value='{{ email_obj }}'/> 
     
     {% for field in form %}
-      {{ field.errors }}
-      <span id='org_email_message' style="color:red;"></span>     
+      <div class="col-md-6">
+        {{ field.errors }}
+        <span id='org_email_message' style="color:red;"></span>     
 
-      <label for="{{ field.auto_id }}">           
-          {% if field.field.required %}<span class="required">{{ field.label }}</span>
-          {% else %}{{ field.label }}{% endif %}
-      </label>
-      {{ field }}
+        <label for="{{ field.auto_id }}">           
+            {% if field.field.required %}<span class="required">{{ field.label }}</span>
+            {% else %}{{ field.label }}{% endif %}
+        </label>
+        {{ field }}
+      </div>
     {% endfor %}
-  </div>
+
+  
 
 
    <!--  <b>
@@ -700,18 +715,23 @@ function hideall() {
     <b></b> --> 
 
 
+  <div class="col-md-6">
   <label for="address2">Address line 2:</label>
     <span id='address2' style="color:Black;font-weight: bold;"></span>
-    <input type="text" name="address2">
+    <input type="text" name="address2" class="form-control">
+  </div>
 
+  <div class="col-md-6">
    
    <div id="field-country">
         <label class="required" for="country">Country:</label>
-<select id="country-select" name="country" class="bfh-countries form-control" data-country="US" data-flags="true"></select><br>
+    <select id="country-select" name="country" class="bfh-countries form-control" data-country="US" data-flags="true"></select><br>
       </div>
+  </div>
 
 
 
+  <div class="col-md-6">
   <div id="field-state">
         <label class="required" for="state">State:</label>
         <span id='state_message' style="color:Black;font-weight: bold;"></span>
@@ -719,11 +739,14 @@ function hideall() {
 
         </select><br>
       </div>
+  </div>
 
 
+<div class="col-md-6">
   <label class="required" for="zip_code">Zip Code</label>
     <span id='zip_code_message' style="color:Black;font-weight: bold;"></span>
-    <input type="text" name="zip_code" required='required'>
+    <input type="text" name="zip_code" required='required' class="form-control">
+</div>
 
     
 
@@ -758,18 +781,22 @@ function hideall() {
      <input id="seat_type2" type='number', name='additional_seats_purchased' min=1, value="1" style="display: none;" />  
  -->
 
+  <div class="col-md-6">
     
     <label class="required" for="password">Password:</label>
     <span id='password_message' style="color:Black;font-weight: bold;"></span>
-    <input type="password" name="password" required="required" />
+    <input type="password" name="password" required="required" class="form-control" />
+  </div>
 
 
+  <div class="col-md-6">
     
     <label class="required" for="confirm_password">Confirm Password:</label>
     <span id='confirm_message' style="color:Black;font-weight: bold;"></span>
-    <input type="password" name="confirm_password" id="confirm_password_id" required="required" />
+    <input type="password" name="confirm_password" id="confirm_password_id" required="required" class="form-control"/>
+  </div>
    
-
+</div>
 
 
 
@@ -785,7 +812,10 @@ function hideall() {
     <div class="g-recaptcha" data-sitekey="6LcpM4gUAAAAAHW6N8SRPA2x95M17tBz9ltIMOvZ" required></div> -->
   
     <!-- <input type="submit" value="Register Organization" class="action action-primary action-update register-button"/> -->
-    <button type="submit" class="action action-primary action-update register-button">Register Organization</button>
+  <div class="row">
+  <div class="col-md-12"><button type="submit" class="btn btn-primary btn-lg">Register Organization</button>
+  </div>
+</div>
 </form>
   <!-- </ol> -->
 
@@ -809,9 +839,11 @@ function hideall() {
 
 
 <div class="btn-brand btn-login">
-  <h3 class="title">Already registered?</h3>
+  <h3 class="title" style="
+    color: #fff;
+">Already registered?</h3>
   <p class="instructions">
-    <a class="btn-login-action" href="/login?next=%2F" style="color: black;">
+    <a class="btn-login-action" href="/login?next=%2F" style="color: white;">
       Log in
     </a>
   </p>
@@ -823,26 +855,68 @@ function hideall() {
   <p>Registering with Dell Medical School, The University of Texas at Austin gives you access to all of our current and future free courses. Not ready to take a course just yet? Registering puts you on our mailing list - we will update you as courses are added.</p>
 </div>
 
-<div class="cta cta-nextsteps">
-  <h3>Next Steps</h3>
-    <p>As part of joining Dell Medical School, The University of Texas at Austin, you will receive an email message with instructions for activating your account. Don&#39;t see the email? Check your spam folder and mark Your Platform Name Here emails as &#39;not spam&#39;. At Dell Medical School, The University of Texas at Austin, we communicate mostly through email.</p>
+<div class="cta cta-nextsteps" style="
+    display: inline-block;
+">
+  <button class="btn btn-primary" onclick="$('#nextstep_popup, #overlay').fadeIn()">Next Steps</button>
+   <!--  <p>As part of joining Dell Medical School, The University of Texas at Austin, you will receive an email message with instructions for activating your account. Don&#39;t see the email? Check your spam folder and mark Your Platform Name Here emails as &#39;not spam&#39;. At Dell Medical School, The University of Texas at Austin, we communicate mostly through email.</p> -->
 </div>
 
-  <div class="cta cta-help">
-    <h3>Need Help?</h3>
-    <p>Need help registering with Dell Medical School, The University of Texas at Austin?
+  <div class="cta cta-help" style="
+    display: inline-block;
+">
+    <button class="btn btn-primary" onclick="$('#needhelp_popup, #overlay').fadeIn()">Need Help?</button>
+<!--     <p>Need help registering with Dell Medical School, The University of Texas at Austin?
       <a href="/faq">
           View our FAQs for answers to commonly asked questions.
       </a>
-      You can find the answers to most of your questions in our list of FAQs. After you enroll in a course, you can also find answers in the course discussions.</p>
+      You can find the answers to most of your questions in our list of FAQs. After you enroll in a course, you can also find answers in the course discussions.</p> -->
   </div>
 
 
   </aside>
 </section>
 
-      
+<div id="nextstep_popup" class="popup"
+ style="z-index: 1000; box-shadow: 0 0 20px #494949; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); max-width: 800px; width: 90%; background: #ffffff; display: none; border: 1px solid #ccc;border-radius: 10px;">
+      <div class="modal-header"
+        style="height: 48px; box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 15px; border-bottom: 1px solid #e5e5e5; color: #333333; font-size: 14px; text-align: left;"> Next Steps
+        <button type="button" style="    box-shadow: none;margin: -2px 0px 0px;font-weight: bold;font-size: 21px;color: #000000;overflow: visible;cursor: pointer;border: 0px;float: right;opacity: 0.5;padding: 0px;background: transparent;" onclick="$('#nextstep_popup, #overlay').fadeOut()">×</button>
     </div>
+ <div class="transcription"
+   style="box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); color: #222222; width: 100%; padding: 15px; font-size: 14px; overflow: auto; max-height: 70vh;">
+
+   <p style="box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); margin: 0px 0px 10px;">As part of joining Dell Medical School, The University of Texas at Austin, you will receive an email message with instructions for activating your account. Don&#39;t see the email? Check your spam folder and mark Your Platform Name Here emails as &#39;not spam&#39;. At Dell Medical School, The University of Texas at Austin, we communicate mostly through email.
+   </p>
+ </div>
+</div>
+
+
+
+
+<div id="needhelp_popup" class="popup"
+ style="z-index: 1000; box-shadow: 0 0 20px #494949; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); max-width: 800px; width: 90%; background: #ffffff; display: none; border: 1px solid #ccc;border-radius: 10px;">
+      <div class="modal-header"
+        style="height: 48px; box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 15px; border-bottom: 1px solid #e5e5e5; color: #333333; font-size: 14px; text-align: left;"> Need Help
+        <button type="button" style="    box-shadow: none;margin: -2px 0px 0px;font-weight: bold;font-size: 21px;color: #000000;overflow: visible;cursor: pointer;border: 0px;float: right;opacity: 0.5;padding: 0px;background: transparent;" onclick="$('#needhelp_popup, #overlay').fadeOut()">×</button>
+    </div>
+ <div class="transcription"
+   style="box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); color: #222222; width: 100%; padding: 15px; font-size: 14px; overflow: auto; max-height: 70vh;">
+
+   <p style="box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); margin: 0px 0px 10px;">Need help registering with Dell Medical School, The University of Texas at Austin?
+      <a href="/faq">
+          View our FAQs for answers to commonly asked questions.
+      </a>
+      You can find the answers to most of your questions in our list of FAQs. After you enroll in a course, you can also find answers in the course discussions.
+   </p>
+ </div>
+</div>
+<div id="overlay"
+ style="z-index: 999; display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.4);"
+ onclick="$('.popup, #overlay').fadeOut()"></div>
+
+      
+  </div>
 
         
 

@@ -1033,16 +1033,14 @@ def _create_admin_dashboard_app(request,admin_organization):
                             id='graph3',
                             figure={
                                 'data': [
-                                    {'x': list(cohort_learner_data["cohort"]), 'y': cohort_learner_data['started'],'type': 'bar', 'name': 'Started', 'marker': dict(color='#f8971f', width='0.05%', autosize=False)},
-                                    {'x': list(cohort_learner_data["cohort"]), 'y': cohort_learner_data['not started'], 'type': 'bar', 'name': 'Not Yet Started', 'marker': dict(color='#00a9b7', width='0.05%', autosize=False)},
-                                    {'x': list(cohort_learner_data["cohort"]), 'y': cohort_learner_data['completed'], 'type': 'bar', 'name': 'Completed', 'marker': dict(color='#a6cd57', width='0.05%', autosize=False)},                               
+                                    {'x': list(cohort_learner_data["cohort"]), 'y': cohort_learner_data['started'],'type': 'bar', 'name': 'Started', 'marker': dict(color='#f8971f')},
+                                    {'x': list(cohort_learner_data["cohort"]), 'y': cohort_learner_data['not started'], 'type': 'bar', 'name': 'Not Yet Started', 'marker': dict(color='#00a9b7')},
+                                    {'x': list(cohort_learner_data["cohort"]), 'y': cohort_learner_data['completed'], 'type': 'bar', 'name': 'Completed', 'marker': dict(color='#a6cd57')},                               
 
                                 ],  
                                 'layout': {
                                     'title': '<b>Cohort progress</b>',
-                                    'barmode': 'stack',
-                                    'autosize': False,                                    
-                                    'width': '0.05%',
+                                    'barmode': 'stack',                                    
                                     'xaxis' : {      
                                         'title': '',                                     
                                         'autotick': False,                                                                                                  

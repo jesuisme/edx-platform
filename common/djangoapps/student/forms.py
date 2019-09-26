@@ -402,6 +402,9 @@ class OrganizationRegistrationForm(forms.ModelForm):
    
     def __init__(self, *args, **kwargs):
         super(OrganizationRegistrationForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+            
         self.fields['organization_name'].required = True
         self.fields['organization_domain'].required = True
         self.fields['organization_contact_number'].required = True
