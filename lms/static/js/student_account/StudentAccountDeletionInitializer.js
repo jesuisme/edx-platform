@@ -6,7 +6,7 @@ const maxWait = 60000;
 const interval = 50;
 const accountDeletionWrapperId = 'account-deletion-container';
 let currentWait = 0;
-
+console.log("===inside student account delete --js");
 const wrapperRendered = setInterval(() => {
   const wrapper = document.getElementById(accountDeletionWrapperId);
 

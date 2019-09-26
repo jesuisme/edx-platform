@@ -46,6 +46,7 @@ from openedx.core.lib.api.authentication import (
 )
 from openedx.core.lib.api.parsers import MergePatchParser
 from student.models import (
+    AccountRecovery,
     CourseEnrollment,
     ManualEnrollmentAudit,
     PasswordHistory,
@@ -315,7 +316,6 @@ class AccountViewSet(ViewSet):
                 },
                 status=status.HTTP_400_BAD_REQUEST
             )
-
         return Response(account_settings)
 
 
@@ -445,13 +445,17 @@ class DeactivateLogoutView(APIView):
                 try:
                     # Send notification email to user
                     site = Site.objects.get_current()
+                    log.info("==site-----%s====" % site)
                     notification_context = get_base_template_context(site)
+                    log.info("notification_context=====%s====" % notification_context)
                     notification_context.update({'full_name': request.user.profile.name})
+                    log.info("notification_context update====%s=====" % notification_context)
                     notification = DeletionNotificationMessage().personalize(
                         recipient=Recipient(username='', email_address=user_email),
                         language=request.user.profile.language,
                         user_context=notification_context,
                     )
+                    log.info("inside user api mail send===notification===%s===" % notification)
                     ace.send(notification)
                 except Exception as exc:
                     log.exception('Error sending out deletion notification email')

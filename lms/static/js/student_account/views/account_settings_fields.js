@@ -42,7 +42,7 @@
                     return HtmlUtils.joinHtml(
                         this.indicators.success,
                         StringUtils.interpolate(
-                            gettext('We\'ve sent a confirmation message to {new_email_address}. Click the link in the message to update your email address.'),  // eslint-disable-line max-len
+                            gettext('We\'ve sent a confirmation message to {new_email_address}. Click the link in the message to update your email address.'),
                             {new_email_address: this.fieldValue()}
                         )
                     );

@@ -455,6 +455,7 @@ class UserProfile(models.Model):
     bio = models.CharField(blank=True, null=True, max_length=3000, db_index=False)
     profile_image_uploaded_at = models.DateTimeField(null=True, blank=True)
     organization = models.TextField(blank=True,null=True,max_length=150)
+    # secondary_email = models.TextField(blank=True,null=True,max_length=250)
 
     @property
     def has_profile_image(self):
@@ -463,6 +464,14 @@ class UserProfile(models.Model):
         this user has uploaded a profile image.
         """
         return self.profile_image_uploaded_at is not None
+
+    # @property
+    # def update_secondary_email(self):
+    #     if AccountRecovery.objects.filter(user=self.user).exists():
+    #         recovery_mail = AccountRecovery.objects.get(user=self.user)
+    #         self.secondary_email = recovery_mail.secondary_email
+    #         self.save()
+    
 
     @property
     def age(self):
@@ -803,6 +812,18 @@ class PendingEmailChange(DeletableByUserValue, models.Model):
         self.activation_key = uuid.uuid4().hex
         self.save()
         return self.activation_key
+
+class PendingSecondaryEmailChange(DeletableByUserValue, models.Model):
+    """
+    This model keeps track of pending requested changes to a user's secondary email address.
+
+    .. pii: Contains new_secondary_email, not currently retired
+    .. pii_types: email_address
+    .. pii_retirement: retained
+    """
+    user = models.OneToOneField(User, unique=True, db_index=True, on_delete=models.CASCADE)
+    new_secondary_email = models.CharField(blank=True, max_length=255, db_index=True)
+    activation_key = models.CharField(('activation key'), max_length=32, unique=True, db_index=True)
 
 
 EVENT_NAME_ENROLLMENT_ACTIVATED = 'edx.course.enrollment.activated'
@@ -2077,6 +2098,8 @@ class CourseEnrollment(models.Model):
         if user.is_anonymous:
             return CourseEnrollmentState(None, None)
         enrollment_state = cls._get_enrollment_in_request_cache(user, course_key)
+        log.info("enrollment_state==========")
+        log.info(enrollment_state)
         if not enrollment_state:
             try:
                 record = cls.objects.get(user=user, course_id=course_key)
@@ -3242,3 +3265,83 @@ class ManualEnrollmentAudit(models.Model):
         the enrollment passed in. Bubbles up any exceptions.
         """
         return cls.objects.filter(enrollment__in=enrollments).update(reason="", enrolled_email=retired_email)
+
+
+
+class AccountRecoveryManager(models.Manager):
+    """
+    Custom Manager for AccountRecovery model
+    """
+
+    def get_active(self, **filters):
+        """
+        Return only active AccountRecovery record after applying the given filters.
+
+        Arguments:
+            filters (**kwargs): Filter parameters for AccountRecovery records.
+
+        Returns:
+            AccountRecovery: AccountRecovery object with is_active=true
+        """
+        filters['is_active'] = True
+        return super(AccountRecoveryManager, self).get_queryset().get(**filters)
+
+    def activate(self):
+        """
+        Set is_active flag to True.
+        """
+        super(AccountRecoveryManager, self).get_queryset().update(is_active=True)
+
+
+class AccountRecovery(models.Model):
+    """
+    Model for storing information for user's account recovery in case of access loss.
+
+    .. pii: the field named secondary_email contains pii, retired in the `DeactivateLogoutView`
+    .. pii_types: email_address
+    .. pii_retirement: local_api
+    """
+    user = models.OneToOneField(User, related_name='account_recovery', on_delete=models.CASCADE)
+    secondary_email = models.EmailField(
+        verbose_name=_('Secondary email address'),
+        help_text=_('Secondary email address to recover linked account.'),
+        unique=True,
+        null=False,
+        blank=False,
+    )
+    is_active = models.BooleanField(default=False)
+
+    class Meta(object):
+        db_table = "auth_accountrecovery"
+
+    objects = AccountRecoveryManager()
+
+    def update_recovery_email(self, email):
+        """
+        Update the secondary email address on the instance to the email in the argument.
+
+        Arguments:
+            email (str): New email address to be set as the secondary email address.
+        """
+        self.secondary_email = email
+        self.is_active = False
+        self.save()
+
+    @classmethod
+    def retire_recovery_email(cls, user_id):
+        """
+        Retire user's recovery/secondary email as part of GDPR Phase I.
+        Returns 'True'
+
+        If an AccountRecovery record is found for this user it will be deleted,
+        if it is not found it is assumed this table has no PII for the given user.
+
+        :param user_id: int
+        :return: bool
+        """
+        try:
+            cls.objects.get(user_id=user_id).delete()
+        except cls.DoesNotExist:
+            pass
+
+        return True

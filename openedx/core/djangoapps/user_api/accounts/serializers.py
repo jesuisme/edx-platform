@@ -10,7 +10,7 @@ from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
 from six import text_type
-
+from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_feature_enabled_for_user
 from lms.djangoapps.badges.utils import badges_enabled
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.user_api import errors
@@ -20,7 +20,7 @@ from openedx.core.djangoapps.user_api.models import (
     UserRetirementStatus
 )
 from openedx.core.djangoapps.user_api.serializers import ReadOnlyFieldsSerializerMixin
-from student.models import UserProfile, LanguageProficiency, SocialLink
+from student.models import UserProfile, LanguageProficiency, SocialLink, AccountRecovery
 
 from . import (
     NAME_MIN_LENGTH, ACCOUNT_VISIBILITY_PREF_KEY, PRIVATE_VISIBILITY,
@@ -91,8 +91,15 @@ class UserReadOnlySerializer(serializers.Serializer):
             user_profile = None
             LOGGER.warning("user profile for the user [%s] does not exist", user.username)
 
+        try:
+            account_recovery = user.account_recovery
+        except ObjectDoesNotExist:
+            account_recovery = None
         accomplishments_shared = badges_enabled()
-
+        recovery_mail_update = None
+        if AccountRecovery.objects.filter(user = user).exists():
+            recovery_mail_update1 = AccountRecovery.objects.get(user = user)
+            recovery_mail_update = recovery_mail_update1.secondary_email
         data = {
             "username": user.username,
             "url": self.context.get('request').build_absolute_uri(
@@ -149,18 +156,30 @@ class UserReadOnlySerializer(serializers.Serializer):
                     "extended_profile": get_extended_profile(user_profile),
                 }
             )
+        if account_recovery:
+            if is_secondary_email_feature_enabled_for_user(user):
+                data.update(
+                    {
+                        "secondary_email": account_recovery.secondary_email,
+                    }
+                )
 
         if self.custom_fields:
             fields = self.custom_fields
         elif user_profile:
+
             fields = _visible_fields(user_profile, user, self.configuration)
         else:
             fields = self.configuration.get('public_fields')
+        response_dictionary = self._filter_fields(fields,data)
+        if response_dictionary:
+            response_dictionary.update(
+                {
+                    "secondary_email": recovery_mail_update,
 
-        return self._filter_fields(
-            fields,
-            data
-        )
+                }
+            )
+        return response_dictionary
 
     def _filter_fields(self, field_whitelist, serialized_account):
         """

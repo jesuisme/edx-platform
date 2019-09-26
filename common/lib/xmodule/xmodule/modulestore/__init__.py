@@ -28,6 +28,7 @@ from xblock.runtime import Mixologist
 from xblock.core import XBlock
 
 log = logging.getLogger('edx.modulestore')
+loglms = logging.getLogger(__name__)
 
 new_contract('CourseKey', CourseKey)
 new_contract('AssetKey', AssetKey)
@@ -1440,9 +1441,12 @@ class EdxJSONEncoder(json.JSONEncoder):
     ISO date strings
     """
     def default(self, obj):
+        loglms.info("==inside default=========")
         if isinstance(obj, (CourseKey, UsageKey)):
+            loglms.info("if default======")
             return unicode(obj)
         elif isinstance(obj, datetime.datetime):
+            loglms.info("elif default======")
             if obj.tzinfo is not None:
                 if obj.utcoffset() is None:
                     return obj.isoformat() + 'Z'
@@ -1451,4 +1455,11 @@ class EdxJSONEncoder(json.JSONEncoder):
             else:
                 return obj.isoformat()
         else:
+            loglms.info("else default======")
+            loglms.info("obj=======")
+            loglms.info("obj=======")
+            loglms.info(obj)
+            loglms.info("obj=======")
+            loglms.info("obj=======")
+            # loglms.info("errrrrrrrrrr obj   ===%s====" % obj)
             return super(EdxJSONEncoder, self).default(obj)

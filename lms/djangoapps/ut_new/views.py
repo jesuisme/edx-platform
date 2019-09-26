@@ -7,14 +7,19 @@ from django.http import HttpResponse,HttpResponseRedirect
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from django.contrib import messages
 from django.contrib.auth.models import User
+from rest_framework.response import Response
+from rest_framework import status
 log = logging.getLogger(__name__)
 
 @login_required
 def ut_coherts(request):
-    log.info('==inside ut_coherts---')
+    user_detail = UserProfile.objects.get(user=request.user)
+    if not (user_detail.organization and request.user.is_staff):
+        return HttpResponse(status=status.HTTP_403_FORBIDDEN)
+
+
     user_detail = UserProfile.objects.get(user=request.user)
     current_user = User.objects.get(email=request.user.email)
-    log.info("=====current_user========%s----" % current_user)
     org_value = None
     if user_detail.organization and request.user.is_staff:
         org_value = str(user_detail.organization)
@@ -40,13 +45,9 @@ def enroll_user(request):
     """
     """
     if request.method == "POST":
-        log.info("===inside enroll user---")
         selected_coherts = request.POST.get("selected_coherts")
         organization_name = request.POST.get("organization_name")
         course_id = request.POST.get("course_key_enrollment")
-        log.info("==selected_coherts==%s---" % selected_coherts)
-        log.info("===organization_name====%s---"% organization_name)
-        log.info("----course_id-----%s---" % course_id)
         coherts_object = CohertsOrganization.objects.get(coherts_name=selected_coherts)
         coherts_list = coherts_object.course_list
         convert_to_utf = coherts_list.encode('UTF8')

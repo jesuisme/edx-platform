@@ -45,16 +45,19 @@
                 this.errorMessage = data.thirdPartyAuth.errorMessage || '';
                 this.platformName = data.platformName;
                 this.resetModel = data.resetModel;
+                this.accountRecoveryModel = data.accountRecoveryModel;
                 this.supportURL = data.supportURL;
                 this.passwordResetSupportUrl = data.passwordResetSupportUrl;
                 this.createAccountOption = data.createAccountOption;
                 this.accountActivationMessages = data.accountActivationMessages;
+                this.accountRecoveryMessages = data.accountRecoveryMessages;
                 this.hideAuthWarnings = data.hideAuthWarnings;
                 this.pipelineUserDetails = data.pipelineUserDetails;
                 this.enterpriseName = data.enterpriseName;
 
                 this.listenTo(this.model, 'sync', this.saveSuccess);
                 this.listenTo(this.resetModel, 'sync', this.resetEmail);
+                this.listenTo(this.accountRecoveryModel, 'sync', this.resetEmail);
             },
 
             render: function(html) {
@@ -104,10 +107,14 @@
 
                 // Display account activation success or error messages.
                 this.renderAccountActivationMessages();
+                this.renderAccountRecoveryMessages();
             },
 
             renderAccountActivationMessages: function() {
                 _.each(this.accountActivationMessages, this.renderAccountActivationMessage, this);
+            },
+            renderAccountRecoveryMessages: function() {
+                _.each(this.accountRecoveryMessages, this.renderMessage, this);
             },
 
             renderAccountActivationMessage: function(message) {

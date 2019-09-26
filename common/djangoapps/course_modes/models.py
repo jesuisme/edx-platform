@@ -3,7 +3,7 @@ Add and create new modes for running courses on this particular LMS
 """
 from collections import defaultdict, namedtuple
 from datetime import timedelta
-
+import logging
 from config_models.models import ConfigurationModel
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -19,6 +19,7 @@ from opaque_keys.edx.django.models import CourseKeyField
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.request_cache.middleware import RequestCache, ns_request_cached
 
+log = logging.getLogger(__name__)
 Mode = namedtuple('Mode',
                   [
                       'slug',
@@ -696,7 +697,10 @@ class CourseMode(models.Model):
         #    return False
 
         #return True
-        return mode_slug != cls.AUDIT
+        if mode_slug == cls.AUDIT:
+            return False
+        return True
+        # return mode_slug != cls.AUDIT
 
     def to_tuple(self):
         """

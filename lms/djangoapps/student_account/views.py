@@ -17,12 +17,13 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_http_methods
 from django_countries import countries
 import third_party_auth
-
+from openedx.core.djangoapps.dark_lang.models import DarkLangConfig
 from edx_ace import ace
 from edx_ace.recipient import Recipient
 from edxmako.shortcuts import render_to_response
 from lms.djangoapps.commerce.models import CommerceConfiguration
 from lms.djangoapps.commerce.utils import EcommerceService
+from openedx.core.djangoapps.user_api.accounts.utils import is_secondary_email_feature_enabled
 from openedx.core.djangoapps.ace_common.template_context import get_base_template_context
 from openedx.core.djangoapps.commerce.utils import ecommerce_api_client
 from openedx.core.djangoapps.external_auth.login_and_register import login as external_auth_login
@@ -155,7 +156,8 @@ def login_and_registration_form(request, initial_mode="login"):
             'registration_form_desc': json.loads(form_descriptions['registration']),
             'password_reset_form_desc': json.loads(form_descriptions['password_reset']),
             'account_creation_allowed': configuration_helpers.get_value(
-                'ALLOW_PUBLIC_ACCOUNT_CREATION', settings.FEATURES.get('ALLOW_PUBLIC_ACCOUNT_CREATION', True))
+                'ALLOW_PUBLIC_ACCOUNT_CREATION', settings.FEATURES.get('ALLOW_PUBLIC_ACCOUNT_CREATION', True)),
+            'is_account_recovery_feature_enabled': is_secondary_email_feature_enabled()
         },
         'login_redirect_url': redirect_to,  # This gets added to the query string of the "Sign In" button in header
         'responsive': True,
@@ -355,7 +357,6 @@ def _get_extended_profile_fields():
             "field_type"  : TextField or ListField
             "field_options": a list of tuples for options in the dropdown in case of ListField
     """
-
     extended_profile_fields = []
     fields_already_showing = ['username', 'name', 'email', 'pref-lang', 'country', 'time_zone', 'level_of_education',
                               'gender', 'year_of_birth', 'language_proficiencies', 'social_links']
@@ -524,7 +525,6 @@ def account_settings_context(request):
 
     """
     user = request.user
-
     year_of_birth_options = [(unicode(year), unicode(year)) for year in UserProfile.VALID_YEARS]
     try:
         user_orders = get_user_orders(user)
@@ -533,6 +533,15 @@ def account_settings_context(request):
         # Return empty order list as account settings page expect a list and
         # it will be broken if exception raised
         user_orders = []
+
+    beta_language = {}
+    dark_lang_config = DarkLangConfig.current()
+    if dark_lang_config.enable_beta_languages:
+        user_preferences = get_user_preferences(user)
+        pref_language = user_preferences.get('pref-lang')
+        if pref_language in dark_lang_config.beta_languages_list:
+            beta_language['code'] = pref_language
+            beta_language['name'] = settings.LANGUAGE_DICT.get(pref_language)
 
     context = {
         'auth': {},
@@ -571,11 +580,14 @@ def account_settings_context(request):
             'ENABLE_ACCOUNT_DELETION', settings.FEATURES.get('ENABLE_ACCOUNT_DELETION', False)
         ),
         'extended_profile_fields': _get_extended_profile_fields(),
+        'beta_language': beta_language,
     }
 
     enterprise_customer = get_enterprise_customer_for_learner(site=request.site, user=request.user)
     update_account_settings_context_for_enterprise(context, enterprise_customer)
-
+    log.info("student account view======%s----------" % configuration_helpers.get_value(
+            'ENABLE_ACCOUNT_DELETION', settings.FEATURES.get('ENABLE_ACCOUNT_DELETION', False)
+        ))
     if third_party_auth.is_enabled():
         # If the account on the third party provider is already connected with another edX account,
         # we display a message to the user.
@@ -602,5 +614,4 @@ def account_settings_context(request):
             # We only want to include providers if they are either currently available to be logged
             # in with, or if the user is already authenticated with them.
         } for state in auth_states if state.provider.display_for_login or state.has_account]
-
     return context

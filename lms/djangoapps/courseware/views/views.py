@@ -110,7 +110,6 @@ from ..module_render import get_module, get_module_by_usage_id, get_module_for_d
 
 log = logging.getLogger("edx.courseware")
 
-
 # Only display the requirements on learner dashboard for
 # credit and verified modes.
 REQUIREMENTS_DISPLAY_MODES = CourseMode.CREDIT_MODES + [CourseMode.VERIFIED]
@@ -1012,7 +1011,6 @@ def _progress(request, course_key, student_id):
     studio_url = get_studio_url(course, 'settings/grading')
     # checking certificate generation configuration
     enrollment_mode, _ = CourseEnrollment.enrollment_mode_for_user(student, course_key)
-
     context = {
         'course': course,
         'courseware_summary': courseware_summary,
