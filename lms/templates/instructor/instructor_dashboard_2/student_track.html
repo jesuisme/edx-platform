@@ -100,7 +100,7 @@ ${_("{user_email}").format(user_email=row.user_id.username)}
 <ul class="pagination pagination-lg pager" id="myPager" style="
     padding-bottom: 0px;
     margin-bottom: 0px;
-    margin-top: 100px;
+    margin-top: 150px;
     padding-top: 30px;"></ul>
 </div>
 
@@ -228,6 +228,8 @@ $(document).ready(function(){
 <style type="text/css">
 .table-responsive {height:180px;}
 .page_link {margin-right: 2px;}
+a:not(.btn):focus{color:red;}
+a.page_link.active{color: #131719;}
 
 
 </style>
