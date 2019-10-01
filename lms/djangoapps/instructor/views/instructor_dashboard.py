@@ -18,6 +18,7 @@ from django.utils.translation import ugettext_noop
 from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_POST
+from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 from mock import patch
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
@@ -258,7 +259,6 @@ def instructor_dashboard_2(request, course_id):
         'certificate_exception_view_url': certificate_exception_view_url,
         'certificate_invalidation_view_url': certificate_invalidation_view_url,
     }
-
 
     return render_to_response('instructor/instructor_dashboard_2/instructor_dashboard_2.html', context)
 
@@ -885,18 +885,30 @@ def _section_student_track(request,course, access):
         if search_value:
             all_organization_base_records = all_organization_base_records.filter(Q(user_id__username__icontains=search_value) | Q(user_id__email__icontains=search_value))
 
+    # paginator = Paginator(all_organization_base_records, 3)
+    # page = request.GET.get('page')
+    # try:
+    #     all_organization_base_records = paginator.page(page)
+    # except PageNotAnInteger:
+    #     all_organization_base_records = paginator.page(1)
+    #     log.info("in the except page not int-----%s----"% all_organization_base_records)
+    # except EmptyPage:
+    #     all_organization_base_records = paginator.page(paginator.num_pages)
+    #     log.info("empty page---%s----"% all_organization_base_records)
+
+
     section_data = {
         'section_key': 'student_track',
         'section_display_name': _('Student progress'),
         'access': access,
         'is_small_course': is_small_course,
-        'all_organization_base_records': all_organization_base_records,
-                                                          # kwargs={'course_id': unicode(course_key)}),
+        'all_organization_base_records': all_organization_base_records                                                          
     }
     return section_data
 
 def _section_coherts_register(request,course, access):
     """ Provide data for the corresponding dashboard section """
+
     course_key = course.id
     coherts_records=None
     course_base_coherts=None
@@ -945,7 +957,6 @@ def _section_coherts_register(request,course, access):
                 course_list = (row.course_list).encode('UTF8')
                 coherts_result1 = course_list.strip('][').split(',')
                 for course_name in coherts_result1:
-                    log.info("---inside courses----%s----" % course_name)
                     unicode_convert= unicode(course_name.strip('u').split("'")[1])
                     if unicode_convert == unicode(course_key):
                         course_base_coherts.append(row)
