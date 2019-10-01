@@ -3525,18 +3525,25 @@ def _create_error_response(request, msg):
     """
     return JsonResponse({"error": _(msg)}, 400)
 
+# from edxmako.shortcuts import render_to_response
+# from django.shortcuts import render
 
-def coherts_students_update_enrollment(request, course_id,user_mail):
+def coherts_students_update_enrollment(request, course_id,user_mail, cohort_name, cohort_organization):
     course_id = CourseKey.from_string(course_id)
     action = "enroll"
     # identifiers_raw = request.user.email
+    # context = {"errormsg": "dfgdfgdgdfggdfdfgd"}
+    # if action == "enroll":
+    #     render(request,'instructor/instructor_dashboard_2/coherts_organization.html',context)
+        # return render_to_response('', context)
+        # return JsonResponse({"response_msg": "testing this response" }, status=400)
     identifiers_raw = user_mail
     identifiers = _split_input_list(identifiers_raw)
     auto_enroll = True
     email_students = True
+    error_message = ""
     reason = "learner add to coherts"
     role = "Learner"
-
     allowed_role_choices = configuration_helpers.get_value('MANUAL_ENROLLMENT_ROLE_CHOICES',settings.MANUAL_ENROLLMENT_ROLE_CHOICES)
     if role and role not in allowed_role_choices:
         return JsonResponse(
@@ -3595,60 +3602,30 @@ def coherts_students_update_enrollment(request, course_id,user_mail):
                 else:
                     if after_allowed:
                         state_transition = UNENROLLED_TO_ALLOWEDTOENROLL
-
-            elif action == 'unenroll':
-                before, after = unenroll_email(
-                    course_id, email, email_students, email_params, language=language
-                )
-                before_enrollment = before.to_dict()['enrollment']
-                before_allowed = before.to_dict()['allowed']
-                enrollment_obj = CourseEnrollment.get_enrollment(user, course_id) if user else None
-
-                if before_enrollment:
-                    state_transition = ENROLLED_TO_UNENROLLED
-                else:
-                    if before_allowed:
-                        state_transition = ALLOWEDTOENROLL_TO_UNENROLLED
-                    else:
-                        state_transition = UNENROLLED_TO_UNENROLLED
-
             else:
                 return HttpResponseBadRequest(strip_tags(
                     "Unrecognized action '{}'".format(action)
                 ))
+            error_message = "Learner added to cohorts successfully"
 
         except ValidationError:
+            log.info("enrolment obj-------ValidationError------")
             # Flag this email as an error if invalid, but continue checking
             # the remaining in the list
-            results.append({
-                'identifier': identifier,
-                'invalidIdentifier': True,
-            })
+            error_message = "ValidationError: Email not valid"
 
         except Exception as exc:  # pylint: disable=broad-except
             # catch and log any exceptions
             # so that one error doesn't cause a 500.
+            log.info("exception===========%s====" % exc)
             log.exception(u"Error while #{}ing student")
             log.exception(exc)
-            results.append({
-                'identifier': identifier,
-                'error': True,
-            })
+            error_message = exc
 
         else:
             ManualEnrollmentAudit.create_manual_enrollment_audit(
-                request.user, email, state_transition, reason, enrollment_obj, role
+                request.user, email, state_transition, cohort_name, cohort_organization, reason, enrollment_obj, role
             )
-            results.append({
-                'identifier': identifier,
-                'before': before.to_dict(),
-                'after': after.to_dict(),
-            })
-
-    response_payload = {
-        'action': action,
-        'results': results,
-        'auto_enroll': auto_enroll,
-    }
-    return HttpResponse(" is done|||")
+            error_message = "Learner added to cohorts successfully"
+    return error_message
 

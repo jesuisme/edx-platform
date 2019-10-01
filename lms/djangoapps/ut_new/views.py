@@ -40,23 +40,38 @@ def ut_coherts(request):
 
 from instructor.views.api import coherts_students_update_enrollment
 # from student.models import UserCohertsOrganizationDetails
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
+
+# @api_view(['POST'])
+# @renderer_classes([JSONRenderer])
 def enroll_user(request):
     """
     """
-    if request.method == "POST":
-        selected_coherts = request.POST.get("selected_coherts")
-        organization_name = request.POST.get("organization_name")
-        course_id = request.POST.get("course_key_enrollment")
-        coherts_object = CohertsOrganization.objects.get(coherts_name=selected_coherts)
-        coherts_list = coherts_object.course_list
-        convert_to_utf = coherts_list.encode('UTF8')
-        coherts_result = convert_to_utf.strip('][').split(',')
-        for enroll_user_for_course in coherts_result:
-            value = enroll_user_for_course.strip('u').split("'")
-            convert_unicode_course_id = u'%s' % value[1]
-            coherts_students_update_enrollment(request, convert_unicode_course_id)
+    if request.method == "POST" and request.is_ajax():
+        log.info("enroll_user================")
+        content = {'user_count': "ssssssssssssss"}
+        return Response(content)
+
+        
+    # if request.method == "POST":
+    #     selected_coherts = request.POST.get("selected_coherts")
+    #     organization_name = request.POST.get("organization_name")
+    #     course_id = request.POST.get("course_key_enrollment")
+    #     coherts_object = CohertsOrganization.objects.get(coherts_name=selected_coherts)
+    #     coherts_list = coherts_object.course_list
+    #     convert_to_utf = coherts_list.encode('UTF8')
+    #     coherts_result = convert_to_utf.strip('][').split(',')
+    #     for enroll_user_for_course in coherts_result:
+    #         value = enroll_user_for_course.strip('u').split("'")
+    #         convert_unicode_course_id = u'%s' % value[1]
+    #         coherts_students_update_enrollment(request, convert_unicode_course_id)
+        
+
         # user_track = UserCohertsOrganizationDetails(selected_coherts=selected_coherts,organization_detail=organization_name, learner_id=request.user.email)
         # user_track.save()
     #selected_coherts organization_detail learner_id
     return HttpResponseRedirect("/dashboard")
+

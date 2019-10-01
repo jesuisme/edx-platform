@@ -1,0 +1,16 @@
+{% load i18n %}
+
+{% blocktrans trimmed %}
+Hello {{full_name}},
+{% endblocktrans %}
+{% blocktrans trimmed %}
+You added To Cohorts.
+Cohorts name: {{cohorts_name}}.
+{% endblocktrans %}
+{% blocktrans trimmed %}
+Now you can access this cohorts course.
+{% endblocktrans %}
+{% blocktrans trimmed %}
+Best,
+{{platform_name}}
+{% endblocktrans %}

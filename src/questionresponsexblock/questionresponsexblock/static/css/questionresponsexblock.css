@@ -1,727 +1,224 @@
-/* CSS for QuestionresponseXBlock */
-
-/*.questionresponsexblock_block .count {
-    font-weight: bold;
+#responseCarousel.carousel {
+    position: relative;
 }
-
-.questionresponsexblock_block p {
+#responseCarousel .carousel-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+#responseCarousel .carousel-inner>.item {
+    position: relative;
+    display: none;
+    -webkit-transition: .6s ease-in-out left;
+    -o-transition: .6s ease-in-out left;
+    transition: .6s ease-in-out left;
+}
+#responseCarousel .carousel-inner>.item>a>img, #responseCarousel .carousel-inner>.item>img {
+    line-height: 1;
+}
+@media all and (transform-3d),(-webkit-transform-3d) {
+    #responseCarousel .carousel-inner>.item {
+        -webkit-transition: -webkit-transform .6s ease-in-out;
+        -o-transition: -o-transform .6s ease-in-out;
+        transition: transform .6s ease-in-out;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        -webkit-perspective: 1000px;
+        perspective: 1000px;
+   }
+    #responseCarousel .carousel-inner>.item.active.right, #responseCarousel .carousel-inner>.item.next {
+        left: 0;
+        -webkit-transform: translate3d(100%,0,0);
+        transform: translate3d(100%,0,0);
+   }
+    #responseCarousel .carousel-inner>.item.active.left, #responseCarousel .carousel-inner>.item.prev {
+        left: 0;
+        -webkit-transform: translate3d(-100%,0,0);
+        transform: translate3d(-100%,0,0);
+   }
+    #responseCarousel .carousel-inner>.item.active, #responseCarousel .carousel-inner>.item.next.left, #responseCarousel .carousel-inner>.item.prev.right {
+        left: 0;
+        -webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0);
+   }
+}
+#responseCarousel .carousel-inner>.active, #responseCarousel .carousel-inner>.next, #responseCarousel .carousel-inner>.prev {
+    display: block;
+}
+#responseCarousel .carousel-inner>.active {
+    left: 0;
+}
+#responseCarousel .carousel-inner>.next, #responseCarousel .carousel-inner>.prev {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+#responseCarousel .carousel-inner>.next {
+    left: 100%;
+}
+#responseCarousel .carousel-inner>.prev {
+    left: -100%;
+}
+#responseCarousel .carousel-inner>.next.left, #responseCarousel .carousel-inner>.prev.right {
+    left: 0;
+}
+#responseCarousel .carousel-inner>.active.left {
+    left: -100%;
+}
+#responseCarousel .carousel-inner>.active.right {
+    left: 100%;
+}
+#responseCarousel .carousel-control {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: auto;
+    font-size: 20px;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+    background-color: rgba(0,0,0,0);
+    filter: alpha(opacity=50);
+    opacity: .5;
+}
+#responseCarousel .carousel-control.left {
+    background-image: -webkit-linear-gradient(left,rgba(0,0,0,0.5) 0,rgba(0,0,0,0.0001) 100%);
+    background-image: -o-linear-gradient(left,rgba(0,0,0,0.5) 0,rgba(0,0,0,0.0001) 100%);
+    background-image: -webkit-gradient(linear,left top,right top,from(rgba(0,0,0,0.5)),to(rgba(0,0,0,0.0001)));
+    background-image: linear-gradient(to right,rgba(0,0,0,0.5) 0,rgba(0,0,0,0.0001) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#80000000',endColorstr='#00000000',GradientType=1);
+    background-repeat: repeat-x;
+}
+#responseCarousel .carousel-control.right {
+    right: 0;
+    left: auto;
+    background-image: -webkit-linear-gradient(left,rgba(0,0,0,0.0001) 0,rgba(0,0,0,0.5) 100%);
+    background-image: -o-linear-gradient(left,rgba(0,0,0,0.0001) 0,rgba(0,0,0,0.5) 100%);
+    background-image: -webkit-gradient(linear,left top,right top,from(rgba(0,0,0,0.0001)),to(rgba(0,0,0,0.5)));
+    background-image: linear-gradient(to right,rgba(0,0,0,0.0001) 0,rgba(0,0,0,0.5) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000',endColorstr='#80000000',GradientType=1);
+    background-repeat: repeat-x;
+}
+#responseCarousel .carousel-control:focus, #responseCarousel .carousel-control:hover {
+    color: #fff;
+    text-decoration: none;
+    filter: alpha(opacity=90);
+    outline: 0;
+    opacity: .9;
+}
+#responseCarousel .carousel-control .glyphicon-chevron-left, #responseCarousel .carousel-control .glyphicon-chevron-right, #responseCarousel .carousel-control .icon-next, #responseCarousel .carousel-control .icon-prev {
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    display: inline-block;
+    margin-top: -10px;
+}
+#responseCarousel .carousel-control .glyphicon-chevron-left, #responseCarousel .carousel-control .icon-prev {
+    left: 50%;
+    margin-left: -10px;
+}
+#responseCarousel .carousel-control .glyphicon-chevron-right, #responseCarousel .carousel-control .icon-next {
+    right: 50%;
+    margin-right: -10px;
+}
+#responseCarousel .carousel-control .icon-next, #responseCarousel .carousel-control .icon-prev {
+    width: 20px;
+    height: 20px;
+    font-family: serif;
+    line-height: 1;
+}
+#responseCarousel .carousel-control .icon-prev:before {
+    content: '\2039';
+}
+#responseCarousel .carousel-control .icon-next:before {
+    content: '\203a';
+}
+#responseCarousel .carousel-indicators {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    z-index: 15;
+    width: 60%;
+    padding-left: 0;
+    margin-left: -30%;
+    text-align: center;
+    list-style: none;
+}
+#responseCarousel .carousel-indicators li {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 1px;
+    text-indent: -999px;
     cursor: pointer;
-}*/
-
-
-. .m1s2p1 .med {
-    font-family: "GothamHTF-Medium";
+    background-color: #000 \9;
+    background-color: rgba(0, 0, 0, 0.22);
+    border: 1px solid #fff;
+    border-radius: 10px;
+}
+#responseCarousel .carousel-indicators .active {
+    width: 10px;
+    height: 10px;
+    margin: 0;
+    background-color: #fff;
+    border: 1px solid #ccc;
+}
+#responseCarousel .carousel-caption {
+    position: absolute;
+    right: 15%;
+    bottom: 20px;
+    left: 15%;
+    z-index: 10;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+}
+#responseCarousel .carousel-caption .btn {
+    text-shadow: none;
+}
+@media screen and (min-width: 768px) {
+    #responseCarousel .carousel-control .glyphicon-chevron-left, #responseCarousel .carousel-control .glyphicon-chevron-right, #responseCarousel .carousel-control .icon-next, #responseCarousel .carousel-control .icon-prev {
+        width: 30px;
+        height: 30px;
+        margin-top: -10px;
+        font-size: 30px;
+   }
+    #responseCarousel .carousel-control .glyphicon-chevron-left, #responseCarousel .carousel-control .icon-prev {
+        margin-left: -10px;
+   }
+    #responseCarousel .carousel-control .glyphicon-chevron-right, #responseCarousel .carousel-control .icon-next {
+        margin-right: -10px;
+   }
+    #responseCarousel .carousel-caption {
+        right: 20%;
+        left: 20%;
+        padding-bottom: 30px;
+   }
+    #responseCarousel .carousel-indicators {
+        bottom: -25px;
+   }
 }
 
-.m1s2p1 .s1bgcol3 .col-sm-8 h6 {
-    font-family: "GothamHTF-Medium";
-    font-size: 12px;
-    color: #f4821f;
+.m1s2-slider-head{
+    width: 70%;
+    margin: 15px auto;
+    text-align: center;
+}
+#responseCarousel-container{
+    font-size: 14px; 
+    width: 75%; 
+    margin: 0 auto; 
+    background: #F0F0F0; 
+    display: none;
+    padding: 20px;
 }
 
-.m1s5p1 .s5b3 {
-    padding-bottom: 0px;
-    padding-top: 0px;
-}
-
-.m1s2p1 div#my_favorite_latin_words span.w10 {
-    font-size: 450%;
-    color: #0cf;
-}
-
-.m1s2p1 div#my_favorite_latin_words span.w9 {
-    font-size: 400%;
-    color: #0cf;
-}
-
-.m1s2p1 div#my_favorite_latin_words span.w8 {
-    font-size: 375%;
-    color: #0cf;
-}
-
-.m1s2p1 div#my_favorite_latin_words span.w7 {
-    font-size: 320%;
-    color: #39d;
-}
-
-.m1s2p1 div#my_favorite_latin_words span.w6 {
-    font-size: 300%;
-    color: #90c5f0;
-}
-
-.m1s2p1 div#my_favorite_latin_words span.w5 {
-    font-size: 250%;
-    color: #90a0dd;
-}
-
-.m1s2p1 div#my_favorite_latin_words span.w4 {
-    font-size: 200%;
-    color: #90c5f0;
-}
-
-.m1s2p1 div#my_favorite_latin_words span.w3 {
-    font-size: 170%;
-    color: #a0ddff;
-}
-
-.m1s2p1 div#my_favorite_latin_words span.w2 {
-    font-size: 130%;
-    color: #99ccee;
-}
-
-.m1s2p1 div#my_favorite_latin_words span.w1 {
-    font-size: 100%;
-    color: #aab5f0;
-}
-
-.m1s2p1 #mc1 .modal-content {
-    border: medium none;
-    border-radius: 0;
-}
-
-.m1s2p1 #mc1 .modal-content .modal-header {
-    border: medium none;
-}
-
-.m1s2p1 #mc1 .modal-content .modal-footer {
-    border: medium none;
-}
-
-.m1s2p1 #mc1 .modal-content .modal-body {
-    color: #838383;
-}
-
-.m1s2p1 .item a {
+.read-more{
     color: #f58320;
     text-decoration: none;
     cursor: pointer;
     line-height: 22px;
-}
-
-.m1s2p1 .item a:hover {
-    font-weight: normal;
-    font-family: "GothamHTF-Book" !important;
-}
-
-/*module1 section1 css*/
-.m1s2p1 .container .carouselC {
-    height: 0px;
-    visibility: hidden;
-}
-
-.m1s2p1 .container .carouselC1 {
-    height: 0px;
-    visibility: hidden;
-}
-
-.m1s2p1 .container .carousel-inner {
-
-    padding-bottom: 0px !important;
-}
-
-.m1s2p1 .carousel-indicators {
-    bottom: -20px;
-}
-
-.m1s2p1 .container .carousel-inner {
-    min-height: 200px;
-    padding-left: 30px;
-    padding-right: 30px;
-}
-
-.m1s2p1 .container .carousel .left.carousel-control {
-    margin-left: -28px;
-    height: 10px;
-    top: 33%;
-}
-
-.m1s2p1 .container .carousel .left.carousel-control span {
-    position: absolute;
-
-}
-
-.carousel-inner {
-    position: relative;
-    width: 85%;
-    overflow: hidden;
-    margin-left: 15%;
-}
-
-.m1s2p1 .container .carousel .right.carousel-control {
-    margin-right: -14px;
-    height: 10px;
-    top: 33%;
-}
-
-.m1s2p1 .container .carousel .right.carousel-control span {
-    position: absolute;
-
-}
-
-.m1s2p1 .container .carousel .carousel-inner .item {
-    min-height: 200px;
-}
-
-.m1s2p1 .container .carousel .carousel-inner .item .well {
-    background: #fff none repeat scroll 0 0;
-    border-radius: 0;
-    color: #8e9091;
-}
-
-.m1s2p1 .container .carousel .carousel-inner .item .well .iHeight {
-    max-height: 155px;
-    overflow: hidden;
-    min-height: 155px !important;
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-}
-
-.m1s2p1 .b1 {
-    margin-bottom: 0px;
-    background: url('https://s3.amazonaws.com/dell-med/img/m1s2p1.jpg') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    height: 100%;
-    background-color: #060;
-    color: white;
-    text-shadow: black 0.3em 0.3em 0.3em;
-    background-color: #fff;
-    min-height: 500px;
-}
-
-.m1s2p1 .b1 h2 {
-    background: rgba(255, 255, 255, 0.75) none repeat scroll 0 0;
-    color: #232a30;
-    font-family: "GothamHTF-Bold";
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 15px;
-    position: relative;
-    text-shadow: none;
-    width: 60%;
-    margin-bottom: 12%;
-}
-
-.m1s2p1 .b1 .container p {
-    background: rgba(255, 255, 255, 0.75) none repeat scroll 0 0;
-    color: #232a30;
-    margin: auto;
-    padding: 15px;
-    position: relative;
-    text-shadow: none;
-    width: 28%;
-    font-family: "GothamHTF-Bold";
-}
-
-.m1s2p1 .b2_s1 {
-    margin-bottom: 0px;
-    background-image: url(https://s3.amazonaws.com/dell-med/img/img5.jpg);
-    background-position: 0% 25%;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    color: white;
-    min-height: 400px;
-    position: relative;
-
-}
-
-.m1s2p1 .b3_s1 {
-    margin-bottom: 0px;
-    background-image: url(https://s3.amazonaws.com/dell-med/img/img5.jpg);
-    background-position: 0% 25%;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    color: white;
-    text-shadow: black 0.3em 0.3em 0.3em;
-    min-height: 650px;
-    position: relative;
-
-}
-
-.m1s2p1 .b3_s1 .container-full h3 {
-    position: relative;
-    top: -70px;
-    text-shadow: none;
-}
-
-.m1s2p1 .boldT {
-    font-family: "GothamHTF-Bold";
-}
-
-.m1s2p1 .panel {
-    border-radius: 0px;
-    border: 0px;
-    color: #3c4252;
-    text-shadow: none;
-}
-
-.m1s2p1 .panel h2 {
-    font-size: 15px;
-    font-family: "GothamHTF-Bold";
-}
-
-.m1s2p1 .panel h5 {
-    font-size: 14px;
-    color: #7d91a9;
-}
-
-.m1s2p1 .panel p {
-    font-size: 12px;
-    font-family: "GothamHTF-Medium";
-}
-
-.m1s2p1 .b2_s1 .tint {
-    width: 100%;
-    height: 100%;
-    background: rgba(118, 131, 148, 0.85);
-    position: absolute;
-    z-index: 9;
-    top: 0;
-}
-
-.m1s2p1 .b3_s1 .tint {
-    width: 100%;
-    height: 100%;
-    background: rgba(84, 164, 155, 0.85);
-    position: absolute;
-    z-index: 9;
-    top: 0;
-}
-
-.m1s2p1 .b3_s1 .container-full {
-
-    margin-bottom: 100px;
-    position: relative;
-    top: 100px;
-    z-index: 9999999;
-}
-
-.m1s2p1 .b2_s1 .container-full {
-
-    position: relative;
-    top: 100px;
-    z-index: 9999999;
-}
-
-.m1s2p1 .s1bgcol2 {
-    background: url('https://s3.amazonaws.com/dell-med/img/GettyImages-513438597.png') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-    width: 100%;
-    padding-top: 60px;
-    padding-bottom: 60px;
-}
-
-.m1s2p1 .s1bgcol3 {
-    background-color: #EAEAEA;
-    width: 100%;
-    padding: 0;
-}
-
-.m1s2p1 .s1bgcol3 .well p {
-    color: #22292F;
-    font-size: 22px;
-}
-
-.m1s2p1 .s1bgcol3 .well .small {
-    color: #F68223;
-    font-size: 15px;
-    width: 250px;
-}
-
-.m1s2p1 .s1bgcol {
-    background-color: #fff;
-    width: 100%;
-    padding-top: 40px;
-    padding-bottom: 0px;
-}
-
-.m1s2p1 .s1bgcol .response1 {
-    background-color: #f0f0f0;
-
-}
-
-.m1s2p1 .s1bgcol2 .response3 {
-    background-color: #fff;
-
-}
-
-.m1s2p1 .s1bgcol .response1 .navbar-form {
-    background: #DCDDDF;
-    padding: 0px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    margin-bottom: 0px;
-    margin-left: 0;
-    margin-right: 0;
-}
-
-.m1s2p1 .s1bgcol .response1 .btn-info {
-    background: #acadb1 none repeat scroll 0 0;
-    border: medium none;
-    border-radius: 0;
-    box-shadow: none;
-    font-size: 18px;
-    height: 55px;
-    width: 150px;
-
-}
-
-.m1s2p1 .s1bgcol .response1 .form-control {
-    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
-    border: medium none;
-    border-radius: 0;
-    box-shadow: none;
-    color: #000;
-    height: 55px;
-}
-
-.m1s2p1 .m1s1imgT {
-    font-size: 14px;
-    font-family: "GothamHTF-Book";
-}
-
-.m1s2p1 .middleTxt {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.m1s2p1 .spanm1s1 {
-    position: absolute;
-    left: 50px !important;
-    top: 10px !important;
-    color: #3a4354;
-    font-size: 13px !important;
-}
-
-.m1s2p1 .spanm1s1T {
-    color: #3a4354;
-    font-size: 15px !important;
-    position: absolute;
-    left: 50px !important;
-    top: 28px !important;
-}
-
-.m1s2p1 .ms2 .row {
-    margin: 30px;
-    padding-left: 0px;
-    padding-right: 0px;
-}
-
-.m1s2p1 .well {
-    background: none;
-    border: 0px solid #e3e3e3;
-    box-shadow: none;
-    vertical-align: :center;
-}
-
-.m1s2p1 .vertical-align {
-    align-items: center;
-    display: flex;
-}
-
-
-@media screen and (min-device-width : 766px) and (max-device-width : 1000px) {
-    .m1s2p1 .b1 {
-        margin-bottom: 0px;
-        background: url('https://s3.amazonaws.com/dell-med/img/m1s2p1.jpg') no-repeat center center;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        height: 100%;
-        background-color: #060;
-        color: white;
-        text-shadow: black 0.3em 0.3em 0.3em;
-        background-color: #fff;
-        min-height: 500px;
-    }
-
-    /*module1 section1 css*/
-    .m1s2p1 .s1bgcol .response1 .navbar-form {
-        padding-left: : 10px;
-        padding-right: : 10px;
-
-    }
-
-    .m1s2p1 .jumbotron .container h2 {
-        font-family: "GothamHTF-Bold";
-        font-size: 124%;
-        width: 70%;
-    }
-
-    .m1s2p1 .jumbotron .container p {
-        font-family: "GothamHTF-Bold";
-        font-size: 107%;
-        width: 42%;
-    }
-
-    .m1s2p1 .s1hide {
-        display: none;
-    }
-
-    .m1s2p1 .vertical-align {
-        display: inline;
-    }
-
-    .m1s2p1 .s1bgcol3 .col-sm-4,
-    .m1s2p1 .s1bgcol3 .col-sm-8 {
-        width: 100%;
-    }
-
-    .m1s2p1 .s1bgcol2 {
-        background: url('https://s3.amazonaws.com/dell-med/img/GettyImages-513438597.png') no-repeat center center;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        width: 100%;
-        padding-top: 60px;
-        padding-bottom: 60px;
-    }
-
-    .m1s2p1 .s1bgcol3 .well {
-        padding-bottom: 0px !important;
-    }
-
-}
-
-
-
-@media screen and (min-device-width : 501px) and (max-device-width : 765px) {
-    .m1s2p1 .b1 {
-        margin-bottom: 0px;
-        background: url('https://s3.amazonaws.com/dell-med/img/m1s2p1.jpg') no-repeat center center;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        height: 100%;
-        background-color: #060;
-        color: white;
-        text-shadow: black 0.3em 0.3em 0.3em;
-        background-color: #fff;
-        min-height: 500px;
-    }
-
-    .m1s2p1 .s1bgcol .response1 .navbar-form {
-
-        padding-left: : 10px;
-        padding-right: : 10px;
-
-    }
-
-    .m1s2p1 .jumbotron .container h2 {
-        font-family: "GothamHTF-Bold";
-        font-size: 124%;
-        width: 70%;
-    }
-
-    .m1s2p1 .jumbotron .container p {
-        font-size: 107%;
-        width: 42%;
-        font-family: "GothamHTF-Bold";
-    }
-
-    .m1s2p1 .s1hide {
-        display: none;
-    }
-
-    .m1s2p1 .dArowh {
-        display: none;
-    }
-
-    .m1s2p1 .vertical-align {
-        display: inline;
-    }
-
-    .m1s2p1 .s1bgcol2 {
-        background: url('https://s3.amazonaws.com/dell-med/img/GettyImages-513438597.png') no-repeat center center;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        width: 100%;
-        padding-top: 60px;
-        padding-bottom: 60px;
-    }
-
-    .m1s2p1 .s1bgcol3 .well {
-        padding-bottom: 0px !important;
-    }
-
-
-}
-
-
-
-@media screen and (min-device-width : 300px) and (max-device-width : 500px) {
-
-
-
-
-    .m1s2p1 .b1 {
-        margin-bottom: 0px;
-        background: url('https://s3.amazonaws.com/dell-med/img/m1s2p1.jpg') no-repeat center center;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        height: 100%;
-        background-color: #060;
-        color: white;
-        text-shadow: black 0.3em 0.3em 0.3em;
-        background-color: #fff;
-        min-height: 500px;
-    }
-
-    /*module1 section1 css*/
-    .m1s2p1 .s1bgcol .response1 .navbar-form {
-
-        padding-left: : 10px;
-        padding-right: : 10px;
-
-    }
-
-    .m1s2p1 .jumbotron .container h2 {
-        font-family: "GothamHTF-Bold";
-        font-size: 103%;
-        width: 90%;
-    }
-
-    .m1s2p1 .jumbotron .container p {
-        font-family: "GothamHTF-Bold";
-        font-size: 83%;
-        width: 65%;
-    }
-
-    .m1s2p1 .s1hide {
-        display: none;
-    }
-
-    .m1s2p1 .dArowh {
-        display: none;
-    }
-
-    .m1s2p1 .vertical-align {
-        display: inline;
-    }
-
-    .m1s2p1 .s1bgcol2 {
-        background: url('https://s3.amazonaws.com/dell-med/img/GettyImages-513438597.png') no-repeat center center;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        width: 100%;
-        padding-top: 60px;
-        padding-bottom: 60px;
-    }
-
-    .m1s2p1 .s1bgcol3 .well {
-        padding-bottom: 0px !important;
-    }
-
-
-}
-
-@media screen and (min-device-width : 100px) and (max-device-width : 299px) {
-    .m1s2p1 .b1 {
-        margin-bottom: 0px;
-        background: url('https://s3.amazonaws.com/dell-med/img/m1s2p1.jpg') no-repeat center center;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        height: 100%;
-        background-color: #060;
-        color: white;
-        text-shadow: black 0.3em 0.3em 0.3em;
-        background-color: #fff;
-        min-height: 500px;
-    }
-
-    .m1s2p1 .s1bgcol .response1 .navbar-form {
-        padding-left: : 10px;
-        padding-right: : 10px;
-
-    }
-
-    .m1s2p1 .jumbotron .container h2 {
-        font-family: "GothamHTF-Bold";
-        font-size: 48%;
-        width: 86%;
-    }
-
-    .m1s2p1 .jumbotron .container p {
-        font-family: "GothamHTF-Bold";
-        font-size: 42%;
-        width: 60%;
-    }
-
-    .m1s2p1 .s1hide {
-        display: none;
-    }
-
-    .m1s2p1 .b2_s1 .container-full {
-        top: 75px;
-    }
-
-    .m1s2p1 .dArowh {
-        display: none;
-    }
-
-    .m1s2p1 .vertical-align {
-        display: inline;
-    }
-
-    .m1s2p1 .s1bgcol2 {
-        background: url('https://s3.amazonaws.com/dell-med/img/GettyImages-513438597.png') no-repeat center center;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        width: 100%;
-        padding-top: 60px;
-        padding-bottom: 60px;
-    }
-
-    .m1s2p1 .s1bgcol3 .well {
-        padding-bottom: 0px !important;
-    }
-
-
-}
-
-@media screen and (min-device-width : 100px) and (max-device-width : 440px) {
-
-    .m1s2p1 .s1bgcol .response1 .form-control {
-        font-size: 9px !important;
-
-    }
-
-    .m1s2p1 .s1bgcol .response1 .btn-info {
-        font-size: 10px;
-        width: 81px;
-    }
-
-}
-
-@media screen and (min-device-width : 100px) and (max-device-width : 766px) {
-
-
-    .m1s5p1 .s1bgcol .response1 .navbar-form {
-        border-bottom: 0px solid transparent;
-    }
-
-
-
 }

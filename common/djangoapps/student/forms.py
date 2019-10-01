@@ -74,7 +74,6 @@ class PasswordResetFormNoActive(PasswordResetForm):
                       "address cannot reset the password."),
     }
     is_account_recovery = True
-    log.info("inside PasswordResetFormNoActive===")
     def clean_email(self):
         """
         This is a literal copy from Django 1.4.5's django.contrib.auth.forms.PasswordResetForm
@@ -82,22 +81,16 @@ class PasswordResetFormNoActive(PasswordResetForm):
         Validates that a user exists with the given email address.
         """
         email = self.cleaned_data["email"]
-        log.info("==clean email======%s===" % email)
         self.users_cache = User.objects.filter(email__iexact=email)
-        log.info("self.users_cache=============%s==========" % self.users_cache)
         #The line below contains the only change, removing is_active=True
         if len(self.users_cache) == 0 and is_secondary_email_feature_enabled():
             # Check if user has entered the secondary email.
-            log.info("if secondary email====")
             self.users_cache = User.objects.filter(
                 id__in=AccountRecovery.objects.filter(secondary_email__iexact=email, is_active=True).values_list('user')
             )
             self.is_account_recovery = not bool(self.users_cache)
-            log.info("self.is_account_recovery=====%s------" % self.is_account_recovery)
-            log.info("self.users_cache=====%s------" % self.users_cache)
         # self.users_cache = User.objects.filter(email__iexact=email)
         if not len(self.users_cache):
-            log.info("if no len========")
             raise forms.ValidationError(self.error_messages['unknown'])
         # if any((user.password.startswith(UNUSABLE_PASSWORD_PREFIX))
         #        for user in self.users_cache):
@@ -106,7 +99,6 @@ class PasswordResetFormNoActive(PasswordResetForm):
         #     for user in self.users_cache:
         #         log.info("if any===user.password=======%s===" % user.password)
         #     raise forms.ValidationError(self.error_messages['unusable'])
-        log.info("last in clean email")
         return email
 
     def save(self,  # pylint: disable=arguments-differ
@@ -120,7 +112,6 @@ class PasswordResetFormNoActive(PasswordResetForm):
         """
         for user in self.users_cache:
             if self.is_account_recovery:
-                log.info("for if recovery------")
                 site = get_current_site()
                 message_context = get_base_template_context(site)
 
@@ -145,9 +136,7 @@ class PasswordResetFormNoActive(PasswordResetForm):
                 )
                 ace.send(msg)
             else:
-                log.info("else - -dd------")
                 send_account_recovery_email_for_user(user, request, user.account_recovery.secondary_email)
-            log.info("last PasswordResetFormNoActive===")
             
 
 

@@ -1,53 +1,117 @@
-
-
-
- <div class="questionresponsexblock_block">
-<p id="" class="studio_questions_class_cms"><strong>{self.studio_questions}</strong></p>
-<div class="row">
-                  <div class="col-sm-12" >
-                     <div  class="navbar-form navbar-center" style="">
-                        <div class="col-md-2"></div>
-                        <div class="input-group col-md-8" align="center" >
-                           <input type="text" id="studentresponse" placeholder="Your response to the question..." class="form-control" />
-                           <div class="input-group-btn text-right" style="width:3%;">
-                              <button id="addresponse" class="btn btn-info">
-                              <i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i> SUBMIT
-                              </button>
-                           </div>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+<div class="questionresponsexblock_block" id="ask_question">
+    <div class="col-sm-8 "
+        style="box-sizing: border-box; position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; float: left; width: 75%; color: rgb(51, 51, 51);  font-size: 14px; text-align: center;">
+        <div class="response1"
+            style="box-sizing: border-box; background-color: rgb(240, 240, 240);display: inline-block;width: 100%;">
+            <div class="act1" style="box-sizing: border-box;">
+                <div class="row" style="box-sizing: border-box; margin-right: -15px; margin-left: -15px;">
+                    <div class="col-sm-12"
+                        style="box-sizing: border-box; position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; float: left; width: 100%;">
+                        <div class="well"
+                            style="box-sizing: border-box; min-height: 20px; padding: 19px; margin-bottom: 20px; background: none; border: 0px solid rgb(227, 227, 227); border-radius: 4px; box-shadow: none;">
+                            <f style="box-sizing: border-box;">
+                                <h2 class="boldT"
+                                    style="box-sizing: border-box;  line-height: 1.1; color: inherit; margin-top: 20px; margin-bottom: 10px; font-size: 30px;">
+                                    Your Perspective</h2>
+                            </f>
+                            <div class="line4"
+                                style="box-sizing: border-box; border-bottom: 2px solid rgb(220, 221, 223); margin: 40px auto; width: 296.188px;">
+                            </div>
+                            <f style="box-sizing: border-box;">
+                                <p style="box-sizing: border-box; margin: 0px 0px 10px;">{self.studio_questions}</p>
+                            </f>
+                            <div class="line4"
+                                style="box-sizing: border-box; border-bottom: 2px solid rgb(220, 221, 223); margin: 40px auto; width: 296.188px;">
+                            </div>
                         </div>
-                     </div>
-                     <div class="col-md-2"></div>
-                  </div>
-               </div>
-
+                        <f style="box-sizing: border-box;">
+                            <p class="small text-left refQuestionLeft"
+                                style="box-sizing: border-box; margin: 0px 0px 10px; font-size: 11.9px; text-align: left; padding-left: 19px;">
+                                <i style="box-sizing: border-box;">Enter your response below to see the response of
+                                    others
+                                    like you.</i></p>
+                        </f>
+                    </div>
+                </div>
+                <div class="row" style="box-sizing: border-box; margin-right: -15px; margin-left: -15px;">
+                    <div class="col-sm-12"
+                        style="box-sizing: border-box; position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; float: left; width: 100%;">
+                    </div>
+                </div>
+                <div class="row" style="box-sizing: border-box; margin-right: -15px; margin-left: -15px;">
+                    <div class="col-sm-12"
+                        style="box-sizing: border-box; position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; float: left; width: 100%;">
+                        <div class="navbar-form navbar-center"
+                            style="box-sizing: border-box; padding: 0px; margin: 8px 0px 0px; border: 0px; box-shadow: none; width: auto; background: rgb(220, 221, 223);">
+                            <div class="input-group"
+                                style="box-sizing: border-box; position: relative; display: inline-table; border-collapse: separate; vertical-align: middle; width: 100%;">
+                                <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"
+                                    style="box-sizing: border-box;"><input id="studentresponse" type="Search"
+                                        placeholder="Please enter a brief response here." class=" form-control"
+                                        style="margin: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 14px; line-height: 1.42857; font-family: inherit; color: rgb(0, 0, 0); width: 100%; height: 55px; padding: 6px 12px; background: none 0px 0px repeat scroll rgba(0, 0, 0, 0); border-width: medium; border-style: none; border-radius: 0px; box-shadow: none; transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s; -webkit-appearance: none; position: relative; z-index: 2; float: left; vertical-align: middle;" />
+                                </div>
+                                <div class="input-group-btn text-right"
+                                    style="box-sizing: border-box; text-align: right; display: table-cell; width: 149px; white-space: nowrap; vertical-align: middle; position: relative; font-size: 0px;">
+                                    <button class="btn btn-info ui-btn ui-shadow ui-corner-all" id="addresponse"
+                                        style="margin: 0px 0px 0px -1px; font-style: inherit; font-variant: inherit; font-stretch: inherit; font-size: 18px; line-height: 1.42857; font-family: inherit; color: rgb(255, 255, 255); overflow: visible; cursor: pointer; padding: 6px 12px; vertical-align: middle; touch-action: manipulation; user-select: none; background: none 0px 0px repeat scroll rgb(172, 173, 177); border-width: medium; border-style: none; border-color: initial; border-radius: 0px; position: relative; z-index: 2; box-shadow: none; height: 55px; width: 150px;"><span
+                                            class="fa fa-arrow-circle-o-up" aria-hidden="true"
+                                            style="box-sizing: border-box; display: inline-block; font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; line-height: 1; font-family: FontAwesome; font-size: inherit; text-rendering: auto; -webkit-font-smoothing: antialiased;"></span>&nbsp;SUBMIT<br /></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
-<br/>
 
-<div id="responseCarousel" class="carousel slide" >
-  <!-- Indicators -->
-  <ol class="carousel-indicators">
-    <li data-target="#responseCarousel" data-slide-to="0" class="active"></li>
-    <li data-target="#responseCarousel" data-slide-to="1"></li>
-    <li data-target="#responseCarousel" data-slide-to="2"></li>
-  </ol>
+<div id="responseCarousel-container" style="">
+    <div class="m1s2-slider-head">As you watched the video, what problems did you see in the health care Ms. Jones received?
+        Scroll through user responses.
+    </div>
+    <div id="responseCarousel" class="carousel slide">
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
 
-  <!-- Wrapper for slides -->
-  <div id="responses" class="carousel-inner">
-    
+        </ol>
+
+        <!-- Wrapper for slides -->
+        <div id="responses" class="carousel-inner">
+
+        </div>
+
+        <!-- Left and right controls -->
+        <a class="left carousel-control" href="#responseCarousel" style="background:none !important;left: -10px;" data-slide="prev">
+            <span class="fa fa-angle-left fa-2x" aria-hidden="true" style="position: absolute;top: 40%;color:#000;"></span>
+        </a>
+        <a class="right carousel-control" href="#responseCarousel" data-slide="next" style="background:none !important">
+            <span class="fa fa-angle-right fa-2x" aria-hidden="true" style="position: absolute;top: 40%;color:#000;"></span>
+        </a>
+    </div>
+</div>
+
+
+
+<!--popup-->
+<div id="popup" class="popup_ques"
+  style="z-index: 1000; box-shadow: 0 0 20px #494949; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); max-width: 800px; width: 90%; background: #ffffff; display: none; border: 1px solid #ccc;border-radius: 10px;">
+	  <div class="modal-header"
+		style="height: 48px; box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 15px; border-bottom: 1px solid #e5e5e5; color: #333333; font-size: 14px; text-align: center;">
+		<button type="button" style="    box-shadow: none;margin: -2px 0px 0px;font-weight: bold;font-size: 21px;color: #000000;overflow: visible;cursor: pointer;border: 0px;float: right;opacity: 0.5;padding: 0px;background: transparent;" onclick="$('.popup_ques, #overlay').fadeOut()">×</button>
+	</div>
+  <div class="transcription"
+    style="box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); color: #222222; width: 100%; padding: 15px; font-size: 14px; overflow: auto; max-height: 70vh;">
+    <p id="popup-content" style="box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); margin: 0px 0px 10px;">
+    </p>
   </div>
-
-  <!-- Left and right controls -->
-  <a class="left carousel-control" href="#responseCarousel" style="background:none !important" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="right carousel-control" href="#responseCarousel" style="background:none !important" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right"></span>
-    <span class="sr-only">Next</span>
-  </a>
 </div>
+<div id="overlay"
+  style="z-index: 999; display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.4);"
+  onclick="$('.popup_ques, #overlay').fadeOut()"></div>
 
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>

@@ -3180,7 +3180,13 @@ class ManualEnrollmentAudit(models.Model):
         """
         saves the student manual enrollment information
         """        
-
+        log.info("user======%s===" % user)
+        log.info("email======%s===" % email)
+        log.info("state_transition======%s===" % state_transition)
+        log.info("cohort_name======%s===" % cohort_name)
+        log.info("cohort_organization======%s===" % cohort_organization)
+        log.info("reason======%s===" % reason)
+        log.info("role======%s===" % role)
         manual_enrollment = cls.objects.create(            
             enrolled_by=user,
             enrolled_email=email,
