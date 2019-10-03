@@ -1,5 +1,7 @@
 <%page args="section_data" expression_filter="h"/>
 <%! from django.utils.translation import ugettext as _ %>
+
+
 %if section_data['access']['staff'] or section_data['access']['instructor']:
 <head>
 <style>
@@ -27,26 +29,33 @@ h3.hd-3{
 
 <form action="" method="GET">
 	<input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
-	<input type="text" placeholder="Search using email/username" name="q" style="width: 300px">
+	<input type="text" placeholder="Search using email/username" name="q" style="width: 300px">	
   	<button type="submit"><i class="fa fa-search"></i></button>
 </form><br>
 
 
+
 %if section_data['all_organization_base_records']:
-<div class="action-type-container">
+<div class="table-responsive">
 
 
 <h2><b>Learner Details</b></h2>
-<table>
-<tr> <!-- Header Row -->
-<th title="">User</th>
+
+<table class="table table-hover">
+<thead>
+<tr>
+<th title="">Email</th>
 <th title="">Username</th>
-<th title="">Course</th>
-<th title="">Grade</th>
-<th title="">Organization</th>
+<th title="" >Course</th>
+<th title="" >Grade</th>
+<th title="" >Organization</th>
 <th title="">Coherts</th>
 <th title="">Course Progres</th>
 </tr>
+</thead>
+
+<tbody id="myTable">
+
 %for row in section_data['all_organization_base_records']:
 
 
@@ -83,12 +92,144 @@ ${_("{user_email}").format(user_email=row.user_id.username)}
 
 % endfor
 <!-- <tr class="highlight"> -->
+ </tbody>
 </table>
-
 </div>
+
+<div class="col-md-12 text-center">
+<ul class="pagination pagination-lg pager" id="myPager" style="
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+    margin-top: 150px;
+    padding-top: 30px;"></ul>
+</div>
+
+
 % else:
 <p style="margin-left: 40px;margin-top: 10px;color: black;"><b>No data found</b></p>
 
 %endif
 	
 %endif
+
+
+<script type="text/javascript">	
+	$.fn.pageMe = function(opts){
+    var $this = this,
+        defaults = {
+            perPage: 7,
+            showPrevNext: false,
+            hidePageNumbers: false
+        },
+        settings = $.extend(defaults, opts);
+    
+    var listElement = $this;
+    var perPage = settings.perPage; 
+    var children = listElement.children();
+    var pager = $('.pager');
+    
+    if (typeof settings.childSelector!="undefined") {
+        children = listElement.find(settings.childSelector);
+    }
+    
+    if (typeof settings.pagerSelector!="undefined") {
+        pager = $(settings.pagerSelector);
+    }
+    
+    var numItems = children.size();
+    var numPages = Math.ceil(numItems/perPage);
+
+    pager.data("curr",0);
+    
+    if (settings.showPrevNext){
+        $('<a href="#" class="prev_link">«</a>').appendTo(pager);
+    }
+    
+    var curr = 0;
+    while(numPages > curr && (settings.hidePageNumbers==false)){
+        $('<a href="#" class="page_link">'+(curr+1)+'</a>').appendTo(pager);
+        curr++;
+    }
+    
+    if (settings.showPrevNext){
+        $('<a href="#" class="next_link">»</a>').appendTo(pager);
+    }
+    
+    pager.find('.page_link:first').addClass('active');
+    pager.find('.prev_link').hide();
+    if (numPages<=1) {
+        pager.find('.next_link').hide();
+    }
+  	pager.children().eq(1).addClass("active");
+    
+    children.hide();
+    children.slice(0, perPage).show();
+    
+    pager.find('.page_link').click(function(){
+        var clickedPage = $(this).html().valueOf()-1;
+        goTo(clickedPage,perPage);
+        return false;
+    });
+    pager.find('.prev_link').click(function(){
+        previous();
+        return false;
+    });
+    pager.find('.next_link').click(function(){
+        next();
+        return false;
+    });
+    
+    function previous(){
+        var goToPage = parseInt(pager.data("curr")) - 1;
+        goTo(goToPage);
+    }
+     
+    function next(){
+        goToPage = parseInt(pager.data("curr")) + 1;
+        goTo(goToPage);
+    }
+    
+    function goTo(page){
+        var startAt = page * perPage,
+            endOn = startAt + perPage;
+        
+        children.css('display','none').slice(startAt, endOn).show();
+        
+        if (page>=1) {
+            pager.find('.prev_link').show();
+        }
+        else {
+            pager.find('.prev_link').hide();
+        }
+        
+        if (page<(numPages-1)) {
+            pager.find('.next_link').show();
+        }
+        else {
+            pager.find('.next_link').hide();
+        }
+        
+        pager.data("curr",page);
+      	pager.children().removeClass("active");
+        pager.children().eq(page+1).addClass("active");
+    
+    }
+};
+
+$(document).ready(function(){
+    
+  $('#myTable').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:4});
+    
+});
+
+
+</script>
+
+<style type="text/css">
+.table-responsive {height:180px;}
+.page_link {margin-right: 2px;}
+a:not(.btn):focus{color:red;}
+a.page_link.active{color: #131719;}
+
+
+</style>

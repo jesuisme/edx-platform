@@ -119,16 +119,18 @@ from student.models import CourseEnrollment
             ${ enterprise_message | n, decode.utf8 }
         </div>
     %endif
-    %if messages:
-  %for message in messages:
-    <div class="col-sm-8">
-    <div class="alert-${message.tags}" role="alert" tabindex="-1">
-    <strong class="alert"><p style="padding: 20px; background-color: #87CEFA; color: white; margin-left: 118px; width: 550px;" class="alert-copy col-sm-offset-1">${message}</p>
-    </strong>
-    </div>
-    </div>
-  %endfor
+    
+    %if messages and not account_activation_messages:
+      % for message in messages:
+        <div class="col-sm-8">
+        <div class="alert-${message.tags}" role="alert" tabindex="-1">
+        <strong class="alert"><p style="padding: 20px; background-color: #87CEFA; color: white; margin-left: 118px; width: 550px;" class="alert-copy col-sm-offset-1">${message}</p>
+        </strong>
+        </div>
+        </div>
+      %endfor
     %endif
+
     %if account_activation_messages:
       <div class="activation-message-container">
         % for account_activation_message in account_activation_messages:

@@ -40,8 +40,7 @@ displayname = get_enterprise_learner_generic_name(request) or username
     <div class="dropdown-user-menu hidden" aria-label=${_("More Options")} role="menu" id="user-menu" tabindex="-1">
         % if resume_block:
             <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${resume_block}" role="menuitem">${_("Resume your last course")}</a></div>
-        % endif
-        <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('dashboard')}" role="menuitem">${_("Dashboard")}</a></div>
+        % endif        
         % if request.user.is_staff:
           % if organization_length > 0:
             <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('ut_cohorts')}" role="menuitem">${_("Cohorts")}</a></div>
@@ -50,7 +49,7 @@ displayname = get_enterprise_learner_generic_name(request) or username
         <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('learner_profile', kwargs={'username': username})}" role="menuitem">${_("Profile")}</a></div>
             % if request.user.is_staff:
                 % if organization_length > 0:
-                    <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('admin_dashboard')}" role="menuitem">${_("Cohorts Performance Tracking")}</a></div>
+                    <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('admin_dashboard')}" role="menuitem">${_("Cohorts Performance Dashboard")}</a></div>
                 % endif
             % elif organization_length > 0 and not request.user.is_staff:
                 <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('student_dashboard')}" role="menuitem">${_("Performance Tracking Dashboard")}</a></div>            

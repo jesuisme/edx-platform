@@ -160,6 +160,15 @@ from third_party_auth import provider, pipeline
         <p class="instructions"> </p>
       </div>
 
+      % if staff_no_organization:
+        <div role="alert" class="status message third-party-auth-error is-shown" tabindex="-1" style="color: red;">
+          <h3 class="message-title">${_("An error occurred when signing you in to {platform_name}.").format(platform_name=platform_name)} </h3>
+          <ul class="message-copy">
+            <li><b>${staff_no_organization}</b></li>
+          </ul>
+        </div>
+      % endif
+
       % if third_party_auth_error:
         <div role="alert" class="status message third-party-auth-error is-shown" tabindex="-1">
           <h3 class="message-title">${_("An error occurred when signing you in to {platform_name}.").format(platform_name=platform_name)} </h3>

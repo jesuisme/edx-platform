@@ -150,6 +150,8 @@ from student.hooks import show_me_the_money
 import uuid
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 
+
+
 def payment_process(request):
     org_email = request.session.get('organization_email')
     org = get_object_or_404(OrganizationRegistration, organization_email=org_email) 
@@ -331,6 +333,7 @@ def organization_register(request):
                 organization_email = form.cleaned_data.get('organization_email')
 
 
+
                 org_username = (str(post.organization_email)).split("@")[0]
                 chars=ascii_lowercase+digits
                 default_username = ''.join([choice(chars) for i in range(10)])
@@ -433,7 +436,9 @@ def organization_register(request):
             messages.add_message(request, messages.ERROR, string_msg)
     else:
         form = OrganizationRegistrationForm()
-    return render(request,'organization_register.html',{'form':form})
+    user_email_validation = User.objects.all().values_list('email',flat=True)
+    user_email_list = [str(email_list) for email_list in list(user_email_validation)]
+    return render(request,'organization_register.html',{'form':form, 'email_obj': user_email_list })
 
 
 def get_success_url():
@@ -449,7 +454,7 @@ def activate(request, uid, token):
     except(TypeError, ValueError, OverflowError, OrganizationRegistration.DoesNotExist):
         post = None
     except Exception as e:
-        log.info("exception=====%s-------" % e)
+        log.info("exception %s-------" % e)
 
     if post is not None and account_activation_token.check_token(post, token):
 

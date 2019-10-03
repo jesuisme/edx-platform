@@ -74,6 +74,7 @@ urlpatterns = [
     # Cohort tracking
     url(r'^admin_dashboard/$', cohort_dashboard_views.dash, name='admin_dashboard'),
     url(r'^student_dashboard/$', cohort_dashboard_views.dash, name='student_dashboard'),
+
     url(r'^_dash', cohort_dashboard_views.dash_ajax),
 
     url(r'^paypal/', include('paypal.standard.ipn.urls')),

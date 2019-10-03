@@ -19,6 +19,7 @@ from django.utils.translation import ugettext_noop
 from django.views.decorators.cache import cache_control
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_POST
+from django.core.paginator import PageNotAnInteger, Paginator, EmptyPage
 from mock import patch
 from opaque_keys import InvalidKeyError
 from opaque_keys.edx.keys import CourseKey
@@ -523,6 +524,7 @@ def _section_course_info(course, access):
     except Exception:  # pylint: disable=broad-except
         section_data['course_errors'] = [('Error fetching errors', '')]
 
+
     return section_data
 
 
@@ -911,13 +913,24 @@ def _section_student_track(request,course, access):
         if search_value:
             all_organization_base_records = all_organization_base_records.filter(Q(user_id__username__icontains=search_value) | Q(user_id__email__icontains=search_value))
 
+    # paginator = Paginator(all_organization_base_records, 3)
+    # page = request.GET.get('page')
+    # try:
+    #     all_organization_base_records = paginator.page(page)
+    # except PageNotAnInteger:
+    #     all_organization_base_records = paginator.page(1)
+    #     log.info("in the except page not int-----%s----"% all_organization_base_records)
+    # except EmptyPage:
+    #     all_organization_base_records = paginator.page(paginator.num_pages)
+    #     log.info("empty page---%s----"% all_organization_base_records)
+
+
     section_data = {
         'section_key': 'student_track',
         'section_display_name': _('Student progress'),
         'access': access,
         'is_small_course': is_small_course,
-        'all_organization_base_records': all_organization_base_records,
-                                                          # kwargs={'course_id': unicode(course_key)}),
+        'all_organization_base_records': all_organization_base_records                                                          
     }
     return section_data
 
@@ -927,15 +940,12 @@ from rest_framework.response import Response
 
 def _section_coherts_register(request,course, access):
     """ Provide data for the corresponding dashboard section """
-    context ={}
     course_key = course.id
     coherts_records=None
     course_base_coherts=None
     student_records=None
-    coherts_response = None
     current_user = UserProfile.objects.get(user=request.user)
     
-
     if current_user.organization:
         log.info("current user org========")
         user_org = OrganizationRegistration.objects.filter(organization_name=current_user.organization)
@@ -946,7 +956,6 @@ def _section_coherts_register(request,course, access):
                 course_list = (row.course_list).encode('UTF8')
                 coherts_result1 = course_list.strip('][').split(',')
                 for course_name in coherts_result1:
-                    log.info("---inside courses----%s----" % course_name)
                     unicode_convert= unicode(course_name.strip('u').split("'")[1])
                     if unicode_convert == unicode(course_key):
                         course_base_coherts.append(row)
@@ -955,73 +964,15 @@ def _section_coherts_register(request,course, access):
         # organization_obj = OrganizationRegistration.objects.filter(organization_name=current_user.organization)
         student_records = UserProfile.objects.filter(organization=current_user.organization, user__is_staff=False)
     
-    # if request.method == "POST":
-    #     log.info("if post method============")
-    #     selected_user = str(request.POST.get("selected_item"))
-    #     coherts = request.POST.get("coherts")
-    #     selected_user = selected_user.split(',')
-    #     log.info("selected_user========%s===" % selected_user)
-    #     log.info("selected_user===ttt=====%s===" % type(selected_user))
-    #     log.info("selected_user====ll====%s===" % len(selected_user))
-    #     log.info("coherts========%s====" % coherts)
-    #     # if len(selected_user):
-    #     if current_user.organization is not None:
-    #         organization_obj = OrganizationRegistration.objects.get(organization_name=current_user.organization)
-    #         coherts_object = CohertsOrganization.objects.get(coherts_name=coherts)
-    #         coherts_list = (coherts_object.course_list).encode('UTF8')
-    #         # convert_to_utf = coherts_list.encode('UTF8')
-    #         coherts_result = coherts_list.strip('][').split(',')
-    #         for user_record in selected_user:
-    #             add_in_track = User.objects.get(email=user_record)
-    #             get_user_name = UserProfile.objects.get(user=add_in_track)
-    #             if CohertsUserDetail.objects.filter(coherts_name=coherts_object, learner=add_in_track, organization=organization_obj).exists():
-    #                 log.info("user exist for this coherts")
-    #             else:
-    #                 saving_user_coherts = CohertsUserDetail(coherts_name=coherts_object, learner=add_in_track, organization=organization_obj, instructor=current_user)
-    #                 saving_user_coherts.save()
-
-    #             for enroll_user_for_course in coherts_result:
-    #                 coherts_value = enroll_user_for_course.strip('u').split("'")[1]
-    #                 convert_unicode_course_id = unicode(coherts_value)
-    #                 log.info("before coherts_response======")
-    #                 try:
-    #                     # coherts_response=coherts_students_update_enrollment(request, convert_unicode_course_id, user_record, coherts_object, current_user.organization)
-    #                     coherts_response = "fghfh fghfgh f fgh"
-    #                     log.info("before if coherts_response=====%s===" % coherts_response)
-    #                 except Exception as error:
-    #                     log.info("error while enroll user===%s==" % error)
-                    
-    #                 # try:
-
-    #                 #     site = Site.objects.get_current()
-    #                 #     notification_context = get_base_template_context(site)
-    #                 #     notification_context.update({'full_name': get_user_name.name})
-    #                 #     notification_context.update({'cohorts_name': coherts})
-    #                 #     notification = CohortsAddForLearner().personalize(
-    #                 #         recipient=Recipient(username='', email_address=user_record),
-    #                 #         language=get_user_name.language,
-    #                 #         user_context=notification_context,
-    #                 #     )
-    #                 #     ace.send(notification)
-    #                 #     log.info("after send mail===========")
-    #                 # except Exception as exc:
-    #                 #     log.exception('Error sending out deletion notification email')
-    #                 #     log.info('Error sending out deletion notification email===%s====' % exc)
-    #                 #     raise
-
-
-
 
     section_data = {
         'section_key': 'coherts_organization',
         'student_records': student_records,
         # 'coherts_records': coherts_records,
         'course_base_coherts': course_base_coherts,
-        'coherts_response': coherts_response,
         'section_display_name': _('Organization Cohorts'),
         'access': access,
     }
-    log.info("before section return")
     return section_data
 
 

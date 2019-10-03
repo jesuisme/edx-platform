@@ -54,10 +54,10 @@ course_sections = blocks.get('children')
                 gated_subsection = subsection['id'] in gated_content
                 completed_prereqs = gated_content[subsection['id']]['completed_prereqs'] if gated_subsection else False
                 subsection_is_auto_opened = subsection.get('resume_block') is True
-                user_feedback_display_name = subsection.get('display_name')
-                %>      
+                user_feedback_display_name = subsection.get('display_name').lower()                
+                %>    
 
-                    % if total_completed_list != int(100) and user_feedback_display_name == 'User Feedback Survey':
+                    % if total_completed_list != int(100) and user_feedback_display_name == 'user feedback survey':
                         <% continue %>  
                     % else:
                      
@@ -72,7 +72,7 @@ course_sections = blocks.get('children')
                                             aria-hidden="true">
                                     </span>
                                     <h4 class="subsection-title">
-                                        ${ subsection['display_name'] }                                        
+                                        <b>${ subsection['display_name'] }</b>                                        
                                     </h4>
                                     <div class="details prerequisite">
                                         ${ _("Prerequisite: ") }
@@ -90,7 +90,7 @@ course_sections = blocks.get('children')
                                         <span class="fa fa-chevron-right ${ 'fa-rotate-90' if subsection_is_auto_opened else '' }"
                                               aria-hidden="true"></span>
                                         <h4 class="subsection-title">
-                                            ${ subsection['display_name'] }  
+                                            <b>${ subsection['display_name'] }</b> 
                                         </h4>
                     % if subsection.get('complete'):                                    
                                         <span class="complete-checkmark fa fa-check"></span>                     

@@ -964,12 +964,15 @@ def modify_access(request, course_id):
     rolename is one of ['instructor', 'staff', 'beta', 'ccx_coach']
     action is one of ['allow', 'revoke']
     """
+    unique_student_identifier_user = None
+
     course_id = CourseKey.from_string(course_id)
     course = get_course_with_access(
         request.user, 'instructor', course_id, depth=None
     )
     try:
         user = get_student_from_identifier(request.POST.get('unique_student_identifier'))
+        unique_student_identifier_user = user
     except User.DoesNotExist:
         response_payload = {
             'unique_student_identifier': request.POST.get('unique_student_identifier'),
@@ -989,6 +992,31 @@ def modify_access(request, course_id):
 
     rolename = request.POST.get('rolename')
     action = request.POST.get('action')
+
+    if action == 'allow':
+        staff_organization = UserProfile.objects.get(user=request.user).organization
+
+        try:
+            normal_user_organization = UserProfile.objects.get(user=user)
+            normal_user_organization = normal_user_organization.organization
+        except:
+            normal_user_organization = None
+
+
+        if not normal_user_organization:
+            response_payload = {
+                'unique_student_identifier': user.username,
+                'noOrganization': True,
+            }
+            return JsonResponse(response_payload)
+
+        if str(normal_user_organization) != str(staff_organization):
+            response_payload = {
+                'unique_student_identifier': user.username,
+                'organization': staff_organization,
+                'organizationDoesNotMatch': True,
+            }
+            return JsonResponse(response_payload)
 
     if rolename not in ROLES:
         error = strip_tags("unknown rolename '{}'".format(rolename))
@@ -2399,6 +2427,7 @@ def list_instructor_tasks(request, course_id):
     course_id = CourseKey.from_string(course_id)
     problem_location_str = strip_if_string(request.POST.get('problem_location_str', False))
     student = request.POST.get('unique_student_identifier', None)
+
     if student is not None:
         student = get_student_from_identifier(student)
 

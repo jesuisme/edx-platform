@@ -116,23 +116,42 @@ def get_course_overview_with_access(user, action, course_key, check_if_enrolled=
         course_name = CourseOverview.objects.get(id=course_key)
 
         # if not user.is_staff:
-        module_name = StudentCourseViews.objects.filter(date_updated=date.today(),module_name=course_name.display_name).exists()
-        student_module_views = StudentModuleViews.objects.filter(user=user,date_updated=date.today(),module_name=course_name.display_name).exists()
+        # module_name = StudentCourseViews.objects.filter(date_updated=date.today(),module_name=course_name.display_name).exists()
+
+        module_name, created_module = StudentCourseViews.objects.get_or_create(date_updated=date.today(),module_name=course_name.display_name)
+        # student_module_views = StudentModuleViews.objects.filter(user=user,date_updated=date.today(),module_name=course_name.display_name).exists()
         
-        if student_module_views:
-            studentmodule_views = StudentModuleViews.objects.get(user=user,date_updated=date.today(),module_name=course_name.display_name)
-            studentmodule_views.course_views +=1
+        studentmodule_views, created_studentmodule = StudentModuleViews.objects.get_or_create(user=user,date_updated=date.today(),module_name=course_name.display_name)
+
+        if created_studentmodule:
+            studentmodule_views.course_views = 1
             studentmodule_views.save()
         else:
-            StudentModuleViews.objects.create(user=user,date_updated=date.today(),module_name=course_name.display_name,course_views=1)
+            studentmodule_views.course_views += 1
+            studentmodule_views.save()
 
-
-        if module_name:
-            module_views = StudentCourseViews.objects.get(date_updated=date.today(),module_name=course_name.display_name)
-            module_views.course_views +=1
-            module_views.save()
+        if created_module:
+            module_name.course_views = 1
+            module_name.save()
         else:
-            StudentCourseViews.objects.create(date_updated=date.today(),module_name=course_name.display_name,course_views=1)            
+            module_name.course_views += 1
+            module_name.save()
+        
+        # if student_module_views:
+        #     studentmodule_views = StudentModuleViews.objects.filter(user=user,date_updated=date.today(),module_name=course_name.display_name).first()
+        #     log.info("studentmodule_views----%s----"% studentmodule_views)
+        #     studentmodule_views.course_views +=1
+        #     studentmodule_views.save()
+        # else:
+        #     StudentModuleViews.objects.create(user=user,date_updated=date.today(),module_name=course_name.display_name,course_views=1)
+
+
+        # if module_name:
+        #     module_views = StudentCourseViews.objects.get(date_updated=date.today(),module_name=course_name.display_name)
+        #     module_views.course_views +=1
+        #     module_views.save()
+        # else:
+        #     StudentCourseViews.objects.create(date_updated=date.today(),module_name=course_name.display_name,course_views=1)            
 
     except CourseOverview.DoesNotExist:
         log.info("CourseOverview.DOES NOT EXIST")

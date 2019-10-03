@@ -10,7 +10,10 @@ import os
 from collections import defaultdict
 
 from completion.exceptions import UnavailableCompletionData
+from rest_framework import permissions, status
 from completion.utilities import get_key_to_last_completed_course_block
+from django.contrib.auth import authenticate, get_user_model, logout
+from student.views.login import AuthFailedError, LoginFailures
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -19,6 +22,7 @@ from django.shortcuts import redirect
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.contrib.auth.models import User
+from django.http import Http404, HttpResponse, HttpResponseNotFound, StreamingHttpResponse, HttpResponseRedirect
 
 from opaque_keys.edx.keys import CourseKey
 from pytz import UTC
@@ -556,6 +560,8 @@ def _get_urls_for_resume_buttons(user, enrollments):
 def Merge(dict1, dict2): 
     return(dict2.update(dict1)) 
 
+
+
 @login_required
 @ensure_csrf_cookie
 @add_maintenance_banner
@@ -965,7 +971,14 @@ def student_dashboard(request):
 
         cohort_cohert = None       
 
-        organization_name = OrganizationRegistration.objects.get(organization_name=staff_organization)
+        try:
+            organization_name = OrganizationRegistration.objects.get(organization_name=staff_organization)
+        except: 
+            logout(request)
+            messages.add_message(request, messages.ERROR, 'no_organization_staff_logout')  
+            return HttpResponseRedirect('/login')                 
+            
+
         cohorts = CohertsOrganization.objects.filter(organization=organization_name)
         cohorts_data_list = []
         for cohort_li in cohorts:

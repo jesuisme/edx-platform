@@ -30,7 +30,7 @@ from student.message_types import AccountRecovery as AccountRecoveryMessage
 from student.message_types import PasswordReset
 from student.models import CourseEnrollmentAllowed, AccountRecovery, email_exists_or_retired, OrganizationRegistration, organization_email_exists
 from util.password_policy_validators import password_max_length, password_min_length, validate_password
-
+import logging
 log = logging.getLogger(__name__)
 
 
@@ -65,6 +65,7 @@ def send_account_recovery_email_for_user(user, request, email=None):
         user_context=message_context,
     )
     ace.send(msg)
+
 
 class PasswordResetFormNoActive(PasswordResetForm):
     error_messages = {
@@ -401,6 +402,9 @@ class OrganizationRegistrationForm(forms.ModelForm):
    
     def __init__(self, *args, **kwargs):
         super(OrganizationRegistrationForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+            
         self.fields['organization_name'].required = True
         self.fields['organization_domain'].required = True
         self.fields['organization_contact_number'].required = True

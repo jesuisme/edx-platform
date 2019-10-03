@@ -16,7 +16,7 @@ from datetime import date, timedelta
 log = logging.getLogger(__name__)
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
-from student.models import UserProfile, CohertsUserDetail, OrganizationRegistration, CohertsOrganization
+from student.models import UserProfile, CohertsUserDetail, OrganizationRegistration, CohertsOrganization, CourseAccessRole
 from django.contrib.auth import logout
 from django.contrib.staticfiles.storage import staticfiles_storage
 colorscale = cl.scales['9']['qual']['Paired']
@@ -80,7 +80,434 @@ def dispatcher(request):
     else:
         return HttpResponseForbidden('<b>403 Forbidden error</b>')
 
+# Old admin dashboard
 
+# def _create_admin_dashboard_app(request,admin_organization):
+#     """
+#     Creates the dash application for the admin page -- layout, formatting, and styles
+#     :return: app
+#     :rtype: Dash application object
+#     """
+#     # app = dash.Dash(__name__,csrf_protect=False)
+#     app = dash.Dash(__name__)
+#     # header_file = staticfiles_storage.url('cohert_dashboard/assets/font-awesome/css/font-awesome.min.css')
+#     custom_admin_css = staticfiles_storage.url('cohert_dashboard/assets/css/custom_admin.css')
+
+
+#     # custom_student_css = staticfiles_storage.url('cohert_dashboard/assets/css/custom_student.css')
+
+#     # image_logo = staticfiles_storage.url('cohert_dashboard/assets/images/logo.png')
+#     # user_logo = staticfiles_storage.url('cohert_dashboard/assets/images/default_30.png')
+
+#     try:                
+#         cohorts_file_path = os.path.join(str(data_folder), "cohort_details.csv")
+#         df_cohorts = pd.read_csv(cohorts_file_path)    
+#     except:
+#         df_cohorts = None
+#         log.info("EMPTY CSV FILE")    
+
+#     userprofile_list = []
+#     userprofile_list_2 = []
+#     facilitator_assigned = []
+
+#     if df_cohorts is not None: 
+#         cohort_options_set = list(set(df_cohorts["cohort"]))
+#         cohort_dict = [{'label': val, 'value': val} for val in cohort_options_set]
+#         on_graph = []
+#         pie_graph = {}
+#         final_total = []
+#         perform_track_pie_graph = []
+#         modules_assigned = []
+
+#         cohorts_data = pd.read_csv(cohorts_file_path, index_col="cohort")
+#         for cohorts_detail in cohort_options_set:
+#             total = cohorts_data.loc[cohorts_detail,['not started','completed','started']].sum()
+#             pie_graph[cohorts_detail] =  total
+
+#             completed_pie = (cohorts_data.loc[cohorts_detail,['completed']]/ total) * 100
+#             track_pie = cohorts_data.loc[cohorts_detail,['completed','started']].sum() 
+#             perform_track_pie_graph.append(float(track_pie))
+#             on_graph.append(round(float(completed_pie),2))
+#             final_total.append(total)
+
+#         try:
+#             track_v = np.nansum(on_graph)
+#             track_t = round(np.nansum(on_graph)/ len(on_graph),2)
+#             on_track = track_t
+#         except:
+#             on_track = 0
+
+#         try:
+#             performance_track = (sum(perform_track_pie_graph) / sum(final_total)) * 100
+#             performance_track = round(performance_track,2)
+#         except:
+#             performance_track = 0
+
+#         try:
+#             user_prof = UserProfile.objects.get(user=request.user).organization
+#         except:
+#             user_prof = None
+
+#         if user_prof:
+#             userprofile = UserProfile.objects.filter(organization=user_prof,user__is_staff=False)
+#             user_profile_staff = UserProfile.objects.filter(organization=user_prof,user__is_staff=True)
+
+#             for prof_org_staff in user_profile_staff:
+#                 facilitator_assigned.append(prof_org_staff.user.username)
+
+#             for profile in userprofile:
+#                 userprofile_list.append(profile.user.username)
+
+
+#             org = OrganizationRegistration.objects.get(organization_name=user_prof)
+#             learner_cohort = CohertsUserDetail.objects.filter(organization=org)
+
+            
+#             course_lists_org = CohertsOrganization.objects.filter(organization=org)
+            
+#             import ast
+#             from opaque_keys.edx.keys import CourseKey
+#             from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
+
+#             if course_lists_org:
+#                 for coherts_object in course_lists_org:
+#                     coherts_l = coherts_object.course_list
+#                     lq = ast.literal_eval(coherts_l)
+
+#                     for list_item in range(len(lq)):
+#                         course_key = CourseKey.from_string(str(lq[list_item]))
+#                         course_name = CourseOverview.objects.get(id=course_key)
+#                         modules_assigned.append(course_name.display_name)        
+
+
+#             for learner_data in learner_cohort:
+#                 userprofile_list_2.append(learner_data.learner.username)
+
+#         leaners_not_registered = list(set(userprofile_list) - set(userprofile_list_2))   
+
+
+#         # This lays out the screen and where the graphs appear
+
+#         app.layout = html.Div([ 
+#             html.Link(href=custom_admin_css, rel='stylesheet'),
+#             html.Link(href=header_file, rel='stylesheet'),
+#             html.Link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', rel='stylesheet'),
+
+#             #Header
+#             html.Header([                
+#                 html.Div(
+#                     className="inner",
+#                     children=[
+#                         html.Div([
+#                             html.A([
+#                                 html.Img(
+#                                     className="logo",
+#                                     src=image_logo,
+#                                     alt='Dell Medical School | The University of Texas at Austin Home Page')
+#                             ], href="/dashboard")                    
+#                         ], className="header-logo"),
+
+#                         html.Div([
+#                             html.Ul([
+#                                 html.Li([
+#                                     html.Div(children=[
+#                                         html.Img(src=user_logo, className="user-image-frame", style={'margin-left': '20px'}),
+#                                         html.Span([
+#                                             str(request.user.username),
+#                                         ],className='username', style={'margin-left': '10px', 'position': 'relative', 'bottom': '12px'}),
+#                                     ],className='nav-item hidden-mobile')
+#                                 ]),
+
+#                                 html.Div([                                     
+#                                     html.Div(children=[
+#                                         html.Div(children=[
+#                                             html.Button([
+#                                                 html.I(className="fa fa-caret-down")
+#                                             ],className='dropbtn'),
+#                                             html.Div([
+#                                                 html.A(['Dashboard'],href='/dashboard'),
+#                                                 html.A(['Account'],href='/account/settings'),
+#                                                 html.A(['Sign Out'],href='/logout'),
+#                                             ],className='dropdown-content')
+#                                         ],className='dropdown'),
+#                                     ],className='navbar'),                                  
+                                   
+#                                 ], className='dropdown'),
+
+#                             ])
+#                         ], className="header-menu")
+#                     ]
+#                 )
+#             ]),
+
+#             html.Div(
+#                 children=[
+#                     html.Div(
+#                         children=[
+#                             html.Div(
+#                                 children=[
+#                                     html.Div(
+#                                         children=[
+#                                             html.Div(
+#                                                 children=[
+#                                                     html.Div([
+#                                                         html.I(className='fa fa-users')
+#                                                     ],className='widget-header-icon'),
+#                                             ],className='widget-header'),
+#                                             html.Div(
+#                                                 children=[
+#                                                     html.Div(['Cohorts'],className='text'),
+#                                                     html.H1(len(cohort_options_set),className='number')
+#                                             ],className='widget-body'),
+#                                     ],className='widget'),
+#                             ],className='width25'),
+
+
+#                             html.Div(
+#                                 children=[
+#                                     html.Div(
+#                                         children=[
+#                                             html.Div(
+#                                                 children=[
+#                                                     html.Div([
+#                                                         html.I(className='fa fa-book')
+#                                                     ],className='widget-header-icon'),
+#                                             ],className='widget-header'),
+#                                             html.Div(
+#                                                 children=[
+#                                                     html.Div(['Module Assigned'],className='text'),
+#                                                     html.H1(len(modules_assigned),className='number')
+#                                             ],className='widget-body'),
+#                                     ],className='widget'),
+#                             ],className='width25'),
+
+
+
+#                             html.Div(
+#                                 children=[
+#                                     html.Div(
+#                                         children=[
+#                                             html.Div(
+#                                                 children=[
+#                                                     html.Div([
+#                                                         html.I(className='fa fa-calendar-check-o')
+#                                                     ],className='widget-header-icon'),
+#                                             ],className='widget-header'),
+#                                             html.Div(
+#                                                 children=[
+#                                                     html.Div(['On-Track'],className='text'),
+#                                                     html.H1(str(on_track)+'%',className='number')
+#                                             ],className='widget-body'),
+#                                     ],className='widget'),
+#                             ],className='width25'),
+
+
+#                             html.Div(
+#                                 children=[
+#                                     html.Div(
+#                                         children=[
+#                                             html.Div(
+#                                                 children=[
+#                                                     html.Div([
+#                                                         html.I(className='fa fa-line-chart')
+#                                                     ],className='widget-header-icon'),
+#                                             ],className='widget-header'),
+#                                             html.Div(
+#                                                 children=[
+#                                                     html.Div(['Performance'],className='text'),
+#                                                     html.H1(str(performance_track)+'%',className='number')
+#                                             ],className='widget-body'),
+#                                     ],className='widget'),
+#                             ],className='width25'),
+
+#                             html.Div(
+#                                 children=[
+#                                     html.Div(
+#                                         children=[
+#                                             html.Div(
+#                                                 children=[
+#                                                     html.Div([
+#                                                         html.I(className='fa fa-user-circle-o')
+#                                                     ],className='widget-header-icon'),
+#                                             ],className='widget-header'),
+#                                             html.Div(
+#                                                 children=[
+#                                                     html.Div(['Facilitators Assigned'],className='text'),
+#                                                     html.H1(len(facilitator_assigned),className='number')
+#                                             ],className='widget-body'),
+#                                     ],className='widget'),
+#                             ],className='width25'),
+
+#                     ],className='custom-row'),
+                    
+#                     html.Div(
+#                         children=[
+#                             html.Div(children=[
+#                                 html.Div(children=[
+#                                     html.H4('Cohort Progress')   
+#                                 ],className='box-header'),
+#                                 html.Div([                                    
+#                                     dcc.Graph(
+#                                         id='cohort-graph',
+#                                         figure={
+#                                             'data': [
+#                                                 {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['started'],'type': 'bar', 'name': 'Started', 'marker': dict(color='#f8971f')},
+#                                                 {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['not started'], 'type': 'bar', 'name': 'Not Yet Started', 'marker': dict(color='#00a9b7')},
+#                                                 {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['completed'], 'type': 'bar', 'name': 'Completed', 'marker': dict(color='#a6cd57')},
+#                                                 {'x': ['Not Registered'], 'y': [len(leaners_not_registered)], 'type': 'bar', 'name': 'Not Registered', 'marker': dict(color='#005f86')},
+
+#                                             ],  
+#                                             'layout': {
+#                                                 'title': '<b>Cohort progress</b>',
+#                                                 'barmode': 'stack',
+#                                                 'xaxis' : {      
+#                                                     'title': '', 
+#                                                     'autotick': False,                                                                                                  
+#                                                     'tickmode': 'array',
+                                                                                                                                                                                  
+#                                                 },
+#                                                 'yaxis': {
+#                                                     'title': '<b>Learners</b>',
+#                                                 },
+#                                             }
+#                                         }
+#                                     )
+
+#                                 ],className='box-body'),
+
+#                                 html.Td(id='cohort-pie', colSpan=2.5),  
+
+#                             ],className='box')
+#                     ],className='width50'),  
+
+
+
+#                     html.Div(
+#                         children=[
+#                             html.Div(children=[
+#                                 html.Div(children=[
+#                                     html.H4('Cohorts')
+#                                 ],className='box-header'),
+#                                 html.Div([                                    
+#                                     dcc.Graph(
+#                                         id='graph2',
+#                                         figure={
+#                                             'data': [
+#                                                 {
+#                                                     "values": pie_graph.values(),
+#                                                     "labels": pie_graph.keys(),
+#                                                     "hole": 0.4,
+#                                                     'type': 'pie',
+#                                                     "marker": {'colors': ['#9cadb7', '#333f48', 'rgb(166, 205, 87)', '#bf5700', '#ffd600', '#a6cd57', ' #00a9b7', '#f8971f', '#579d42', '#005f86', '#9cadb7', '#d6d2c4'                                    
+#                                                     ]},
+#                                                 },
+#                                             ],
+#                                             'layout': {
+#                                                 'title': '<b>Cohorts</b>',
+#                                             }
+#                                         }
+#                                     )
+#                                 ],className='box-body'),                                 
+
+#                             ],className='box')
+#                     ],className='width50'),  
+
+
+#             ],className='container'),
+
+#             #Footer
+
+#             html.Footer([
+#                 html.Div(
+#                     className='colophon', 
+#                     children=[
+#                         html.Nav(className='nav-colophon',children=[
+#                             html.Ol(children=[
+#                                 html.Li([
+#                                     html.A(["About"], href="/about")
+
+#                                 ],className='nav-colophon-01'),
+
+#                                 html.Li([
+#                                     html.A(["Blog"], href="/blog")
+
+#                                 ],className='nav-colophon-02'),
+
+
+#                                 html.Li([
+#                                     html.A(["Contact"], href="/support/contact_us")
+
+#                                 ],className='nav-colophon-03'),
+
+#                                 html.Li([
+#                                     html.A(["Donate"], href="/donate")
+
+#                                 ],className='nav-colophon-04')
+#                             ])
+
+#                         ]),
+
+#                         html.Br([]),
+
+#                         html.Div(children=[
+#                             html.P(
+#                                 html.A([
+#                                     html.Img(
+#                                         src=image_logo,
+#                                         alt='organization logo',
+#                                         width='250'      
+#                                     )
+#                                 ],href='/dashboard')
+#                             )
+#                         ],className='wrapper-logo'),
+
+#                         html.P("Dell Medical School, The University of Texas at Austin. All rights reserved except where noted. EdX, Open edX and their respective logos are trademarks or registered trademarks of edX Inc.", className='copyright'),
+
+#                         html.Nav(children=[
+#                             html.Ul(children=[
+#                                 html.Li([
+#                                     html.A(["Privacy Policy"],href="/privacy")
+#                                 ],className='nav-legal-01'),
+
+#                                 html.Li([
+#                                     html.A(["Terms of Service"],href="/tos")
+#                                 ],className='nav-legal-02'),
+
+#                                 html.Li([
+#                                     html.A(["Honor Code"],href="/honor")
+#                                 ],className='nav-legal-03'),
+
+
+#                                 html.Li([
+#                                     html.A(["Take free online courses at edX.org"],href="#")
+#                                 ],className='nav-legal-04'),
+#                             ])
+#                         ],className='nav-legal'),
+#                     ]
+#                 ),
+
+#                 html.Div(children=[
+#                     html.P(
+#                         html.A([
+#                             html.Img(
+#                                 src="https://files.edx.org/openedx-logos/edx-openedx-logo-tag.png",
+#                                 alt="Powered by Open edX", 
+#                                 width="100"  
+#                             )
+#                         ],href="http://open.edx.org")
+#                     )
+#                 ],className='footer-about-openedx')
+#             ], style={'box-shadow': '0 -1px 5px 0 rgba(0, 0, 0, 0.1)', 'border-top': '1px solid #c5c6c7', 'padding': '5px 20px', 'background': '#fff', 'clear': 'both', 'margin-top': '100px'})
+#         ])        
+#         return app
+#     else:
+#         app.layout = html.Div([
+#             html.H3('No Data Found')
+#             ])
+
+#         return app
+
+# New admin Dashboard
 
 def _create_admin_dashboard_app(request,admin_organization):
     """
@@ -104,7 +531,12 @@ def _create_admin_dashboard_app(request,admin_organization):
         df_cohorts = pd.read_csv(cohorts_file_path)    
     except:
         df_cohorts = None
-        log.info("EMPTY CSV FILE")    
+        log.info("EMPTY CSV FILE") 
+
+    try:
+        user_prof = UserProfile.objects.get(user=request.user).organization
+    except:
+        user_prof = None   
 
     userprofile_list = []
     userprofile_list_2 = []
@@ -112,6 +544,10 @@ def _create_admin_dashboard_app(request,admin_organization):
 
     if df_cohorts is not None: 
         cohort_options_set = list(set(df_cohorts["cohort"]))
+        cohort_options_set.sort()
+
+
+
         cohort_dict = [{'label': val, 'value': val} for val in cohort_options_set]
         on_graph = []
         pie_graph = {}
@@ -124,29 +560,6 @@ def _create_admin_dashboard_app(request,admin_organization):
             total = cohorts_data.loc[cohorts_detail,['not started','completed','started']].sum()
             pie_graph[cohorts_detail] =  total
 
-            completed_pie = (cohorts_data.loc[cohorts_detail,['completed']]/ total) * 100
-            track_pie = cohorts_data.loc[cohorts_detail,['completed','started']].sum() 
-            perform_track_pie_graph.append(float(track_pie))
-            on_graph.append(round(float(completed_pie),2))
-            final_total.append(total)
-
-        try:
-            track_v = np.nansum(on_graph)
-            track_t = round(np.nansum(on_graph)/ len(on_graph),2)
-            on_track = track_t
-        except:
-            on_track = 0
-
-        try:
-            performance_track = (sum(perform_track_pie_graph) / sum(final_total)) * 100
-            performance_track = round(performance_track,2)
-        except:
-            performance_track = 0
-
-        try:
-            user_prof = UserProfile.objects.get(user=request.user).organization
-        except:
-            user_prof = None
 
         if user_prof:
             userprofile = UserProfile.objects.filter(organization=user_prof,user__is_staff=False)
@@ -155,14 +568,7 @@ def _create_admin_dashboard_app(request,admin_organization):
             for prof_org_staff in user_profile_staff:
                 facilitator_assigned.append(prof_org_staff.user.username)
 
-            for profile in userprofile:
-                userprofile_list.append(profile.user.username)
-
-
             org = OrganizationRegistration.objects.get(organization_name=user_prof)
-            learner_cohort = CohertsUserDetail.objects.filter(organization=org)
-
-            
             course_lists_org = CohertsOrganization.objects.filter(organization=org)
             
             import ast
@@ -176,22 +582,21 @@ def _create_admin_dashboard_app(request,admin_organization):
 
                     for list_item in range(len(lq)):
                         course_key = CourseKey.from_string(str(lq[list_item]))
-                        course_name = CourseOverview.objects.get(id=course_key)
-                        modules_assigned.append(course_name.display_name)        
-
-
-            for learner_data in learner_cohort:
-                userprofile_list_2.append(learner_data.learner.username)
-
-        leaners_not_registered = list(set(userprofile_list) - set(userprofile_list_2))   
-
+                        course_name = CourseOverview.objects.get(id=course_key)                        
+                        modules_assigned.append(course_name.display_name)  
+ 
 
         # This lays out the screen and where the graphs appear
+
+        cohort_dict.insert(0,{'value': 'all_cohorts', 'label': 'All Cohorts Data'})
+        cohort_options_set.insert(0,'all_cohorts')
+        
 
         app.layout = html.Div([ 
             html.Link(href=custom_admin_css, rel='stylesheet'),
             html.Link(href=header_file, rel='stylesheet'),
             html.Link(href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css', rel='stylesheet'),
+
 
             #Header
             html.Header([                
@@ -240,6 +645,16 @@ def _create_admin_dashboard_app(request,admin_organization):
                 )
             ]),
 
+            # Dropdown for selecting the cohort
+
+            html.Div([ 
+                dcc.Dropdown(
+                    id='cohort-dropdown',
+                    options=cohort_dict,
+                    value= cohort_options_set[0]
+                ),
+            ], style={"width": "25%"}),
+
             html.Div(
                 children=[
                     html.Div(
@@ -257,7 +672,7 @@ def _create_admin_dashboard_app(request,admin_organization):
                                             html.Div(
                                                 children=[
                                                     html.Div(['Cohorts'],className='text'),
-                                                    html.H1(len(cohort_options_set),className='number')
+                                                    html.H1(className='number', id='cohort_id')
                                             ],className='widget-body'),
                                     ],className='widget'),
                             ],className='width25'),
@@ -276,7 +691,7 @@ def _create_admin_dashboard_app(request,admin_organization):
                                             html.Div(
                                                 children=[
                                                     html.Div(['Module Assigned'],className='text'),
-                                                    html.H1(len(modules_assigned),className='number')
+                                                    html.H1(className='number', id='module_id')
                                             ],className='widget-body'),
                                     ],className='widget'),
                             ],className='width25'),
@@ -296,7 +711,7 @@ def _create_admin_dashboard_app(request,admin_organization):
                                             html.Div(
                                                 children=[
                                                     html.Div(['On-Track'],className='text'),
-                                                    html.H1(str(on_track)+'%',className='number')
+                                                    html.H1(className='number', id='on_track_id')
                                             ],className='widget-body'),
                                     ],className='widget'),
                             ],className='width25'),
@@ -315,7 +730,7 @@ def _create_admin_dashboard_app(request,admin_organization):
                                             html.Div(
                                                 children=[
                                                     html.Div(['Performance'],className='text'),
-                                                    html.H1(str(performance_track)+'%',className='number')
+                                                    html.H1(className='number', id='performance_track_id')
                                             ],className='widget-body'),
                                     ],className='widget'),
                             ],className='width25'),
@@ -333,7 +748,7 @@ def _create_admin_dashboard_app(request,admin_organization):
                                             html.Div(
                                                 children=[
                                                     html.Div(['Facilitators Assigned'],className='text'),
-                                                    html.H1(len(facilitator_assigned),className='number')
+                                                    html.H1(className='number', id='staff_id')
                                             ],className='widget-body'),
                                     ],className='widget'),
                             ],className='width25'),
@@ -347,36 +762,9 @@ def _create_admin_dashboard_app(request,admin_organization):
                                     html.H4('Cohort Progress')   
                                 ],className='box-header'),
                                 html.Div([                                    
-                                    dcc.Graph(
-                                        id='cohort-graph',
-                                        figure={
-                                            'data': [
-                                                {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['started'],'type': 'bar', 'name': 'Started', 'marker': dict(color='#f8971f')},
-                                                {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['not started'], 'type': 'bar', 'name': 'Not Yet Started', 'marker': dict(color='#00a9b7')},
-                                                {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['completed'], 'type': 'bar', 'name': 'Completed', 'marker': dict(color='#a6cd57')},
-                                                {'x': ['Not Registered'], 'y': [len(leaners_not_registered)], 'type': 'bar', 'name': 'Not Registered', 'marker': dict(color='#005f86')},
 
-                                            ],  
-                                            'layout': {
-                                                'title': '<b>Cohort progress</b>',
-                                                'barmode': 'stack',
-                                                'xaxis' : {      
-                                                    'title': '', 
-                                                    'autotick': False,                                                                                                  
-                                                    'tickmode': 'array',
-                                                                                                                                                                                  
-                                                },
-                                                'yaxis': {
-                                                    'title': '<b>Learners</b>',
-                                                },
-                                            }
-                                        }
-                                    )
 
-                                ],className='box-body'),
-
-                                html.Td(id='cohort-pie', colSpan=2.5),  
-
+                                ],id='cohort-graph', className='box-body'),  
                             ],className='box')
                     ],className='width50'),  
 
@@ -389,25 +777,8 @@ def _create_admin_dashboard_app(request,admin_organization):
                                     html.H4('Cohorts')
                                 ],className='box-header'),
                                 html.Div([                                    
-                                    dcc.Graph(
-                                        id='graph2',
-                                        figure={
-                                            'data': [
-                                                {
-                                                    "values": pie_graph.values(),
-                                                    "labels": pie_graph.keys(),
-                                                    "hole": 0.4,
-                                                    'type': 'pie',
-                                                    "marker": {'colors': ['#9cadb7', '#333f48', 'rgb(166, 205, 87)', '#bf5700', '#ffd600', '#a6cd57', ' #00a9b7', '#f8971f', '#579d42', '#005f86', '#9cadb7', '#d6d2c4'                                    
-                                                    ]},
-                                                },
-                                            ],
-                                            'layout': {
-                                                'title': '<b>Cohorts</b>',
-                                            }
-                                        }
-                                    )
-                                ],className='box-body'),                                 
+
+                                ],id='cohort-pie', className='box-body'),                                 
 
                             ],className='box')
                     ],className='width50'),  
@@ -498,14 +869,260 @@ def _create_admin_dashboard_app(request,admin_organization):
                     )
                 ],className='footer-about-openedx')
             ], style={'box-shadow': '0 -1px 5px 0 rgba(0, 0, 0, 0.1)', 'border-top': '1px solid #c5c6c7', 'padding': '5px 20px', 'background': '#fff', 'clear': 'both', 'margin-top': '100px'})
-        ])        
+        ]) 
+        @app.callback(      # decorator that defines the targets of the interaction
+            [dash.dependencies.Output('cohort-graph', 'children'),
+            dash.dependencies.Output('cohort-pie', 'children'), 
+            dash.dependencies.Output('cohort_id', 'children'), 
+            dash.dependencies.Output('module_id', 'children'),            
+            dash.dependencies.Output('on_track_id', 'children'),
+            dash.dependencies.Output('performance_track_id', 'children'),
+            dash.dependencies.Output('staff_id', 'children')],                 
+            [dash.dependencies.Input('cohort-dropdown', 'value')])  
+        def update_cohort_pie(value):
+            value = str(value)   
+            if value == 'all_cohorts': 
+                if df_cohorts is not None: 
+                    cohort_options_set = list(set(df_cohorts["cohort"]))
+                    cohort_options_set.sort()
+                    cohort_dict = [{'label': val, 'value': val} for val in cohort_options_set]
+
+                    cohorts_data = pd.read_csv(cohorts_file_path, index_col="cohort")
+                    for cohorts_detail in cohort_options_set:
+                        total = cohorts_data.loc[cohorts_detail,['not started','completed','started']].sum()                        
+
+                        completed_pie = (cohorts_data.loc[cohorts_detail,['completed']]/ total) * 100
+
+                        track_pie = cohorts_data.loc[cohorts_detail,['completed','started']].sum() 
+
+                       
+                        perform_track_pie_graph.append(float(track_pie))
+                        on_graph.append(round(completed_pie,2))
+
+                        
+                        final_total.append(total)
+
+                    try:
+                        track_v = np.nansum(on_graph)
+                        track_t = round(np.nansum(on_graph)/ len(on_graph),2)
+                        on_track = track_t
+                    except:
+                        on_track = 0
+
+                    try:
+                        performance_track = (sum(perform_track_pie_graph) / sum(final_total)) * 100
+                        performance_track = round(performance_track,2)
+                    except:
+                        performance_track = 0
+
+
+                    if user_prof:
+                        userprofile = UserProfile.objects.filter(organization=user_prof,user__is_staff=False)
+
+                        for profile in userprofile:
+                            userprofile_list.append(profile.user.username)
+
+
+                        org = OrganizationRegistration.objects.get(organization_name=user_prof)
+                        learner_cohort = CohertsUserDetail.objects.filter(organization=org)
+
+
+                        for learner_data in learner_cohort:
+                            userprofile_list_2.append(learner_data.learner.username)
+
+                    leaners_not_registered = list(set(userprofile_list) - set(userprofile_list_2)) 
+
+                graphs = list()                             
+                graphs.append(
+                    dcc.Graph(
+                        id='graph1',
+                        figure={
+                            'data': [
+                                {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['started'],'type': 'bar', 'name': 'Started', 'marker': dict(color='#f8971f')},
+                                {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['not started'], 'type': 'bar', 'name': 'Not Yet Started', 'marker': dict(color='#00a9b7')},
+                                {'x': list(df_cohorts["cohort"]), 'y': df_cohorts['completed'], 'type': 'bar', 'name': 'Completed', 'marker': dict(color='#a6cd57')},
+                                {'x': ['Not Registered'], 'y': [len(leaners_not_registered)], 'type': 'bar', 'name': 'Not Registered', 'marker': dict(color='#005f86')},
+
+                            ],  
+                            'layout': {
+                                'title': '<b>Cohort progress</b>',
+                                'barmode': 'stack',
+                                'xaxis' : {      
+                                    'title': '', 
+                                    'autotick': False,                                                                                                  
+                                    'tickmode': 'array',
+                                                                                                                                                                  
+                                },
+                                'yaxis': {
+                                    'title': '<b>Learners</b>',
+                                },
+                            }
+                        }
+                    )
+                )
+
+                graphs.append(
+                    dcc.Graph(
+                        id='graph2',
+                        figure={
+                            'data': [
+                                {
+                                    "values": pie_graph.values(),
+                                    "labels": pie_graph.keys(),
+                                    "hole": 0.4,
+                                    'type': 'pie',
+                                    "marker": {'colors': ['#9cadb7', '#333f48', 'rgb(166, 205, 87)', '#bf5700', '#ffd600', '#a6cd57', ' #00a9b7', '#f8971f', '#579d42', '#005f86', '#9cadb7', '#d6d2c4'                                    
+                                    ]},
+                                },
+                            ],
+                            'layout': {
+                                'title': '<b>Cohorts</b>',
+                            }
+                        }
+                    )
+                )
+                
+                graphs.append(len(cohort_options_set))
+                graphs.append(len(modules_assigned))  
+                graphs.append(str(on_track)+'%')
+                graphs.append(str(performance_track)+'%')
+                graphs.append(len(facilitator_assigned))
+ 
+                return graphs
+            else:
+                graphs = list()
+                cohort_learner_data = df_cohorts[df_cohorts["cohort"] == value]
+                on_graph_1 = []
+                modules_assigned_1 = []
+                if pie_graph.get(value) != 0:
+                    total_1 = int(cohort_learner_data['not started']) + int(cohort_learner_data['started']) + int(cohort_learner_data['completed'])
+
+                    completed_1 = (float(cohort_learner_data['completed'])/ float(total_1)) * 100
+                    track_pie_1 = int(cohort_learner_data['started']) + int(cohort_learner_data['completed'])
+                    performance_track_1 = (float(track_pie_1) / float(total_1)) * 100
+                    performance_track_1 = round(performance_track_1,2)             
+
+                    total_learners = pie_graph.get(value)
+
+                    org = OrganizationRegistration.objects.get(organization_name=user_prof)
+                    course_lists_org_1 = CohertsOrganization.objects.filter(organization=org, coherts_name=value)
+
+                    import ast
+                    from opaque_keys.edx.keys import CourseKey
+                    from openedx.core.djangoapps.content.course_overviews.models import CourseOverview                    
+
+                    if course_lists_org_1:
+                        for coherts_object in course_lists_org_1:
+                            coherts_l = coherts_object.course_list
+                            lq = ast.literal_eval(coherts_l)
+
+                            for list_item in range(len(lq)):
+                                course_key = CourseKey.from_string(str(lq[list_item]))
+                                course_name = CourseOverview.objects.get(id=course_key) 
+                                modules_assigned_1.append(course_name.display_name)
+
+                                course_access = CourseAccessRole.objects.filter(org=org, course_id=course_key)
+                                for course_acc in course_access:
+                                    if course_acc.role == 'staff' and str(course_acc.user) != 'edx':
+                                        facilitator_assigned.append(course_acc.user)
+
+                    
+
+                    graphs.append(
+                        dcc.Graph(
+                            id='graph3',
+                            figure={
+                                'data': [
+                                    {'x': list(cohort_learner_data["cohort"]), 'y': cohort_learner_data['started'],'type': 'bar', 'name': 'Started', 'marker': dict(color='#f8971f')},
+                                    {'x': list(cohort_learner_data["cohort"]), 'y': cohort_learner_data['not started'], 'type': 'bar', 'name': 'Not Yet Started', 'marker': dict(color='#00a9b7')},
+                                    {'x': list(cohort_learner_data["cohort"]), 'y': cohort_learner_data['completed'], 'type': 'bar', 'name': 'Completed', 'marker': dict(color='#a6cd57')},                               
+
+                                ],  
+                                'layout': {
+                                    'title': '<b>Cohort progress</b>',
+                                    'barmode': 'stack',                                    
+                                    'xaxis' : {      
+                                        'title': '',                                     
+                                        'autotick': False,                                                                                                  
+                                        'tickmode': 'array',                                                                                                                                                                  
+                                    },
+                                    'yaxis': {
+                                        'title': '<b>Learners</b>',
+                                    },
+                                }
+                            }
+                        )
+                    )
+
+                    graphs.append(                        
+                        dcc.Graph(
+                            id='graph2',
+                            figure={
+                                'data': [
+                                    {
+                                        "values": [int(cohort_learner_data['started']), int(cohort_learner_data['not started']), int(cohort_learner_data['completed']), total_learners],
+                                        "labels": ['started', 'not started', 'completed', 'learners'],
+                                        "hole": 0.4,
+                                        'type': 'pie',
+                                        "marker": {'colors': ['#9cadb7', '#333f48', 'rgb(166, 205, 87)', '#bf5700', '#ffd600', '#a6cd57', ' #00a9b7', '#f8971f', '#579d42', '#005f86', '#9cadb7', '#d6d2c4'                                    
+                                        ]},
+                                    },
+                                ],
+                                'layout': {
+                                    'title': '<b>Cohorts</b>',
+                                }
+                            }
+                        )
+                    )
+                    graphs.append(str(1))
+                    graphs.append(len(modules_assigned_1))                                       
+                    graphs.append(str(round(float(completed_1),2))+'%')
+                    graphs.append(str(performance_track_1)+'%')
+                    graphs.append(len(facilitator_assigned))
+                    return graphs
+                else:
+                    modules_assigned_2 = []
+                    org = OrganizationRegistration.objects.get(organization_name=user_prof)
+                    course_lists_org_1 = CohertsOrganization.objects.filter(organization=org, coherts_name=value)
+
+                    import ast
+                    from opaque_keys.edx.keys import CourseKey
+                    from openedx.core.djangoapps.content.course_overviews.models import CourseOverview                    
+
+                    if course_lists_org_1:
+                        for coherts_object in course_lists_org_1:
+                            coherts_l = coherts_object.course_list
+                            lq = ast.literal_eval(coherts_l)
+
+                            for list_item in range(len(lq)):
+                                course_key = CourseKey.from_string(str(lq[list_item]))
+                                course_name = CourseOverview.objects.get(id=course_key)  
+                                modules_assigned_2.append(course_name.display_name)
+
+                    graphs.append(
+                        html.P(
+                            html.B('No Data found'),
+                        )                           
+                    )
+
+                    graphs.append(
+                        html.P(
+                            html.B('No Data found'),
+                        )    
+                    )
+                    graphs.append(str(1))
+                    graphs.append(str(len(modules_assigned_2)))                    
+                    graphs.append(str(0.0)+'%')
+                    graphs.append(str(0.0)+'%')
+                    graphs.append(len(facilitator_assigned))
+                    return graphs
         return app
     else:
         app.layout = html.Div([
             html.H3('No Data Found')
             ])
+        return app       
 
-        return app
 
 # Student Dashboard
 
@@ -567,6 +1184,8 @@ def _create_student_dashboard_app(request,admin_organization):
             module_options_set = ['no_data']
 
         # This lays out the screen and where the graphs appear
+
+
         app.layout = html.Div([
 
             html.Link(href=custom_student_css, rel='stylesheet'),
@@ -672,7 +1291,7 @@ def _create_student_dashboard_app(request,admin_organization):
                     html.Div(children=[
                         html.Div(children=[
                             html.Div([
-                                html.H4('Module Views Per Week'),
+                                html.H4('Course Views'),
                             ],className='box-header'),
                             html.Div([                                
                                 dcc.Graph(
@@ -695,7 +1314,7 @@ def _create_student_dashboard_app(request,admin_organization):
                                             ),                            
                                         ],
                                         layout=go.Layout(
-                                            title='<b>Module Views Per Week</b>',
+                                            title='<b>Course Views</b>',
                                             showlegend=True,                            
                                             yaxis = {                            
                                                 'title':'<b>Total Views</b>',
@@ -714,7 +1333,7 @@ def _create_student_dashboard_app(request,admin_organization):
                     html.Div(children=[
                         html.Div(children=[
                             html.Div([
-                                html.H4('Login Per Week'),
+                                html.H4('Login Details'),
                             ],className='box-header'),
                             html.Div([                                
                                 dcc.Graph(
@@ -737,7 +1356,7 @@ def _create_student_dashboard_app(request,admin_organization):
                                             ),                            
                                         ],
                                         layout=go.Layout(
-                                            title='<b>Login Per Week</b>',
+                                            title='<b>Login Details</b>',
                                             showlegend=True,                            
                                             yaxis = {                            
                                                 'title':'<b>Total Logins</b>'

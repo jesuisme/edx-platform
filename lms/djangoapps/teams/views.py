@@ -1016,6 +1016,7 @@ class MembershipListView(ExpandableFieldViewMixin, GenericAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     serializer_class = MembershipSerializer
 
+
     def get(self, request):
         """GET /api/team/v0/team_membership"""
         specified_username_or_team = False
