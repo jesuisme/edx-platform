@@ -133,14 +133,8 @@ def instructor_dashboard_2(request, course_id):
                     {'message': _("Unknown error occured while adding learner to coherts ")},
                     status=200)
 
-        # data={
-        #         'message': "added successfully========"
-        #     }
-        # return HttpResponse(data, status=200)
         
 
-    if request.method == "POST":
-        log.info("instructor_dashboard_2========eeeeeeeeee========")
     course = get_course_by_id(course_key, depth=0)
 
     access = {
@@ -947,7 +941,6 @@ def _section_coherts_register(request,course, access):
     current_user = UserProfile.objects.get(user=request.user)
     
     if current_user.organization:
-        log.info("current user org========")
         user_org = OrganizationRegistration.objects.filter(organization_name=current_user.organization)
         coherts_records = CohertsOrganization.objects.filter(organization=user_org)
         course_base_coherts = []
@@ -1006,7 +999,6 @@ def CohoertsEnrollment(request, coherts_dict ):
                 convert_unicode_course_id = unicode(coherts_value)
                 try:
                     coherts_response=coherts_students_update_enrollment(request, convert_unicode_course_id, user_record, coherts_object, current_user.organization)
-                    log.info("before if coherts_response=====%s===" % coherts_response)
                 except Exception as error:
                     log.info("error while enroll user===%s==" % error)
                     coherts_response = error
