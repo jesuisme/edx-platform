@@ -278,7 +278,7 @@ var trace15 = {
   y: [1.65],
   mode: 'markers',
   type: 'scatter',
-  name: ' ss',
+  name: 'yellowcolor',
   text: ['ccc-a'],
   marker: { size: 85, color: 'rgb(241, 219, 127)', }
 };
@@ -502,6 +502,16 @@ var layout2 = {
 
 
 Plotly.newPlot('myDiv2', data2, layout2);
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -759,10 +769,52 @@ function answer_check(answer, n) {
 
 
 function currentDiv(n) {
+  console.log("currentDiv=====", n);
   showDivs(slideIndex = n);
 }
 
+
+document.getElementById("myDiv").on('plotly_click', function(data){
+    var dataevent = data.event;
+    var slide1;
+    var slide1_a;
+    for(var i=0; i < 1; i++){
+     slide1 = data.points[i].y;
+     slide1_a = data.points[i].x;
+    }
+    if(slide1 == 1.65 && slide1_a == 22.3 && slideIndex == 3){
+        currentDiv(4);
+    }
+    
+});
+
+
+document.getElementById("myDiv2").on('plotly_click', function(data){
+    var dataevent = data.event;
+    var xval;
+    var xval1;
+    console.log("mydiv2=======")
+    for(var i=0; i < 1; i++){
+     xval = data.points[i].y;
+     xval1 = data.points[i].x;
+    }
+    if(xval == 1.76 && xval1 == 23.8 && slideIndex == 5){
+        currentDiv(6);
+    }
+    
+});
+
+
+
+
+
+
+
+
+
 function showDivs(n) {
+  console.log("inside show div");
+  console.log("inside show div", n);
   var i;
   var x = document.getElementsByClassName("mySlides");
   var dots = document.getElementsByClassName("demo");
