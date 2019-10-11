@@ -70,6 +70,7 @@ from track import contexts
 from util.milestones_helpers import is_entrance_exams_enabled
 from util.model_utils import emit_field_changed_events, get_changed_fields_dict
 from util.query import use_read_replica_if_available
+from inbound_email.signals import email_received
 
 log = logging.getLogger(__name__)
 AUDIT_LOG = logging.getLogger("audit")
@@ -2470,6 +2471,8 @@ def create_comments_service_user(user):
 # identifying and logging failures separately (in views).
 
 
+
+
 @receiver(user_logged_in)
 def log_successful_login(sender, request, user, **kwargs):  # pylint: disable=unused-argument
     """Handler to log when logins have occurred successfully."""
@@ -3093,6 +3096,7 @@ def update_user_login(sender, **kwargs):
 
 user_logged_in.connect(update_user_login, sender=User)
 
+
 class StudentModuleViews(models.Model):
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
     date_updated = models.DateField(auto_now_add=True, null=True)
@@ -3124,9 +3128,7 @@ class StudentCourseViews(models.Model):
         return str(self.module_name)
 
 class CohertsUserDetail(models.Model):
-    """ coherts for organization"""
-
-    
+    """ coherts for organization"""   
 
     # coherts_name = models.CharField(max_length=225, db_index=True, unique=True)
     learner = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE, null=True)
@@ -3345,3 +3347,11 @@ class AccountRecovery(models.Model):
             pass
 
         return True
+
+
+class TxShopDetails(models.Model):
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
+    transaction_id = models.CharField(max_length=255, db_index=True)
+    transaction_amount = models.CharField(max_length=255, db_index=True)
+    transaction_date = models.DateField(null=True)
+    order_status = models.CharField(max_length=255, db_index=True)
