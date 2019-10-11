@@ -54,9 +54,7 @@ class PopupImageAlignmentXBlock(XBlock):
         # frag.add_javascript(self.resource_string("static/js/src/cancer_slider.js"))
         # frag.add_javascript(self.resource_string("static/js/src/knee_pain_slider.js"))
 
-        frag.add_javascript(self.resource_string("static/js/src/jquery_min.js"))
-        frag.add_javascript(self.resource_string("static/js/src/bootstrap.min.js"))
-        
+        # frag.add_javascript(self.resource_string("static/js/jquery_min.js"))
         frag.add_javascript(self.resource_string("static/js/src/script.js"))
         frag.add_javascript(self.resource_string("static/js/src/Json.js"))
 
