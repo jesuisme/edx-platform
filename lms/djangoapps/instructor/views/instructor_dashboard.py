@@ -6,12 +6,13 @@ import datetime
 import logging
 import uuid
 import ast
-
+from edx_ace import ace
 import pytz
+from rest_framework import status
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.http import Http404, HttpResponseServerError
+from django.http import Http404,HttpResponse, HttpResponseServerError
 from django.utils.html import escape
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_noop
@@ -58,7 +59,11 @@ from util.json_request import JsonResponse
 from xmodule.html_module import HtmlDescriptor
 from xmodule.modulestore.django import modulestore
 from xmodule.tabs import CourseTab
+from django.contrib.sites.models import Site
+from ..message_types import CohortsAddForLearner
+from openedx.core.djangoapps.ace_common.template_context import get_base_template_context
 
+from edx_ace.recipient import Recipient
 from .tools import get_units_with_due_date, title_or_url
 
 from django.contrib.auth.models import User
@@ -66,7 +71,7 @@ from django.db.models import Q
 
 from instructor.views.api import coherts_students_update_enrollment
 from django.contrib import messages
-from django.core.mail import EmailMessage
+# from django.core.mail import EmailMessage
 
 log = logging.getLogger(__name__)
 
@@ -102,6 +107,8 @@ def show_analytics_dashboard_message(course_key):
 
     return settings.ANALYTICS_DASHBOARD_URL
 
+from rest_framework.response import Response
+
 
 @ensure_csrf_cookie
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
@@ -112,6 +119,21 @@ def instructor_dashboard_2(request, course_id):
     except InvalidKeyError:
         log.error(u"Unable to find course with course key %s while loading the Instructor Dashboard.", course_id)
         return HttpResponseServerError()
+    if request.method == "POST" and request.is_ajax():
+        try:
+            cohorts_function = CohoertsEnrollment(request,dict(request.POST))
+            if cohorts_function:
+                return JsonResponse(
+                    {'message': _(cohorts_function)},
+                    status=200)
+        except Exception as err:
+            log.info("Erro while adding learner to cohorts")
+            log.info("Error type: %s" % err)
+            return JsonResponse(
+                    {'message': _("Unknown error occured while adding learner to coherts ")},
+                    status=200)
+
+        
 
     course = get_course_by_id(course_key, depth=0)
 
@@ -906,48 +928,18 @@ def _section_student_track(request,course, access):
     }
     return section_data
 
+from django.contrib import messages
+from rest_framework.response import Response
+
+
 def _section_coherts_register(request,course, access):
     """ Provide data for the corresponding dashboard section """
-
     course_key = course.id
     coherts_records=None
     course_base_coherts=None
     student_records=None
     current_user = UserProfile.objects.get(user=request.user)
-    if request.method == "POST":
-        selected_user = str(request.POST.get("selected_item"))
-        coherts = request.POST.get("coherts")
-        selected_user = selected_user.split(',')
-        if current_user.organization is not None:
-            organization_obj = OrganizationRegistration.objects.get(organization_name=current_user.organization)
-            coherts_object = CohertsOrganization.objects.get(coherts_name=coherts)
-            coherts_list = (coherts_object.course_list).encode('UTF8')
-            # convert_to_utf = coherts_list.encode('UTF8')
-            coherts_result = coherts_list.strip('][').split(',')
-            for user_record in selected_user:
-                add_in_track = User.objects.get(email=user_record)
-                if CohertsUserDetail.objects.filter(coherts_name=coherts_object, learner=add_in_track, organization=organization_obj).exists():
-                    log.info("user exist for this coherts")
-                else:
-                    saving_user_coherts = CohertsUserDetail(coherts_name=coherts_object, learner=add_in_track, organization=organization_obj, instructor=current_user)
-                    saving_user_coherts.save()
-
-                for enroll_user_for_course in coherts_result:
-                    coherts_value = enroll_user_for_course.strip('u').split("'")[1]
-                    convert_unicode_course_id = unicode(coherts_value)
-                    coherts_students_update_enrollment(request, convert_unicode_course_id, user_record)
-                    subject = "Your added in cohorts"
-                    body = """
-                    hi Learner,
-                            you are added in cohorts %s.
-
-                    thanks,
-                    
-                    """ % coherts
-                    mail_send = EmailMessage(subject,body,settings.EMAIL_HOST_USER,[user_record])
-                    # mail_send.send(fail_silently=False)
-
-
+    
     if current_user.organization:
         user_org = OrganizationRegistration.objects.filter(organization_name=current_user.organization)
         coherts_records = CohertsOrganization.objects.filter(organization=user_org)
@@ -961,9 +953,11 @@ def _section_coherts_register(request,course, access):
                     if unicode_convert == unicode(course_key):
                         course_base_coherts.append(row)
     if current_user.organization:
+        log.info("current_user current_user return")
         # organization_obj = OrganizationRegistration.objects.filter(organization_name=current_user.organization)
         student_records = UserProfile.objects.filter(organization=current_user.organization, user__is_staff=False)
     
+
     section_data = {
         'section_key': 'coherts_organization',
         'student_records': student_records,
@@ -974,3 +968,56 @@ def _section_coherts_register(request,course, access):
     }
     return section_data
 
+
+
+def CohoertsEnrollment(request, coherts_dict ):
+    """
+    """
+    current_user = UserProfile.objects.get(user=request.user)
+    coherts = None
+    coherts_response=None
+    selected_learner = str(coherts_dict['selected_learner'][0])
+    coherts = str(coherts_dict['coherts'][0])
+    selected_learner = selected_learner.split(",")
+    if current_user.organization is not None:
+        organization_obj = OrganizationRegistration.objects.get(organization_name=current_user.organization)
+        coherts_object = CohertsOrganization.objects.get(coherts_name=coherts)
+        coherts_list = (coherts_object.course_list).encode('UTF8')
+        # convert_to_utf = coherts_list.encode('UTF8')
+        coherts_result = coherts_list.strip('][').split(',')
+        for user_record in selected_learner:
+            add_in_track = User.objects.get(email=user_record)
+            get_user_name = UserProfile.objects.get(user=add_in_track)
+            if CohertsUserDetail.objects.filter(coherts_name=coherts_object, learner=add_in_track, organization=organization_obj).exists():
+                log.info("user exist for this coherts")
+            else:
+                saving_user_coherts = CohertsUserDetail(coherts_name=coherts_object, learner=add_in_track, organization=organization_obj, instructor=current_user)
+                saving_user_coherts.save()
+
+            for enroll_user_for_course in coherts_result:
+                coherts_value = enroll_user_for_course.strip('u').split("'")[1]
+                convert_unicode_course_id = unicode(coherts_value)
+                try:
+                    coherts_response=coherts_students_update_enrollment(request, convert_unicode_course_id, user_record, coherts_object, current_user.organization)
+                except Exception as error:
+                    log.info("error while enroll user===%s==" % error)
+                    coherts_response = error
+                
+                try:
+
+                    site = Site.objects.get_current()
+                    notification_context = get_base_template_context(site)
+                    notification_context.update({'full_name': get_user_name.name})
+                    notification_context.update({'cohorts_name': coherts})
+                    notification = CohortsAddForLearner().personalize(
+                        recipient=Recipient(username='', email_address=user_record),
+                        language=get_user_name.language,
+                        user_context=notification_context,
+                    )
+                    ace.send(notification)
+                    log.info("after send mail===========")
+                except Exception as exc:
+                    log.exception('Error sending out deletion notification email')
+                    log.info('Error sending out deletion notification email===%s====' % exc)
+                    raise
+    return coherts_response

@@ -2099,8 +2099,6 @@ class CourseEnrollment(models.Model):
         if user.is_anonymous:
             return CourseEnrollmentState(None, None)
         enrollment_state = cls._get_enrollment_in_request_cache(user, course_key)
-        log.info("enrollment_state==========")
-        log.info(enrollment_state)
         if not enrollment_state:
             try:
                 record = cls.objects.get(user=user, course_id=course_key)
@@ -2361,12 +2359,10 @@ def get_user_by_username_or_email(username_or_email):
         MultipleObjectsReturned if more than one user has same email or
         username
     """
-    log.info("get user by email---")
     username_or_email = strip_if_string(username_or_email)
     # there should be one user with either username or email equal to username_or_email
     try:
         user = User.objects.get(Q(email=username_or_email) | Q(username=username_or_email))
-        log.info("user after----%s----"% user)
     except User.DoesNotExist:
         log.info("does not es---")
         raise User.DoesNotExist()
@@ -2376,7 +2372,6 @@ def get_user_by_username_or_email(username_or_email):
         if UserRetirementRequest.has_user_requested_retirement(user):
             log.info("user does not exist")
             raise User.DoesNotExist
-    log.info("return user----%s----"% user)
     return user
 
 
@@ -3192,7 +3187,6 @@ class ManualEnrollmentAudit(models.Model):
         """
         saves the student manual enrollment information
         """        
-
         manual_enrollment = cls.objects.create(            
             enrolled_by=user,
             enrolled_email=email,

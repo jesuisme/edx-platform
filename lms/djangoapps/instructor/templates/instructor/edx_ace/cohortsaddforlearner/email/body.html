@@ -1,0 +1,34 @@
+{% extends 'ace_common/edx_ace/common/base_body.html' %}
+{% load i18n %}
+
+{% block content %}
+<table width="100%" align="left" border="0" cellpadding="0" cellspacing="0" role="presentation">
+    <tr>
+        <td>
+            <p>
+                {% blocktrans trimmed %}
+                    Hello {{full_name}},
+                {% endblocktrans %}
+            </p>
+            <p>
+                {% blocktrans trimmed %}
+                 You added To Cohorts.
+                 Cohorts name: {{cohorts_name}}.
+                {% endblocktrans %}
+            </p>
+            <p>
+                {% blocktrans trimmed %}
+                 Now you can access this cohorts course.
+                {% endblocktrans %}
+            </p>
+
+            <p>
+                {% blocktrans trimmed %}
+                Best,
+                {{ platform_name }}
+                {% endblocktrans %}
+            </p>
+        </td>
+    </tr>
+</table>
+{% endblock %}

@@ -282,3 +282,6 @@ div.patient_desc {
     padding: 10px;
 }
 
+.nsewdrag {
+    cursor: pointer;
+}
