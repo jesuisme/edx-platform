@@ -70,7 +70,6 @@ from track import contexts
 from util.milestones_helpers import is_entrance_exams_enabled
 from util.model_utils import emit_field_changed_events, get_changed_fields_dict
 from util.query import use_read_replica_if_available
-from inbound_email.signals import email_received
 
 log = logging.getLogger(__name__)
 AUDIT_LOG = logging.getLogger("audit")
