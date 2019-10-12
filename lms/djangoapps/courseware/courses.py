@@ -122,7 +122,7 @@ def get_course_overview_with_access(user, action, course_key, check_if_enrolled=
         # student_module_views = StudentModuleViews.objects.filter(user=user,date_updated=date.today(),module_name=course_name.display_name).exists()
         
         studentmodule_views, created_studentmodule = StudentModuleViews.objects.get_or_create(user=user,date_updated=date.today(),module_name=course_name.display_name)
-
+        
         if created_studentmodule:
             studentmodule_views.course_views = 1
             studentmodule_views.save()

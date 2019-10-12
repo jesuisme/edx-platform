@@ -6,7 +6,7 @@
 
 <%!
 from datetime import date
-
+from lms.djangoapps.badges.events.course_meta import deep_drive_badge
 from django.utils.translation import ugettext as _
 
 from openedx.core.djangolib.markup import HTML, Text
@@ -55,8 +55,7 @@ course_sections = blocks.get('children')
                 completed_prereqs = gated_content[subsection['id']]['completed_prereqs'] if gated_subsection else False
                 subsection_is_auto_opened = subsection.get('resume_block') is True
                 user_feedback_display_name = subsection.get('display_name').lower()                
-                %>    
-
+                %> 
                     % if total_completed_list != int(100) and user_feedback_display_name == 'user feedback survey':
                         <% continue %>  
                     % else:
@@ -92,7 +91,9 @@ course_sections = blocks.get('children')
                                         <h4 class="subsection-title">
                                             <b>${ subsection['display_name'] }</b> 
                                         </h4>
-                    % if subsection.get('complete'):                                    
+                    % if subsection.get('complete'):
+                         <% deep_drive_badge(request.user, completed_first_challenge="first_challenge") %>
+
                                         <span class="complete-checkmark fa fa-check"></span>                     
 
                     % endif                    
@@ -177,6 +178,14 @@ course_sections = blocks.get('children')
                                               </div>
                                             </div>
                         % if vertical.get('complete'):
+                        <% 
+                        if str(vertical['display_name']) == 'cert disp':
+                            deep_drive_badge(request.user)
+                        
+                        
+
+                        %>
+                            
                                                 <span class="complete-checkmark fa fa-check"></span>
                         % endif
                                         </a>

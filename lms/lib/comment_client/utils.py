@@ -3,6 +3,7 @@ import logging
 from contextlib import contextmanager
 from time import time
 from uuid import uuid4
+import json
 
 import requests
 from django.utils.translation import get_language
@@ -90,7 +91,13 @@ def perform_request(method, url, data_or_params=None, raw=False,
             headers=headers,
             timeout=config.connection_timeout
         )
-
+    log.info("response=========%s=====" % response)
+    log.info("response===data======%s=====" % data)
+    log.info("response===method======%s=====" % method)
+    log.info("response====url=====%s=====" % url)
+    log.info("response=====params====%s=====" % params)
+    log.info("response===headers======%s=====" % headers)
+    log.info("response====config.connection_timeout=====%s=====" % config.connection_timeout)
     metric_tags.append(u'status_code:{}'.format(response.status_code))
     if response.status_code > 200:
         metric_tags.append(u'result:failure')
@@ -112,7 +119,10 @@ def perform_request(method, url, data_or_params=None, raw=False,
         else:
             try:
                 data = response.json()
+                # data = json.loads(response)
+                log.info("response.json()====%s===" % response)
             except ValueError:
+                log.info("response.json()===eee=%s===" % response)
                 raise CommentClientError(
                     u"Invalid JSON response for request {request_id}; first 100 characters: '{content}'".format(
                         request_id=request_id,

@@ -1,28 +1,16 @@
 /* Javascript for PopUpXBlock. */
 function PopUpXBlock(runtime, element) {
 $('#plusDivs_left', element).click(function (eventObject) {
-    console.log("aaaaaaaaaaaaaaaa");
-    console.log(eventObject);
     var plus_left = document.getElementById("plusDivs_left").value;
-    console.log("aaaaaaaaa");
-    console.log(plus_left);
     var integer = parseInt(plus_left, 10);
-    console.log(integer);
-    console.log(typeof(integer));
     plusDivs(integer);
 
 
 });
 
 $('#plusDivs_right', element).click(function (eventObject) {
-    console.log("aaaaaaaaaaaaaaaa");
-    console.log(eventObject.data);
     var plus_right = document.getElementById("plusDivs_right").value;
-    console.log("rrrrrrrr");
-    console.log(plus_right);
     var integer = parseInt(plus_right, 10);
-    console.log(integer);
-    console.log(typeof(integer));
     plusDivs(integer);
 
 
@@ -159,7 +147,7 @@ var trace3 = {
   y: [1.91],
   mode: 'markers',
   type: 'scatter',
-  name: ' ss',
+  name: ' ',
   text: ['ccc-a'],
   marker: { size: 14, color: 'rgb(176, 141, 158)', }
 };
@@ -168,7 +156,7 @@ var trace4 = {
   y: [1.71],
   mode: 'markers',
   type: 'scatter',
-  name: ' ss',
+  name: ' ',
   text: ['ccc-a'],
   marker: { size: 11, color: 'rgb(237, 76, 64)', }
 };
@@ -268,7 +256,7 @@ var trace14 = {
   y: [0.99],
   mode: 'markers',
   type: 'scatter',
-  name: ' ss',
+  name: ' ',
   text: ['ccc-a'],
   marker: { size: 19, color: 'rgb(239, 156, 146)', }
 };
@@ -278,7 +266,7 @@ var trace15 = {
   y: [1.65],
   mode: 'markers',
   type: 'scatter',
-  name: 'yellowcolor',
+  name: '',
   text: ['ccc-a'],
   marker: { size: 85, color: 'rgb(241, 219, 127)', }
 };
@@ -769,7 +757,6 @@ function answer_check(answer, n) {
 
 
 function currentDiv(n) {
-  console.log("currentDiv=====", n);
   showDivs(slideIndex = n);
 }
 
@@ -793,7 +780,6 @@ document.getElementById("myDiv2").on('plotly_click', function(data){
     var dataevent = data.event;
     var xval;
     var xval1;
-    console.log("mydiv2=======")
     for(var i=0; i < 1; i++){
      xval = data.points[i].y;
      xval1 = data.points[i].x;
@@ -813,8 +799,6 @@ document.getElementById("myDiv2").on('plotly_click', function(data){
 
 
 function showDivs(n) {
-  console.log("inside show div");
-  console.log("inside show div", n);
   var i;
   var x = document.getElementsByClassName("mySlides");
   var dots = document.getElementsByClassName("demo");

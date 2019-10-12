@@ -44,34 +44,75 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-
+from util.json_request import JsonResponse
+from django.utils.translation import ugettext as _
+from badges.models import BadgeAssertion, BadgeClass
 # @api_view(['POST'])
 # @renderer_classes([JSONRenderer])
 def enroll_user(request):
     """
     """
-    if request.method == "POST" and request.is_ajax():
-        log.info("enroll_user================")
-        content = {'user_count': "ssssssssssssss"}
-        return Response(content)
+    log.info("inssssssssssssssssssssssssssdddddddd")
+    user = request.user
+    log.info("inssssssssssssssssssssssssssdddddddd===%s===" % request.method)
+    if request.method == "GET" or request.method == "POST":
+        log.info("enroll_user========jjjjjjjjjjjjj========")
+        # log.info("enroll_user========%s========" % request.data)
+        # return Response(content)
+        badge_class = BadgeClass.get_badge_class(slug = 'diligent_learner',issuing_component='openedx__course', create=False,)
+        if not badge_class.get_for_user(user):
+            log.info("ddddddddddddddddddddddddddddddddd")
+            assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
+        return JsonResponse(
+                    {'message': _("gggggggggg")},
+                    status=200)
 
+
+
+def linkedin_click(request):
+    """
+    """
+    user = request.user
+    log.info("inssssssssssssssssssssssssssdddddddd=link==%s===" % request.method)
+    if request.method == "GET" or request.method == "POST":
+        log.info("dfdfdfdfg")
+        log.info(request.POST)
+        log.info(request.GET)
+        log.info(request)
+        log.info("enroll_user========jjjjjjjjjjjjj========")
+        # log.info("enroll_user========%s========" % request.data)
+        # return Response(content)
+        badge_class = BadgeClass.get_badge_class(slug = 'value-wise',issuing_component='openedx__course', create=False,)
+        if not badge_class.get_for_user(user):
+            log.info("ddddddddddddddddddddddddddddddddd")
+            assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
         
-    # if request.method == "POST":
-    #     selected_coherts = request.POST.get("selected_coherts")
-    #     organization_name = request.POST.get("organization_name")
-    #     course_id = request.POST.get("course_key_enrollment")
-    #     coherts_object = CohertsOrganization.objects.get(coherts_name=selected_coherts)
-    #     coherts_list = coherts_object.course_list
-    #     convert_to_utf = coherts_list.encode('UTF8')
-    #     coherts_result = convert_to_utf.strip('][').split(',')
-    #     for enroll_user_for_course in coherts_result:
-    #         value = enroll_user_for_course.strip('u').split("'")
-    #         convert_unicode_course_id = u'%s' % value[1]
-    #         coherts_students_update_enrollment(request, convert_unicode_course_id)
-        
 
-        # user_track = UserCohertsOrganizationDetails(selected_coherts=selected_coherts,organization_detail=organization_name, learner_id=request.user.email)
-        # user_track.save()
-    #selected_coherts organization_detail learner_id
-    return HttpResponseRedirect("/dashboard")
+        badge_class = BadgeClass.get_badge_class(slug = 'spread_the_word',issuing_component='openedx__course', create=False,)
+        if not badge_class.get_for_user(user):
+            log.info("ddddddddddddddddddddddddddddddddd")
+            assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
+        return JsonResponse(
+                    {'message': _("gggggggggg")},
+                    status=200)
 
+
+def social_share(request):
+    """
+    """
+    user = request.user
+    log.info("inssssssssssssssssssssssssssdddddddd=sssssssssss==%s===" % request.method)
+    log.info(request.GET)
+    log.info(request.post)
+    log.info("inssssssssssssssssssssssssssdddddddd=sssssssssss==%s===" % request.method)
+    if request.method == "GET" or request.method == "POST":
+        log.info("enroll_user========jjjjjjjjjjjjj========")
+        # log.info("enroll_user========%s========" % request.data)
+        # return Response(content)
+        badge_class = BadgeClass.get_badge_class(slug = 'spread_the_word',issuing_component='openedx__course', create=False,)
+        if not badge_class.get_for_user(user):
+            log.info("ddddddddddddddddddddddddddddddddd")
+            assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
+        return JsonResponse(
+                    {'message': _("gggggggggg")},
+                    status=200)

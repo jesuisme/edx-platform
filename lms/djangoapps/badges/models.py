@@ -331,3 +331,15 @@ class CourseCompleteBadges(models.Model):
  
     class Meta(object):
         app_label = "badges"
+
+
+class PercentBaseBadges(models.Model):
+    """
+    Contains the url configuration for badges for a specific course mode.
+    """
+
+    course_id = models.CharField(max_length=255, blank=True, default=None)
+    slug = models.CharField(max_length=125)
+ 
+    class Meta(object):
+        app_label = "badges"

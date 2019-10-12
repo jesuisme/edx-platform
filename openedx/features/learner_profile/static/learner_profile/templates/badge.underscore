@@ -15,10 +15,10 @@ fjs.parentNode.insertBefore(js, fjs);
 <div class="badge-details">
 <div class="badge-name"><%- badge_class.display_name %></div>
 <p class="badge-description"><%- badge_class.description %></p>
-<span class="fb-share-button" data-href="<%- badge_class.image_url %>" data-layout="button" data-size="small" data-mobile-iframe="true"></span>
+<span class="fb-share-button" data-href="<%- badge_class.image_url %>" data-layout="button" id="social_share_fb" data-size="small" data-mobile-iframe="true"></span>
 
 
-<a href="https://twitter.com/share" class="twitter-share-button" data-size="small" data-text="check my new badge." data-url="<%- badge_class.image_url %>" data-count="none">Tweet</a>
+<a href="https://twitter.com/share" id="social_share"  class="twitter-share-button" data-size="small" data-text="check my new badge." data-url="<%- badge_class.image_url %>" data-count="none">Tweet</a>
 
 <%
 linkedin_share_url = "https://www.linkedin.com/shareArticle?mini=true&url="
@@ -26,7 +26,7 @@ linkedin_share_url = "https://www.linkedin.com/shareArticle?mini=true&url="
 
 
 
-<span class="fa fa-linkedin" style="padding-bottom: 0px;color: white;border-radius: 5px;background-color: #007bb6;height: 16px;width: 60px;padding-top: 9px;text-align: center;" data-course-id=""><a href="<%- linkedin_share_url %><%- badge_class.image_url_from_drive %>" onclick="window.open('<%- linkedin_share_url %><%- badge_class.image_url_from_drive %>', 
+<span class="fa fa-linkedin" style="padding-bottom: 0px;color: white;border-radius: 5px;background-color: #007bb6;height: 16px;width: 60px;padding-top: 9px;text-align: center;" data-course-id=""><a id="linkedin_click" href="<%- linkedin_share_url %><%- badge_class.image_url_from_drive %>" onclick="window.open('<%- linkedin_share_url %><%- badge_class.image_url_from_drive %>', 
 'newwindow', 
 'width=700,height=500'); 
 return false;" style="color: white;" target="_blank">
@@ -47,3 +47,67 @@ true
 )
 %></div>
 </div>
+
+
+<script>
+  $(document).ready(function(){
+  $("#linkedin_click").click(function(){
+    
+    $.ajax({
+         type: "POST",
+      	 dataType: 'json',
+      	 url: "/ut_new/linkedin_click",
+         data: {badge: "linkedin_click"},
+         
+         success: function (data) {
+           console.log("ffffffff");
+           
+       
+             
+           }
+       });
+    
+  });
+
+  $("#social_share").click(function(){
+    
+    $.ajax({
+         type: "POST",
+      	 dataType: 'json',
+      	 url: "/ut_new/linkedin_click",
+         data: {badge: "linkedin_click"},
+         
+         success: function (data) {
+           console.log("ffffffff");
+           
+       
+             
+           }
+       });
+    
+  });
+
+  $("#social_share_fb").click(function(){
+    
+    $.ajax({
+         type: "POST",
+      	 dataType: 'json',
+      	 url: "/ut_new/linkedin_click",
+         data: {badge: "linkedin_click"},
+         
+         success: function (data) {
+           console.log("ffffffff");
+           
+       
+             
+           }
+       });
+    
+  });
+
+
+});
+
+
+  
+  </script>

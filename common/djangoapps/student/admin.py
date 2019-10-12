@@ -35,7 +35,8 @@ from student.models import (
     StudentCourseDetails,
     StudentCourseViews,
     StudentModuleViews,
-    ManualEnrollmentAudit
+    ManualEnrollmentAudit,
+    QuestionResponse
     
 )
 from student.roles import REGISTERED_ACCESS_ROLES
@@ -320,6 +321,12 @@ class AccountRecoveryAdmin(admin.ModelAdmin):
     """ Admin interface for the CourseEnrollmentAllowed model. """
     class Meta(object):
         model = AccountRecovery
+        
+@admin.register(QuestionResponse)
+class QuestionResponseAdmin(admin.ModelAdmin):
+    """ Admin interface for the CourseEnrollmentAllowed model. """
+    class Meta(object):
+        model = QuestionResponse
 
 @admin.register(PendingSecondaryEmailChange)
 class PendingSecondaryEmailChangeAdmin(admin.ModelAdmin):

@@ -51,3 +51,13 @@
     border: 1px solid #fff;
     border-radius: 10px
 }
+.additem .well {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+.modal{
+   width: 100% !important;
+   box-shadow: none;
+   background: transparent !important;
+}

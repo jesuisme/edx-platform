@@ -5,7 +5,8 @@ from xblock.core import XBlock
 from xblock.fields import String, List, Scope, Integer
 from xblock.fragment import Fragment
 import logging
-
+from student.models import QuestionResponse
+from django.contrib.auth.models import User
 
 log = logging.getLogger(__name__)
 
@@ -105,20 +106,47 @@ class QuestionresponseXBlock(XBlock):
         """
         this handler accepts a new reply
         """
-        print("==add reply function==========")
+        # print("==add reply function==========")
         user_service = self.runtime.service(self, 'user')
-        print("user_service===%s===" % user_service)
+        # print("user_service===%s===" % user_service)
         xb_user = user_service.get_current_user()
-        print("xb_user====%s===" % xb_user)
+        # print("xb_user====%s===" % xb_user)
+        user_reply = data['studentReply']
+        course_id = data['course_id']
+        # print("xb_user====%s===" % xb_user.email)
+        log.info("course_id====hfghgf==%s====" % course_id)
         newReply = {
             "student": xb_user.full_name,
+            "email": xb_user.emails,
             "reply": data['studentReply']
         }
-        print("newReply===%s----" % newReply)
-        # self.replies.update(newReply)
-        self.responses.append(newReply)
-        # default_data.update(data)
+        user_object = User.objects.get(email=xb_user.emails[0])
+        if QuestionResponse.objects.filter(user=user_object,course_id=course_id).exists():
+            log.info("user exist for this course")
+        else:
+            QuestionResponse.objects.create(user=user_object, response_text=user_reply,course_id=course_id)
+            self.responses.append(newReply)
         return {"responses": self.responses}
+
+    @XBlock.json_handler
+    def check_user_reply(self, data, suffix=''):
+        """
+        this handler accepts a new reply
+        """
+        user_service = self.runtime.service(self, 'user')
+        xb_user = user_service.get_current_user()
+        course_id = data['course_id']
+        log.info("course_id====hfghgf==%s====" % course_id)
+        # newReply = {
+        #     "student": xb_user.full_name,
+        #     "email": xb_user.emails,
+        #     "reply": data['studentReply']
+        # }
+        user_object = User.objects.get(email=xb_user.emails[0])
+        if QuestionResponse.objects.filter(user=user_object,course_id=course_id).exists():
+            return {"responses": self.responses}
+        else:
+            return {"responses": "new_user"}
 
 
     @staticmethod

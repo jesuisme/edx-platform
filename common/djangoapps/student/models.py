@@ -3339,3 +3339,15 @@ class AccountRecovery(models.Model):
             pass
 
         return True
+
+
+class QuestionResponse(models.Model):
+    """
+    """
+    # response_email = models.CharField(max_length=255, db_index=True)
+    user = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE)
+    course_id = models.CharField(max_length=255, db_index=True)
+    response_text = models.CharField(max_length=255, db_index=True)
+
+    class Meta(object):
+        db_table = "auth_questionresponse"
