@@ -19,14 +19,12 @@ def  award_badge(config, count, user):
     Example config:
         {3: 'slug_for_badge_for_three_enrollments', 5: 'slug_for_badge_with_five_enrollments'}
     """
-    log.info("inside award badges===========")
     slug = config.get(count)
     if not slug:
         return
     badge_class = BadgeClass.get_badge_class(
         slug=slug, issuing_component='openedx__course', create=False,
     )
-    log.info("badge_class========%s========" % badge_class)
     if not badge_class:
         return
     if not badge_class.get_for_user(user):
@@ -123,20 +121,12 @@ def percent_base_badges(user):
     from student.models import CourseProgress
     count = 0
     count1 = 0
-    log.info("response===========%s====" % user.email)
     # slug = config.get(count)
     course_list = PercentBaseBadges.objects.all()
     user_list = CourseProgress.objects.filter(user = user)
     course_group_for_badges = [str(x.course_id) for x in course_list]
-    log.info("aaaa=============%s======" % course_group_for_badges)
     if user_list:
         for user_progress in user_list:
-            log.info("user logs=========%s----" % user_progress.student_course_progress)
-            log.info("user logs=========%s----" % user_progress.course_id)
-            asdffg = str(user_progress.course_id)
-            log.info("user logs===stry======%s----" % asdffg)
-            log.info("user logs===stry======%s----" % type(asdffg))
-            log.info("user logs====ttt=====%s----" % type(user_progress.course_id))
             if str(user_progress.course_id) in  course_group_for_badges:
                 if user_progress.student_course_progress == 100:
 
@@ -146,36 +136,11 @@ def percent_base_badges(user):
     if count > 0:
         badge_class = BadgeClass.get_badge_class(slug= 'power_learner',issuing_component='openedx__course', create=False,)
         if not badge_class.get_for_user(user):
-            log.info("ddddddddddddddddddddddddddddddddd")
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
     if count1 > 0:
         badge_class = BadgeClass.get_badge_class(slug= 'engaged_learner',issuing_component='openedx__course', create=False,)
         if not badge_class.get_for_user(user):
-            log.info("ddddddddddddddddddddddddddddddddd")
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
-    # badge_class = BadgeClass.get_badge_class(slug= 'deep_drive',issuing_component='openedx__course', create=False,
-    # )
-    # log.info("badge_class========%s========" % badge_class)
-    # if not badge_class:
-    #     return
-
-    # if completion_badge:
-    #     badclass_object = BadgeClass.get_badge_class(
-    #     slug=course_slug(course_id, mode),
-    #     issuing_component='',
-    #     criteria=criteria(course_id),
-    #     description=badge_description(course, mode),
-    #     course_id=course_id,
-    #     mode=mode,
-    #     display_name=course.display_name,
-    #     image_file_handle=CourseCompleteImageConfiguration.image_for_mode(mode),
-    #     image_url_from_drive=completion_badge.url_of_badges
-    #     )
-    # assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badclass_object,image_url=badclass_object.image.url,drive_image_url=badclass_object.image_url_from_drive)
-
-    # if not badge_class.get_for_user(user):
-    #     log.info("ddddddddddddddddddddddddddddddddd")
-    #     assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
 
 
 
@@ -183,25 +148,20 @@ def percent_base_badges(user):
 def user_response_badges(user):
     """
     """
-    log.info("user_response_badges funk========user_response========")
     from student.models import QuestionResponse, StudentModuleViews
-    log.info("response===========%s====" % user.email)
     user_response = QuestionResponse.objects.filter(user=user)
     if user_response:
         badge_class = BadgeClass.get_badge_class(slug = 'user_response',issuing_component='openedx__course', create=False,)
         if not badge_class.get_for_user(user):
-            log.info("ddddddddddddddddddddddddddddddddd")
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
 
     moduleview = StudentModuleViews.objects.filter(user=user)
     count = 0
     if moduleview:
         for row in moduleview:
-            log.info("StudentModuleViews========%s====" % row.course_views)
             if row.course_views > 3:
                 count += 1
         if count > 0:
             badge_class = BadgeClass.get_badge_class(slug = 'sincere_learner',issuing_component='openedx__course', create=False,)
             if not badge_class.get_for_user(user):
-                log.info("ddddddddddddddddddddddddddddddddd")
                 assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
