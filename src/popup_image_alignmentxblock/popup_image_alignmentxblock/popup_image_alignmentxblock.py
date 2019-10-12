@@ -38,8 +38,6 @@ class PopupImageAlignmentXBlock(XBlock):
         frag.add_css(self.resource_string("static/css/common.css"))
         frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
         frag.add_css(self.resource_string("static/css/m4s9p1.css"))
-        
-
         frag.add_javascript(self.resource_string("static/js/src/script.js"))
         frag.add_javascript(self.resource_string("static/js/src/Json.js"))
         js_str = pkg_resources.resource_string(__name__, "static/js/src/jquery_min.js")

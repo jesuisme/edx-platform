@@ -421,14 +421,6 @@
 
 
 
-
-
-
-
-
-
-
-
   <!-- <script type="text/javascript" src="/static/js/i18n/en/djangojs.js"></script> -->
   <!-- <script type="text/javascript" src="/static/js/ie11_find_array.js"></script> -->
 
@@ -684,27 +676,56 @@ function hideall() {
 <br>
 <div id="outer-container" class="group group-form group-form-requiredinformation">
   <!-- <ol class="list-input"> -->
-<form id="organization_register" name="validate" action="/organization_register" method="post" onsubmit="return validateForm()" data-remote="true" novalidate class="row">
+<form id="organization_register" name="validate" action="/organization_register" method="post" onsubmit="return validateForm()" data-remote="true" novalidate>
     {% csrf_token %}
 
     
   
-  <div class="row">
+  
   
   <input type="hidden" id='validation_message' class='evt_validate' value='{{ email_obj }}'/> 
-    
-    {% for field in form %}
-      <div class="col-md-6">
-        {{ field.errors }}
-        <span id='org_email_message' style="color:red;"></span>     
 
-        <label for="{{ field.auto_id }}">           
-            {% if field.field.required %}<span class="required">{{ field.label }}</span>
-            {% else %}{{ field.label }}{% endif %}
-        </label>
-        {{ field }}
-      </div>
+  
+    
+
+
+    {% for field in form %}  
+      {% if forloop.counter|divisibleby:2 %} <div class="col-md-6">           
+            <label for="{{ field.auto_id }}">           
+                {% if field.field.required %}<span class="required">{{ field.label }}</span>
+                {% else %}{{ field.label }}{% endif %}
+            </label>
+            {{ field }}
+            {{ field.errors }}
+            <span id='org_email_message' style="color:red;margin: -18px 0 15px 0;
+    display: inline-block;"></span>           
+          </div>      
+        </div>  
+        
+        {% else %}
+        <div class="row"> 
+         <div class="col-md-6">           
+            <label for="{{ field.auto_id }}">           
+                {% if field.field.required %}<span class="required">{{ field.label }}</span>
+                {% else %}{{ field.label }}{% endif %}
+            </label>
+            {{ field }}
+            {{ field.errors }}
+            <span id='org_email_message' style="color:red;margin: -18px 0 15px 0;
+    display: inline-block;"></span>           
+          </div>      
+        {% endif %}
+
+      {% if form.fields|length == forloop.counter and not forloop.counter|divisibleby:2 %}
+
+          </div>
+      {% endif%}
+
+         
+
+         
     {% endfor %}
+    
 
   
 
@@ -713,7 +734,7 @@ function hideall() {
     {{ form }}     
     </b> 
     <b></b> --> 
-
+<div class="row">
 
   <div class="col-md-6">
   <label for="address2">Address line 2:</label>
@@ -728,9 +749,9 @@ function hideall() {
     <select id="country-select" name="country" class="bfh-countries form-control" data-country="US" data-flags="true"></select><br>
       </div>
   </div>
+</div>
 
-
-
+<div class="row">
   <div class="col-md-6">
   <div id="field-state">
         <label class="required" for="state">State:</label>
@@ -748,9 +769,13 @@ function hideall() {
     <input type="text" name="zip_code" required='required' class="form-control">
 </div>
 
+<<<<<<< HEAD
 
   
 
+=======
+    </div>
+>>>>>>> ldaa_dev
 
   <!-- div class="tooltip"><p style="text-align:center" class="hh"><b style="color: white;">i</b></p>
         
@@ -782,7 +807,7 @@ function hideall() {
 
      <input id="seat_type2" type='number', name='additional_seats_purchased' min=1, value="1" style="display: none;" />  
  -->
-
+<div class="row">
   <div class="col-md-6">
     
     <label class="required" for="password">Password:</label>
@@ -1154,6 +1179,17 @@ function hideall() {
   width: 18px;
   height: 18px;
   border-radius: 50%;
+}
+.errorlist {
+  margin: -18px 0 10px 0 !important;
+  padding: 0;
+  color: red !important;
+}
+.errorlist li{
+  list-style: none;
+}
+.form-control{
+  margin-bottom: 20px;
 }
 </style>
 
