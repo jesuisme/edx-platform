@@ -44,3 +44,4 @@ def deserialize_count_specs(text):
     specs = text.splitlines()
     specs = [line.split(',') for line in specs if line.strip()]
     return {int(num): slug.strip().lower() for num, slug in specs}
+

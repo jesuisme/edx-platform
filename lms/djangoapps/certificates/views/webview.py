@@ -282,7 +282,7 @@ def _update_social_context(request, context, course, user, user_certificate, pla
     context['share_url'] = share_url
     twitter_url = ''
     if context.get('twitter_share_enabled', False):
-        twitter_url = 'https://twitter.com/intent/tweet?text={twitter_share_text}&url={share_url}'.format(
+        twitter_url = 'https://twitter.com/intent/tweet?url={share_url}&text={twitter_share_text}'.format(
             twitter_share_text=smart_str(context['twitter_share_text']),
             share_url=urllib.quote_plus(smart_str(share_url))
         )
