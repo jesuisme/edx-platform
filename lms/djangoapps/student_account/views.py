@@ -175,7 +175,6 @@ def login_and_registration_form(request, initial_mode="login"):
 
     response = render_to_response('student_account/login_and_register.html', context)
     handle_enterprise_cookies_for_logistration(request, response, context)
-
     return response
 
 
@@ -585,9 +584,7 @@ def account_settings_context(request):
 
     enterprise_customer = get_enterprise_customer_for_learner(site=request.site, user=request.user)
     update_account_settings_context_for_enterprise(context, enterprise_customer)
-    log.info("student account view======%s----------" % configuration_helpers.get_value(
-            'ENABLE_ACCOUNT_DELETION', settings.FEATURES.get('ENABLE_ACCOUNT_DELETION', False)
-        ))
+
     if third_party_auth.is_enabled():
         # If the account on the third party provider is already connected with another edX account,
         # we display a message to the user.

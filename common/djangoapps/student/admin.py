@@ -35,7 +35,8 @@ from student.models import (
     StudentCourseDetails,
     StudentCourseViews,
     StudentModuleViews,
-    ManualEnrollmentAudit
+    ManualEnrollmentAudit,
+    TxShopDetails
     
 )
 from student.roles import REGISTERED_ACCESS_ROLES
@@ -414,4 +415,13 @@ class ManualEnrollmentAuditAdmin(admin.ModelAdmin):
     class Meta(object):
         model = ManualEnrollmentAudit
 
+
+@admin.register(TxShopDetails)
+class TxShopDetailsAdmin(admin.ModelAdmin):
+    """ Admin interface for the TxShopDetails model. """
+    list_display = ('transaction_id', 'transaction_amount', 'order_status')
+    readonly_fields = ['transaction_date']    
+
+    class Meta(object):
+        model = TxShopDetails
 

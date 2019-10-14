@@ -14,6 +14,7 @@ import analytics
 import edx_oauth2_provider
 from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, load_backend, login as django_login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser, User
@@ -66,7 +67,8 @@ from student.models import (
     Registration,
     UserProfile,
     anonymous_id_for_user,
-    create_comments_service_user
+    create_comments_service_user,
+    TxShopDetails
 )
 from student.helpers import authenticate_new_user, do_create_account
 from third_party_auth import pipeline, provider
@@ -301,6 +303,7 @@ def _handle_successful_authentication_and_login(user, request):
     """
     Handles clearing the failed login counter, login tracking, and setting session timeout.
     """
+
     if LoginFailures.is_feature_enabled():
         LoginFailures.clear_lockout_counter(user)
 
@@ -441,9 +444,6 @@ def login_user(request):
     trumped_by_first_party_auth = bool(request.POST.get('email')) or bool(request.POST.get('password'))
     was_authenticated_third_party = False
 
-    email = request.POST.get('email')
-    organization = OrganizationRegistration.objects.filter(organization_email=email)
-    # if not organization: 
     try:
         if third_party_auth_requested and not trumped_by_first_party_auth:
             # The user has already authenticated via third-party auth and has not
@@ -474,6 +474,7 @@ def login_user(request):
                 _enforce_password_policy_compliance(request, possibly_authenticated_user)
 
         if possibly_authenticated_user is None or not possibly_authenticated_user.is_active:
+            log.info('possibly_authenticated_user is none....')
             _handle_failed_authentication(email_user)
 
         _handle_successful_authentication_and_login(possibly_authenticated_user, request)
@@ -483,12 +484,28 @@ def login_user(request):
             running_pipeline = pipeline.get(request)
             redirect_url = pipeline.get_complete_url(backend_name=running_pipeline['backend'])
 
-        
+        response = None
+        email = request.POST.get('email')
+        try:
+            organization = OrganizationRegistration.objects.get(organization_email=email)
+        except:
+            organization = None
 
-        response = JsonResponse({
-            'success': True,
-            'redirect_url': redirect_url,
-        })
+        try:
+            user = User.objects.get(email=email)
+        except:
+            raise AuthFailedError(_('Email or Password is Incorrect.')) 
+
+        if organization and organization.payment_status == 'Pending':            
+            response = JsonResponse({
+                'success': True,
+                'redirect_url': '/order_confirmation',
+            })
+        else:
+            response = JsonResponse({
+                'success': True,
+                'redirect_url': redirect_url,
+            })
 
         # Ensure that the external marketing site can
         # detect that the user is logged in.
@@ -567,6 +584,7 @@ def signin_user(request):
             third_party_auth_error = _(text_type(msg))  # pylint: disable=translation-of-non-string
             break
 
+
     context = {
         'login_redirect_url': redirect_to,  # This gets added to the query string of the "Sign In" button in the header
         # Bool injected into JS to submit form if we're inside a running third-
@@ -581,7 +599,7 @@ def signin_user(request):
         'third_party_auth_error': third_party_auth_error,
         'staff_no_organization': staff_no_organization
 
-    }
+    }    
 
     return render_to_response('login.html', context)
 

@@ -690,7 +690,7 @@ def _create_admin_dashboard_app(request,admin_organization):
                                             ],className='widget-header'),
                                             html.Div(
                                                 children=[
-                                                    html.Div(['Module Assigned'],className='text'),
+                                                    html.Div(['Modules Assigned'],className='text'),
                                                     html.H1(className='number', id='module_id')
                                             ],className='widget-body'),
                                     ],className='widget'),
@@ -800,20 +800,10 @@ def _create_admin_dashboard_app(request,admin_organization):
                                 ],className='nav-colophon-01'),
 
                                 html.Li([
-                                    html.A(["Blog"], href="/blog")
+                                    html.A(["Contact"], href="/support/contact_us")
 
                                 ],className='nav-colophon-02'),
 
-
-                                html.Li([
-                                    html.A(["Contact"], href="/support/contact_us")
-
-                                ],className='nav-colophon-03'),
-
-                                html.Li([
-                                    html.A(["Donate"], href="/donate")
-
-                                ],className='nav-colophon-04')
                             ])
 
                         ]),
@@ -1587,21 +1577,12 @@ def _create_student_dashboard_app(request,admin_organization):
 
                                     ],className='nav-colophon-01'),
 
-                                    html.Li([
-                                        html.A(["Blog"], href="/blog")
-
-                                    ],className='nav-colophon-02'),
-
 
                                     html.Li([
                                         html.A(["Contact"], href="/support/contact_us")
 
-                                    ],className='nav-colophon-03'),
+                                    ],className='nav-colophon-02'),
 
-                                    html.Li([
-                                        html.A(["Donate"], href="/donate")
-
-                                    ],className='nav-colophon-04')
                                 ])
 
                             ]),

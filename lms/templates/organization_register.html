@@ -725,108 +725,66 @@ function hideall() {
 
          
     {% endfor %}
-    
-
-  
 
 
-   <!--  <b>
-    {{ form }}     
-    </b> 
-    <b></b> --> 
-<div class="row">
-
-  <div class="col-md-6">
-  <label for="address2">Address line 2:</label>
-    <span id='address2' style="color:Black;font-weight: bold;"></span>
-    <input type="text" name="address2" class="form-control">
-  </div>
-
-  <div class="col-md-6">
-   
-   <div id="field-country">
-        <label class="required" for="country">Country:</label>
-    <select id="country-select" name="country" class="bfh-countries form-control" data-country="US" data-flags="true"></select><br>
-      </div>
-  </div>
-</div>
-
-<div class="row">
-  <div class="col-md-6">
-  <div id="field-state">
-        <label class="required" for="state">State:</label>
-        <span id='state_message' style="color:Black;font-weight: bold;"></span>
-        <select class="input-medium bfh-states form-control" data-country="country-select" name="state">
-
-        </select><br>
-      </div>
-  </div>
-
-
-<div class="col-md-6">
-  <label class="required" for="zip_code">Zip Code</label>
-    <span id='zip_code_message' style="color:Black;font-weight: bold;"></span>
-    <input type="text" name="zip_code" required='required' class="form-control">
-</div>
-
-    </div>
-
-  <!-- div class="tooltip"><p style="text-align:center" class="hh"><b style="color: white;">i</b></p>
-        
-  <span class="tooltiptext"> <table style="color: white;">
-                                     
-                                        <tr>
-                                           <th>Silver Package</th>
-                                            <th>50 Seats</th>&nbsp;&nbsp;
-                                            <th>$25</th>&nbsp;&nbsp;
-                                          </tr><tr>
-                                            <th>Gold Package</th>
-                                            <th>100 Seats</th>&nbsp;&nbsp;
-                                            <th>$50</th>&nbsp;&nbsp;
-                                          </tr><tr>
-                                            <th>Platinum Package</th>
-                                            <th>200 Seats</th>&nbsp;&nbsp;
-                                            <th>$100</th>&nbsp;&nbsp;
-                                         </tr>
-
-                                </table>
-  </span>
-  </div> -->
-
-
-    <!-- <input type="radio" onClick="javascript:selectOptionTwo();" name="seat_id" value="Number Of Seats" id="seat_id" style="margin-top: 15px;" /><strong class="blue">Number Of Packages</strong><br/><br>
-
-
-
-
-     <input id="seat_type2" type='number', name='additional_seats_purchased' min=1, value="1" style="display: none;" />  
- -->
 <div class="row">
   <div class="col-md-6">
     
     <label class="required" for="password">Password:</label>
-    <span id='password_message' style="color:Black;font-weight: bold;"></span>
-    <input type="password" name="password" required="required" class="form-control" />
+    <span id='password_message' style="color:red;"></span>    
+    <input type="password" name="password" required="required" class="form-control" />    
   </div>
 
 
   <div class="col-md-6">
     
-    <label class="required" for="confirm_password">Confirm Password:</label>
-    <span id='confirm_message' style="color:Black;font-weight: bold;"></span>
+    <label class="required" for="confirm_password">Confirm Password:</label> 
+    <span id='confirm_message' style="color:red;"></span>   
     <input type="password" name="confirm_password" id="confirm_password_id" required="required" class="form-control"/>
+    
   </div>
+</div>
+
+
+
+    
+
+<div class="row">
+
+
+  <div class="col-md-6">
    
+   <div id="field-country">
+    <label class="required" for="country">Country:</label>
+    <select id="country-select" name="country" class="bfh-countries form-control" data-country="US" data-flags="true"></select><br>
+      </div>
+  </div>
+   <div class="col-md-6">
+  <div id="field-state">
+        <label class="required" for="state">State:</label>  
+        <span id='state_message' style="color:red;"></span>  
+        <select class="input-medium bfh-states form-control" data-country="country-select" name="state">        
+        </select><br>
+      </div>
+</div>
+
+      <div class="col-md-6">
+    
+    <label class="required" for="city">City:</label>
+    <span id='city_message' style="color:red;"></span>    
+    <input type="text" name="city" id="city_id" required="required" class="form-control"/>
+   
+  </div>
+
 </div>
 
 
 
 
-   <!--  <select id="license_type2" name="license_type" disabled="disabled" style="display: none;"> -->
-        <!-- <option value="$75 Single">Single License - $75</option>  -->   
 
 
-    <!-- </select> -->
+
+
 
 
 <!-- 
@@ -954,14 +912,9 @@ function hideall() {
                 <a id="about" href="/about">About</a>
               </li>
               <li class="nav-colophon-02">
-                <a id="blog" href="/blog">Blog</a>
-              </li>
-              <li class="nav-colophon-03">
                 <a id="contact" href="/support/contact_us">Contact</a>
               </li>
-              <li class="nav-colophon-04">
-                <a id="donate" href="/donate">Donate</a>
-              </li>
+
           </ol>
         </nav>
 
@@ -1054,13 +1007,13 @@ function hideall() {
     var state = document.forms["validate"]["state"].value;
     var confirm_password=document.forms["validate"]["confirm_password"].value;
 
-    var zip_code = document.forms["validate"]["zip_code"].value;
+    var city = document.forms["validate"]["city"].value;
 
 
     var confirm_field = document.getElementById("confirm_message")
     var password_field = document.getElementById("password_message")
 
-    var zip_field = document.getElementById("zip_code_message")
+    var city_field = document.getElementById("city_message")
 
     var state_field = document.getElementById("state_message")   
 
@@ -1094,13 +1047,20 @@ function hideall() {
       confirm_field.innerHTML = ''
     }
 
-    if (zip_code==null || zip_code==""){     
-      zip_field.innerHTML = "Zip Code should not be empty"
+    if (city==null || city==""){     
+      city_field.innerHTML = "City Field should not be empty"
       return(false);
 
     }
-    else{
-      zip_field.innerHTML = ''
+    else{      
+      var letters = /^[A-Za-z]+$/;
+      if(city.match(letters)){
+        city_field.innerHTML = ''        
+      }
+      else{
+        city_field.innerHTML = "City Field should not contain digits"
+        return(false);
+      }
     }
 
     if (state==null || state==""){     

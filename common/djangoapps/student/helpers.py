@@ -278,10 +278,14 @@ def get_next_url_for_login_page(request):
     If THIRD_PARTY_AUTH_HINT is set, then `tpa_hint=<hint>` is added as a query parameter.
     """
     redirect_to = get_redirect_to(request)
+    log.info('get next url for login page----%s----'% redirect_to)
+
     if not redirect_to:
         try:
+            log.info('here---1----')
             redirect_to = reverse('dashboard')
         except NoReverseMatch:
+            log.info('expect----')
             redirect_to = reverse('home')
 
     if any(param in request.GET for param in POST_AUTH_PARAMS):
@@ -309,6 +313,7 @@ def get_next_url_for_login_page(request):
             query = urllib.urlencode(params, doseq=True)
             redirect_to = urlparse.urlunsplit((scheme, netloc, path, query, fragment))
 
+    log.info('last redirect to-----%s---'% redirect_to)
     return redirect_to
 
 

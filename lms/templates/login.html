@@ -63,20 +63,27 @@ from third_party_auth import provider, pipeline
       });
 
       $('#login-form').on('ajax:success', function(event, json, xhr) {
+        console.log('in the success--');
         if(json.success) {
+          console.log("json.success----");
           var nextUrl = "${login_redirect_url}";
+          console.log("next url---",nextUrl);
           if (json.redirect_url) {
+            console.log("in the json urlll");
             nextUrl = json.redirect_url; // Most likely third party auth completion. This trumps 'nextUrl' above.
           }
           if (!isExternal(nextUrl)) {
+            console.log("in the if of next url");
             location.href=nextUrl;
           } else {
+            console.log("reverse dashboard--");
             location.href="${reverse('dashboard')}";
           }
         } else if(json.hasOwnProperty('redirect')) {
           // Shibboleth authentication redirect requested by the server:
           var u=decodeURI(window.location.search);
           if (!isExternal(json.redirect)) { // a paranoid check.  Our server is the one providing json.redirect
+            
               location.href=json.redirect+u;
           } // else we just remain on this page, which is fine since this particular path implies a login failure
             // that has been generated via packet tampering (json.redirect has been messed with).
@@ -198,6 +205,13 @@ from third_party_auth import provider, pipeline
               <a href="#forgot-password-modal" rel="leanModal" class="pwd-reset action action-forgotpw" id="forgot-password-link" role="button" aria-haspopup="true">${_('Forgot password?')}</a>
             </span>
           </li>
+
+<!--           <li class="field text" id="field-transaction">
+            <label for="transaction"><b style="font-weight: 600;">${_('Order Number:')}</b></label>
+            <input class="" id="transaction" type="text" name="transaction" value="" placeholder="${_('example: 0DMSCHOOL0123456')}"/>
+            <span class="tip tip-input" id="transaction-tip">${_("Enter Order Number if you are Organization Admin with {platform}").format(platform=platform_name)}</span>
+          </li> -->
+
         </ol>
       </div>
 
