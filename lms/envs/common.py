@@ -2668,10 +2668,10 @@ CERT_NAME_LONG = "Certificate of Achievement"
 BADGING_BACKEND = 'badges.backends.badgr.BadgrBackend'
 
 # Be sure to set up images for course modes using the BadgeImageConfiguration model in the certificates app.
-BADGR_API_TOKEN = None
+BADGR_API_TOKEN = "JvjnYBQKNWz7FIAWPuZKWkkxz0ns7k"
 # Do not add the trailing slash here.
-BADGR_BASE_URL = "http://localhost:8005"
-BADGR_ISSUER_SLUG = "example-issuer"
+BADGR_BASE_URL = "https://badgr.io"
+BADGR_ISSUER_SLUG = "Lip_SS59TeKEUUxgoYfj7Q"
 # Number of seconds to wait on the badging server when contacting it before giving up.
 BADGR_TIMEOUT = 10
 

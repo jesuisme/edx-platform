@@ -1,1 +1,0 @@
-from .popup_image_alignmentxblock import PopupImageAlignmentXBlock
