@@ -942,9 +942,9 @@ PRESS_EMAIL = 'press@adaptivedatamatics.com'
 FINANCE_EMAIL = ''
 
 #Inbound Email 
-INBOUND_EMAIL_PARSER = 'inbound_email.backends.sendgrid.SendGridRequestParser'
-INBOUND_EMAIL_LOG_REQUESTS = True
-INBOUND_EMAIL_RESPONSE_200 = True
+# INBOUND_EMAIL_PARSER = 'inbound_email.backends.sendgrid.SendGridRequestParser'
+# INBOUND_EMAIL_LOG_REQUESTS = True
+# INBOUND_EMAIL_RESPONSE_200 = True
 
 
 
@@ -2391,8 +2391,7 @@ INSTALLED_APPS = [
     'paypal.standard.ipn',
     'ut_new',
     'cohert_dashboard',
-    'tracking',
-    'inbound_email'
+    'tracking'
     
 ]
 
