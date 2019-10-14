@@ -31,7 +31,6 @@ function QuestionresponseXBlock(runtime, element) {
             }),
             success: function (data) {
                 responseSlides.innerHTML = "";
-                console.log("replies: ", data.responses);
                 data.responses.reverse();
                 var count = 0;
                 var j = 0;
@@ -75,7 +74,6 @@ function QuestionresponseXBlock(runtime, element) {
                                 </div>
                             </div>`;
 
-                    console.log(count);
 
                     count++;
                     if (count === 3 ) {
@@ -123,7 +121,6 @@ function QuestionresponseXBlock(runtime, element) {
             }),
             success: function (data) {
                 
-                console.log("data.responses=======", data.responses);
                 if (data.responses != "new_user"){
                     responseSlides.innerHTML = "";
                     console.log("replies: ", data.responses);
