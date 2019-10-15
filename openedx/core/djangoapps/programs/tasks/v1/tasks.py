@@ -2,6 +2,11 @@
 This file contains celery tasks for programs-related functionality.
 """
 import logging
+import re
+import datetime
+import poplib
+import email
+import imaplib
 from celery import task
 from celery.utils.log import get_task_logger  # pylint: disable=no-name-in-module, import-error
 from django.conf import settings
@@ -9,19 +14,24 @@ from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from edx_rest_api_client import exceptions
 from opaque_keys.edx.keys import CourseKey
+from datetime import date, timedelta
+from collections import Counter
+from email import parser
 
 from course_modes.models import CourseMode
 from lms.djangoapps.certificates.models import GeneratedCertificate
 from openedx.core.djangoapps.certificates.api import display_date_for_certificate
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.credentials.models import CredentialsApiConfig
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from openedx.core.djangoapps.credentials.utils import get_credentials, get_credentials_api_client
 from openedx.core.djangoapps.programs.utils import ProgramProgressMeter
 #celerybeat configured
 from celery.task.schedules import crontab
 from celery.decorators import periodic_task
 from datetime import date, timedelta
-from student.models import StudentModuleViews,LoginUpdate,StudentCourseDetails
+from student.models import StudentModuleViews,LoginUpdate,StudentCourseDetails,TxShopDetails
+
 
 log = logging.getLogger(__name__)
 LOGGER = get_task_logger(__name__)
@@ -299,3 +309,99 @@ def clear_students_data():
         StudentCourseDetails.objects.filter(date_updated__lte=date.today()-timedelta(days=30)).delete()
     except Exception as exc:        
         LOGGER.exception('Exception occured while deleting students data %s', exc)
+
+
+
+# runs payment gateway every 15minutes.
+@periodic_task(run_every=(crontab(minute="*/10")), name="txshop_payment_gateway", ignore_result=True)
+def txshop_payment_gateway():    
+    LOGGER.info('Payement Gateway Runs every 10mins.')    
+    payment_mail_domain = configuration_helpers.get_value('PAYMENT_DOMAIN', settings.PAYMENT_DOMAIN)
+    payment_admin_mail = configuration_helpers.get_value('PAYMENT_EMAIL', settings.PAYMENT_EMAIL)
+    payment_mail_password = configuration_helpers.get_value('PAYMENT_EMAIL_PASSWORD', settings.PAYMENT_EMAIL_PASSWORD)
+
+    mail = imaplib.IMAP4_SSL(payment_mail_domain)
+    mail.login(payment_admin_mail, payment_mail_password)
+    mail.list()
+    mail.select("inbox") # connect to inbox.
+    try:
+        result, data = mail.uid('search', None, "ALL") # search and return uids instead
+        all_email_uid = data[0].split()
+
+        latest_email_uid = data[0].split()[-1]
+
+        result, data = mail.uid('fetch', latest_email_uid, '(RFC822)')
+        raw_email = data[0][1]
+
+        email_message_instance = email.message_from_string(raw_email)    
+         
+
+        first_text_block = get_first_text_block(email_message_instance)
+        mail_subject = str(email_message_instance['Subject'])
+        mail_sub_list = str(mail_subject).lower().split(" ")
+
+        date = (datetime.date.today() - datetime.timedelta(1)).strftime("%d-%b-%Y")
+        result_one_day_old, data_one_day_old = mail.uid('search', None, '(SENTSINCE {date})'.format(date=date))
+     
+        result_subj, data_subj = mail.uid('search', None, '(SENTSINCE {date} HEADER Subject "TXShop order confirmation")'.format(date=date))
+
+        checkinggg = ",".join(data_one_day_old)
+        check2 = checkinggg.replace(' ',',')
+
+        if result_subj != 'OK':
+            raise Exception("Error running imap fetch for multiple messages: "
+                            "%s" % result_subj)   
+       
+
+        resp,data = mail.uid('FETCH', str(check2), '(RFC822)')
+        messages = [data[i][1].strip() + "\r\nSize:" + data[i][0].split()[4] + "\r\nUID:" + data[i][0].split()[2]  for i in xrange(0, len(data), 2)]
+        order_num = None
+        for msg in messages:
+            msg_str = email.message_from_string(msg)
+            message_subject = msg_str.get('Subject').lower()
+            mail_sub_list = str(message_subject).split()
+            if str(message_subject) == 'txshop order confirmation' or  any("txshop" in s for s in mail_sub_list) or any("order" in s for s in mail_sub_list):            
+                first_text_block_2 = get_first_text_block(msg_str)
+                body_message = first_text_block_2.split()
+
+                value_message = ','.join(body_message)
+
+                mail_msg = value_message.replace(',',' ')
+
+                regexStr = "(?:^|(?<= ))[A-Z0-9]+(?= |$)"
+
+                regxs = '^(?=.*[A-Z])(?=.*[0-9])'
+
+                transcation_num = re.findall(regexStr, mail_msg)
+
+                currency_2 = re.search(r"\d+\.\d+", mail_msg)
+
+                date_match = re.search(r'\d{2}/\d{2}/\d{2}', mail_msg)
+
+                if transcation_num:                
+                    order_num = [dig for dig in transcation_num if bool(re.match(regxs,str(dig)))]
+
+                if len(order_num) > 0 and currency_2 and date_match:   
+                    date_str = date_match.group() 
+                    date_object = datetime.datetime.strptime(date_str, '%m/%d/%y').date()
+                    txshop_result, created_value = TxShopDetails.objects.get_or_create(transaction_id=order_num[0], transaction_amount=currency_2.group(), transaction_date=date_object, order_status='PAID')
+                else:
+                    LOGGER.info('error occurred')
+                    break
+    except Exception as exc: 
+        LOGGER.exception('Failed to parse and fetch the email.') 
+        raise Exception('Error Occured in parsing email.')
+
+def get_first_text_block(email_message_instance):
+    maintype = email_message_instance.get_content_maintype()
+    try:
+        if maintype == 'multipart':
+            for part in email_message_instance.get_payload():
+                if part.get_content_maintype() == 'text':
+                    return part.get_payload()
+        elif maintype == 'text':
+            return email_message_instance.get_payload()
+    except Exception as exc:
+        raise Exception('Error Occured in parsing email template.')
+
+

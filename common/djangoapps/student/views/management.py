@@ -324,7 +324,7 @@ def organization_register(request):
             password = request.POST.get('password')
             country = request.POST.get('country')
             state = request.POST.get('state')
-            zip_code = request.POST.get('zip_code')
+            city = request.POST.get('city')
 
             if form.is_valid():
                 post = form.save(commit = False)
@@ -363,52 +363,91 @@ def organization_register(request):
 
                 post.user = user
 
-                post.invoice_id = uuid.uuid1().int>>64                
+                # post.invoice_id = uuid.uuid1().int>>64                                
 
-                post.package_total_price = 500 * 20
+                # post.package_total_price = 500 * 20
 
                 post.country = country
 
                 post.state = state
 
-                post.zip_code = zip_code
+                post.city = city
 
                 post.payment_status = 'Pending'
-                
+
                 post.save()
 
 
+                # current_site = configuration_helpers.get_value('LMS_ROOT_URL', settings.LMS_ROOT_URL)
+                order = get_object_or_404(OrganizationRegistration, user=post.user)
+
+                token = account_activation_token.make_token(order)
                 current_site = configuration_helpers.get_value('LMS_ROOT_URL', settings.LMS_ROOT_URL)
-                mail_subject = 'Organization Admin Registration'
+                mail_subject = 'Activate your organization account.'
+                
 
-                site_admin_mail = configuration_helpers.get_value('SITE_ADMIN_MAIL', settings.SITE_ADMIN_MAIL)
-                                           
-                context = {                    
+                context = {
+                    'organization': order,
                     'domain': current_site,
-                    'org_email': organization_email,
-                    'org_username': org_username,                    
-                    'invoice': post.invoice_id,
-                    'amount': post.package_total_price,
-                    'payment_status': 'Pending'
-
+                    # 'password_data': password_data,
+                    'org_username': order.user.username,
+                    'org_email': order.organization_email,
+                    'org_name': order.organization_name,
+                    # 'uid': urlsafe_base64_encode(force_bytes(order.pk)),
+                    # 'token': token,
+                    'item_name': "Organization Registration",
                 }
                 
-                
-                to_email = form.cleaned_data.get('organization_email')
-                
-                address = []
+                to_email = order.organization_email
+
                 from_address = configuration_helpers.get_value(
-                    'email_from_address',
-                    settings.DEFAULT_FROM_EMAIL
-                )
-                address.extend([site_admin_mail,organization_email])
-                for addr in address:
-                    message_for_activation = render_to_string('emails/acc_admin_email.txt', context)
-                    email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[addr])
-                    email.attach_alternative(message_for_activation, "text/html")
-                    email.mixed_subtype = 'related'
-                    email.attach(logo_data())
-                    email.send()
+                        'email_from_address',
+                        settings.DEFAULT_FROM_EMAIL
+                    )
+
+                message_for_activation = render_to_string('emails/acc_active_email.txt', context)
+
+                email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])
+
+                email.attach_alternative(message_for_activation, "text/html")
+
+                email.mixed_subtype = 'related'
+
+                email.attach(logo_data())
+                
+                email.send() 
+    
+                #MAIL SENT TO SITE ADMIN
+
+                # mail_subject = 'Organization Admin Registration'
+
+                # site_admin_mail = configuration_helpers.get_value('SITE_ADMIN_MAIL', settings.SITE_ADMIN_MAIL)
+                                           
+                # context = {                    
+                #     'domain': current_site,
+                #     'org_email': organization_email,
+                #     'org_username': org_username,                    
+                #     'invoice': post.invoice_id,
+                #     'amount': post.package_total_price,
+                #     'payment_status': 'Pending'
+
+                # }                
+                
+                # to_email = form.cleaned_data.get('organization_email')
+                
+                # address = []
+                # from_address = configuration_helpers.get_value(
+                #     'email_from_address',
+                #     settings.DEFAULT_FROM_EMAIL
+                # )
+                # address.extend([site_admin_mail,organization_email])
+                # for addr in address:
+                #     message_for_activation = render_to_string('emails/acc_admin_email.txt', context)
+                #     email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[addr])
+                #     email.attach_alternative(message_for_activation, "text/html")
+                #     email.mixed_subtype = 'related'
+                #     email.attach(logo_data())
+                #     email.send()
 
                 user_prof = UserProfile(
                     user=user,
@@ -417,9 +456,9 @@ def organization_register(request):
                 
                 user_prof.save()
 
-                string_msg = _('Registration Details Sent to Site-Admin.')
+                # string_msg = _('Registration Details Sent to Site-Admin.')
 
-                messages.add_message(request, messages.SUCCESS, string_msg)
+                # messages.add_message(request, messages.SUCCESS, string_msg)
                 request.session['new_user'] = new_user
                 request.session['password'] = password_data
                 request.session['username'] = user.username
@@ -427,7 +466,8 @@ def organization_register(request):
                 request.session['user'] = user
                 request.session['user_prof'] = user_prof
                 request.session['organization_email'] = post.organization_email
-                return HttpResponseRedirect(reverse('payment_process'))
+                ut_txshop_link = 'http://qual.its.utexas.edu/txshop/list.WBX?component=0&application_name=DMSCHOOL&cat_seq_chosen=02&subcategory_seq_chosen=000'
+                return HttpResponseRedirect(ut_txshop_link)
             else:
                 return render(request, "organization_register.html", {'form':form})
         except (KeyError, ValueError, IndexError) as ex:
@@ -478,7 +518,6 @@ def register_user(request, extra_context=None):
     Deprecated. To be replaced by :class:`student_account.views.login_and_registration_form`.
     """
     # Determine the URL to redirect to following login:
-    log.info("register user===========")
     redirect_to = get_next_url_for_login_page(request)
     if request.user.is_authenticated:
         return redirect(redirect_to)
@@ -1356,7 +1395,6 @@ def create_account(request, post_override=None):
     #AUDIT_LOG.info("dddddddddsssssffgfff-----create account------%s--------" % request.POST)
     user_mail = request.POST.getlist('email')
     selected_organization = request.POST.getlist('organization')
-    lmslog.info("selected_organization===========%s======" % selected_organization)
     if selected_organization:
         if selected_organization[0] == "on":
             if selected_organization[1]:
@@ -1561,7 +1599,6 @@ def password_reset(request):
     """
     Attempts to send a password reset e-mail.
     """
-    lmslog.info("inside password reset========")
     # Add some rate limiting here by re-using the RateLimitMixin as a helper class
     limiter = BadRequestRateLimiter()
     if limiter.is_rate_limit_exceeded(request):
@@ -1687,7 +1724,6 @@ def password_reset_confirm_wrapper(request, uidb36=None, token=None):
         old_password_hash = user.password
 
         if 'is_account_recovery' in request.GET:
-            lmslog.info("post method if recovery====")
             response = password_reset_confirm(
                 request,
                 uidb64=uidb64,
@@ -1697,7 +1733,6 @@ def password_reset_confirm_wrapper(request, uidb36=None, token=None):
                 post_reset_redirect='signin_user',
             )
         else:
-            lmslog.info("post method else recovery====")
             response = password_reset_confirm(
                 request, uidb64=uidb64, token=token, extra_context=platform_name
             )
@@ -1719,7 +1754,6 @@ def password_reset_confirm_wrapper(request, uidb36=None, token=None):
         # get the updated user
         updated_user = User.objects.get(id=uid_int)
         if 'is_account_recovery' in request.GET:
-            lmslog.info("1740---------------")
             try:
                 updated_user.email = updated_user.account_recovery.secondary_email
                 updated_user.account_recovery.delete()
@@ -1765,40 +1799,27 @@ def password_reset_confirm_wrapper(request, uidb36=None, token=None):
 
 
         if UserRetirementRequest.has_user_requested_retirement(user):
-            lmslog.info("user retive and delete ====")
             # UserRetirementStatus
             try:
 
                 retirmentstatus = UserRetirementStatus.objects.filter(user=user)
                 if retirmentstatus:
-                    lmslog.info("inside change email=======")
                     for email in retirmentstatus:
-                        lmslog.info("email.original_email======%s=======", email.original_email)
                         get_primary_email = email.original_email
                     retirmentstatus.delete()
-                lmslog.info("111111111before get_primary_email=======%s==" % get_primary_email)
                 userretirment = UserRetirementRequest.objects.filter(user=user)
                 if userretirment:
-                    lmslog.info("delete user retirement")
                     userretirment.delete()
 
-                lmslog.info("555555 get_primary_email=======%s==" % get_primary_email)
                 # delete retirment model
             except Exception as err:
                 lmslog.info("Erro Occured wile deleting retirement request==")
                 lmslog.info("Error type is : %s " % err)
 
             check_account_recovery = AccountRecovery.objects.filter(user=user)
-            lmslog.info("check_account_recovery======%s====" % check_account_recovery)
-            lmslog.info("check_account_recovery=================")
             if check_account_recovery:
-                lmslog.info("if  ==check_account_recovery=================")
                 check_account_recovery.delete()
-        lmslog.info("before change_email=========")
-        lmslog.info("before get_primary_email=======%s==" % get_primary_email)
         if get_primary_email:
-                lmslog.info("lat in inside change email")
-                lmslog.info("change_email change_email============%s=====" % get_primary_email)
                 obj, creating =AccountRecovery.objects.get_or_create(user=user, secondary_email=get_primary_email, is_active=True)
         
 
@@ -1924,14 +1945,12 @@ def do_email_change_request(user, new_email, activation_key=None, secondary_emai
 
 
 
-    lmslog.info("do_email_change_request=======aaaaaaa==")
     if not activation_key:
         activation_key = uuid.uuid4().hex
 
     confirm_link = reverse('confirm_email_change', kwargs={'key': activation_key, })
 
     if secondary_email_change_request:
-        lmslog.info("if secondary mail if========")
         PendingSecondaryEmailChange.objects.update_or_create(
             user=user,
             defaults={
@@ -1977,7 +1996,6 @@ def do_email_change_request(user, new_email, activation_key=None, secondary_emai
         )
 
     try:
-        lmslog.info("try for send email========")
         ace.send(msg)
     except Exception:
         from_address = configuration_helpers.get_value('email_from_address', settings.DEFAULT_FROM_EMAIL)
@@ -1985,7 +2003,6 @@ def do_email_change_request(user, new_email, activation_key=None, secondary_emai
         raise ValueError(_('Unable to send email activation link. Please try again later.'))
 
     if not secondary_email_change_request:
-        lmslog.info("if not secondary mail =======")
         # When the email address change is complete, a "edx.user.settings.changed" event will be emitted.
         # But because changing the email address is multi-step, we also emit an event here so that we can
         # track where the request was initiated.
@@ -1998,7 +2015,6 @@ def do_email_change_request(user, new_email, activation_key=None, secondary_emai
                 "user_id": user.id,
             }
         )
-    lmslog.info("last of sending mail=========")
 
 
 @ensure_csrf_cookie

@@ -413,14 +413,16 @@ class OrganizationRegistrationForm(forms.ModelForm):
         self.fields['confirm_email'].required = True
         self.fields['last_name'].required = True
         self.fields['job_title'].required = True      
-        self.fields['city'].required = True
+        # self.fields['city'].required = True
         self.fields['address1'].required = True
+        self.fields['address2'].required = False
+        self.fields['zip_code'].required = True
         self.fields['primary_professional_role'].required = True
+
 
     class Meta:
         model = OrganizationRegistration
-        # fields = ['organization_name','organization_email','organization_domain','organization_contact_number','package_name','first_name','last_name','job_title', 'primary_professional_role','address1','address2','city','zip_code','confirm_email']
-        fields = ['organization_email','confirm_email','first_name','last_name','job_title','organization_name','organization_domain', 'organization_contact_number','primary_professional_role','city','address1']
+        fields = ['organization_email','confirm_email','first_name','last_name','job_title','organization_name','organization_domain', 'organization_contact_number','primary_professional_role','address1', 'address2','zip_code']
         labels = {'organization_name': 'Organization Name', 'organization_email': 'Email', 'organization_domain': 'Organization Domain', 'organization_contact_number': 'Contact Number'}
     
     
@@ -431,7 +433,7 @@ class OrganizationRegistrationForm(forms.ModelForm):
         pattern_org_name ='^[a-z_ ]*$'
         result = re.match(pattern_org_name,organization_name1)
         if not result:
-            raise forms.ValidationError("Organization should contain only alphabets!")
+            raise forms.ValidationError("Organization should contain only alphabets.")
         return organization_name
 
 
@@ -441,7 +443,7 @@ class OrganizationRegistrationForm(forms.ModelForm):
         pattern_org_name = '^[a-z_ ]*$'        
         name_result = re.match(pattern_org_name,first_name_1)
         if not name_result:
-            raise forms.ValidationError("First Name should contain only alphabets!")
+            raise forms.ValidationError("First Name should contain only alphabets.")
         return first_name
 
 
@@ -451,7 +453,7 @@ class OrganizationRegistrationForm(forms.ModelForm):
         pattern_org_name = '^[a-z_ ]*$'
         last_result = re.match(pattern_org_name,last_name_1)
         if not last_result:
-            raise forms.ValidationError("Last Name should contain only alphabets!")
+            raise forms.ValidationError("Last Name should contain only alphabets.")
         return last_name
 
 
@@ -461,7 +463,7 @@ class OrganizationRegistrationForm(forms.ModelForm):
         pattern_org_name = '^[a-z_ ]*$'
         job_result = re.match(pattern_org_name,job_title1)
         if not job_result:
-            raise forms.ValidationError("Last Name should contain only alphabets!")
+            raise forms.ValidationError("Last Name should contain only alphabets.")
         return job_title
 
     def clean_organization_domain(self):
@@ -477,14 +479,14 @@ class OrganizationRegistrationForm(forms.ModelForm):
     #     return organization_domain
 
 
-    def clean_city(self):        
-        city = self.cleaned_data.get('city')
-        city1 = city.lower()
-        pattern_org_name = '^[a-z_ ]*$'
-        city_result = re.match(pattern_org_name,city1)
-        if not city_result:
-            raise forms.ValidationError("City should contain only alphabets!")
-        return city   
+    # def clean_city(self):        
+    #     city = self.cleaned_data.get('city')
+    #     city1 = city.lower()
+    #     pattern_org_name = '^[a-z_ ]*$'
+    #     city_result = re.match(pattern_org_name,city1)
+    #     if not city_result:
+    #         raise forms.ValidationError("City should contain only alphabets.")
+    #     return city   
 
 
     def clean_organization_email(self):
@@ -525,3 +527,13 @@ class OrganizationRegistrationForm(forms.ModelForm):
     def clean_organization_contact_number(self):
         organization_contact_number = self.cleaned_data.get('organization_contact_number')
         return organization_contact_number
+
+    def clean_zip_code(self):
+        zip_code = self.cleaned_data.get('zip_code')
+        pattern_zip_code = '^[+0-9]+$'
+        zip_result = bool(re.match(pattern_zip_code,zip_code))
+        if not zip_result:
+            raise forms.ValidationError("Zip Code should not contain alphabets.")
+
+        return zip_code
+

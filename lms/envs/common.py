@@ -941,11 +941,22 @@ UNIVERSITY_EMAIL = 'university@adaptivedatamatics.com'
 PRESS_EMAIL = 'press@adaptivedatamatics.com'
 FINANCE_EMAIL = ''
 
+#Inbound Email 
+# INBOUND_EMAIL_PARSER = 'inbound_email.backends.sendgrid.SendGridRequestParser'
+# INBOUND_EMAIL_LOG_REQUESTS = True
+# INBOUND_EMAIL_RESPONSE_200 = True
+
+
 
 PLATFORM_NAME_1 = 'Dell Medical School'
 PLATFORM_NEW_NAME = 'The Dell Medical School Healthcare Value Team'
 PLATFORM_NEW_NAME_2 = 'Dell Medical School at The University of Texas at Austin'
 SITE_ADMIN_MAIL = 'viraj.thakrar@luminad.com'
+# TEST Payment Email Details
+PAYMENT_EMAIL = 'shruthi.nair@luminad.com'
+PAYMENT_EMAIL_PASSWORD = 'dgsl$321'
+PAYMENT_DOMAIN = 'mail.luminad.com'
+
 
 #Custom Email settings
 #EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -1923,9 +1934,21 @@ from datetime import timedelta
 from celery.schedules import crontab
 
 
-CELERYBEAT_SCHEDULE['every-8hour'] = {
-    'task': 'openedx.core.djangoapps.programs.tasks.v1.tasks.clear_students_data',
-    'schedule': crontab(hour="*/6"),
+# CELERYBEAT_SCHEDULE['every-8hour'] = {
+#     'task': 'openedx.core.djangoapps.programs.tasks.v1.tasks.clear_students_data',
+#     'schedule': crontab(hour="*/6"),
+# }
+
+CELERYBEAT_SCHEDULE = {
+    'every-day': {
+        'task': 'openedx.core.djangoapps.programs.tasks.v1.tasks.txshop_payment_gateway',
+        'schedule': crontab(minute="*/10"),
+    },
+
+    'every-8hour': {
+        'task': 'openedx.core.djangoapps.programs.tasks.v1.tasks.clear_students_data',
+        'schedule': crontab(hour="*/6"),
+    }
 }
 
 # Message configuration

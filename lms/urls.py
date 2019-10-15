@@ -86,6 +86,8 @@ urlpatterns = [
 
     url(r'^change_enrollment$', student_views.change_enrollment, name='change_enrollment'),
 
+    url(r'^order_confirmation/$', student_views.order_confirmation, name='order_confirmation'),
+
     # Event tracking endpoints
     url(r'', include('track.urls')),
 

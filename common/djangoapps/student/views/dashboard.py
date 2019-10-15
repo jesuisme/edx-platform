@@ -2,12 +2,14 @@
 Dashboard view and supporting methods
 """
 
-import datetime
 import logging
 import csv
 import time
 import os
+import email
+import datetime
 from collections import defaultdict
+
 
 from completion.exceptions import UnavailableCompletionData
 from rest_framework import permissions, status
@@ -68,7 +70,8 @@ from student.models import (
     CohertsOrganization,
     OrganizationRegistration,
     CohertsUserGradeRecords,
-    CourseProgress
+    CourseProgress,
+    TxShopDetails
 )
 from util.milestones_helpers import get_pre_requisite_courses_not_completed
 from xmodule.modulestore.django import modulestore
@@ -79,6 +82,15 @@ from django.utils import timezone
 from badges.models import BadgeAssertion, BadgeClass, CourseCompleteImageConfiguration, CourseCompleteBadges
 from datetime import date, timedelta
 from collections import Counter
+import poplib
+from email import parser
+import imaplib
+
+from util.json_request import JsonResponse
+from django.shortcuts import render
+from django.contrib.messages import get_messages
+from student.cookies import delete_logged_in_cookies, set_logged_in_cookies
+from django.template import RequestContext
 
 
 log = logging.getLogger("edx.student")
@@ -561,6 +573,45 @@ def Merge(dict1, dict2):
     return(dict2.update(dict1)) 
 
 
+def order_confirmation(request):
+    if request.method == 'POST':
+        order_number = request.POST.get('order_number')
+        user = request.user
+        try:
+            organization = OrganizationRegistration.objects.get(organization_email=user.email)
+        except:
+            organization = None
+
+        try:
+            if not order_number:
+                raise AuthFailedError(_('Please Enter Order Number to Login.'))
+            else:
+                try:
+                    order_number = TxShopDetails.objects.get(transaction_id=order_number)
+                except:
+                    raise AuthFailedError(_('Order Number is Incorrect.'))
+
+                if not order_number.user:
+                    organization.invoice_id = order_number.transaction_id
+                    organization.package_total_price = order_number.transaction_amount
+                    organization.payment_status = 'PAID'
+                    organization.is_active = True
+                    organization.paid = True                    
+                    order_number.user = user
+                    organization.save()
+                    order_number.save()
+                else:
+                    log.info('Order Number belongs to a different User')
+                    raise AuthFailedError(_('Order Number belongs to a different User.'))
+            return HttpResponseRedirect('/dashboard')        
+
+        except AuthFailedError as error:
+            error_alert_message = error.get_response()
+            messages.add_message(request, messages.ERROR, str(error_alert_message['value'])) 
+            return render(request, 'order_confirmation.html', {})
+    return render(request,'order_confirmation.html', {})
+
+
 
 @login_required
 @ensure_csrf_cookie
@@ -578,7 +629,18 @@ def student_dashboard(request):
         The dashboard response.
 
     """
-    user = request.user
+
+    user = request.user  
+    try:
+        organization_token = OrganizationRegistration.objects.get(organization_email=user.email)
+    except:
+        organization_token = None
+
+    if organization_token and organization_token.payment_status == 'Pending':
+        return HttpResponseRedirect(reverse('order_confirmation')) 
+    else:
+        pass
+
 
     from tracking.models import Visitor
 
@@ -890,7 +952,7 @@ def student_dashboard(request):
 
         students_data_dict = {}
      
-    
+
     context = {
         'urls': urls,
         'programs_data': programs_data,
@@ -946,24 +1008,16 @@ def student_dashboard(request):
     try:
         staff_organization1 = UserProfile.objects.get(user=user)
         if staff_organization1.organization:
-            log.info("staff_organization1.organization======%s===" % staff_organization1.organization)
-            log.info("staff_organization1.staff_organization1======%s===" % staff_organization1)
             staff_organization = staff_organization1.organization
         else:
-            log.info("else staff none=======")
             staff_organization = None
     except:
-        log.info("except none=========") 
         staff_organization = None
-    log.info("staff_organization===========%s========" % staff_organization)
-    # log.info("staff_organization===========%s========" % staff_organization.organization)
     #Read/Write to CSV Files (Student-Admin Dashboard)
     csv_path = os.path.dirname(__file__)
     data_folder = os.path.join(str(csv_path), "student_data_csvs")
 
     if user.is_staff and staff_organization is not None:
-        log.info("if staff_organization not none")
-
         total_cohort_list = []
         cohorts_data = {}  
 
@@ -1197,7 +1251,5 @@ def student_dashboard(request):
     response = render_to_response('dashboard.html', context)
     set_user_info_cookie(response, request)
     return response
-
-
 
 

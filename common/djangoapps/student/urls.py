@@ -16,6 +16,8 @@ urlpatterns = [
     url(r'^payment_process/$', views.payment_process, name='payment_process' ),
     url(r'^payment_done/$', views.payment_done, name='payment_done'),
     url(r'^payment_canceled/$', views.payment_canceled, name='payment_canceled'),
+    # url(r'^order_confirmation/$', views.order_confirmation, name='order_confirmation'),
+    # url(r'^test_confirmation/$', views.test_confirmation, name='test_confirmation'),
     
     url(r'^logout$', views.LogoutView.as_view(), name='logout'),
 
