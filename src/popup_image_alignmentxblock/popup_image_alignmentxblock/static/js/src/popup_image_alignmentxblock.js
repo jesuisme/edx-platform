@@ -14,6 +14,11 @@ function checkAnswer(obj, f) {
     $("." + f).removeClass("hide");
   }
 }
+function TryA(obj) {
+  $(obj).closest('.item.active').find('div').removeClass("incorrect").removeClass("selectedAns");
+  //$('.item.active div').removeClass("incorrect").removeClass("selectedAns");
+  $(obj).closest('.item').find('.row-eq-height').removeClass('Dis');
+}
 function PopupImageAlignmentXBlock(runtime, element) {
   // $('#cancer_slide').hide();
 
@@ -523,11 +528,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       $(".carousel .active .ans").css("height", f_height + "px");
     }
 
-    function TryA(obj) {
-      $(obj).closest('.item.active').find('div').removeClass("incorrect").removeClass("selectedAns");
-      //$('.item.active div').removeClass("incorrect").removeClass("selectedAns");
-      $(obj).closest('.item').find('.row-eq-height').removeClass('Dis');
-    }
+    
 
 
 

@@ -1,0 +1,167 @@
+#main {
+    margin: 0 auto;
+    padding: 0px;
+    height: auto;
+    width: 835px;
+    overflow: hidden;
+    border: 0px solid #ccc;
+    background-color: #f3f5f4;
+    }	
+    
+    #container {
+    margin-top: 100px;
+    height: 400px;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    position: relative;
+    background: url('https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m10s10p10.png') no-repeat center right;
+    }
+    
+    #dragBox {
+    left: 15px;
+    top: 81px;
+    position: absolute;
+    }
+    
+    #drops4{
+    padding-left: 32px !important;
+    height: 220px !important;
+    }
+    
+    .rights{
+    background: #28ae95!important;
+    }
+    
+    .wrong{
+    background: #ed7061!important;
+    }
+    
+    .draggable {
+    text-align: center;
+    cursor: pointer;
+    width: 220px;
+    position:absolute;
+    z-index: 999;
+    height: 40px;
+    color: white;
+    font-size:70%;
+    }
+    
+    .d1{
+    padding-left: 220px;
+    position: absolute;
+    background: #CCC;
+    height: 38px;
+    }
+    
+    .hove:hover {
+    background: #5D5F60;
+    }
+    
+    .hove {
+    text-align: center;
+    cursor: pointer;
+    width: 226px;
+    position:absolute;
+    z-index: 999;
+    margin-left:-4px;
+    line-height: 38px;
+    color: white;
+    }
+    
+    .relate{
+    width: 220px;
+    position:relative;
+    z-index: 999;
+    height: 40px;
+    color: white;
+    }
+    
+    .ui-draggable-dragging {
+    z-index: 99999999 !important;
+    }
+    
+    
+    .relate:nth-child(odd) .hove{
+    background: #3C3F41;
+    }
+    
+    .relate:nth-child(even) .hove{
+    background: #47484B;
+    }
+    
+    #drops2{
+    top: 40px;
+    right: 10px;
+    }
+    
+    #drops1{
+    top: 158px;
+    right: 10px;
+    }
+    
+    #drops3{
+    top: 274px;
+    right: 10px;
+    }
+    
+    #drops0{
+    top: 356px;
+    right: 160px;
+    }
+    
+    
+    #drops4{
+    top: 80px;
+    left: 255px;
+    }
+    
+    #dwrong .msgBtn{
+    background: #fff;
+    width: 140px;
+    color:#F06858;
+    padding: 10px 0;
+    text-transform: uppercase;
+    font-size: 16px;
+    cursor: pointer;
+    }
+    
+    #main .dis2{height:450px; width:100%; z-index:1001; top:10px; left:10px; position:absolute; display:none;}
+    #dcorrect{background:#2cb69d;color: #ffffff;  padding: 20px; width:250px; max-width:35%; top: 10%; position: absolute;  z-index: 1002;   left: 0; text-align: center; font-family: 'GothamHTF-Bold';  display:none;}
+    
+    
+    @media screen
+    and (min-device-width : 766px)
+    and (max-device-width : 1024px) {
+    
+    #main {
+    margin: 0 auto;
+    padding: 0px;
+    margin-top: -30px;
+    height: auto;
+    width: 590px;
+    overflow: hidden;
+    border: 0px solid #ccc;
+    background-color: #f3f5f4;
+    }	
+    #container {
+    margin-top: 100px;
+    height: 400px;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    position: relative;
+    background: url('https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m10s10p9.png') no-repeat center right;
+    }
+    #drops0, #disdrops3 {
+    top: 356px;
+    right: 45px;
+    }
+    }
+    @media only screen 
+    and (min-device-width : 768px) 
+    and (max-device-width : 1024px) 
+    and (orientation : portrait) {
+    #dcorrect{width:260px; max-width:40%;}
+    }
