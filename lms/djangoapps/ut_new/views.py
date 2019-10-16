@@ -25,7 +25,6 @@ def ut_coherts(request):
         org_value = str(user_detail.organization)
     course_list = CourseOverview.objects.all()
     if request.method == "POST":
-        log.info("inside ut coherts post method")
         coherts = request.POST.get("coherts")
         courses = request.POST.getlist("courses")
         organization_id = request.POST.get("org_id")
@@ -52,16 +51,10 @@ from badges.models import BadgeAssertion, BadgeClass
 def enroll_user(request):
     """
     """
-    log.info("inssssssssssssssssssssssssssdddddddd")
     user = request.user
-    log.info("inssssssssssssssssssssssssssdddddddd===%s===" % request.method)
     if request.method == "GET" or request.method == "POST":
-        log.info("enroll_user========jjjjjjjjjjjjj========")
-        # log.info("enroll_user========%s========" % request.data)
-        # return Response(content)
         badge_class = BadgeClass.get_badge_class(slug = 'diligent_learner',issuing_component='openedx__course', create=False,)
-        if not badge_class.get_for_user(user):
-            log.info("ddddddddddddddddddddddddddddddddd")
+        if badge_class and not badge_class.get_for_user(user):
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
         return JsonResponse(
                     {'message': _("gggggggggg")},
@@ -73,25 +66,15 @@ def linkedin_click(request):
     """
     """
     user = request.user
-    log.info("inssssssssssssssssssssssssssdddddddd=link==%s===" % request.method)
     if request.method == "GET" or request.method == "POST":
-        log.info("dfdfdfdfg")
-        log.info(request.POST)
-        log.info(request.GET)
-        log.info(request)
-        log.info("enroll_user========jjjjjjjjjjjjj========")
-        # log.info("enroll_user========%s========" % request.data)
-        # return Response(content)
         badge_class = BadgeClass.get_badge_class(slug = 'value-wise',issuing_component='openedx__course', create=False,)
-        if not badge_class.get_for_user(user):
-            log.info("ddddddddddddddddddddddddddddddddd")
+        if badge_class and not badge_class.get_for_user(user):
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
         
 
-        badge_class = BadgeClass.get_badge_class(slug = 'spread_the_word',issuing_component='openedx__course', create=False,)
-        if not badge_class.get_for_user(user):
-            log.info("ddddddddddddddddddddddddddddddddd")
-            assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
+        # badge_class = BadgeClass.get_badge_class(slug = 'spread_the_word',issuing_component='openedx__course', create=False,)
+        # if badge_class and not badge_class.get_for_user(user):
+        #     assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
         return JsonResponse(
                     {'message': _("gggggggggg")},
                     status=200)
@@ -101,17 +84,9 @@ def social_share(request):
     """
     """
     user = request.user
-    log.info("inssssssssssssssssssssssssssdddddddd=sssssssssss==%s===" % request.method)
-    log.info(request.GET)
-    log.info(request.post)
-    log.info("inssssssssssssssssssssssssssdddddddd=sssssssssss==%s===" % request.method)
     if request.method == "GET" or request.method == "POST":
-        log.info("enroll_user========jjjjjjjjjjjjj========")
-        # log.info("enroll_user========%s========" % request.data)
-        # return Response(content)
         badge_class = BadgeClass.get_badge_class(slug = 'spread_the_word',issuing_component='openedx__course', create=False,)
-        if not badge_class.get_for_user(user):
-            log.info("ddddddddddddddddddddddddddddddddd")
+        if badge_class and not badge_class.get_for_user(user):
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
         return JsonResponse(
                     {'message': _("gggggggggg")},

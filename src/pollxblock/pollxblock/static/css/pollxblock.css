@@ -1,0 +1,28 @@
+/* CSS for PollXBlock */
+#poll_73 .pollbox {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px;
+    margin-top: 0px;
+}
+#poll_73 .pollbox .pbox1 {
+    float: left;
+    margin-left: 0px;
+    color: #33a0cb;
+    height: 20px;
+    background: #33a0cb;
+    font-weight: 700;
+}
+
+#poll_73 .pollbox .left1 {
+    float: left;
+    width: 150px;
+    position: relative;
+}
+
+#poll_73 .pollbox .span1 {
+    float: left;
+    margin-left: 10px;
+    color: #33a0cb;
+    font-weight: 700;
+}
