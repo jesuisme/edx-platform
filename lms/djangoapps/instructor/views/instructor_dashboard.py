@@ -162,10 +162,10 @@ def instructor_dashboard_2(request, course_id):
     sections = [
         _section_course_info(course, access),
         _section_membership(request, course, access),
-        _section_cohort_management(course, access),
+        # _section_cohort_management(course, access),
         _section_discussions_management(course, access),
         _section_student_admin(course, access),
-        _section_data_download(course, access),
+        # _section_data_download(course, access),
     ]
     if organization_staff:
        sections.append(_section_coherts_register(request,course, access))
@@ -183,7 +183,7 @@ def instructor_dashboard_2(request, course_id):
             link_start=link_start, link_end=HTML("</a>"), analytics_dashboard_name=settings.ANALYTICS_DASHBOARD_NAME)
 
         # Temporarily show the "Analytics" section until we have a better way of linking to Insights
-        sections.append(_section_analytics(course, access))
+        # sections.append(_section_analytics(course, access))
 
     # Check if there is corresponding entry in the CourseMode Table related to the Instructor Dashboard course
     course_mode_has_price = False
@@ -225,7 +225,9 @@ def instructor_dashboard_2(request, course_id):
         'ENABLE_SPECIAL_EXAMS', False)
 
     if can_see_special_exams:
-        sections.append(_section_special_exams(course, access))
+        log.info('special exam')
+        # sections.append(_section_special_exams(course, access))
+
 
     # Certificates panel
     # This is used to generate example certificates
