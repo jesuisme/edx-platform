@@ -815,13 +815,15 @@ for (i = 0; i < dots.length; i++) {
   dots[slideIndex-1].className += " w3-grey";
 
   var slider_show = slideIndex - 1;
-  for (var i = 0; i < msg_slide_incorrect.length; i++) {
-      msg_slide_incorrect[i].style.display = "none";
-  }
-  var msg_slide_correct = document.getElementsByClassName("correct_msg");
-  for (var i = 0; i < msg_slide_correct.length; i++) {
-      msg_slide_correct[i].style.display = "none";
-  }
+  // for (var i = 0; i < msg_slide_incorrect.length; i++) {
+  //     msg_slide_incorrect[i].style.display = "none";
+  // }
+  // var msg_slide_correct = document.getElementsByClassName("correct_msg");
+  // for (var i = 0; i < msg_slide_correct.length; i++) {
+  //     msg_slide_correct[i].style.display = "none";
+  // }
+
+  
 
 
   if (slider_show == 0 || slider_show == 1 || slider_show == 2) {

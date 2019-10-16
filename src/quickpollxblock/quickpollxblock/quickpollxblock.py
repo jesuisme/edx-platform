@@ -4,7 +4,7 @@ import pkg_resources
 from xblock.core import XBlock
 from xblock.fields import Integer, Scope, List
 from xblock.fragment import Fragment
-from student.models import quickpollxblock
+from student.models import QuestionResponse, quickpollxblock
 from django.contrib.auth.models import User
 
 @XBlock.wants('user')
@@ -91,14 +91,63 @@ class QuickPollXBlock(XBlock):
         """
         """
         user_service = self.runtime.service(self, 'user')
+        # print("user_service===%s===" % user_service)
         xb_user = user_service.get_current_user()
+        print("xb user========%s" % xb_user)
         user_registered = self.responses
+        print("leng====%s===" % len(self.responses))
+        print(user_registered)
+        print(type(user_registered))
+        for row in user_registered:
+            print(type(row))
+            print(row)
+            print(row['email'])
+            if xb_user.emails == row['email']:
+                print("match found")
+                return {"yes": self.yes_percent, "no": self.no_percent}
+            else:
+                return {"yes": "yes", "no": "no"}
 
+
+    @XBlock.json_handler
+    def add_reply(self, data, suffix=''):
+        """
+        this handler accepts a new reply
+        """
+        user_service = self.runtime.service(self, 'user')
+        xb_user = user_service.get_current_user()
+        user_reply = data['studentReply']
+        course_id = data['course_id']
+        newReply = {
+            "student": xb_user.full_name,
+            "email": xb_user.emails,
+            "reply": data['studentReply']
+        }
         user_object = User.objects.get(email=xb_user.emails[0])
-        if quickpollxblock.objects.filter(user=user_object).exists():
-            return {"yes": self.yes_percent, "no": self.no_percent}
+        if not QuestionResponse.objects.filter(user=user_object,course_id=course_id).exists():
+            QuestionResponse.objects.create(user=user_object, response_text=user_reply,course_id=course_id)
+            self.responses.append(newReply)
+        # else:
+        #     QuestionResponse.objects.create(user=user_object, response_text=user_reply,course_id=course_id)
+        #     self.responses.append(newReply)
+        return {"responses": self.responses}
+
+
+    @XBlock.json_handler
+    def check_user_reply(self, data, suffix=''):
+        """
+        this handler accepts a new reply
+        """
+        user_service = self.runtime.service(self, 'user')
+        xb_user = user_service.get_current_user()
+        course_id = data['course_id']
+        
+        user_object = User.objects.get(email=xb_user.emails[0])
+        if QuestionResponse.objects.filter(user=user_object,course_id=course_id).exists():
+            return {"responses": self.responses}
         else:
-            return {"yes": "usermatch",}
+            return {"responses": "new_user"}
+
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
