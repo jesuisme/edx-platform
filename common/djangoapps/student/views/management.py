@@ -466,8 +466,9 @@ def organization_register(request):
                 request.session['user'] = user
                 request.session['user_prof'] = user_prof
                 request.session['organization_email'] = post.organization_email
-                ut_txshop_link = 'http://qual.its.utexas.edu/txshop/list.WBX?component=0&application_name=DMSCHOOL&cat_seq_chosen=02&subcategory_seq_chosen=000'
-                return HttpResponseRedirect(ut_txshop_link)
+                # ut_txshop_link = 'http://qual.its.utexas.edu/txshop/list.WBX?component=0&application_name=DMSCHOOL&cat_seq_chosen=02&subcategory_seq_chosen=000'
+                
+                return render(request, "payment_buy_now.html", {'new_user': new_user})
             else:
                 return render(request, "organization_register.html", {'form':form})
         except (KeyError, ValueError, IndexError) as ex:
@@ -480,6 +481,10 @@ def organization_register(request):
     user_email_list = [str(email_list) for email_list in list(user_email_validation)]
     return render(request,'organization_register.html',{'form':form, 'email_obj': user_email_list })
 
+def cancel_order(request):
+    log.info('order cancelled')
+    log.info("USER----%s----"% request.user)
+    return HttpResponseRedirect('/organization_register')
 
 def get_success_url():
     return reverse('register_user')

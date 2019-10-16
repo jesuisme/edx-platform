@@ -87,10 +87,9 @@ class CourseOutlineFragmentView(EdxFragmentView):
         
 
         user_prof = User.objects.get(username=request.user.username)       
-        course_progress = CourseProgress.objects.filter(user=user_prof,course_id=course_key).exists()
+        course_progress, course_progress_created = CourseProgress.objects.get_or_create(user=user_prof,course_id=course_key)
 
-        if course_progress:
-            course_progress = CourseProgress.objects.get(user=user_prof,course_id=course_key)
+        if not course_progress_created:
             course_progress.feedback_progress = int(total_completed_list)
             course_progress.save()
 

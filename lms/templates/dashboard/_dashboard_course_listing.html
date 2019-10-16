@@ -590,15 +590,19 @@ length_total_list = len(total_value_list)
 
     %>
 
-    % if CourseProgress.objects.filter(user=user,course_id=enrollment.course_id).exists():
+    <%
+    course_prog, course_prog_created = CourseProgress.objects.get_or_create(user=user,course_id=enrollment.course_id)
+    %>
+
+    % if course_prog_created:
       <% 
-      course_prog = CourseProgress.objects.get(user=user,course_id=enrollment.course_id)
-      course_prog.student_course_progress = percent
+      course_prog.student_course_progress = 0
       course_prog.save()
       %>
     % else:
       <%
-      CourseProgress.objects.create(user=user,course_id=enrollment.course_id,student_course_progress=0)      
+      course_prog.student_course_progress = percent
+      course_prog.save()      
       %>
     % endif 
     
@@ -614,15 +618,16 @@ length_total_list = len(total_value_list)
     </div>    
 % else:  
 
-    % if CourseProgress.objects.filter(user=user,course_id=enrollment.course_id).exists():
+    <%
+    course_prog, course_prog_created = CourseProgress.objects.get_or_create(user=user,course_id=enrollment.course_id)
+    %>
+
+    % if course_prog_created:
       <% 
-      course_prog = CourseProgress.objects.get(user=user,course_id=enrollment.course_id)      
+      course_prog.student_course_progress = 0
+      course_prog.save()
       %>
-    % else:
-      <%
-      CourseProgress.objects.create(user=user,course_id=enrollment.course_id,student_course_progress=0)      
-      %>
-    % endif 
+    % endif
 
    <div class="row">
         <div class="col-md-4">            
@@ -636,10 +641,6 @@ length_total_list = len(total_value_list)
     </div>      
 % endif
 </li>
-
-
-
-
 
 
 <head>
