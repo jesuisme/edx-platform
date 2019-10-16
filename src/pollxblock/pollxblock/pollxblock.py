@@ -4,6 +4,8 @@ import pkg_resources
 from xblock.core import XBlock
 from xblock.fields import Integer, Scope, List
 from xblock.fragment import Fragment
+from student.models import PollXblock
+from django.contrib.auth.models import User
 
 log = logging.getLogger(__name__)
 
@@ -81,15 +83,21 @@ class PollXBlock(XBlock):
         An example handler, which increments the data.
         """
         user_service = self.runtime.service(self, 'user')
-        # print("user_service===%s===" % user_service)
         xb_user = user_service.get_current_user()
-        user_registered = self.responses
-        for row in user_registered:
-            if xb_user.emails == row['email']:
-                log.info("match found")
-                return {"count_60s": self.count_60s_percent, "count_2m": self.count_2m_percent, "count_5m": self.count_5m_percent, "count_10m": self.count_10m_percent}
-            else:
-                return {"count_60s": "usermatch",}
+        user_object = User.objects.get(email=xb_user.emails[0])
+        if PollXblock.objects.filter(user=user_object).exists():
+            return {"count_60s": self.count_60s_percent, "count_2m": self.count_2m_percent, "count_5m": self.count_5m_percent, "count_10m": self.count_10m_percent}
+        else:
+            return {"count_60s": "usermatch",}
+
+
+        # user_registered = self.responses
+        # for row in user_registered:
+        #     if xb_user.emails == row['email']:
+        #         log.info("match found")
+        #         return {"count_60s": self.count_60s_percent, "count_2m": self.count_2m_percent, "count_5m": self.count_5m_percent, "count_10m": self.count_10m_percent}
+        #     else:
+        #         return {"count_60s": "usermatch",}
 
     @XBlock.json_handler
     def poll_response(self, data, suffix=''):
@@ -97,18 +105,13 @@ class PollXBlock(XBlock):
         this handler accepts a new reply
         """
         user_service = self.runtime.service(self, 'user')
-        # print("user_service===%s===" % user_service)
         xb_user = user_service.get_current_user()
-        # print("xb_user====%s===" % xb_user)
         user_reply = data['selected_val']
-        # course_id = data['course_id']
-        # responses = ""
-        # print("xb_user====%s===" % xb_user.email)
-        newReply = {
-            "student": xb_user.full_name,
-            "email": xb_user.emails,
-            "responses": data['selected_val']
-        }
+        # newReply = {
+        #     "student": xb_user.full_name,
+        #     "email": xb_user.emails,
+        #     "responses": data['selected_val']
+        # }
         if user_reply == "60s":
             self.count_60s += 1
         if user_reply == "2m":
@@ -118,11 +121,8 @@ class PollXBlock(XBlock):
         if user_reply == "10m":
             self.count_10m += 1
         
-        # self.count_2m += 1
-        # self.count_5m += 1
-        # self.count_10m += 1
+        user_object = User.objects.get(email=xb_user.emails[0])
         sum_list = sum([self.count_60s,self.count_2m,self.count_5m,self.count_10m])
-        # sum_all_poll = sum(self.count_60s,self.count_2m,self.count_5m,self.count_10m)
         average_for_each = float(100/sum_list)
 
         percent_of_count_60s = float(self.count_60s * average_for_each)
@@ -133,7 +133,9 @@ class PollXBlock(XBlock):
         self.count_2m_percent = percent_of_count_2m
         self.count_5m_percent = percent_of_count_5m
         self.count_10m_percent = percent_of_count_10m
-        self.responses.append(newReply)
+        created, obj = PollXblock.objects.get_or_create(user=user_object)
+        # self.responses.append(newReply)
+        
 
         return {"count_60s": percent_of_count_60s, "count_2m": percent_of_count_2m, "count_5m": percent_of_count_5m, "count_10m": percent_of_count_10m}
 

@@ -95,7 +95,6 @@ class QuestionresponseXBlock(XBlock):
         """
         this handler accepts the question 
         """
-        log.info("set questions==========")
 
         self.studio_questions = data['studio_questions']
 
@@ -106,15 +105,10 @@ class QuestionresponseXBlock(XBlock):
         """
         this handler accepts a new reply
         """
-        # print("==add reply function==========")
         user_service = self.runtime.service(self, 'user')
-        # print("user_service===%s===" % user_service)
         xb_user = user_service.get_current_user()
-        # print("xb_user====%s===" % xb_user)
         user_reply = data['studentReply']
         course_id = data['course_id']
-        # print("xb_user====%s===" % xb_user.email)
-        log.info("course_id====hfghgf==%s====" % course_id)
         newReply = {
             "student": xb_user.full_name,
             "email": xb_user.emails,
@@ -136,12 +130,7 @@ class QuestionresponseXBlock(XBlock):
         user_service = self.runtime.service(self, 'user')
         xb_user = user_service.get_current_user()
         course_id = data['course_id']
-        log.info("course_id====hfghgf==%s====" % course_id)
-        # newReply = {
-        #     "student": xb_user.full_name,
-        #     "email": xb_user.emails,
-        #     "reply": data['studentReply']
-        # }
+        
         user_object = User.objects.get(email=xb_user.emails[0])
         if QuestionResponse.objects.filter(user=user_object,course_id=course_id).exists():
             return {"responses": self.responses}
