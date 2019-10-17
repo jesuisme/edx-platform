@@ -22,47 +22,47 @@ class PollStylingXBlock(XBlock):
     #     help="A simple counter, to show something happening",
     # )
     extremely_likely = Integer(
-            default=0, scope=Scope.user_state,
+            default=0, scope=Scope.user_state_summary,
             help="extremely likely to show something happening",
         )
     extremely_likely_percent = Integer(
-            default=0, scope=Scope.user_state,
+            default=0, scope=Scope.user_state_summary,
             help="extremely likely to show something happening",
         )
     
     likely = Integer(
-            default=0, scope=Scope.user_state,
+            default=0, scope=Scope.user_state_summary,
             help="likely to show something happening",
         )
     likely_percent = Integer(
-            default=0, scope=Scope.user_state,
+            default=0, scope=Scope.user_state_summary,
             help="likely to show something happening",
         )
     
     neutral = Integer(
-            default=0, scope=Scope.user_state,
+            default=0, scope=Scope.user_state_summary,
             help="neutral to show something happening",
         )
     neutral_percent = Integer(
-            default=0, scope=Scope.user_state,
+            default=0, scope=Scope.user_state_summary,
             help="neutral to show something happening",
         )
     
     unlikely = Integer(
-            default=0, scope=Scope.user_state,
+            default=0, scope=Scope.user_state_summary,
             help="unlikely to show something happening",
         )
     unlikely_percent = Integer(
-            default=0, scope=Scope.user_state,
+            default=0, scope=Scope.user_state_summary,
             help="unlikely to show something happening",
         )
     
     extremely_unlikely = Integer(
-            default=0, scope=Scope.user_state,
+            default=0, scope=Scope.user_state_summary,
             help="extremely unlikely to show something happening",
         )
     extremely_unlikely_percent = Integer(
-            default=0, scope=Scope.user_state,
+            default=0, scope=Scope.user_state_summary,
             help="extremely unlikely to show something happening",
         )
     

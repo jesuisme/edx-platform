@@ -20,38 +20,38 @@ class PollXBlock(XBlock):
 
     # TO-DO: delete count, and define your own fields.
     count_60s = Integer(
-        default=0, scope=Scope.user_state,
+        default=0, scope=Scope.user_state_summary,
         help="A count_60s counter, to show something happening",
     )
     count_60s_percent = Integer(
-        default=0, scope=Scope.user_state,
+        default=0, scope=Scope.user_state_summary,
         help="A count_60s counter, to show something happening",
     )
     
     count_2m = Integer(
-        default=0, scope=Scope.user_state,
+        default=0, scope=Scope.user_state_summary,
         help="A simple counter, to show something happening",
     )
     count_2m_percent = Integer(
-        default=0, scope=Scope.user_state,
+        default=0, scope=Scope.user_state_summary,
         help="A simple counter, to show something happening",
     )
     
     count_5m = Integer(
-        default=0, scope=Scope.user_state,
+        default=0, scope=Scope.user_state_summary,
         help="A count_2m counter, to show something happening",
     )
     count_5m_percent = Integer(
-        default=0, scope=Scope.user_state,
+        default=0, scope=Scope.user_state_summary,
         help="A count_2m counter, to show something happening",
     )
     
     count_10m = Integer(
-        default=0, scope=Scope.user_state,
+        default=0, scope=Scope.user_state_summary,
         help="A count_10m counter, to show something happening",
     )
     count_10m_percent = Integer(
-        default=0, scope=Scope.user_state,
+        default=0, scope=Scope.user_state_summary,
         help="A count_10m counter, to show something happening",
     )
     

@@ -37,13 +37,18 @@ from student.models import (
     StudentModuleViews,
     ManualEnrollmentAudit,
     TxShopDetails,
-    QuestionResponse    
+    QuestionResponse,
+    PollXblock,
+    pollstylingxblock,
+    quickpollxblock    
 )
 from student.roles import REGISTERED_ACCESS_ROLES
 from xmodule.modulestore.django import modulestore
 
 User = get_user_model()  # pylint:disable=invalid-name
-
+admin.site.register(PollXblock)
+admin.site.register(pollstylingxblock)
+admin.site.register(quickpollxblock)
 # This switch exists because the CourseEnrollment admin views make DB queries that impact performance.
 # In a large enough deployment of Open edX, this is enough to cause a site outage.
 # See https://openedx.atlassian.net/browse/OPS-2943
