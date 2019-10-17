@@ -757,7 +757,16 @@ function answer_check(answer, n) {
 
 
 function currentDiv(n) {
+  var msg_slide_incorrect = document.getElementsByClassName("incorrect_msg");
+  for (var i = 0; i < msg_slide_incorrect.length; i++) {
+      msg_slide_incorrect[i].style.display = "none";
+  }
+  var msg_slide_correct = document.getElementsByClassName("correct_msg");
+  for (var i = 0; i < msg_slide_correct.length; i++) {
+      msg_slide_correct[i].style.display = "none";
+  }
   showDivs(slideIndex = n);
+
 }
 
 

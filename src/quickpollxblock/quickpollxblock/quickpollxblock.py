@@ -18,19 +18,19 @@ class QuickPollXBlock(XBlock):
 
     # TO-DO: delete count, and define your own fields.
     yes = Integer(
-        default=0, scope=Scope.user_state,
+        default=0, scope=Scope.user_state_summary,
         help="A simple counter, to show something happening",
     )
     yes_percent = Integer(
-        default=0, scope=Scope.user_state,
+        default=0, scope=Scope.user_state_summary,
         help="A simple counter, to show something happening",
     )
     no = Integer(
-        default=0, scope=Scope.user_state,
+        default=0, scope=Scope.user_state_summary,
         help="A simple counter, to show something happening",
     )
     no_percent = Integer(
-        default=0, scope=Scope.user_state,
+        default=0, scope=Scope.user_state_summary,
         help="A simple counter, to show something happening",
     )
 
