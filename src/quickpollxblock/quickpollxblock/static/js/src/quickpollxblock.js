@@ -23,7 +23,7 @@ function QuickPollXBlock(runtime, element) {
     $('.checkmark', element).click(function(eventObject) {
         console.log($(this).data('value'));
         var selected_val = $(this).data('value');
-        console.log("ffffffffffffff");
+        console.log("dddddddddd");
         $.ajax({
             type: "POST",
             url: poll_url,
@@ -35,10 +35,12 @@ function QuickPollXBlock(runtime, element) {
 
     $('#addresponse', element).click(function (eventObject) {
         var response = document.getElementById("response1Text").value;
+        console.log("response====", response);
         var slide = "";
         var course_id;
         var current_url = window.location.href;
         var split_url = current_url.split("/");
+        console.log("add response=========");
         for (i = 0; i < split_url.length; i++) { 
           if (split_url[i].includes("course-v1:")){
             console.log(split_url[i]);
@@ -54,6 +56,7 @@ function QuickPollXBlock(runtime, element) {
                 "course_id": course_id
             }),
             success: function (data) {
+                console.log("sucess msg====");
                 responseSlides.innerHTML = "";
                 data.responses.reverse();
                 var count = 0;
@@ -114,6 +117,7 @@ function QuickPollXBlock(runtime, element) {
 
                 responseSlides.innerHTML = slide;
                 $("#ask_question").hide();
+                $("#ask_question2").hide();
                 $('#responseCarousel-container').show();
             }
         });
@@ -166,6 +170,7 @@ function QuickPollXBlock(runtime, element) {
 
           }
         }
+        console.log("course_id=====", course_id);
 
         $.ajax({
                 type: "POST",
@@ -181,6 +186,7 @@ function QuickPollXBlock(runtime, element) {
                         data.responses.reverse();
                         var count = 0;
                         var j = 0;
+                        console.log("data.responses[i].reply===", data.responses[i]);
                         for (var i = 0; i < data.responses.length; i++) {
                             if (i === 0) {
                                 var active = 'active';
@@ -239,6 +245,7 @@ function QuickPollXBlock(runtime, element) {
 
                         responseSlides.innerHTML = slide;
                         $("#ask_question").hide();
+                        $("#ask_question2").hide();
                         $('#responseCarousel-container').show();
                     }
 

@@ -84,6 +84,7 @@ class QuickPollXBlock(XBlock):
         self.no_percent = percent_of_no
         created, obj = quickpollxblock.objects.get_or_create(user=user_object)
         # self.responses.append(newReply)
+        print("llllllllllllllllllllll")
         return {"yes": percent_of_yes, "no": percent_of_no}
 
     @XBlock.json_handler
@@ -93,20 +94,26 @@ class QuickPollXBlock(XBlock):
         user_service = self.runtime.service(self, 'user')
         # print("user_service===%s===" % user_service)
         xb_user = user_service.get_current_user()
-        print("xb user========%s" % xb_user)
-        user_registered = self.responses
-        print("leng====%s===" % len(self.responses))
-        print(user_registered)
-        print(type(user_registered))
-        for row in user_registered:
-            print(type(row))
-            print(row)
-            print(row['email'])
-            if xb_user.emails == row['email']:
-                print("match found")
-                return {"yes": self.yes_percent, "no": self.no_percent}
-            else:
-                return {"yes": "yes", "no": "no"}
+        # print("xb user========%s" % xb_user)
+        # user_registered = self.responses
+        # print("leng====%s===" % len(self.responses))
+        # print(user_registered)
+        # print(type(user_registered))
+        # for row in user_registered:
+        #     print(type(row))
+        #     print(row)
+        #     print(row['email'])
+        #     if xb_user.emails == row['email']:
+        #         print("match found")
+        #         return {"yes": self.yes_percent, "no": self.no_percent}
+        #     else:
+        #         return {"yes": "yes", "no": "no"}
+
+        user_object = User.objects.get(email=xb_user.emails[0])
+        if quickpollxblock.objects.filter(user=user_object).exists():
+            return {"yes": self.yes_percent, "no": self.no_percent}
+        else:
+            return {"yes": "usermatch",}
 
 
     @XBlock.json_handler

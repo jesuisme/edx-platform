@@ -6,7 +6,7 @@ from xblock.fields import Integer, Scope
 from xblock.fragment import Fragment
 
 
-class SliderSevenNineXBlock(XBlock):
+class M10s10XBlock(XBlock):
     """
     TO-DO: document what your XBlock does.
     """
@@ -15,10 +15,10 @@ class SliderSevenNineXBlock(XBlock):
     # self.<fieldname>.
 
     # TO-DO: delete count, and define your own fields.
-    # count = Integer(
-    #     default=0, scope=Scope.user_state,
-    #     help="A simple counter, to show something happening",
-    # )
+    count = Integer(
+        default=0, scope=Scope.user_state,
+        help="A simple counter, to show something happening",
+    )
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
@@ -28,30 +28,33 @@ class SliderSevenNineXBlock(XBlock):
     # TO-DO: change this view to display your data your own way.
     def student_view(self, context=None):
         """
-        The primary view of the SliderSevenNineXBlock, shown to students
+        The primary view of the M10s10XBlock, shown to students
         when viewing courses.
         """
-        html = self.resource_string("static/html/slider_seven_nine_xblock.html")
+        html = self.resource_string("static/html/m10s10_xblock.html")
         frag = Fragment(html.format(self=self))
         frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
-        frag.add_css(self.resource_string("static/css/slider_seven_nine_xblock.css"))
-        
-        frag.add_javascript(self.resource_string("static/js/src/slider_seven_nine_xblock.js"))
-        frag.initialize_js('SliderSevenNineXBlock')
+        frag.add_css(self.resource_string("static/css/m10s10_xblock.css"))
+        frag.add_javascript(self.resource_string("static/js/src/bootstrap.min.js"))
+        frag.add_javascript(self.resource_string("static/js/src/UI_files_jquery-ui.min.js"))
+        frag.add_javascript(self.resource_string("static/js/src/jquery.ui.touch-punch.min.js"))
+        frag.add_javascript(self.resource_string("static/js/src/jquery-rotate.min.js"))
+        frag.add_javascript(self.resource_string("static/js/src/m10s10_xblock.js"))
+        frag.initialize_js('M10s10XBlock')
         return frag
 
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
-    # @XBlock.json_handler
-    # def increment_count(self, data, suffix=''):
-    #     """
-    #     An example handler, which increments the data.
-    #     """
-    #     # Just to show data coming in...
-    #     assert data['hello'] == 'world'
+    @XBlock.json_handler
+    def increment_count(self, data, suffix=''):
+        """
+        An example handler, which increments the data.
+        """
+        # Just to show data coming in...
+        assert data['hello'] == 'world'
 
-    #     self.count += 1
-    #     return {"count": self.count}
+        self.count += 1
+        return {"count": self.count}
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
@@ -59,14 +62,14 @@ class SliderSevenNineXBlock(XBlock):
     def workbench_scenarios():
         """A canned scenario for display in the workbench."""
         return [
-            ("SliderSevenNineXBlock",
-             """<slider_seven_nine_xblock/>
+            ("M10s10XBlock",
+             """<m10s10_xblock/>
              """),
-            ("Multiple SliderSevenNineXBlock",
+            ("Multiple M10s10XBlock",
              """<vertical_demo>
-                <slider_seven_nine_xblock/>
-                <slider_seven_nine_xblock/>
-                <slider_seven_nine_xblock/>
+                <m10s10_xblock/>
+                <m10s10_xblock/>
+                <m10s10_xblock/>
                 </vertical_demo>
              """),
         ]
