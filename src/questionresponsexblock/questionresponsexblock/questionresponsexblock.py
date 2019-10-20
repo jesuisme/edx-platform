@@ -115,12 +115,10 @@ class QuestionresponseXBlock(XBlock):
             "reply": data['studentReply']
         }
         user_object = User.objects.get(email=xb_user.emails[0])
-        if QuestionResponse.objects.filter(user=user_object,course_id=course_id).exists():
-            log.info("user exist for this course")
-        else:
-            QuestionResponse.objects.create(user=user_object, response_text=user_reply,course_id=course_id)
-            self.responses.append(newReply)
+        created, user_obj = QuestionResponse.objects.get_or_create(user=user_object,course_id=course_id)
+        self.responses.append(newReply)
         return {"responses": self.responses}
+
 
     @XBlock.json_handler
     def check_user_reply(self, data, suffix=''):
@@ -130,9 +128,14 @@ class QuestionresponseXBlock(XBlock):
         user_service = self.runtime.service(self, 'user')
         xb_user = user_service.get_current_user()
         course_id = data['course_id']
-        
-        user_object = User.objects.get(email=xb_user.emails[0])
-        if QuestionResponse.objects.filter(user=user_object,course_id=course_id).exists():
+        user_data = self.responses
+        user_match_counter = 0
+        if len(user_data) > 0:
+            for user_row in user_data:
+                if str(user_row['email'][0]) == str(xb_user.emails[0]):
+                    user_match_counter += 1
+
+        if user_match_counter > 0:
             return {"responses": self.responses}
         else:
             return {"responses": "new_user"}
