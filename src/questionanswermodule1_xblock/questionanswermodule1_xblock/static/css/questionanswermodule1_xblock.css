@@ -647,3 +647,6 @@ a {
     cursor: pointer;
 }
 
+.paragraph_css {
+    text-align: center;
+}
