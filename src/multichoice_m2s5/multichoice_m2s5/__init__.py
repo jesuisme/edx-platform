@@ -1,0 +1,1 @@
+from .multichoice_m2s5 import MultichoiceM2S5XBlock
