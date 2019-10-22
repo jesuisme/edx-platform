@@ -84,7 +84,6 @@ class QuickPollXBlock(XBlock):
         self.no_percent = percent_of_no
         created, obj = quickpollxblock.objects.get_or_create(user=user_object)
         # self.responses.append(newReply)
-        print("llllllllllllllllllllll")
         return {"yes": percent_of_yes, "no": percent_of_no}
 
     @XBlock.json_handler
@@ -92,23 +91,7 @@ class QuickPollXBlock(XBlock):
         """
         """
         user_service = self.runtime.service(self, 'user')
-        # print("user_service===%s===" % user_service)
         xb_user = user_service.get_current_user()
-        # print("xb user========%s" % xb_user)
-        # user_registered = self.responses
-        # print("leng====%s===" % len(self.responses))
-        # print(user_registered)
-        # print(type(user_registered))
-        # for row in user_registered:
-        #     print(type(row))
-        #     print(row)
-        #     print(row['email'])
-        #     if xb_user.emails == row['email']:
-        #         print("match found")
-        #         return {"yes": self.yes_percent, "no": self.no_percent}
-        #     else:
-        #         return {"yes": "yes", "no": "no"}
-
         user_object = User.objects.get(email=xb_user.emails[0])
         if quickpollxblock.objects.filter(user=user_object).exists():
             return {"yes": self.yes_percent, "no": self.no_percent}
@@ -130,13 +113,16 @@ class QuickPollXBlock(XBlock):
             "email": xb_user.emails,
             "reply": data['studentReply']
         }
-        user_object = User.objects.get(email=xb_user.emails[0])
-        if not QuestionResponse.objects.filter(user=user_object,course_id=course_id).exists():
-            QuestionResponse.objects.create(user=user_object, response_text=user_reply,course_id=course_id)
-            self.responses.append(newReply)
+        # user_object = User.objects.get(email=xb_user.emails[0])
+        # if not QuestionResponse.objects.filter(user=user_object,course_id=course_id).exists():
+        #     QuestionResponse.objects.create(user=user_object, response_text=user_reply,course_id=course_id)
+        #     self.responses.append(newReply)
         # else:
         #     QuestionResponse.objects.create(user=user_object, response_text=user_reply,course_id=course_id)
         #     self.responses.append(newReply)
+        user_object = User.objects.get(email=xb_user.emails[0])
+        created, user_obj = QuestionResponse.objects.get_or_create(user=user_object,course_id=course_id)
+        self.responses.append(newReply)
         return {"responses": self.responses}
 
 
@@ -149,8 +135,19 @@ class QuickPollXBlock(XBlock):
         xb_user = user_service.get_current_user()
         course_id = data['course_id']
         
-        user_object = User.objects.get(email=xb_user.emails[0])
-        if QuestionResponse.objects.filter(user=user_object,course_id=course_id).exists():
+        # user_object = User.objects.get(email=xb_user.emails[0])
+        # if QuestionResponse.objects.filter(user=user_object,course_id=course_id).exists():
+        #     return {"responses": self.responses}
+        # else:
+        #     return {"responses": "new_user"}
+        user_data = self.responses
+        user_match_counter = 0
+        if len(user_data) > 0:
+            for user_row in user_data:
+                if str(user_row['email'][0]) == str(xb_user.emails[0]):
+                    user_match_counter += 1
+
+        if user_match_counter > 0:
             return {"responses": self.responses}
         else:
             return {"responses": "new_user"}

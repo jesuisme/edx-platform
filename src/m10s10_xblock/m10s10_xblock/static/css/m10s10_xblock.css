@@ -1975,3 +1975,15 @@ height:120px; width:120px;
     .m10s10p1 .form-control[disabled], .m10s10p1 .form-control[readonly], .m10s10p1  fieldset[disabled] .form-control {
         background-color: #ccc!important;
     }
+.carousel-control.left, .carousel-control.right {
+   background-image: none;
+   line-height: 624px;
+   height: 0px;
+   font-size: 2em;
+}
+
+.droppable {
+   opacity: 1;
+}
+
+.carousel-control { width: 7% !important; } 

@@ -29,6 +29,15 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
     </%block>
 % endif
 
+<style type="text/css">
+    
+.global-header .nav-links .secondary .dropdown-user-menu {
+  z-index: 11;
+}
+
+    
+</style>
+
 <header class="global-header ${'slim' if course else ''}">
     % if use_cookie_banner:
         ${static.renderReact(
@@ -93,3 +102,5 @@ from openedx.core.djangoapps.lang_pref.api import header_language_selector_is_en
         </form>
     % endif
 % endif
+
+
