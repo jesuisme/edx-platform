@@ -55,7 +55,10 @@ function TryA(obj){
     }
 
 
-            $(function () {
+            
+function QuesAnswModule3Sec32XBlock(runtime, element) {
+
+  $(function () {
                 setMsgBoxHeight1();
                 setMsgBoxHeight2();
         });
@@ -93,33 +96,26 @@ function TryA(obj){
 $('.carousel').on('slid.bs.carousel', function (e) {
        $('.item .ans').removeClass('Dis');
        $('.item .ans').removeClass('DisB');
+       console.log("id--------");
        var id = parseInt(e.relatedTarget.id);
+       console.log("iddgdgdf===", id);
           if(id == 0){
-              $('.left_a').hide();
-              $('.right_a').show();
+              $('.left').hide();
+              $('.right').show();
                setMsgBoxHeight1();
-          }else if(id == 1){
-            $('.left_a').show();
-            $('.right_a').hide();
-            setMsgBoxHeight1();
-         }else if(id == 2){
-              $('.left_b').hide();  
-              $('.right_b').show();
-                 setMsgBoxHeight2();
           }else if(id == 11){
-            $('.left_b').show();
-            $('.right_b').hide();
+            $('.left').show();
+            $('.right').hide();
              setMsgBoxHeight2();
           } else {
-            $('.left_b').show();
-            $('.right_b').show();
+            $('.left').show();
+            $('.right').show();
              setMsgBoxHeight2();
           }
            
       });
 
 
-function QuesAnswModule3Sec32XBlock(runtime, element) {
 
   
 

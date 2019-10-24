@@ -34,7 +34,12 @@ class QuesAnsModule3Section3XBlock(XBlock):
         html = self.resource_string("static/html/quesansmodule3section3.html")
         frag = Fragment(html.format(self=self))
         frag.add_css(self.resource_string("static/css/quesansmodule3section3.css"))
+        frag.add_css(self.resource_string("static/css/common.css"))
+        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
         frag.add_css(self.resource_string("static/css/m3s3p1.css"))
+        js_str = pkg_resources.resource_string(__name__, "static/js/src/jquery.min.js")
+        js_str = pkg_resources.resource_string(__name__, "static/js/src/bootstrap.min.js")
+        frag.add_javascript(unicode(js_str))
         frag.add_javascript(self.resource_string("static/js/src/quesansmodule3section3.js"))
         frag.initialize_js('QuesAnsModule3Section3XBlock')
         return frag

@@ -238,6 +238,9 @@ p {
 .msg h3{
     color:#fff;
 }
+.Dis {
+    pointer-events: none;
+}
 .msg .msgBtn{
     background: #fff;
     width: 200px;

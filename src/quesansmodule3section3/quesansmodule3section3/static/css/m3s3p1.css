@@ -221,6 +221,10 @@ p {
 .correct{
     background: #2CB69D;
 }
+.Dis {
+    pointer-events: none;
+}
+
 .incorrect .ques,.m3s3p1 .m3s3mcq .correct .ques{
     color: #fff;
 }

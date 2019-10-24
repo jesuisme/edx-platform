@@ -250,7 +250,9 @@
     cursor: pointer;
 }
 
-
+.Dis {
+    pointer-events: none;
+}
 .carousel-indicators {
 	bottom: 20px !important;
 }

@@ -1,9 +1,16 @@
 /* CSS for QuesAnsModule3Section3XBlock */
 
-.quesansmodule3section3_block .count {
+/*.quesansmodule3section3_block .count {
     font-weight: bold;
 }
 
 .quesansmodule3section3_block p {
     cursor: pointer;
+}
+*/
+
+
+.center_align_all {
+	text-align: center;
+
 }

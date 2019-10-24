@@ -35,14 +35,17 @@ class QuestionAnsXBlock(XBlock):
         frag = Fragment(html.format(self=self))
         frag.add_css(self.resource_string("static/css/questionanswermodule1_xblock.css"))
         frag.add_css(self.resource_string("static/css/common.css"))
+        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
         frag.add_css(self.resource_string("static/css/m1s4p1.css"))
         # frag.add_css(self.resource_string("static/css/font-awesome.min.css"))
         
         # js_str = pkg_resources.resource_string(__name__, "static/js/src/common.css")
-        
         js_str = pkg_resources.resource_string(__name__, "static/js/src/jquery.min.js")
         js_str = pkg_resources.resource_string(__name__, "static/js/src/bootstrap.min.js")
         frag.add_javascript(unicode(js_str))
+        # js_str = pkg_resources.resource_string(__name__, "static/js/src/jquery.min.js")
+        # js_str = pkg_resources.resource_string(__name__, "static/js/src/bootstrap.min.js")
+        # frag.add_javascript(unicode(js_str))
 
         frag.add_javascript(self.resource_string("static/js/src/questionanswermodule1_xblock.js"))
         frag.initialize_js('QuestionAnsXBlock')
