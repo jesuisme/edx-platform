@@ -1,0 +1,164 @@
+<div class="dnd_m6s4_xblock_block m6s4p1">
+    <div class="jumbotron m6s4b4">
+        <div class="container m6s4b4a">
+          <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">
+              <f><h5 class="text-uppercase text-center">Let’s look at complexity...</h5></f>
+                <br>
+              <f><p>Imagine you have diabetes and are prescribed atorvastatin at night, colesevelam (once daily) and glipizide-metformin (twice daily). You should not take colesevelam within four hours of glipizide-metformin, and both glipizide-metformin and colesevelam should be taken with meals. All medications should be taken at the same time each day to get the full effect. If you are a woman and on oral birth control, make sure you take your birth control at least 4 hours before colesevelam. Also, be aware that colesevelam may reduce effectiveness of some birth control types, so you may need to find a new one. With this sort of regimen, how likely is it that you will be able to follow it perfectly? </p></f>
+              <br>
+              <f><h5 class="text-uppercase text-center">Let’s Test This</h5></f>
+                <br>
+              <f><p>You are the prescriber in this scenario, and your patient, Margaret, is having trouble with her regimen. Create a schedule for her that ensures she can follow her regimen sustainably.</p></f>
+  
+  
+            </div>
+            <div class="col-sm-1"></div>
+          </div>
+              </div>  
+  
+            <!-- <div class="container bgdnd">-->
+  
+            <!-- <button id="check_ans" class="btn_d" onclick="app.CheckFun();"><span>Check answers</span></button>-->
+           <div class=" bg2">
+                   <div class="row" id="paradiv_1">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-10">
+                    <p style="font-size:14px"><f>Drag and drop Margaret’s pills and meals to create a daily schedule. You may have up to two events per hour. Ensure all parameters described in the below scenario are followed. <i><span class="boldT">For pills that need to be taken with a meal, place the meal first.</span></i></f></p>
+                    <p style="font-size:14px;margin-bottom:0px"><f>Margaret has diabetes and is prescribed atorvastatin and colesevelam (each once daily) and glipizide-metformin (twice daily). Atorvastatin needs to be taken at night. She should not take colesevelam within four hours of glipizide-metformin, and both glipizide-metformin and colesevelam should be taken with meals. All medications should be taken at the same time each day to get the full effect. Margaret is on birth control and needs to be sure to take her birth control at least 4 hours before colesevelam.</f></p>
+                        </div>
+                     <div class="col-sm-1"></div>
+                  </div>
+  
+  
+             </div>
+  
+  
+              <div id="containerdnd" class="container">
+                  <div id="dis"></div>					
+             <!-- <div id="dragBox" class="droppable" data-ids="-1" class="droppable">-->
+                 
+              
+                 <div id="incorrect2"><f><h3>INCORRECT</h3></f>
+               <br>
+               <f><p id="incorrectText">Colesevelam and Glipizide are not taken with meals.</p></f>
+                <button id="reset" onclick="app1.ResetFun1();" class="btn btn_d btn-default ui-btn ui-shadow ui-corner-all">TRY AGAIN</button>
+              </div>	
+             <br>
+  <table id="dragBox" class="table droppable ui-droppable" data-ids="-1">			
+     <tbody>
+        <tr><td>ARTOVASTATIN<br>
+              <div class="dd">	  
+              <div id="drags0" data-id="0" dro="" drag="false" class="draggable hove ui-draggable" style="left: 0px; top: 0px;"><span><img src="https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m6s4p1-01.png"></span></div>
+              </div></td><td>COLESEVELAM<br>
+              <div class="dd">
+              <div id="drags1" data-id="1" dro="" drag="false" class="draggable hove ui-draggable" style="left: 0px; top: 0px;"><span><img src="https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m6s4p1-02.png"></span></div>
+              </div>
+              </td><td>GLIPIZIDE-METFORMIN (X2)<br>
+              <div class="dd">
+              <div id="drags2" data-id="2" dro="" drag="false" class="draggable hove ui-draggable" style="left: 0px; top: 0px;"><span><img src="https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m6s4p1-03.png"></span></div>
+              </div>
+              </td><td>BIRTH CONTROL<br>
+              <div class="dd">
+              <div id="drags3" data-id="3" dro="" drag="false" class="draggable hove ui-draggable" style="left: 0px; top: 0px;"><span><img src="https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m6s4p1-04.png"></span></div>
+              </div>
+                  </td><td>MEAL (X3)<br>
+              <div class="dd">
+              <div id="drags4" data-id="4" dro="" drag="false" class="draggable hove ui-draggable" style="left: 0px; top: 0px;"><span><img src="https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m6s4p1-05.png"></span></div>
+              </div>
+              </td></tr></tbody></table>
+            <br>
+            
+            <div class="row question">		
+               
+             <table class="table">
+      <thead>
+        <tr class="thead" style="background:#999999; padding:10px;">
+          <th>8:00<br><span>AM</span></th>
+          <th>9:00<br><span>AM</span></th>
+          <th>10:00<br><span>AM</span></th>
+          <th>11:00<br><span>AM</span></th>
+          <th>12:00<br><span>PM</span></th>
+          <th>1:00<br><span>PM</span></th>
+          <th>2:00<br><span>PM</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="c1"><span id="drops0" num="0" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c2"><span id="drops1" num="1" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c1"><span id="drops2" num="2" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c2"><span id="drops3" num="3" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c1"><span id="drops4" num="4" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c2"><span id="drops5" num="5" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c1"><span id="drops6" num="6" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+        </tr>
+          <tr>
+          <td class="c1"><span id="drops7" num="7" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c2"><span id="drops8" num="8" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c1"><span id="drops9" num="9" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c2"><span id="drops10" num="10" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c1"><span id="drops11" num="11" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c2"><span id="drops12" num="12" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c1"><span id="drops13" num="13" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+        </tr>
+        </tbody>
+            <thead>
+        <tr class="thead" style="background:#999999; padding:10px;">
+          <th>3:00<br><span>PM</span></th>
+          <th>4:00<br><span>PM</span></th>
+          <th>5:00<br><span>PM</span></th>
+          <th>6:00<br><span>PM</span></th>
+          <th>7:00<br><span>PM</span></th>
+          <th>8:00<br><span>PM</span></th>
+          <th>9:00<br><span>PM</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="c2"><span id="drops14" num="14" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c1"><span id="drops15" num="15" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c2"><span id="drops16" num="16" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c1"><span id="drops17" num="17" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c2"><span id="drops18" num="18" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c1"><span id="drops19" num="19" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c2"><span id="drops20" num="20" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+        </tr>
+          <tr>
+          <td class="c2"><span id="drops21" num="21" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c1"><span id="drops22" num="22" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c2"><span id="drops23" num="23" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c1"><span id="drops24" num="24" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c2"><span id="drops25" num="25" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c1"><span id="drops26" num="26" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+          <td class="c2"><span id="drops27" num="27" data-ids="-1" class="droppable ui-droppable"></span>&nbsp;</td>
+        </tr>
+        </tbody>	  
+  </table>
+          
+           <div id="correct1"><f><h3>CORRECT!</h3></f>
+               <br>
+               <f><p>This Schedule works. Did you find that easy? Difficult? Reducing complexity reduces the risk of non-compliance, generally lowers cost, and increases outcomes that matter to prescribers and their patients.</p></f>
+               </div>	
+               <div id="incorrect1"><f><h3>INCORRECT</h3></f>
+               <br>
+                <f><p id="incorrectText">Colesevelam and Glipizide need to be taken with meals</p></f> 
+                <f><p id="incorrectText">Birth control needs to be taken at least 4 hours before Colesevelam</p></f>  
+                <f><p id="incorrectText">Colesevelam and Glipizide cannot be taken within 4 hours of one another</p></f>  
+               <f><p id="incorrectText">Glipizide-metformin needs to be taken twice, each time with meals</p></f> 
+               <f><p id="incorrectText">Artovastatin needs to be taken at night (past 6:00 pm)</p></f> 
+                <button id="reset" onclick="app1.ResetFun();" class="btn btn_d btn-default ui-btn ui-shadow ui-corner-all">TRY AGAIN</button>
+              </div>	
+              
+                  <center><button id="DnDReset" onclick="app1.ResetFunNow2();" class="btn btn_d btn-warning ui-btn ui-shadow ui-corner-all">Reset</button></center>
+                  <!--<center><button id="DnDReset" onclick="app1.ResetFunNew();" class="btn btn_d btn-warning">Reset</button></center>-->
+              
+              </div> <!-- / div Textcontainer -->
+          </div> <!-- / div container -->		
+             <!--</div>-->
+          
+          
+    
+  </div>
+</div>

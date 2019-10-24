@@ -1,0 +1,9 @@
+/* CSS for QUesRespModule9Sec32XBlock */
+
+.quesrespmodule9sec32xblock_block .count {
+    font-weight: bold;
+}
+
+.quesrespmodule9sec32xblock_block p {
+    cursor: pointer;
+}

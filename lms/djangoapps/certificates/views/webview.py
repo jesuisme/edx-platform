@@ -272,7 +272,7 @@ def _update_social_context(request, context, course, user, user_certificate, pla
     context['twitter_share_text'] = share_settings.get(
         'CERTIFICATE_TWITTER_TEXT',
         _("I completed a course at {platform_name}. Take a look at my certificate.").format(
-            platform_name=platform_name
+            platform_name=str(platform_name).replace('|', ' ')
         )
     )
 

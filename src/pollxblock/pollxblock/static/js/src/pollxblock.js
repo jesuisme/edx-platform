@@ -12,7 +12,7 @@ function PollXBlock(runtime, element) {
     } 
 
 
-    var increment_count = runtime.handlerUrl(element, 'increment_count');
+    // var increment_count = runtime.handlerUrl(element, 'increment_count');
     var poll_response = runtime.handlerUrl(element, 'poll_response');
 
     

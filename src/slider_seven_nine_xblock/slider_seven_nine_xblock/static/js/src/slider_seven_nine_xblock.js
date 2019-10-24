@@ -1,5 +1,157 @@
 /* Javascript for SliderSevenNineXBlock. */
-
+var resultJSON = {
+	"Sec9Report": {
+		"Category": [
+			{
+				"item": [
+					{
+						"Point": {
+							"_color": "green",
+							"__text": "15"
+						},
+						"Explanation": "Following Tom's interview, you broke down what he was saying to show you understook what he was saying and allowed him to continue speaking. This helps establish and build rapport as well as provide Tom the opportunity to provide you with valuable information.",
+						"_name": "G1"
+					},
+					{
+						"Point": {
+							"_color": "red",
+							"__text": "0"
+						},
+						"Explanation": "Following Tom's interview, you missed an opportunity to show him you understood what he was saying and allow him to continue speaking. Doing so would have helped build rapport with Tom and potentially obtain valuable information.",
+						"_name": "R1"
+					}
+				],
+				"_title": "DISTILL AND CONTINUE LISTENING"
+			},
+			{
+				"item": [
+					{
+						"Point": {
+							"_color": "green",
+							"__text": "15"
+						},
+						"Explanation": "Tom's devotion to his children and his belief that engaging with them is essential to growing a strong relationship with them drives both his desire to get rid of the pain and his belief that opaites are the answer. By affirming and relating to his desire and allowing him to express it, you've done a great job on fostering trust and showing you understand his beliefs, which is essential in learning how to communicate effectively with him.",
+						"_name": "G2"
+					},
+					{
+						"Point": {
+							"_color": "red",
+							"__text": "0"
+						},
+						"Explanation": "You missed the opportunity to find out what makes Tom special and to really discover what led to his desire for opiates. This might have helped inform your decisions on how to approach the issue. Understanding the patient's desire and beliefs will help you learn how to effectively communicate with him or her.",
+						"_name": "R2"
+					}
+				],
+				"_title": "AFFIRMATION OF PATIENT'S SPECIAL ATTRIBUTES AND ELICITING BELIEFS"
+			},
+			{
+				"item": [
+					{
+						"Point": {
+							"_color": "green",
+							"__text": "15"
+						},
+						"Explanation": "More than anything, patients want to feel understood and taken seriously. You did this for Tom by using the phrase \"What I hear you saying\" and rephrasing what he had told you as well acknowleding the need to get it taken care of.",
+						"_name": "G3"
+					},
+					{
+						"Point": {
+							"_color": "red",
+							"__text": "0"
+						},
+						"Explanation": "More than anything, patients want to feel understood and taken seriously. Using phrases like \"What I hear you saying\" followed by a restatement of their concerns and desires and a confirmation of your commitment to help provides assurance and builds trust. Try to keep this in mind with patients in the future.",
+						"_name": "R3"
+					}
+				],
+				"_title": "SUMMARIZE AND LEGITIMIZE CONCERNS"
+			},
+			{
+				"item": [
+					{
+						"Point": {
+							"_color": "green",
+							"__text": "15"
+						},
+						"Explanation": "It's important to appreciate patient's intitative when he or she discloses positive coping mechanisms. Patients need to feel encouraged to continue and increase their use of these mechnaisms as needed, and Tom's participation in yoga is the perfect strategy to help him keep active and combat his pain. In providing Tom assurance of this, you've helped empower him to take control of his life and health.",
+						"_name": "G4"
+					},
+					{
+						"Point": {
+							"_color": "red",
+							"__text": "0"
+						},
+						"Explanation": "It's important to celebrate your patient’s initiative when he or she discloses positive coping mechanisms. Patients need to feel encouraged to continue and increase their use of these mechnaisms as needed, and Tom's participation in yoga is the perfect strategy to help him keep active and combat his pain. Remember: providing assurance of this is key to empowering Tom to take control of his life and health.",
+						"_name": "R4"
+					}
+				],
+				"_title": "AFFIRM RESILIENCE"
+			},
+			{
+				"item": [
+					{
+						"Point": {
+							"_color": "green",
+							"__text": "15"
+						},
+						"Explanation": "When establishing treatment plan, it is very important to do so collaboratively with the patient. This helps to support buy-in and adherence with the plan and builds trust between the clinician and the patient. You did a great job of ensuring Tom was a partner in deciding his treatment plan!",
+						"_name": "G5"
+					},
+					{
+						"Point": {
+							"_color": "red",
+							"__text": "0"
+						},
+						"Explanation": "When establishing treatment plan, it is very important to do so collaboratively with the patient. This helps to support buy-in and adherence with the plan and builds trust between the clinician and the patient. By dictating the plan without eliciting this participation, it's likely Tom felt brushed off and not highly invested in what you had determined to be the best protocol.",
+						"_name": "R5"
+					}
+				],
+				"_title": "CREATE PARTNERSHIP AND INVITE PARTICIPATION"
+			},
+			{
+				"item": [
+					{
+						"Point": {
+							"_color": "green",
+							"__text": "15"
+						},
+						"Explanation": "Before a patient leaves the office, ask him or her to repeat your mutually agreed upon plan using their own words. By letting Tom rephrase the plan, you made completely sure that you were understood and that you were both on the same page. If necessary, it would have also allowed you to clarify or add information where necessary. In addition, Tom didn't feel as though you ended the appointment abruptly without giving him the chance to ask questions or address concerns.",
+						"_name": "G6"
+					},
+					{
+						"Point": {
+							"_color": "red",
+							"__text": "0"
+						},
+						"Explanation": "Before Tom left your office, it would have been a good idea to repeat your mutually agreed plan by using his own words. This would have allowed you to really make sure that you were understood and that you were both on the same page. It would also have allowed you to clarify or add information where necessary. Tom may have felt as though you ended the appointment abruptly without giving him the chance to ask questions or address concerns.",
+						"_name": "R6"
+					}
+				],
+				"_title": "TEACHBACK"
+			},
+			{
+				"item": [
+					{
+						"Point": {
+							"_color": "green",
+							"__text": "10"
+						},
+						"Explanation": "In general, clinicians interrupt their patient's opening interview within 18 seconds. Uninterrupted, a patient will discuss his or her concern and symptoms within two minutes, while Tom statement lasted less than 40 seconds. Allowing Tom to speak uninterrupted established rapport and helped you garner valuable information that could aid in diagnosis and treatment. Good job allowing him to finish!",
+						"_name": "Bonus"
+					},
+					{
+						"Point": {
+							"_color": "red",
+							"__text": "0"
+						},
+						"Explanation": "In general, clinicians interrupt their patient's opening interview within 18 seconds. Uninterrupted, a patient will typically discuss his or her concerns and symptoms in under two minutes, while Tom’s statement lasted less than 40 seconds. Allowing the patient to speak uninterrupted will establish rapport and garner valuable information that can aid in diagnosis, treatment, and grow the clinician-patient partnership.",
+						"_name": "No-Bonus"
+					}
+				],
+				"_title": "BONUS - NO INTERRUPTION"
+			}
+		]
+	}
+};
 
 function SliderSevenNineXBlock(runtime, element) {
     $(function ($) {
@@ -531,15 +683,18 @@ function SliderSevenNineXBlock(runtime, element) {
         {
          if(app_2.isReportOpen!=true){
           app_2.isReportOpen=true;
-            app_2.LoadConfig();		
-          var Rtext='';
-              var xPath="//Sec9Report/Category";
-              var nodes= app_2.ConfigXML.evaluate(xPath, app_2.ConfigXML, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
-              for ( var i=0 ; i < nodes.snapshotLength; i++ )
+            //app_2.LoadConfig();		
+            var Rtext='';
+              // var xPath="//Sec9Report/Category";
+              // var nodes= app_2.ConfigXML.evaluate(xPath, app_2.ConfigXML, null, XPathResult.ORDERED_NODE_SNAPSHOT_TYPE, null);
+              var jsonData = resultJSON.Sec9Report.Category;
+              console.log(jsonData);
+              for ( var i=0 ; i < jsonData.length; i++ )
               {
+                var resTitle = null;
                   var point=null;
-                  var explain=null;
-                  var Temp=null;
+                  var resColor=null;
+                  var resDesc = null;
                   
                   /* if(app_2.arrClicked.indexOf(nodes.snapshotItem(i).children[0].attributes['name'].value)!=-1)
                   {
@@ -555,24 +710,30 @@ function SliderSevenNineXBlock(runtime, element) {
                   }
                   point=Temp.children[0];
                   explain=Temp.children[1]; */
-                  if(app_2.arrClicked.indexOf(nodes.snapshotItem(i).firstElementChild.attributes['name'].value)!=-1)
+                  console.log(jsonData[i]);
+                  if(app_2.arrClicked.indexOf(jsonData[i].item[0]._name)!=-1)
                   {
-                      Temp=nodes.snapshotItem(i).firstElementChild;
+                    resColor = jsonData[i].item[0].Point._color;
+                    point = jsonData[i].item[0].Point.__text;
+                    resDesc = jsonData[i].item[0].Explanation;
                   }
-                  else if(app_2.arrClicked.indexOf(nodes.snapshotItem(i).lastElementChild.attributes['name'].value)!=-1)
+                  else if(app_2.arrClicked.indexOf(jsonData[i].item[1]._name)!=-1)
                   {
-                      Temp=nodes.snapshotItem(i).lastElementChild;				
+                    resColor = jsonData[i].item[1].Point._color;
+                    point = jsonData[i].item[1].Point.__text;
+                    resDesc = jsonData[i].item[1].Explanation;				
+                  }else{
+                    resColor = jsonData[i].item[1].Point._color;
+                    point = jsonData[i].item[1].Point.__text;
+                    resDesc = jsonData[i].item[1].Explanation;	
                   }
-                  else
-                  {
-                      Temp=nodes.snapshotItem(i).lastElementChild;
-                  }
-                  point=Temp.firstElementChild;
-                  explain=Temp.lastElementChild;
+                  
+                  resTitle = jsonData[i]._title;
+
                   Rtext+='<div class="row">';
-                  Rtext+='<div class="col-xs-2 pd1"><div class="marks1 '+point.attributes["color"].value+'"><p>'+point.textContent+'</p><span>POINTS</span></div></div>';
-                  Rtext+='<div class="col-xs-10 pd1"><f><h5>'+nodes.snapshotItem(i).attributes['title'].value+'</h5></f>';
-                  Rtext+='<f><p>'+explain.textContent+'</p></f></div></div>';
+                  Rtext+='<div class="col-xs-2 pd1"><div class="marks1 '+resColor+'"><p>'+point+'</p><span>POINTS</span></div></div>';
+                  Rtext+='<div class="col-xs-10 pd1"><f><h5>'+resTitle+'</h5></f>';
+                  Rtext+='<f><p>'+resDesc+'</p></f></div></div>';
                   
               }
           
@@ -606,7 +767,7 @@ function SliderSevenNineXBlock(runtime, element) {
                   app_2.ConfigXML=xmlhttp.responseXML;
               }
           };
-          xmlhttp.open("GET", "Config/Section9Report.xml", false);
+          xmlhttp.open("GET", "Section9Report.xml", true);
           xmlhttp.send();
           },
           ResetFun1:function(){

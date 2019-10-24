@@ -33,7 +33,9 @@ class SliderSevenNineXBlock(XBlock):
         """
         html = self.resource_string("static/html/slider_seven_nine_xblock.html")
         frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
         frag.add_css(self.resource_string("static/css/slider_seven_nine_xblock.css"))
+        
         frag.add_javascript(self.resource_string("static/js/src/slider_seven_nine_xblock.js"))
         frag.initialize_js('SliderSevenNineXBlock')
         return frag

@@ -1,0 +1,192 @@
+
+.m5s10p1 .m5s10s7 {    
+    background: url('https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m5s10img4.png') no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: auto;
+    width: auto;
+    padding-bottom: 80px;padding-top: 80px;
+}
+
+.m5s10p1 .m5s10s7a { 
+    padding-bottom: 80px;
+    padding-top: 80px;   
+    background-color: #f4f4f4;    
+}
+
+.m5s10p1 .m5s10s7a .Tbottom {
+    margin-bottom: 0px !important;
+}
+
+
+
+.m5s10p1 .m5s10s8 {    
+    background: url('https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m5s10img5.png') no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: auto;
+    width: auto;
+    padding-bottom: 80px;padding-top: 80px;
+}
+
+.m5s10p1 .m5s10s8a { 
+    padding-bottom: 80px;
+    padding-top: 80px;   
+    background-color: #f4f4f4;    
+}
+
+.m5s10p1 .m5s10s8a .Tbottom {
+    margin-bottom: 0px !important;
+}
+
+.m5s10p1 .circleMcq {
+    height: 200px;
+    width: 200px;
+    border-radius: 100%;    
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    cursor: pointer;
+    padding: 18px;
+}
+.m5s10p1 .circleMcqY {
+    background-color: #e4c72b;
+}
+.m5s10p1 .circleMcqG {
+    background-color:  #535B72;
+    color: #fff;
+}
+.m5s10p1 .circleMcqGr {
+    background-color:  #2cb69d;
+}
+.m5s10p1 .circleMcqRed {
+    background-color:  #f06858;
+}	    
+.m5s10p1 .cTop {
+    margin-top: 20px;
+}
+
+
+
+
+/* scatterplot */
+.m5s10p1 .m5s10mcq .ans, .m5s10p1 .m5s10mcq .ansB , .m5s10p1 .m5s10mcq .ansC {
+    padding: 12px;
+    background: #535B72;
+    color: #FFFFFF !important;
+    font-size: 14px !important;
+    margin: 8px 0;
+    cursor: pointer;
+    /*border:2px solid #535B72;*/
+    pointer-events: default;
+}
+
+
+.m5s10p1 .m5s10mcqWrong {
+    background-color: #f06858 !important;
+    padding: 30px 30px 30px 30px;
+    color: #fff;    
+}
+.m5s10p1 .m5s10mcqWrong h4, .m5s10p1 .m5s10mcqRight h4 {
+    margin-top: 0px;
+}
+.m5s10p1 .m5s10mcqRight {
+    background-color: #2cb69d !important;
+    padding: 30px 30px 20px 30px;
+    color: #fff;    
+}
+
+.m5s10p1 .pontNone {
+    pointer-events: none !important;
+}
+.m5s10p1 .default {
+    pointer-events: default !important;
+}
+.m5s10p1 .selectedWro{
+    background: #f06858 !important;    
+}
+.m5s10p1 .selectedRigh{
+    background: #2cb69d !important;    
+}
+
+.m5s10p1 .msgBtn{
+    background: #fff;
+    width: 200px;
+    color:#F06858;
+    padding: 10px 0;
+    text-transform: uppercase;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.m5s10p1 .m5s10mcq {
+    padding-bottom: 0;
+}
+
+.m5s10p1 .m5s10mcq p {
+    font-size: 14px;
+}
+
+.m5s10p1 .m5s10mcq .white{
+    background: white;
+    padding: 30px 0;
+}
+
+
+
+.m5s10p1 .m5s10mcq .calcHeight{
+    display: table;
+}
+.m5s10p1 .m5s10mcq .calcHeight .ans{
+    display: table-cell;
+    vertical-align: middle;
+}
+.m5s10p1 .m5s10mcq .text-muted{
+    font-size: 15px;
+    margin-top: 30px;
+    font-style: italic;
+}
+.m5s10p1 .m5s10mcq .incorrect{
+    background: #F06858;
+}
+.m5s10p1 .m5s10mcq .correct{
+    background: #2CB69D;
+}
+.m5s10p1 .m5s10mcq .incorrect .ques,.m5s10p1 .m5s10mcq .correct .ques{
+    color: #fff;
+}
+
+
+.msg{
+    display: none;
+    color:#fff;
+}
+.m5s10p1 .m5s10mcq .incorrect .incorrectMsg,.m5s10p1 .m5s10mcq .correct .correctMsg{
+    display: block;
+}
+.m5s10p1 .m5s10mcq .msg h3{
+    color:#fff;
+}
+
+.m5s10p1 .m5s10mcq .incorrect .pageCount,.m5s10p1 .m5s10mcq .correct .pageCount{
+    display: none;
+}
+.m5s10p1 .m5s10mcq .correctMsg .msgBtn{
+    background: #DCDDDF; 
+    width: 250px;
+    color: #545C71;
+    cursor: pointer;
+}
+
+
+.boldT{
+    font-weight: 600;
+}
+
+.m5s10p1 .m5s10mcq #myCarousel .col-sm-4 div {
+    font-family: "GothamHTF-Book" !important;
+}

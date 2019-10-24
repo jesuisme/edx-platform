@@ -3360,3 +3360,34 @@ class TxShopDetails(models.Model):
     transaction_amount = models.CharField(max_length=255, db_index=True)
     transaction_date = models.DateField(null=True)
     order_status = models.CharField(max_length=255, db_index=True)
+
+
+class PollXblock(models.Model):
+    """
+    """
+    # response_email = models.CharField(max_length=255, db_index=True)
+    user = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE)
+
+    class Meta(object):
+        db_table = "auth_pollxblock"
+
+
+class pollstylingxblock(models.Model):
+    """
+    """
+    # response_email = models.CharField(max_length=255, db_index=True)
+    user = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE)
+
+    class Meta(object):
+        db_table = "auth_pollstylingxblock"
+
+
+class quickpollxblock(models.Model):
+    """
+    """
+    # response_email = models.CharField(max_length=255, db_index=True)
+    user = models.ForeignKey(User, db_index=True, on_delete=models.CASCADE)
+
+    class Meta(object):
+        db_table = "auth_quickpollxblock"
+

@@ -1,0 +1,190 @@
+.m6s9p1 .m6s9s6 .colh{
+    color: #28AD92;
+    vertical-align: middle;
+    }
+    .m6s9p1 .m6s9s6 .showresult .colh1{color: #21AAD6;vertical-align: middle;}
+    .m6s9p1 .m6s9s6 .showresult tbody td{
+    text-align: center;
+    }
+    .m6s9p1 input {
+        -webkit-appearance: none;
+        border-radius: 0;  
+        width: 100%;
+    }
+    
+    .m6s9p1 input[type="text"] {
+        border: none;
+        transition: border 0.3s;
+        background: none;
+        width: 100%;
+    }
+    
+    .m6s9p1 input[type="text"]:focus,
+    .m6s9p1 input[type="text"].focus {
+    
+    }
+    .m6s9p1 textarea {
+        -webkit-appearance: none;
+        border-radius: 0;  
+            width: 100%;
+    }
+    
+    .m6s9p1 textarea[type="text"] {
+        border: none;
+        transition: border 0.3s;  
+        background: none;
+            width: 100%;
+    }
+     .m6s9p1 .table-bordered>thead>tr>th {
+        border-left: 0px solid;
+    }
+    .m6s9p1 .table-bordered>tbody>tr>td {
+        vertical-align: middle;
+    }
+    .m6s9p1 .t_1 {
+      width: 38%;
+    }
+    .m6s9p1 .t_2 {
+      width: 14%;
+    }
+    
+     .m6s9p1 .table-bordered .CalcRow .bdrleft{
+        border-right: 1px solid #F5F5F5!important;
+        padding-right: 0px;
+    }
+     .m6s9p1 .table-bordered .subtotal .bdrleft{
+        border-right: 1px solid #F5F5F5!important;
+        padding-right: 0px;
+    }
+     .m6s9p1 .table-bordered .CalcRow .bdrright{
+        padding-left: 0px;
+    }
+     .m6s9p1 .table-bordered .subtotal .bdrright{
+        padding-left: 0px;
+    
+    }
+    .m6s9p1 .subtotal{
+      font-weight: bold;
+    }
+    
+    .m6s9p1 textarea[type="text"]:focus,
+    .m6s9p1 textarea[type="text"].focus {
+    
+    }
+    .m6s9p1 .showresult{
+      display:none;
+    }
+    .m6s9p1 .seesolution{
+       display:none; 
+    }
+    .m6s9p1 .textshow {
+        margin-top: 40px;
+    }
+    
+    .m6s9p1 .textshow p{
+      display:none; 
+    
+    }
+    .m6s9p1 .textshow1 p{
+      display:none; 
+    }
+    .m6s9p1 .textshow{
+      display:none; 
+      font-weight: bold;
+    }
+    .m6s9p1 #Savevalue{
+      color:#28AD92;
+      font-size: 30px !important;
+      font-weight: bold;
+    }
+    .m6s9p1 .m6s9s6 .colSavevalue{
+      color:#28AD92;
+      font-size: 30px !important;
+      font-weight: bold;
+    }
+    .m6s9p1 .m6s9s6 .colSavevalue{
+      display:none; 
+    }
+    .m6s9p1 .m6s9s6 .colSavevalue1{
+      color: #28AD92;
+        font-size: 13px !important;
+        font-weight: bold;
+        margin-top: -15px;
+    }
+    .m6s9p1 .m6s9s6 .colSavevalue1{
+      display:none; 
+    }
+    .m6s9p1 .m6s9s6 .s9n1 {
+      border: 10px solid #9AB7BD;
+     /* width: 1148px;*/
+    
+     }
+     .m6s9p1 .m6s9s6 .modal-header {
+        padding: 17px 25px 25px 25px;
+        border-bottom: 1px solid #e5e5e5;
+        text-align: center;
+        background: #9AB7BD;
+        color: #fff;
+    
+    }
+     .m6s9p1 .m6s9s6 .modal-header .close {
+            margin-top: -32px;
+            font-size: 51px !important;
+            opacity: 1;
+            color: #fff !important;
+    }
+    .m6s9p1 .m6s9s6 #myModal9 .Seesolntable{
+       text-align: center;
+           font-weight: bold;
+    }
+    .m6s9p1 .m6s9s6 #myModal9 .modal-dialog {
+    /*    width: 1146px; */
+        margin: 30px auto;
+    }
+    .m6s9p1 .m6s9s6 #myModal9 .Seesolntable .heads1{
+      color: #F28121;
+      font-weight: bold;
+      vertical-align: middle;
+    }
+    .m6s9p1 .m6s9s6 #myModal9 .s9n1 .col-xs-4{
+      /* border:1px solid #999; */
+      vertical-align: middle;
+      /* height: 50px; */
+    }
+    
+    .m6s9p1 .vertical-align {
+      display: flex;
+      flex-direction: row;
+    }
+    
+    .m6s9p1 .m6s9s6 #myModal9 .s9n1 .col-xs-2{
+      border:1px solid #999;
+      vertical-align: middle;
+      height: 50px;
+      text-align: center;
+    }
+    .m6s9p1 .response3 ol, ul.text-left {
+      color: #F68121;
+          line-height: 36px;
+      }
+    .m6s9p1 .m6s9s6 #myModal9 .modal-body {
+        position: relative;
+        padding: 15px;
+        padding-top: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-bottom: 0px;
+    }
+    .m6s9p1 .m6s9s6 #myModal9 .s9n1 .Seesolntable .dt1 {
+       text-align: left;
+    }
+    @media screen
+    and (min-width : 766px)
+    and (max-width : 1000px) {
+    .m6s9p1 .m6s9s6 #myModal9 .Seesolntable {
+        font-size: 90%;
+    }
+    .m6s9p1 .m6s9s6 #myModal9 .Seesolntable1{
+        font-size: 90%;
+    }
+}

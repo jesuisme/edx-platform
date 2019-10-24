@@ -1,0 +1,236 @@
+@media screen
+and (min-device-width : 501px)
+and (max-device-width : 765px) {
+.allModule1 .btn,.allModule2 .btn,.allModule3 .btn,.allModule4 .btn,.allModule5 .btn{
+width: 110px;
+margin-bottom: 10px;
+}
+
+.collectionTop2 {
+  margin-top: 10px;
+}
+
+/*.container-fluid .spImg{    
+    position: relative;    
+    top: 70px;    
+    z-index: 9999;    
+}*/
+
+.topSingIn {
+  margin-top: 0px
+}
+
+.NextBtn1 {
+    cursor: pointer;
+ /*   top:-30px;*/
+}
+
+.linea {
+   display: none !important;
+}
+
+.section {
+    width: auto;
+}
+.m2s7p1 .wordClouds .row .wCcL {
+    padding-right: 15px!important;
+}
+.m2s7p1 .wordClouds .row .wCcR {
+    padding-left: 15px!important;
+}
+.container-fluid .ssp1{
+    font-size: 10px;
+}
+.container-fluid .ssp2{
+    font-size: 10px;
+}
+.container-fluid .sp2{
+    font-size: 12px;
+}
+.container-fluid .sp1{
+    font-size: 12px;
+}
+      .s_top {
+    font-family: "GothamHTF-Bold";
+    position: relative;
+    top: -8px;
+}
+.headers .saerch {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+.s_bottom {
+    color: #f6821f;
+    font-family: "GothamHTF-book";
+    left: 32px;
+    position: absolute;
+    top: 19px;
+    width: 442px;
+}
+    .MSection {
+    padding: 0px;
+}
+#section  li  a {
+        padding-left: 20px;
+    }
+.MSection .lG2 .text1 {
+    top: 2px;
+}
+    .navbar-nav > li > a {
+        line-height: 60px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .navbar-brand img{
+    	width: 200px;
+    }
+    .navbar, .navbar-header {
+   	 min-height: 60px;
+	}
+    .menus .col-sm-6 ul {
+   margin-bottom: 0;
+    padding-bottom: 0;
+}
+     .menus .r1{
+        background:#fff; min-height: auto;
+    }
+     .vcenter {
+     line-height: 39px;
+    min-height: 15px;
+    text-align: center;
+}
+.menus .lG2 .navbar-form {
+    min-height: 88px;
+}
+.text-sm-center{
+  text-align: center;
+}
+.menus .m1{
+   text-align: center; 
+}
+.menus::before {
+ display: none;
+}
+  .menus::after {
+ display: none;   
+  }
+    /* .b2 .container-full{
+    top: 55px;
+    }*/
+     .b1 .container {
+         position: relative;
+    top: -15%;
+    }
+     .b1 .container h2{
+    font-size: 124%;    
+   width: 70%;
+     font-family: "GothamHTF-Bold";
+    }
+    .b1 .container p{
+     font-size: 107%;
+    width: 42%;
+    font-family: "GothamHTF-Bold";
+    }
+   /* .b2 .container-full{
+     top: 75px;
+    }*/
+    .carousel-control.right{
+     /* line-height: 848px;*/
+      display: none;
+
+    }
+    .carousel-control.left{
+        /*line-height: 848px;*/
+        display: none;
+    }
+    .crHome .col-sm-4 p{
+         padding: 5px;
+         font-family: "GothamHTF-Medium";
+    margin-top: 5px;
+    }
+    .crHome .col-sm-4 div{
+        padding: 5px;
+    }
+    .crHome .col-sm-4 div {
+    overflow: show; 
+}
+.crHome .carousel-control{
+    display: block !important;
+    visibility: visible !important;
+}
+   .boldT {
+    font-family: "GothamHTF-Bold";
+}
+/* .modal-backdrop.in {
+    display: none;
+}*/
+    
+.footer-nav { border-left: 0px none !important; }
+
+.headers .FAQ {
+ padding-left: 33px !important;
+}
+
+.headers .FAQ::before {
+ display: none;
+}
+
+.headers .FAQ::after {
+ display: none;   
+  }
+
+  .dArowh {
+    display: none;  
+}
+
+.cc {
+    position: fixed;
+    top: 40%;
+    right: -2px;
+    z-index: 99;                
+    cursor: pointer;
+}
+.ccImg {
+    position: fixed;
+    top: 40%;
+    right: -302px;
+    z-index: 999; 
+    cursor: pointer;
+}
+
+.Home_3iPad {
+    display: none;
+}
+.Home_3des {
+    display: block;
+}
+.Home_4iPad {
+    display: none;
+}
+.Home_4des {
+    display: block;
+}
+
+.HomeM5_DesiMage, .HomeM4_DesiMage, .Home_DesiMageC2, .HomeM3_DesiMage,
+.HomeM2_DesiMage, .HomeM1_DesiMage, .Home_DesiMageC1
+{
+    display: block;   
+}
+
+.HomeM5_iPadiMage, .HomeM5_iPadiMageA,
+.HomeM4_iPadiMage, .HomeM4_iPadiMageA, .Home_iPadiMageC2, 
+.HomeM3_iPadiMage, .HomeM3_iPadiMageA, .HomeM2_iPadiMage, .HomeM2_iPadiMageA,
+.HomeM1_iPadiMage, .HomeM1_iPadiMageA, .Home_iPadiMageC1
+{
+    display: none;
+}
+
+#hideCollection1A, #hideCollection2A {
+    display: block;
+}
+#hideCollection1, #hideCollection2 {
+    display: none;
+}
+
+ 
+}

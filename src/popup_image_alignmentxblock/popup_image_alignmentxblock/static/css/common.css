@@ -416,10 +416,7 @@ display: -webkit-flex;
     line-height:17px;
 }
 
-.container .carousel-inner{
-    padding-bottom: 75px !important;
-    min-height: 680px;
-}
+
 
 .b2 {
   /*  background-image: url("https://s3.us-east-2.amazonaws.com/dms-vbhc/img/img5.png");

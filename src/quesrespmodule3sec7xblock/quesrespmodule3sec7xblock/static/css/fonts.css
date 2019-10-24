@@ -1,0 +1,78 @@
+@font-face {
+	font-family: "GothamHTF-Black";
+   
+    src: url("GothamHTF-Black/GothamHTF-Black.eot");
+    src: url("GothamHTF-Black/GothamHTF-Black.eot?#iefix") format("embedded-opentype"),
+    url("GothamHTF-Black/GothamHTF-Black.woff2") format("woff2"),
+    url("GothamHTF-Black/GothamHTF-Black.woff") format("woff"),
+    url("GothamHTF-Black/GothamHTF-Black.ttf") format("truetype"),
+    url("GothamHTF-Black/GothamHTF-Black.svg#GothamHTF-Black") format("svg");	    
+}   
+@font-face {
+	font-family: "GothamHTF-Bold";
+   
+    src: url("GothamHTF-Bold/GothamHTF-Bold.eot");
+    src: url("GothamHTF-Bold/GothamHTF-Bold.eot?#iefix") format("embedded-opentype"),
+    url("GothamHTF-Bold/GothamHTF-Bold.woff2") format("woff2"),
+    url("GothamHTF-Bold/GothamHTF-Bold.woff") format("woff"),
+    url("GothamHTF-Bold/GothamHTF-Bold.ttf") format("truetype"),
+    url("GothamHTF-Bold/GothamHTF-Bold.svg#GothamHTF-Bold") format("svg");    
+}
+@font-face {
+	font-family: "GothamHTF-BoldItalic";
+    
+    src: url("GothamHTF-BoldItalic/GothamHTF-BoldItalic.eot");
+    src: url("GothamHTF-BoldItalic/GothamHTF-BoldItalic.eot?#iefix") format("embedded-opentype"),
+    url("GothamHTF-BoldItalic/GothamHTF-BoldItalic.woff2") format("woff2"),
+    url("GothamHTF-BoldItalic/GothamHTF-BoldItalic.woff") format("woff"),
+    url("GothamHTF-BoldItalic/GothamHTF-BoldItalic.ttf") format("truetype"),
+    url("GothamHTF-BoldItalic/GothamHTF-BoldItalic.svg#GothamHTF-BoldItalic") format("svg");    
+}
+
+@font-face {
+	font-family: "GothamHTF-Book";
+    
+    src: url("GothamHTF-Book/GothamHTF-Book.eot");
+    src: url("GothamHTF-Book/GothamHTF-Book.eot?#iefix") format("embedded-opentype"),
+    url("GothamHTF-Book/GothamHTF-Book.woff2") format("woff2"),
+    url("GothamHTF-Book/GothamHTF-Book.woff") format("woff"),
+    url("GothamHTF-Book/GothamHTF-Book.ttf") format("truetype"),
+    url("GothamHTF-Book/GothamHTF-Book.svg#GothamHTF-Book") format("svg");
+}
+
+@font-face {
+	font-family: "GothamHTF-BookItalic";
+    
+    src: url("GothamHTF-BookItalic/GothamHTF-BookItalic.eot");
+    src: url("GothamHTF-BookItalic/GothamHTF-BookItalic.eot?#iefix") format("embedded-opentype"),
+    url("GothamHTF-BookItalic/GothamHTF-BookItalic.woff2") format("woff2"),
+    url("GothamHTF-BookItalic/GothamHTF-BookItalic.woff") format("woff"),
+    url("GothamHTF-BookItalic/GothamHTF-BookItalic.ttf") format("truetype"),
+    url("GothamHTF-BookItalic/GothamHTF-BookItalic.svg#GothamHTF-BookItalic") format("svg");    
+}
+
+@font-face {
+	font-family: "GothamHTF-Light";
+    
+    src: url("GothamHTF-Light/GothamHTF-Light.eot");
+    src: url("GothamHTF-Light/GothamHTF-Light.eot?#iefix") format("embedded-opentype"),
+    url("GothamHTF-Light/GothamHTF-Light.woff2") format("woff2"),
+    url("GothamHTF-Light/GothamHTF-Light.woff") format("woff"),
+    url("GothamHTF-Light/GothamHTF-Light.ttf") format("truetype"),
+    url("GothamHTF-Light/GothamHTF-Light.svg#GothamHTF-Light") format("svg"); 
+   
+}
+@font-face {
+    font-family: "GothamHTF-Medium";
+   
+    src: url("GothamHTF-Medium/GothamHTF-Medium.eot");
+    src: url("GothamHTF-Medium/GothamHTF-Medium.eot?#iefix") format("embedded-opentype"),
+    url("GothamHTF-Medium/GothamHTF-Medium.woff2") format("woff2"),
+    url("GothamHTF-Medium/GothamHTF-Medium.woff") format("woff"),
+    url("GothamHTF-Medium/GothamHTF-Medium.ttf") format("truetype"),
+    url("GothamHTF-Medium/GothamHTF-Medium.svg#GothamHTF-Medium") format("svg");
+}
+
+
+/*font-weight:normal;*/
+/*-webkit-font-smoothing: antialiased;*/
