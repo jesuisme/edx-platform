@@ -774,8 +774,11 @@ def course_about(request, course_id):
         user_related_organization = False
         if get_organization.organization is not None:
             user_related_organization = True
+        if get_organization.organization is None:
+            user_related_organization = False
         if request.user.is_staff:
             user_related_organization = False
+
     else:
         user_related_organization = False
     course_key = CourseKey.from_string(course_id)
