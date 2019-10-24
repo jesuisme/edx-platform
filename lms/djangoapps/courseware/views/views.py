@@ -110,6 +110,8 @@ from ..module_render import get_module, get_module_by_usage_id, get_module_for_d
 
 log = logging.getLogger("edx.courseware")
 
+mylog = logging.getLogger(__name__)
+
 # Only display the requirements on learner dashboard for
 # credit and verified modes.
 REQUIREMENTS_DISPLAY_MODES = CourseMode.CREDIT_MODES + [CourseMode.VERIFIED]
@@ -770,17 +772,23 @@ def course_about(request, course_id):
     #                    current_user_list.append(row)
 
     if request.user.is_authenticated():
+        mylog.info("inside if ======")
         get_organization = UserProfile.objects.get(user=request.user)
         user_related_organization = False
         if get_organization.organization is not None:
+            mylog.info("if org not none===%s----" % get_organization.organization)
             user_related_organization = True
         if get_organization.organization is None:
+            mylog.info("if organization none----%s===" % get_organization.organization)
             user_related_organization = False
         if request.user.is_staff:
+            mylog.info("request.user.is_staff=====%s====" % request.user.is_staff)
             user_related_organization = False
 
     else:
+        mylog.info("else mylog====")
         user_related_organization = False
+    mylog.info("user_related_organization======last====%s==" % user_related_organization)
     course_key = CourseKey.from_string(course_id)
     # If a user is not able to enroll in a course then redirect
     # them away from the about page to the dashboard.
