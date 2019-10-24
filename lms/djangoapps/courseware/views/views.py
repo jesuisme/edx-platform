@@ -773,11 +773,19 @@ def course_about(request, course_id):
 
     if request.user.is_authenticated():
         mylog.info("inside if ======")
+        mylog.info("request user====%s---" % request.user.username)
         get_organization = UserProfile.objects.get(user=request.user)
         user_related_organization = False
         if get_organization.organization is not None:
+            mylog.info("if org not none===%s----" % len(get_organization.organization))
+            mylog.info("if org not none===%s----" % type(get_organization.organization))
             mylog.info("if org not none===%s----" % get_organization.organization)
-            user_related_organization = True
+            if len(get_organization.organization) > 0:
+                user_related_organization = True
+            else:
+                user_related_organization = False
+
+            
         if get_organization.organization is None:
             mylog.info("if organization none----%s===" % get_organization.organization)
             user_related_organization = False
