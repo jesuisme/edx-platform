@@ -501,6 +501,13 @@ def login_user(request):
                 'success': True,
                 'redirect_url': '/order_confirmation',
             })
+        elif organization and organization.payment_status == 'cancelled':
+            log.info('in the elif of cancelled--')
+            response = JsonResponse({                
+                'success': True,
+                'new_user': email,
+                'redirect_url': '/cancel_order',
+            })
         else:
             response = JsonResponse({
                 'success': True,

@@ -8,6 +8,7 @@ import time
 import os
 import email
 import datetime
+import re
 from collections import defaultdict
 
 
@@ -638,6 +639,8 @@ def student_dashboard(request):
 
     if organization_token and organization_token.payment_status == 'Pending':
         return HttpResponseRedirect(reverse('order_confirmation')) 
+    elif organization_token and organization_token.payment_status == 'cancelled':
+        return HttpResponseRedirect(reverse('cancel_order'))
     else:
         pass
 
@@ -947,8 +950,7 @@ def student_dashboard(request):
                 student_details.completed = students_data_dict['completed']
                 student_details.save()
 
-        students_data_dict = {}
-     
+        students_data_dict = {}    
 
     context = {
         'urls': urls,
@@ -1248,5 +1250,6 @@ def student_dashboard(request):
     response = render_to_response('dashboard.html', context)
     set_user_info_cookie(response, request)
     return response
+
 
 

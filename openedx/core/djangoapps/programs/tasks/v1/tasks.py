@@ -300,7 +300,7 @@ def award_course_certificate(self, username, course_run_key):
 
 
 # Deletes a month old student login and module views.(runs every 6hours) 
-@periodic_task(run_every=(crontab(hour="*/6")), name="clear_students_data", ignore_result=True)
+@periodic_task(run_every=(crontab(hour="*/22")), name="clear_students_data", ignore_result=True)
 def clear_students_data():
     try:
         LOGGER.info("Cleaning the Students Data")
@@ -308,14 +308,12 @@ def clear_students_data():
         LoginUpdate.objects.filter(date_updated__lte=date.today()-timedelta(days=30)).delete()
         StudentCourseDetails.objects.filter(date_updated__lte=date.today()-timedelta(days=30)).delete()
     except Exception as exc:        
-        LOGGER.exception('Exception occured while deleting students data %s', exc)
-
-
+        LOGGER.exception('Exception occured while deleting students data: %s', exc)
 
 # runs payment gateway every 15minutes.
-@periodic_task(run_every=(crontab(minute="*/10")), name="txshop_payment_gateway", ignore_result=True)
-def txshop_payment_gateway():    
-    LOGGER.info('Payement Gateway Runs every 10mins.')    
+@periodic_task(run_every=(crontab(minute="*/15")), name="txshop_payment_gateway", ignore_result=True)
+def txshop_payment_gateway():  
+    LOGGER.info('in the dashboard payment gateway')
     payment_mail_domain = configuration_helpers.get_value('PAYMENT_DOMAIN', settings.PAYMENT_DOMAIN)
     payment_admin_mail = configuration_helpers.get_value('PAYMENT_EMAIL', settings.PAYMENT_EMAIL)
     payment_mail_password = configuration_helpers.get_value('PAYMENT_EMAIL_PASSWORD', settings.PAYMENT_EMAIL_PASSWORD)
@@ -326,70 +324,91 @@ def txshop_payment_gateway():
     mail.select("inbox") # connect to inbox.
     try:
         result, data = mail.uid('search', None, "ALL") # search and return uids instead
+
         all_email_uid = data[0].split()
 
         latest_email_uid = data[0].split()[-1]
 
         result, data = mail.uid('fetch', latest_email_uid, '(RFC822)')
+
         raw_email = data[0][1]
 
-        email_message_instance = email.message_from_string(raw_email)    
-         
+        email_message_instance = email.message_from_string(raw_email)          
 
         first_text_block = get_first_text_block(email_message_instance)
+
         mail_subject = str(email_message_instance['Subject'])
+
         mail_sub_list = str(mail_subject).lower().split(" ")
 
         date = (datetime.date.today() - datetime.timedelta(1)).strftime("%d-%b-%Y")
+
         result_one_day_old, data_one_day_old = mail.uid('search', None, '(SENTSINCE {date})'.format(date=date))
-     
-        result_subj, data_subj = mail.uid('search', None, '(SENTSINCE {date} HEADER Subject "TXShop order confirmation")'.format(date=date))
 
-        checkinggg = ",".join(data_one_day_old)
-        check2 = checkinggg.replace(' ',',')
+        if data_one_day_old != ['']:     
+            result_subj, data_subj = mail.uid('search', None, '(SENTSINCE {date} HEADER Subject "TXShop order confirmation")'.format(date=date))
 
-        if result_subj != 'OK':
-            raise Exception("Error running imap fetch for multiple messages: "
-                            "%s" % result_subj)   
-       
+            checkinggg = ",".join(data_one_day_old)
+            check2 = checkinggg.replace(' ',',')
 
-        resp,data = mail.uid('FETCH', str(check2), '(RFC822)')
-        messages = [data[i][1].strip() + "\r\nSize:" + data[i][0].split()[4] + "\r\nUID:" + data[i][0].split()[2]  for i in xrange(0, len(data), 2)]
-        order_num = None
-        for msg in messages:
-            msg_str = email.message_from_string(msg)
-            message_subject = msg_str.get('Subject').lower()
-            mail_sub_list = str(message_subject).split()
-            if str(message_subject) == 'txshop order confirmation' or  any("txshop" in s for s in mail_sub_list) or any("order" in s for s in mail_sub_list):            
-                first_text_block_2 = get_first_text_block(msg_str)
-                body_message = first_text_block_2.split()
+            if result_subj != 'OK':
+                raise Exception("Error running imap fetch for multiple messages: "
+                                "%s" % result_subj)              
 
-                value_message = ','.join(body_message)
+            resp,data = mail.uid('FETCH', str(check2), '(RFC822)')
+            messages = [data[i][1].strip() + "\r\nSize:" + data[i][0].split()[4] + "\r\nUID:" + data[i][0].split()[2]  for i in xrange(0, len(data), 2)]
+            order_num = None
+            for msg in messages:
+                msg_str = email.message_from_string(msg)
+                message_subject = msg_str.get('Subject').lower()
+                mail_sub_list = str(message_subject).split()
+                if str(message_subject) == 'txshop order confirmation' or  any("txshop" in s for s in mail_sub_list) or any("order" in s for s in mail_sub_list):            
+                    first_text_block_2 = get_first_text_block(msg_str)
+                    body_message = first_text_block_2.split()
 
-                mail_msg = value_message.replace(',',' ')
+                    value_message = ','.join(body_message)
 
-                regexStr = "(?:^|(?<= ))[A-Z0-9]+(?= |$)"
+                    mail_msg = value_message.replace(',',' ')                    
 
-                regxs = '^(?=.*[A-Z])(?=.*[0-9])'
+                    mail_msg = mail_msg.replace(':',' ')
 
-                transcation_num = re.findall(regexStr, mail_msg)
+                    regexStr = "(?:^|(?<= ))[A-Z0-9]+(?= |$)"
 
-                currency_2 = re.search(r"\d+\.\d+", mail_msg)
+                    regxs = '^(?=.*[A-Z])(?=.*[0-9])'
 
-                date_match = re.search(r'\d{2}/\d{2}/\d{2}', mail_msg)
+                    transcation_num = re.findall(regexStr, mail_msg)
 
-                if transcation_num:                
-                    order_num = [dig for dig in transcation_num if bool(re.match(regxs,str(dig)))]
+                    currency_2 = re.search(r"\d+\.\d+", str(mail_msg))
 
-                if len(order_num) > 0 and currency_2 and date_match:   
-                    date_str = date_match.group() 
-                    date_object = datetime.datetime.strptime(date_str, '%m/%d/%y').date()
-                    txshop_result, created_value = TxShopDetails.objects.get_or_create(transaction_id=order_num[0], transaction_amount=currency_2.group(), transaction_date=date_object, order_status='PAID')
-                else:
-                    LOGGER.info('error occurred')
-                    break
+                    date_match = re.search(r'\d{2}/\d{2}/\d{2}', str(mail_msg))
+
+                    if transcation_num:                
+                        order_num = [dig for dig in transcation_num if bool(re.match(regxs,str(dig)))]
+
+                    if currency_2 is None:
+                        curreny_value = re.search(r'\$[0-9]\d*(\.\d\d)?(?![\d.])',str(mail_msg))
+
+                        if curreny_value is None:
+                            mail_msg = mail_msg.replace('$ ','$')
+                            currency_3 = re.search(r'(?:[$])(\d[0-9]+)', mail_msg)
+                            currency_2 = currency_3 
+                        else:
+                            currency_2 = curreny_value
+
+                    if len(order_num) > 0 and currency_2: 
+                        if date_match is None:
+                            date_object = datetime.datetime.today().strftime('%Y-%m-%d')
+                        else:
+                            date_str = date_match.group() 
+                            date_object = datetime.datetime.strptime(date_str, '%m/%d/%y').date()
+
+                        txshop_result, created_value = TxShopDetails.objects.get_or_create(transaction_id=order_num[0], transaction_amount=currency_2.group(), transaction_date=date_object, order_status='PAID')
+                    else:
+                        LOGGER.info('Error occurred while fetching the TxShop email.')
+        else:
+            pass
     except Exception as exc: 
-        LOGGER.exception('Failed to parse and fetch the email.') 
+        LOGGER.exception('Failed to parse and fetch the email: %s'% exc) 
         raise Exception('Error Occured in parsing email.')
 
 def get_first_text_block(email_message_instance):

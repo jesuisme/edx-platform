@@ -47,7 +47,7 @@ from six import text_type, iteritems
 from social_core.exceptions import AuthAlreadyAssociated, AuthException
 from social_django import utils as social_utils
 from xmodule.modulestore.django import modulestore
-
+from django.contrib.auth import logout
 import openedx.core.djangoapps.external_auth.views
 import third_party_auth
 import track.views
@@ -397,57 +397,30 @@ def organization_register(request):
                     # 'token': token,
                     'item_name': "Organization Registration",
                 }
-                
-                to_email = order.organization_email
 
-                from_address = configuration_helpers.get_value(
-                        'email_from_address',
-                        settings.DEFAULT_FROM_EMAIL
-                    )
+                try:                    
+                    to_email = order.organization_email
 
-                message_for_activation = render_to_string('emails/acc_active_email.txt', context)
+                    from_address = configuration_helpers.get_value(
+                            'email_from_address',
+                            settings.DEFAULT_FROM_EMAIL
+                        )
 
-                email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])
+                    message_for_activation = render_to_string('emails/acc_active_email.txt', context)
 
-                email.attach_alternative(message_for_activation, "text/html")
+                    email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])
 
-                email.mixed_subtype = 'related'
+                    email.attach_alternative(message_for_activation, "text/html")
 
-                email.attach(logo_data())
-                
-                email.send() 
-    
-                #MAIL SENT TO SITE ADMIN
+                    email.mixed_subtype = 'related'
 
-                # mail_subject = 'Organization Admin Registration'
-
-                # site_admin_mail = configuration_helpers.get_value('SITE_ADMIN_MAIL', settings.SITE_ADMIN_MAIL)
-                                           
-                # context = {                    
-                #     'domain': current_site,
-                #     'org_email': organization_email,
-                #     'org_username': org_username,                    
-                #     'invoice': post.invoice_id,
-                #     'amount': post.package_total_price,
-                #     'payment_status': 'Pending'
-
-                # }                
-                
-                # to_email = form.cleaned_data.get('organization_email')
-                
-                # address = []
-                # from_address = configuration_helpers.get_value(
-                #     'email_from_address',
-                #     settings.DEFAULT_FROM_EMAIL
-                # )
-                # address.extend([site_admin_mail,organization_email])
-                # for addr in address:
-                #     message_for_activation = render_to_string('emails/acc_admin_email.txt', context)
-                #     email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[addr])
-                #     email.attach_alternative(message_for_activation, "text/html")
-                #     email.mixed_subtype = 'related'
-                #     email.attach(logo_data())
-                #     email.send()
+                    email.attach(logo_data())
+                    
+                    email.send()                     
+                except:
+                    log.info('Error Occured while the sending email to Organization Admin.')
+                    pass   
+               
 
                 user_prof = UserProfile(
                     user=user,
@@ -467,8 +440,7 @@ def organization_register(request):
                 request.session['user_prof'] = user_prof
                 request.session['organization_email'] = post.organization_email
                 # ut_txshop_link = 'http://qual.its.utexas.edu/txshop/list.WBX?component=0&application_name=DMSCHOOL&cat_seq_chosen=02&subcategory_seq_chosen=000'
-                
-                return render(request, "payment_buy_now.html", {'new_user': new_user})
+                return render(request, "payment_buy_now.html", {'new_user': post.organization_email})
             else:
                 return render(request, "organization_register.html", {'form':form})
         except (KeyError, ValueError, IndexError) as ex:
@@ -482,9 +454,30 @@ def organization_register(request):
     return render(request,'organization_register.html',{'form':form, 'email_obj': user_email_list })
 
 def cancel_order(request):
-    log.info('order cancelled')
-    log.info("USER----%s----"% request.user)
-    return HttpResponseRedirect('/organization_register')
+    if request.method == 'POST':
+        email_user = request.POST.get('new_user')
+        try:
+            order = OrganizationRegistration.objects.get(organization_email=email_user)
+        except OrganizationRegistration.DoesNotExist:
+            log.info("OrganizationRegistration User Does Not Exist.")
+            order = None
+
+        if order:
+            order.payment_status = 'cancelled'
+            order.save()
+            string_msg = "Order Canceled."
+            messages.add_message(request, messages.ERROR, string_msg)
+        else:
+            string_msg = "User not Registered."
+            messages.add_message(request, messages.ERROR, string_msg)
+
+        logout(request)
+        return HttpResponseRedirect('/organization_register')
+    else:
+        user = request.user
+        user_email = user.email
+        return render(request, "payment_buy_now.html", {'new_user': user_email})
+
 
 def get_success_url():
     return reverse('register_user')
