@@ -39,7 +39,6 @@
  <header>
    <h1 class="title">
      <span class="title-super"></span>
-     <!--<span class="title-sub">Register below to create your Dell Medical School | The University of Texas at Austin account</span>-->
    </h1>
  </header>
 </section>
@@ -57,15 +56,8 @@
   <form id="form-id" action="{% url 'cancel_order' %}" method="post">
     {% csrf_token %}
     <input type="hidden" name="new_user" value="{{new_user}}">
-          <a href="http://qual.its.utexas.edu/txshop/list.WBX?component=0&application_name=DMSCHOOL&cat_seq_chosen=02&subcategory_seq_chosen=000">
-    
-    <img  class="logo" src="/static/ut_theme/images/buynow.png" alt="Your Platform Name Here Home Page" style="width: 150px;" />
-    
-  </a>
-      <a href='#' onclick="document.forms['form-id'].submit();">    
-    <img  class="logo" src="/static/ut_theme/images/cancel.png" alt="Your Platform Name Here Home Page" align="right" style="width: 190px; position: relative; top: 0px; right: 230px;" />
-    
-  </a>
+    <button type="submit" name="buy" value="buy"><img src="/static/ut_theme/images/buynow.png" alt="Your Platform Name" style="width: 120px;"></button>
+    <button type="submit" name="cancel" value="cancel" style="height: 60px;"><img src="/static/ut_theme/images/cancel.png" alt="Your Platform Name" style="width: 150px; right: 230px;"></button>   
 </form>
 </div>
 </section>

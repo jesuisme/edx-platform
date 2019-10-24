@@ -501,7 +501,7 @@ def login_user(request):
                 'success': True,
                 'redirect_url': '/order_confirmation',
             })
-        elif organization and organization.payment_status == 'cancelled':
+        elif organization and organization.payment_status == 'cancelled' or organization.payment_status == 'registered':
             log.info('in the elif of cancelled--')
             response = JsonResponse({                
                 'success': True,

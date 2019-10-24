@@ -373,7 +373,7 @@ def organization_register(request):
 
                 post.city = city
 
-                post.payment_status = 'Pending'
+                post.payment_status = 'registered'
 
                 post.save()
 
@@ -456,23 +456,39 @@ def organization_register(request):
 def cancel_order(request):
     if request.method == 'POST':
         email_user = request.POST.get('new_user')
+        cancel = request.POST.get('cancel')
+        buy = request.POST.get('buy')
         try:
             order = OrganizationRegistration.objects.get(organization_email=email_user)
         except OrganizationRegistration.DoesNotExist:
             log.info("OrganizationRegistration User Does Not Exist.")
             order = None
 
-        if order:
-            order.payment_status = 'cancelled'
-            order.save()
+        if cancel:  
+            if order:
+                order.payment_status = 'cancelled'
+                order.save()
+                string_msg = "Order Canceled."
+                messages.add_message(request, messages.ERROR, string_msg)
+            else:
+                string_msg = "User not Registered."
+                messages.add_message(request, messages.ERROR, string_msg)
+
+            logout(request)
+            return HttpResponseRedirect('/organization_register')
+        elif buy:
+            if order:
+                order.payment_status = 'Pending'
+                order.save()                
+            else:
+                string_msg = "User not Registered."
+                messages.add_message(request, messages.ERROR, string_msg)
+            return HttpResponseRedirect('http://qual.its.utexas.edu/txshop/list.WBX?component=0&application_name=DMSCHOOL&cat_seq_chosen=02&subcategory_seq_chosen=000')
+        else:
             string_msg = "Order Canceled."
             messages.add_message(request, messages.ERROR, string_msg)
-        else:
-            string_msg = "User not Registered."
-            messages.add_message(request, messages.ERROR, string_msg)
-
-        logout(request)
-        return HttpResponseRedirect('/organization_register')
+            logout(request)
+            return HttpResponseRedirect('/organization_register')
     else:
         user = request.user
         user_email = user.email
