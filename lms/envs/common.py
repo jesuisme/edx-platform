@@ -953,8 +953,8 @@ PLATFORM_NEW_NAME = 'The Dell Medical School Healthcare Value Team'
 PLATFORM_NEW_NAME_2 = 'Dell Medical School at The University of Texas at Austin'
 SITE_ADMIN_MAIL = 'viraj.thakrar@luminad.com'
 # TEST Payment Email Details
-PAYMENT_EMAIL = 'shruthi.nair@luminad.com'
-PAYMENT_EMAIL_PASSWORD = 'dgsl$321'
+PAYMENT_EMAIL = 'txshop.orders@luminad.com'
+PAYMENT_EMAIL_PASSWORD = 'YLXD7BhG'
 PAYMENT_DOMAIN = 'mail.luminad.com'
 
 
@@ -1942,12 +1942,12 @@ from celery.schedules import crontab
 CELERYBEAT_SCHEDULE = {
     'every-day': {
         'task': 'openedx.core.djangoapps.programs.tasks.v1.tasks.txshop_payment_gateway',
-        'schedule': crontab(minute="*/10"),
+        'schedule': crontab(minute="*/15"),
     },
 
     'every-8hour': {
         'task': 'openedx.core.djangoapps.programs.tasks.v1.tasks.clear_students_data',
-        'schedule': crontab(hour="*/6"),
+        'schedule': crontab(hour="*/22"),
     }
 }
 

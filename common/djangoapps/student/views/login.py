@@ -496,18 +496,29 @@ def login_user(request):
         except:
             raise AuthFailedError(_('Email or Password is Incorrect.')) 
 
-        if organization and organization.payment_status == 'Pending':            
-            response = JsonResponse({
-                'success': True,
-                'redirect_url': '/order_confirmation',
-            })
+        if organization:
+            if organization.payment_status == 'Pending':                
+                response = JsonResponse({
+                    'success': True,
+                    'redirect_url': '/order_confirmation',
+                })
+            elif organization.payment_status == 'cancelled' or organization.payment_status == 'registered':
+                response = JsonResponse({                
+                    'success': True,
+                    'new_user': email,
+                    'redirect_url': '/cancel_order',
+                })           
+            else:
+                response = JsonResponse({
+                    'success': True,
+                    'redirect_url': redirect_url,
+                })
         else:
             response = JsonResponse({
                 'success': True,
                 'redirect_url': redirect_url,
             })
 
-        # Ensure that the external marketing site can
         # detect that the user is logged in.
         return set_logged_in_cookies(request, response, possibly_authenticated_user)
     except AuthFailedError as error:
