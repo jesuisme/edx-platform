@@ -637,10 +637,11 @@ def student_dashboard(request):
     except:
         organization_token = None
 
-    if organization_token and organization_token.payment_status == 'Pending':
-        return HttpResponseRedirect(reverse('order_confirmation')) 
-    elif organization_token and organization_token.payment_status == 'cancelled' or organization_token.payment_status == 'registered':
-        return HttpResponseRedirect(reverse('cancel_order'))
+    if organization_token:
+        if organization_token.payment_status == 'Pending':
+            return HttpResponseRedirect(reverse('order_confirmation')) 
+        elif organization_token.payment_status == 'cancelled' or organization_token.payment_status == 'registered':
+            return HttpResponseRedirect(reverse('cancel_order'))
     else:
         pass
 
