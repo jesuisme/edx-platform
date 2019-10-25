@@ -230,6 +230,12 @@
  .carousel-indicators {
     bottom: 20px !important;
 }
+.carousel-indicators .active {
+    background-color: #999;
+}
+.carousel-indicators li {
+    background-color: #ccc;
+}
 
  .m9s3b7 {
     line-height: 294px !important;

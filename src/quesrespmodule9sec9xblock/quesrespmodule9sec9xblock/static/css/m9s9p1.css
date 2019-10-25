@@ -154,6 +154,12 @@ font-family: "GothamHTF-Bold";
  position: absolute;
    
 }
+.carousel-indicators .active {
+    background-color: #999;
+}
+.carousel-indicators li {
+    background-color: #ccc;
+}
  .container .carousel .right.carousel-control{
    margin-right: -14px;
     height: 10px;

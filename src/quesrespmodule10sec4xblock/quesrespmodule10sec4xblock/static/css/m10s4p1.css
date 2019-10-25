@@ -450,6 +450,12 @@
  .carousel-indicators {
     bottom: 20px !important;
 }
+.carousel-indicators .active {
+    background-color: #999;
+}
+.carousel-indicators li {
+    background-color: #ccc;
+}
 
  .m10s7b17_C {
     background-color: #f3f5f4;

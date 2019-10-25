@@ -4,8 +4,6 @@ import pkg_resources
 from xblock.core import XBlock
 from xblock.fields import Integer, Scope, List
 from xblock.fragment import Fragment
-from student.models import pollstylingxblock
-from django.contrib.auth.models import User
 
 @XBlock.wants('user')
 class PollStylingXBlock(XBlock):
@@ -22,47 +20,47 @@ class PollStylingXBlock(XBlock):
     #     help="A simple counter, to show something happening",
     # )
     extremely_likely = Integer(
-            default=0, scope=Scope.user_state_summary,
+            default=0, scope=Scope.user_state,
             help="extremely likely to show something happening",
         )
     extremely_likely_percent = Integer(
-            default=0, scope=Scope.user_state_summary,
+            default=0, scope=Scope.user_state,
             help="extremely likely to show something happening",
         )
     
     likely = Integer(
-            default=0, scope=Scope.user_state_summary,
+            default=0, scope=Scope.user_state,
             help="likely to show something happening",
         )
     likely_percent = Integer(
-            default=0, scope=Scope.user_state_summary,
+            default=0, scope=Scope.user_state,
             help="likely to show something happening",
         )
     
     neutral = Integer(
-            default=0, scope=Scope.user_state_summary,
+            default=0, scope=Scope.user_state,
             help="neutral to show something happening",
         )
     neutral_percent = Integer(
-            default=0, scope=Scope.user_state_summary,
+            default=0, scope=Scope.user_state,
             help="neutral to show something happening",
         )
     
     unlikely = Integer(
-            default=0, scope=Scope.user_state_summary,
+            default=0, scope=Scope.user_state,
             help="unlikely to show something happening",
         )
     unlikely_percent = Integer(
-            default=0, scope=Scope.user_state_summary,
+            default=0, scope=Scope.user_state,
             help="unlikely to show something happening",
         )
     
     extremely_unlikely = Integer(
-            default=0, scope=Scope.user_state_summary,
+            default=0, scope=Scope.user_state,
             help="extremely unlikely to show something happening",
         )
     extremely_unlikely_percent = Integer(
-            default=0, scope=Scope.user_state_summary,
+            default=0, scope=Scope.user_state,
             help="extremely unlikely to show something happening",
         )
     
@@ -90,14 +88,19 @@ class PollStylingXBlock(XBlock):
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
     @XBlock.json_handler
-    def pollstyling_response(self, data, suffix=''):
+    def poll_response(self, data, suffix=''):
         """
         An example handler, which increments the data.
         """
         user_service = self.runtime.service(self, 'user')
+        # print("user_service===%s===" % user_service)
         xb_user = user_service.get_current_user()
+        # print("xb_user====%s===" % xb_user)
         user_reply = data['selected_val']
-        user_object = User.objects.get(email=xb_user.emails[0])
+        # course_id = data['course_id']
+        # responses = ""
+        # print("xb_user====%s===" % xb_user.email)
+        print("user_reply====hfghgf==%s====" % user_reply)
         newReply = {
             "student": xb_user.full_name,
             "email": xb_user.emails,
@@ -115,7 +118,10 @@ class PollStylingXBlock(XBlock):
             self.extremely_unlikely += 1
         
         sum_list = sum([self.extremely_likely,self.likely,self.neutral,self.unlikely,self.extremely_unlikely])
+        # sum_all_poll = sum(self.count_60s,self.count_2m,self.count_5m,self.count_10m)
+        print(sum_list)
         average_for_each = float(100/sum_list)
+        print(average_for_each)
 
         percent_of_extremely_likely = float(self.extremely_likely * average_for_each)
         percent_of_likely = float(self.likely * average_for_each)
@@ -127,26 +133,8 @@ class PollStylingXBlock(XBlock):
         self.neutral_percent = percent_of_neutral
         self.unlikely_percent = percent_of_unlikely
         self.extremely_unlikely_percent = percent_of_extremely_unlikely
-        created, obj = pollstylingxblock.objects.get_or_create(user=user_object)
         self.responses.append(newReply)
         return {"extremely_likely": percent_of_extremely_likely, "likely": percent_of_likely, "neutral": percent_of_neutral, "unlikely": percent_of_unlikely, "extremely_unlikely": percent_of_extremely_unlikely}
-
-
-    @XBlock.json_handler
-    def user_check_if_submited(self, data, suffix=''):
-        """
-        An example handler, which increments the data.
-        """
-        user_service = self.runtime.service(self, 'user')
-        xb_user = user_service.get_current_user()
-        user_object = User.objects.get(email=xb_user.emails[0])
-        if pollstylingxblock.objects.filter(user=user_object).exists():
-            return {"extremely_likely": self.extremely_likely_percent, "likely": self.likely_percent, "neutral": self.neutral_percent, "unlikely": self.unlikely_percent, "extremely_unlikely": self.extremely_unlikely_percent}
-        else:
-            return {"extremely_likely": "usermatch",}
-
-
-
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.

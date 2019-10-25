@@ -44,10 +44,10 @@
 }
 
  .carousel-indicators .active {
-    background-color: #ccc;
+    background-color: #999;
 }
 .carousel-indicators li {
-    background-color: #999;
+    background-color: #ccc;
 }
 
 

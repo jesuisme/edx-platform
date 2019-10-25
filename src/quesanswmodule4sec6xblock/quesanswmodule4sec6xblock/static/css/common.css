@@ -422,7 +422,7 @@ display: -webkit-flex;
 
 .container .carousel-inner{
     padding-bottom: 75px !important;
-    min-height: 680px;
+    /*min-height: 680px;*/
 }
 
 .b2 {

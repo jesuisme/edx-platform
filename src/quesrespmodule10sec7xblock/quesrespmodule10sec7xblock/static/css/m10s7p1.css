@@ -90,8 +90,8 @@
 }
   .container .carousel .right.carousel-control{
      margin-right: -14px;
-     height: 10px;
-     top: 33%;
+     /*height: 10px;*/
+     top: 50%;
 }
   .container .carousel .right.carousel-control span{
      position: absolute;
@@ -298,6 +298,12 @@
 }
   .m3s4b7 .m3s4b8 {
      line-height: 464px !important;
+}
+.carousel-indicators .active {
+    background-color: #999;
+}
+.carousel-indicators li {
+    background-color: #ccc;
 }
  .m10s7p1 .m3s4b7 .eq-h {
      display: -webkit-box;

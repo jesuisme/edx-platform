@@ -69,10 +69,10 @@
 }
 .carousel-indicators .active {
 
-    background-color: #ccc;
+    background-color: #999;
 }
 .carousel-indicators li {
-    background-color: #999;
+    background-color: #ccc;
 }
 .m8s7b8 {
     line-height: 364px !important;

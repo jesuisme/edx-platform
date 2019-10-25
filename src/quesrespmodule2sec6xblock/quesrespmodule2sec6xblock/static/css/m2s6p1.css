@@ -197,6 +197,12 @@
  .carousel-indicators {
     bottom: 20px !important;
 }
+.carousel-indicators .active {
+    background-color: #999;
+}
+.carousel-indicators li {
+    background-color: #ccc;
+}
 
   .m2s6b4 .m2s6b7 {
     line-height: 464px !important;
