@@ -132,24 +132,11 @@ $('.carousel').on('slid.bs.carousel', function (e) {
               $('.left_a').hide();
               $('.right_a').show();
                setMsgBoxHeight1();
-          }else if(id == 1){
+          }else{
             $('.left_a').show();
             $('.right_a').hide();
             setMsgBoxHeight1();
-         }else if(id == 2){
-              $('.left_b').hide();  
-              $('.right_b').show();
-                 setMsgBoxHeight2();
-          }else if(id == 11){
-            $('.left_b').show();
-            $('.right_b').hide();
-             setMsgBoxHeight2();
-          } else {
-            $('.left_b').show();
-            $('.right_b').show();
-             setMsgBoxHeight2();
-          }
-           
+         }
       });
 
 

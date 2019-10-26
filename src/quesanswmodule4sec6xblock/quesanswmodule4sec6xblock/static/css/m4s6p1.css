@@ -72,7 +72,7 @@
 }
   .container .carousel .left.carousel-control{
      margin-left: -28px;
-     height: 10px;
+     /*height: 10px;*/
      top: 33%;
 }
   .container .carousel .left.carousel-control span{
@@ -80,7 +80,7 @@
 }
   .container .carousel .right.carousel-control{
      margin-right: -14px;
-     height: 10px;
+     /*height: 10px;*/
      top: 33%;
 }
  .container .carousel .right.carousel-control span{

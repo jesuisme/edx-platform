@@ -33,14 +33,15 @@ class MultichoiceM2S5XBlock(XBlock):
         """
         html = self.resource_string("static/html/multichoice_m2s5.html")
         frag = Fragment(html.format(self=self))
-        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
+        
         frag.add_css(self.resource_string("static/css/multichoice_m2s5.css"))
+        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
         
         # frag.add_javascript(self.resource_string("static/js/src/jquery_min.js"))
         # frag.add_javascript(self.resource_string("static/js/src/bootstrap.min.js"))
-        frag.add_javascript(self.resource_string("static/js/src/wow.js"))
-        frag.add_javascript(self.resource_string("static/js/src/script.js"))
-        frag.add_javascript(self.resource_string("static/js/src/Json.js"))
+        # frag.add_javascript(self.resource_string("static/js/src/wow.js"))
+        # frag.add_javascript(self.resource_string("static/js/src/script.js"))
+        # frag.add_javascript(self.resource_string("static/js/src/Json.js"))
         # js_str = pkg_resources.resource_string(__name__, "static/js/src/wow.js")
         # js_str = pkg_resources.resource_string(__name__, "static/js/src/script.js")
         # js_str = pkg_resources.resource_string(__name__, "static/js/src/Json.js")
