@@ -178,7 +178,7 @@ table {
   background-color:#d0dae4;table-layout:fixed;  
   }
 
-.question2 th span{   font-family: "GothamHTF-Medium"  !important; table-layout:fixed; word-wrap:break-word;} 
+.question2 th span{  table-layout:fixed; word-wrap:break-word;} 
 .question2 .c1{width:22%!important; text-align: left; padding:6px; background:#f0f0f0!important; table-layout:fixed; word-wrap:break-word;}
 .question2 .c2{width:13%!important; cursor:pointer;}
 .question2 .c3{width:26%!important;}
