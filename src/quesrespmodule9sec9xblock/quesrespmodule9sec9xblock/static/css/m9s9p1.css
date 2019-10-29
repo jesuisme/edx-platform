@@ -47,7 +47,7 @@ line-height: 22px;
 }
 
 .m9s9p1 h3{
-font-family: "GothamHTF-Bold";
+/*font-family: "GothamHTF-Bold";*/
 
 }
 
@@ -64,12 +64,12 @@ font-family: "GothamHTF-Bold";
     text-align: center;
     vertical-align: middle;
     font-size: 20px;
-    font-family: "GothamHTF-Book";
+    /*font-family: "GothamHTF-Book";*/
     float:left;
  }
 .m9s9p1 .s1bgcol .box .thead, .m9s9p1 .s1bgcol .box .thead2{
     position:relative; top:0px; left:10px; 
-	font-family: "GothamHTF-Medium";
+	/*font-family: "GothamHTF-Medium";*/
 	font-size: 20px;
 }
 .m9s9p1 .m3s2s4 hr {
@@ -89,7 +89,7 @@ font-family: "GothamHTF-Bold";
     margin-top: 14px;
 }
 .m9s9p1 .m3s2s4 .col1{padding-right:4px;}
-.m9s9p1 .m3s2s4  li{margin-top:10px;line-height:22px;/* font-size: 14px; */font-family: "GothamHTF-Book";}
+.m9s9p1 .m3s2s4  li{margin-top:10px;line-height:22px;/* font-size: 14px; *//*font-family: "GothamHTF-Book";*/}
 .m9s9p1 .m3s2s4 .head1{font-size:110%;}
 .m9s9p1 .m3s2s4 .bg1{background:#f4f4f4; width:100%; height:100%; padding:10px; height:350px;}
 
@@ -206,7 +206,7 @@ font-family: "GothamHTF-Bold";
 .m9s9p1 .b1  h2{
     background: rgba(255, 255, 255, 0.75) none repeat scroll 0 0;
     color: #232a30;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
@@ -224,7 +224,7 @@ font-family: "GothamHTF-Bold";
     position: relative;
     text-shadow: none;
     width: 28%;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 
 
@@ -237,7 +237,7 @@ font-family: "GothamHTF-Bold";
 .m9s9p1 .m9s9b4 h6  {
     font-size: 14px;
     color: #f4821f;
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
     margin-top: 40px;
     margin-bottom: 30px;
 }
@@ -273,7 +273,7 @@ font-family: "GothamHTF-Bold";
 	cursor:pointer;
 }
 .m9s9p1 .m9s9b4 .m9s9b4a h5{
-    font-family: "GothamHTF-Bold"; 
+    /*font-family: "GothamHTF-Bold";*/ 
     font-size: 18px;   
 }
 
@@ -287,7 +287,7 @@ font-family: "GothamHTF-Bold";
 
  .m9s9b4a p {
     font-size: 14px;
-    font-family: "GothamHTF-Book";
+    /*font-family: "GothamHTF-Book";*/
 }
 
 
@@ -295,16 +295,16 @@ font-family: "GothamHTF-Bold";
 
 .m9s9p1 .m9s9s8 ol {
     margin-left: -22px;    
-    font-family: "GothamHTF-Medium";        
+    /*font-family: "GothamHTF-Medium";*/        
 }
 .m9s9p1 .m9s9s8 h5 {    
-    font-family: "GothamHTF-Medium";        
+    /*font-family: "GothamHTF-Medium";*/        
 }
 
 
 
 .m9s9p1 .act1 h2, .m9s9p1 .act2 h2 {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 .m9s9p1 .panel{
     border-radius:0px;
@@ -314,7 +314,7 @@ font-family: "GothamHTF-Bold";
 }
 .m9s9p1 .panel h2 {
     font-size: 15px;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 .m9s9p1 .panel h5 {
     font-size: 14px;
@@ -322,7 +322,7 @@ font-family: "GothamHTF-Bold";
 }
 .m9s9p1 .panel p {
     font-size: 12px;
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
 }
 
 .m9s9p1 .b2_s1 .tint{
@@ -362,7 +362,7 @@ font-family: "GothamHTF-Bold";
 
 .m9s9p1 .m1s1imgT{
     font-size: 14px;
-    font-family: "GothamHTF-Book";
+    /*font-family: "GothamHTF-Book";*/
 }
 .m9s9p1 .middleTxt{
     position: absolute;
@@ -423,7 +423,7 @@ font-family: "GothamHTF-Bold";
 
 .ans{
    padding: 10px;
-   font-family: "GothamHTF-Medium";
+   /*font-family: "GothamHTF-Medium";*/
     background: #535B72;
     color: #FFFFFF !important;
     font-size: 14px !important;
@@ -647,13 +647,13 @@ and (max-device-width : 1000px) {
 .m9s9p1 .m3s2s4 {font-size:90%;}
 .m9s9p1 .m3s2s4 .bg1{height:490px;}
 .m9s9p1 .b1  h2 {
-   font-family: "GothamHTF-Bold";
+   /*font-family: "GothamHTF-Bold";*/
     font-size: 124%;
     width: 70%;
  }
 
 .m9s9p1 .b1 .container p{
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 107%;
     width: 42%;
     }
@@ -742,14 +742,14 @@ and (max-device-width : 765px) {
 }
 
      .m9s9p1 .b1  h2 {
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
     font-size: 124%;
     width: 70%;
     }
     .m9s9p1 .b1 .container p{
          font-size: 107%;
     width: 42%;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     }
     .m9s9p1 .s1hide {
         display: none;
@@ -797,7 +797,7 @@ and (max-device-width : 700px) {
     position:relative;
     top: 5px;
     left:10px;
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
     font-size: 14px;
     font-weight: 600;
 }
@@ -811,7 +811,7 @@ and (max-device-width : 500px) {
     position: relative;
     top: -6px;
     left: 10px;
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
     font-size: 12px;
     font-weight: 600;
 }
@@ -819,7 +819,7 @@ and (max-device-width : 500px) {
     position: relative;
     top: 4px;
     left: 10px;
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
     font-size: 12px;
     font-weight: 600;
 }
@@ -854,13 +854,13 @@ and (max-device-width : 500px) {
   /*module1 section1 css*/
 
 .m9s9p1 .b1  h2{  
-   font-family: "GothamHTF-Bold";
+   /*font-family: "GothamHTF-Bold";*/
     font-size: 103%;
      width: 90%;
     }
 
 .m9s9p1 .b1 .container p{
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
     font-size: 83%;
     width: 65%;
     }
@@ -917,13 +917,13 @@ and (max-device-width : 299px) {
 }
 
  .m9s9p1 .b1  h2 {  
-   font-family: "GothamHTF-Bold";
+   /*font-family: "GothamHTF-Bold";*/
     font-size: 48%;
     width: 86%;
     }
 
 .m9s9p1 .b1 .container p {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 42%;
     width: 60%;
 }

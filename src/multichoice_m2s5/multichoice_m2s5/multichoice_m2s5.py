@@ -35,7 +35,9 @@ class MultichoiceM2S5XBlock(XBlock):
         frag = Fragment(html.format(self=self))
         
         frag.add_css(self.resource_string("static/css/multichoice_m2s5.css"))
+        frag.add_css(self.resource_string("static/css/common.css"))
         frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
+        frag.add_css(self.resource_string("static/css/m2s5p1.css"))
         
         # frag.add_javascript(self.resource_string("static/js/src/jquery_min.js"))
         # frag.add_javascript(self.resource_string("static/js/src/bootstrap.min.js"))
@@ -46,7 +48,7 @@ class MultichoiceM2S5XBlock(XBlock):
         # js_str = pkg_resources.resource_string(__name__, "static/js/src/script.js")
         # js_str = pkg_resources.resource_string(__name__, "static/js/src/Json.js")
 
-        js_str = pkg_resources.resource_string(__name__, "static/js/src/jquery.min.js")
+        js_str = pkg_resources.resource_string(__name__, "static/js/src/jquery_min.js")
         js_str = pkg_resources.resource_string(__name__, "static/js/src/bootstrap.min.js")
         
         frag.add_javascript(unicode(js_str))

@@ -121,7 +121,7 @@
  .m4s6p1 .b1 h2{
      background: rgba(255, 255, 255, 0.75) none repeat scroll 0 0;
      color: #232a30;
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
      margin-bottom: auto;
      margin-left: auto;
      margin-right: auto;
@@ -139,13 +139,13 @@
      position: relative;
      text-shadow: none;
      width: 28%;
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
 }
  .m4s6p1 .m4s4s1 {
      margin-top: 12px 
 }
   .m4s4s2 h4,  .m4s4s4 h3 {
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
 }
   .m4s4s2 {
      background: #ffffff;
@@ -301,11 +301,11 @@
 }
    ol {
      margin-left: -22px;
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
 }
-  .m4s4s8 h5 {
+ /* .m4s4s8 h5 {
      font-family: "GothamHTF-Medium";
-}
+}*/
   .m4s5s3 {
      margin-bottom: 0px;
      background: url('https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s5img2.jpg') no-repeat center center fixed;
@@ -374,17 +374,17 @@
      padding: 10px;
      text-align: center;
      font-size: 16px;
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
 }
  .m4s6p1 .m4s4s5 {
      margin-top: 30px;
      margin-bottom: 10px;
 }
  .m4s6p1 .m4s4s5 h3, .m4s6p1 .s1bgcol h3{
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
 }
  .m4s6p1 .response3 h2{
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
      font-size: 24px;
 }
  .m4s6p1 .response3 .line4{
@@ -398,21 +398,21 @@
      background: #fff;
 }
  .m4s6p1 .m4s4s7 h3 {
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
      margin-top: 0px;
 }
  .m4s6p1 .m4s6s8 ol {
      margin-left: -22px;
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
 }
- .m4s6p1 .m4s6s8 h5 {
+/* .m4s6p1 .m4s6s8 h5 {
      font-family: "GothamHTF-Medium";
-}
+}*/
  .m4s6p1 .act1 h2, .m4s6p1 .act2 h2 {
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
 }
  .m4s6p1 .boldT {
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
 }
  .m4s6p1 .panel{
      border-radius:0px;
@@ -422,7 +422,7 @@
 }
  .m4s6p1 .panel h2 {
      font-size: 15px;
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
 }
  .m4s6p1 .panel h5 {
      font-size: 14px;
@@ -430,7 +430,7 @@
 }
  .m4s6p1 .panel p {
      font-size: 12px;
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
 }
  .m4s6p1 .b2_s1 .tint{
      width: 100%;
@@ -478,12 +478,12 @@
      padding: 0;
 }
  .m4s6p1 .s1bgcol5 .well p{
-     font-family: "GothamHTF-Book";
+     /*font-family: "GothamHTF-Book";*/
      font-size: 22px;
      margin-top: 35px;
 }
  .m4s6p1 .s1bgcol5 .well h6{
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
      font-size: 12px;
      color: #f4821f;
 }
@@ -569,7 +569,7 @@
     text-decoration:underline!important;
 }
  .m4s6p1 .s1bgcol3 .col-sm-8 h6, .m4s6p1 .m4s6s8 .col-sm-8 h6 {
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
      font-size: 12px;
      color: #f4821f;
 }
@@ -592,7 +592,7 @@
 }
  .m4s6p1 .m1s1imgT{
      font-size: 14px;
-     font-family: "GothamHTF-Book";
+     /*font-family: "GothamHTF-Book";*/
 }
  .m4s6p1 .middleTxt{
      position: absolute;
@@ -649,22 +649,22 @@
  .m4s6p1 .m7b2 h2{
      text-shadow:none;
      color:#000;
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
      color: #fff;
 }
  .m4s6p1 .m7b3 .col-sm-9 .well p:nth-child(1){
      color: #f68121;
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
 }
  .m4s6p1 .m7b3 .col-sm-9 .well p:nth-child(2){
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
      font-size: 18px !important;
 }
- .m4s6p1 .m7b3 .col-sm-9 .well p:nth-child(3){
+ /*.m4s6p1 .m7b3 .col-sm-9 .well p:nth-child(3){
      font-family: "GothamHTF-Medium";
-}
+}*/
  .m4s6p1 .m7b3 .col-sm-9 .well p:nth-child(4){
-     font-family: "GothamHTF-BookItalic";
+     /*font-family: "GothamHTF-BookItalic";*/
      font-size: 12px !important;
      overflow-wrap: break-word;
 }
@@ -675,7 +675,7 @@
  
  .m4s6p1 .m2s4b6 h2 {
      color:#fff;
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
 }
  .m4s6p1 .m7b3 .col-sm-12 .well1{
      background: #f5f5f5 none repeat scroll 0 0;
@@ -829,12 +829,12 @@
          padding-right: 0px;
     }
      .m4s6p1 .b1 h2 {
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
          font-size: 124%;
          width: 70%;
     }
      .m4s6p1 .b1 .container p{
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
          font-size: 107%;
          width: 42%;
     }
@@ -939,14 +939,14 @@
          padding-right: : 10px;
     }
      .m4s6p1 .b1 h2 {
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
          font-size: 124%;
          width: 70%;
     }
      .m4s6p1 .b1 .container p{
          font-size: 107%;
          width: 42%;
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
     }
      .m4s6p1 .s1hide {
          display: none;
@@ -1027,12 +1027,12 @@
          padding-right: : 10px;
     }
      .m4s6p1 .b1 h2{
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
          font-size: 103%;
          width: 90%;
     }
      .m4s6p1 .b1 .container p{
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
          font-size: 83%;
          width: 65%;
     }
@@ -1115,12 +1115,12 @@
          padding-right: : 10px;
     }
      .m4s6p1 .b1 h2 {
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
          font-size: 48%;
          width: 86%;
     }
      .m4s6p1 .b1 .container p {
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
          font-size: 42%;
          width: 60%;
     }

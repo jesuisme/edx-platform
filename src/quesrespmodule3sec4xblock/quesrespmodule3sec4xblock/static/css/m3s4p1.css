@@ -142,7 +142,7 @@ line-height: 22px;
 .m3s4p1 .b1  h2 {
     background: rgba(255, 255, 255, 0.75) none repeat scroll 0 0;
     color: #232a30;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
@@ -161,12 +161,12 @@ line-height: 22px;
     position: relative;
     text-shadow: none;
     width: 28%;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 
 
 .m3s4p1 .m3s4b1 h3, .m3s4p1 .m3s4b2 h4, .m3s4p1 .m3s4b3 h4, .m3s4p1 .m3s4b4 h4, .m3s4p1 .m3s4b5 h4, .m3s4p1 .m3s4b6 h3, .bText {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 
 .m3s4p1 .m3s4b2  {
@@ -186,11 +186,11 @@ line-height: 22px;
 
 
 .m3s4p1 .act1 h2, .m3s4p1 .act2 h2 {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 
 .m3s4p1 .boldT {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 .m3s4p1 .panel{
     border-radius:0px;
@@ -200,7 +200,7 @@ line-height: 22px;
 }
 .m3s4p1 .panel h2 {
     font-size: 15px;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 .m3s4p1 .panel h5 {
     font-size: 14px;
@@ -208,7 +208,7 @@ line-height: 22px;
 }
 .m3s4p1 .panel p {
     font-size: 12px;
-    font-family: "GothamHTF-Medium";
+    /*/*font-family: "GothamHTF-Medium";*/*/
 }
 
 .m3s4p1 .b2_s1 .tint{
@@ -296,7 +296,7 @@ margin-left: 0;
 
 .m3s4p1 .m1s1imgT{
     font-size: 14px;
-    font-family: "GothamHTF-Book";
+    /*font-family: "GothamHTF-Book";*/
 }
 .m3s4p1 .middleTxt{
     position: absolute;
@@ -479,16 +479,16 @@ margin-left: 0;
   flex-wrap: wrap;
 }
 .m3s4p1 .modal-content h4 {
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
 }
 
 
 .m3s4p1 .m4s4b20 h5 {
-    font-family: "GothamHTF-Medium"; 
+    /*font-family: "GothamHTF-Medium";*/ 
 }
 .m3s4p1 .m4s4b20 ol {
     margin-left: -22px;        
-    font-family: "GothamHTF-Medium"; 
+    /*font-family: "GothamHTF-Medium";*/ 
 }
 
 .m3s4p1 .m4s4b21 {
@@ -509,7 +509,7 @@ margin-left: 0;
 }
 
 .m3s4p1 .m4s4b21 h2 {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     color: #fff;
 }
 
@@ -542,21 +542,21 @@ margin-left: 0;
 }
 .m3s4p1 .m4s4b22 .col-sm-9 .well p:nth-child(1){
     color: #f68121;
-    font-family: "GothamHTF-Medium";  
+    /*font-family: "GothamHTF-Medium";*/  
     font-size: 14px;
     hyphens:auto;
 }
 .m3s4p1 .m4s4b22 .col-sm-9 .well p:nth-child(2){    
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     hyphens:auto;
 }
 .m3s4p1 .m4s4b22 .col-sm-9 .well p:nth-child(3){    
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
     font-size: 15px;
     hyphens:auto;
 }
 .m3s4p1 .m4s4b22 .col-sm-9 .well p:nth-child(4){    
-    font-family: "GothamHTF-BookItalic";
+    /*font-family: "GothamHTF-BookItalic";*/
     font-size: 12px;
     hyphens:auto;
 }
@@ -598,13 +598,13 @@ padding-right: : 10px;
 }
 
 .m3s4p1 .b1  h2 {
-   font-family: "GothamHTF-Bold";
+   /*font-family: "GothamHTF-Bold";*/
     font-size: 124%;
     width: 70%;
  }
 
 .m3s4p1 .b1 .container p{
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 107%;
     width: 42%;
     }
@@ -665,14 +665,14 @@ padding-right: : 10px;
    
 }
      .m3s4p1 .b1  h2{
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
     font-size: 124%;
     width: 70%;
     }
     .m3s4p1 .b1 .container p{
          font-size: 107%;
     width: 42%;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     }
     .m3s4p1 .s1hide {
         display: none;
@@ -739,13 +739,13 @@ padding-right: : 10px;
    
 }
 .m3s4p1 .b1  h2{  
-   font-family: "GothamHTF-Bold";
+   /*font-family: "GothamHTF-Bold";*/
     font-size: 103%;
      width: 90%;
     }
 
 .m3s4p1 .b1 .container p{
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
     font-size: 83%;
     width: 65%;
     }
@@ -813,13 +813,13 @@ padding-right: : 10px;
    
 }
  .m3s4p1 .b1  h2 {  
-   font-family: "GothamHTF-Bold";
+   /*font-family: "GothamHTF-Bold";*/
     font-size: 48%;
     width: 86%;
     }
 
 .m3s4p1 .b1 .container p {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 42%;
     width: 60%;
 }

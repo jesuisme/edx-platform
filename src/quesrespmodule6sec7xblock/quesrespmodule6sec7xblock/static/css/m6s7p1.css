@@ -23,7 +23,7 @@
 .m6s7p1 .b1  h2 {
     background: rgba(255, 255, 255, 0.75) none repeat scroll 0 0;
     color: #232a30;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
@@ -117,11 +117,11 @@
     position: relative;
     text-shadow: none;
     width: 28%;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 
 .m6s7p1 .m6s7b1 h3, .m6s7p1 .m6s7b4 h3,  .m6s7p1 .m6s7b9 h3, .m6s7p1 .m6s7b17_C h3, .m6s7p1 .m6s7b20 h3, .m6s7p1 .m6s7b20d h4 {
-    font-family: "GothamHTF-Bold";    
+    /*font-family: "GothamHTF-Bold";*/    
 }
 
 .m6s7p1 .m6s7b2 {
@@ -141,7 +141,7 @@
     font-size: 14px;
  }
 .m6s7p1 .m6s7b2a .col-xs-11{
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
  }
 
  
@@ -191,7 +191,7 @@
 .m6s7p1 .m6s7b3 {
     margin-top: 50px;
     margin-bottom: 20px;
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
 }
 .m6s7p1 .m6s7b4 {   
     margin-bottom: 50px;
@@ -336,7 +336,7 @@
 }
 .m6s7p1 .m6s7b6 h2 {
     color:#fff;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
  }
 
 .m6s7p1 .m6s7b7 {   
@@ -345,17 +345,17 @@
 
 .m6s7p1 .m6s7b7 .col-sm-9 .well p:nth-child(1){
     color: #f68121;
-    font-family: "GothamHTF-Medium";  
+    /*font-family: "GothamHTF-Medium";*/  
 }
 .m6s7p1 .m6s7b7 .col-sm-9 .well p:nth-child(2){
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 18px !important;
 }
 .m6s7p1 .m6s7b7 .col-sm-9 .well p:nth-child(3){
-    font-family: "GothamHTF-Medium";    
+    /*font-family: "GothamHTF-Medium";*/    
 }
 .m6s7p1 .m6s7b7 .col-sm-9 .well p:nth-child(4){
-    font-family: "GothamHTF-BookItalic";    
+    /*font-family: "GothamHTF-BookItalic";    */
     font-size: 12px !important;
     overflow-wrap: break-word;
 }
@@ -394,7 +394,7 @@
 }
 
 .m6s7p1 .boldT {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 
 .m6s7p1 .s1bgcol{
@@ -659,7 +659,7 @@
 
 .m6s7p1 .m6s7b20 .panel p {
     font-size: 14px !important;
-    font-family: "GothamHTF-Book" !important;
+    /*font-family: "GothamHTF-Book" !important;*/
 }
 .m6s7p1 .m6s7b20 .panel-body {
     padding: 0px;
@@ -766,7 +766,7 @@
     margin-bottom: 25px;
 }
 .m6s7p1 .md {
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
 }
 
 .m6s7p1 .m6s7b22 {
@@ -782,7 +782,7 @@
     padding-bottom: 40px;
 }
 .m6s7p1 .m6s7b22a .boxText {
-    font-family: 'GothamHTF-Medium' !important;
+    /*font-family: 'GothamHTF-Medium' !important;*/
     color: #cc4a3c;
 }
 .m6s7p1 .img6 {
@@ -847,13 +847,13 @@ and (max-device-width : 1000px) {
    
 }
 .m6s7p1 .b1  h2 {
-   font-family: "GothamHTF-Bold";
+   /*font-family: "GothamHTF-Bold";*/
     font-size: 124%;
     width: 70%;
  }
 
 .m6s7p1 .b1 .container p{
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 107%;
     width: 42%;
     }
@@ -975,14 +975,14 @@ padding-right: : 10px;
    
 }
      .m6s7p1 .b1  h2 {
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
     font-size: 124%;
     width: 70%;
     }
     .m6s7p1 .b1 .container p{
          font-size: 107%;
     width: 42%;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     }
     .m6s7p1 .s1hide {
         display: none;
@@ -1165,13 +1165,13 @@ padding-right: : 10px;
    
 }
 .m6s7p1 .b1  h2{  
-   font-family: "GothamHTF-Bold";
+   /*font-family: "GothamHTF-Bold";*/
     font-size: 103%;
      width: 90%;
     }
 
 .m6s7p1 .b1 .container p{
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
     font-size: 83%;
     width: 65%;
     }
@@ -1249,13 +1249,13 @@ padding-right: : 10px;
    
 }
  .m6s7p1 .b1  h2 {  
-   font-family: "GothamHTF-Bold";
+   /*font-family: "GothamHTF-Bold";*/
     font-size: 48%;
     width: 86%;
     }
 
 .m6s7p1 .b1 .container p {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 42%;
     width: 60%;
 }

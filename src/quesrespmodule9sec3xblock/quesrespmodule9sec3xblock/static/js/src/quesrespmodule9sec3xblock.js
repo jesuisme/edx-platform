@@ -69,7 +69,7 @@ function QuesRespModule9Sec3XBlock(runtime, element) {
                 setMsgBoxHeight1();
                 setMsgBoxHeight2();
                 //setQuestions();
-                setQuestions1();
+                // setQuestions1();
         });
 
 function setMsgBoxHeight2() {

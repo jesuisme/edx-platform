@@ -6,7 +6,7 @@
 }
 
 .m5s4p1 .mdm {
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
 }
 
 .m5s4p1 div#my_favorite_latin_words span.w9 {
@@ -127,7 +127,7 @@
 .m5s4p1 .b1  h2{
     background: rgba(255, 255, 255, 0.75) none repeat scroll 0 0;
     color: #232a30;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
@@ -145,7 +145,7 @@
     position: relative;
     text-shadow: none;
     width: 28%;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 
 .m5s4p1 .m4s4s1 {
@@ -153,7 +153,7 @@
 }
 
 .m5s4p1 .m4s4s2 h4, .m5s4p1 .m4s4s4 h3 {
-    font-family: "GothamHTF-Bold";    
+    /*font-family: "GothamHTF-Bold";*/    
 }
 
 
@@ -359,7 +359,7 @@
     padding: 10px;
     text-align: center;
     font-size: 16px;    
-     font-family: "GothamHTF-Medium";   
+     /*font-family: "GothamHTF-Medium";*/   
 }
 
 .m5s4p1 .m4s4s5 {
@@ -368,7 +368,7 @@
     /* margin-bottom: 10px; */
 }
 .m5s4p1 .Step1 h3 {
-    font-family: "GothamHTF-Bold";  
+    /*font-family: "GothamHTF-Bold";*/  
 	}
 .m5s4p1 .bg4{background:#f4f4f4;margin-bottom:0px;/* padding-top: 50px; */}
 .m5s4p1 .bg4 hr {
@@ -386,26 +386,26 @@
     background: #fff;    
 }
 .m5s4p1 .m4s4s7 h3 {
-    font-family: "GothamHTF-Bold";  
+    /*font-family: "GothamHTF-Bold";*/  
     margin-top: 0px;
 }
 
 .m5s4p1 .m4s4s8 ol {
     margin-left: -22px;    
-    font-family: "GothamHTF-Medium";        
+    /*font-family: "GothamHTF-Medium";*/        
 }
 .m5s4p1 .m4s4s8 h5 {    
-    font-family: "GothamHTF-Medium";        
+    /*font-family: "GothamHTF-Medium";*/        
 }
 
 
 
  .act1 h2,  .act2 h2 {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 
  .boldT {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
  .panel{
     border-radius:0px;
@@ -415,7 +415,7 @@
 }
  .panel h2 {
     font-size: 15px;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
  .panel h5 {
     font-size: 14px;
@@ -423,7 +423,7 @@
 }
 .m5s4p1 .panel p {
     font-size: 12px;
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
 }
 
 .b2_s1 .tint{
@@ -481,7 +481,7 @@
     display: flex;
 }
 .m5s4p1 .s1bgcol3 .well h6{
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
     font-size: 12px;
     color: #f4821f;
 	}
@@ -537,17 +537,17 @@
 .txt1 .txtlink{position: absolute; left:28%; top:20%; bottom:30%; z-index:9999;}
 	
 .m5s4p1 .m4s4s5 h3{
-    font-family: "GothamHTF-Bold"; 
+    /*font-family: "GothamHTF-Bold";*/ 
 }	
 .m5s4p1 .m4s5s4 h2{
-    font-family: "GothamHTF-Bold"; font-size:140%;
+    /*font-family: "GothamHTF-Bold";*/ font-size:140%;
 }	
 .m5s4p1 .m4s4s5 p {
-    font-family: "GothamHTF-Book";
+    /*/*font-family: "GothamHTF-Book";*/*/
     font-size: 14px;
  }
 .m5s4p1 .s1bgcol .response3{background: #f68121;color: #ffffff;line-height: 20px;padding:20px;padding-bottom: 25px;}
-.m5s4p1 .s1bgcol .response3 h4{line-height:30px!important;font-size: 24px;padding-bottom:10px;font-family: "GothamHTF-Book";}
+.m5s4p1 .s1bgcol .response3 h4{line-height:30px!important;font-size: 24px;padding-bottom:10px;/*/*font-family: "GothamHTF-Book";*/*/}
 .m5s4p1 .s1bgcol .response1 .navbar-form{
     background: #DCDDDF;padding: 0px;
     padding-top: 0px;
@@ -576,7 +576,7 @@
 
 .m5s4p1 .m1s1imgT{
     font-size: 14px;
-    font-family: "GothamHTF-Book";
+    /*font-family: "GothamHTF-Book";*/
 }
 .m5s4p1 .middleTxt{
     position: absolute;
@@ -644,13 +644,13 @@ and (max-device-width : 1000px) {
 }
 
 .m5s4p1 .b1  h2 {
-   font-family: "GothamHTF-Bold";
+   /*font-family: "GothamHTF-Bold";*/
     font-size: 124%;
     width: 70%;
  }
 
 .m5s4p1 .b1 .container p{
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 107%;
     width: 42%;
     }
@@ -729,14 +729,14 @@ padding-right: : 10px;
    
 }
      .m5s4p1 .b1  h2 {
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
     font-size: 124%;
     width: 70%;
     }
     .m5s4p1 .b1 .container p{
          font-size: 107%;
     width: 42%;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     }
     .m5s4p1 .s1hide {
         display: none;
@@ -806,13 +806,13 @@ padding-right: : 10px;
    
 }
 .m5s4p1 .b1  h2{  
-   font-family: "GothamHTF-Bold";
+   /*font-family: "GothamHTF-Bold";*/
     font-size: 103%;
      width: 90%;
     }
 
 .m5s4p1 .b1 .container p{
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
     font-size: 83%;
     width: 65%;
     }
@@ -878,13 +878,13 @@ padding-right: : 10px;
    
 }
  .m5s4p1 .b1  h2 {  
-   font-family: "GothamHTF-Bold";
+   /*font-family: "GothamHTF-Bold";*/
     font-size: 48%;
     width: 86%;
     }
 
 .m5s4p1 .b1 .container p {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 42%;
     width: 60%;
 }

@@ -65,7 +65,7 @@ function QUesRespModule9Sec32XBlock(runtime, element) {
                 setMsgBoxHeight1();
                 setMsgBoxHeight2();
                 //setQuestions();
-                setQuestions1();
+                // setQuestions1();
         });
 
 function setMsgBoxHeight2() {
