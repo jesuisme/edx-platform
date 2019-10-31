@@ -8,12 +8,26 @@
     % if settings.FEATURES.get('COURSES_ARE_BROWSABLE'):
         ## limiting the course number by using HOMEPAGE_COURSE_MAX as the maximum number of courses
 
+        <% count = 2 %>
         %for course in courses[:homepage_course_max]:
-          <div class="col-sm-6 portfolio-item">
-          <!-- <div class=" card h-100 custom-card custom-card"> -->
+         
+         % if count % 2 == 0:
+
+
+          <div class="col-sm-12 portfolio-item row gray">
+
+          % else:
+
+          <div class="col-sm-12 portfolio-item row black">
+
+          % endif
+ 
             <%include file="course.html" args="course=course" />
+
           </div>
-          <!-- </div> -->
+
+          <% count += 1%>
+
         %endfor
       % if len(courses) > 4:
   <div class="col-sm-12 text-center">

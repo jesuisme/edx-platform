@@ -9,303 +9,3122 @@ from openedx.core.djangolib.markup import HTML, Text
 from django.contrib.staticfiles.storage import staticfiles_storage
 %>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+<html lang="en" class="ui-mobile">
 
-  <link rel="stylesheet" href="${staticfiles_storage.url('vendor/bootstrap/css/bootstrap.min.css')}" type="text/css" />
-  <!-- Custom styles for this template -->
-  <link rel="stylesheet" href="${staticfiles_storage.url('css/modern-business.css')}" type="text/css" />
-  <link rel="stylesheet" href="${staticfiles_storage.url('css/overrides.css')}" type="text/css" />
-  <link rel="stylesheet" href="${staticfiles_storage.url('css/font-awesome.min.css')}" type="text/css" />
-  <link href="${staticfiles_storage.url('css/font.css')}" rel="stylesheet" type="text/css" />
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <style class="vjs-styles-defaults">
+    .video-js {
+      width: 300px;
+      height: 150px;
+    }
 
-<body>
+    .vjs-fluid {
+      padding-top: 56.25%
+    }
+  </style>
+  <!--<base href="http://vbhc.dellmed.utexas.edu/">-->
+  <base href=".">
+  <title>Dell Medical School | The University of Texas at Austin</title>
 
-  <header>
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-      <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-      </ol>
-      <div class="carousel-inner" role="listbox">
-        <!-- Slide One - Set the background image for this slide in the line below -->
-        <div class="carousel-item active" style="background-image: url(${staticfiles_storage.url('images/s2.jpg')})">
-          <div class="carousel-caption d-none d-md-block">
-            <h3 class="slider-caption">First Slide</h3><br><br>
-            <p class="slider-caption">This is a description for the first slide.</p>
-          </div>
-        </div>
-        <!-- Slide Two - Set the background image for this slide in the line below -->
-        <div class="carousel-item" style="background-image: url(${staticfiles_storage.url('images/s3.jpg')})">
-          <div class="carousel-caption d-none d-md-block">
-            <h3 class="slider-caption">Second Slide</h3><br><br>
-            <p class="slider-caption">This is a description for the second slide.</p>
-          </div>
-        </div>
-      </div>
-      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div>
-    <!--<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">-->
-      <!--<ol class="carousel-indicators">-->
-        <!--<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>-->
-        <!--<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>-->
-        <!--<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>-->
-      <!--</ol>-->
-      <!--<div class="carousel-inner" role="listbox">-->
-        <!--&lt;!&ndash; Slide One - Set the background image for this slide in the line below &ndash;&gt;-->
-        <!--<div class="carousel-item active" style="background-image: url(${staticfiles_storage.url('images/t.jpg')})">-->
-         <!--&lt;!&ndash; <img src="${staticfiles_storage.url('images/s1.jpg')}" alt=""> &ndash;&gt;-->
-          <!--&lt;!&ndash; <div class="carousel-item active"> &ndash;&gt;-->
-          <!--&lt;!&ndash; <img src="${staticfiles_storage.url('images/t.jpg')}" alt=""> &ndash;&gt;-->
-          <!--<div class="carousel-caption d-none d-md-block">-->
-            <!--<h3>First Slide</h3>-->
-            <!--<p>This is a description for the first slide.</p>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--&lt;!&ndash; Slide Two - Set the background image for this slide in the line below &ndash;&gt;-->
-        <!--<div class="carousel-item" style="background-image: url(${staticfiles_storage.url('images/s2.jpg')})">-->
-        <!--&lt;!&ndash; <div class="carousel-item"> &ndash;&gt;-->
-          <!--&lt;!&ndash; <img src="${staticfiles_storage.url('images/s2.jpg')}" alt=""> &ndash;&gt;-->
-          <!--<div class="carousel-caption d-none d-md-block">-->
-            <!--<h3>Second Slide</h3>-->
-            <!--<p>This is a description for the second slide.</p>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--&lt;!&ndash; Slide Three - Set the background image for this slide in the line below &ndash;&gt;-->
-        <!--<div class="carousel-item" style="background-image: url(${staticfiles_storage.url('images/s3.jpg')})">-->
-        <!--&lt;!&ndash; <div class="carousel-item"> &ndash;&gt;-->
-          <!--&lt;!&ndash; <img src="${staticfiles_storage.url('images/s3.jpg')}" alt=""> &ndash;&gt;-->
-          <!--<div class="carousel-caption d-none d-md-block">-->
-            <!--<h3>Third Slide</h3>-->
-            <!--<p>This is a description for the third slide.</p>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">-->
-        <!--<span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
-        <!--<span class="sr-only">Previous</span>-->
-      <!--</a>-->
-      <!--<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">-->
-        <!--<span class="carousel-control-next-icon" aria-hidden="true"></span>-->
-        <!--<span class="sr-only">Next</span>-->
-      <!--</a>-->
-    <!--</div>-->
-  </header>
+  <link rel="stylesheet" href="${staticfiles_storage.url('assets/bootstrap.min.css')}" type="text/css">
+   <link rel="stylesheet" href="${staticfiles_storage.url('assets/common.css')}" type="text/css">
+   <link rel="stylesheet" href="${staticfiles_storage.url('assets/maxWidth_100x299.css')}" type="text/css">
+   <link rel="stylesheet" href="${staticfiles_storage.url('assets/maxWidth_300x500.css')}" type="text/css">
+   <link rel="stylesheet" href="${staticfiles_storage.url('assets/maxWidth_501x765.css')}" type="text/css">
+   <link rel="stylesheet" href="${staticfiles_storage.url('assets/maxWidth_766x1000.css')}" type="text/css">
 
-  <!-- Search courses -->
-  <!-- <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12 bgColor">
-        <div class="input-group courseSearch">
-          <span class="search-title">Search for Course </span>
-            % if settings.FEATURES.get('ENABLE_COURSEWARE_SEARCH'):
-            <div class="course-search">
-              <form method="get" action="/courses">
-                <label><span class="form-control">${_("Search for a course")}</span>
-                  <input class="search-input" name="search_query" type="text" placeholder="${_("Search for a course")}"></input>
-                </label> -->
-                <!-- <button class="" type="submit">
-                  <span class="icon fa fa-search" aria-hidden="true"></span><span class="sr">${_("Search")}</span>
-                </button> -->
-               <!--  <div class="input-group-append">
-            <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
-              </form>
+
+  <script src="${staticfiles_storage.url('assets/jquery.min.js')}"></script>
+  <script src="${staticfiles_storage.url('assets/bootstrap.min.js')}"></script>
+</head>
+
+<body class="ui-mobile-viewport ui-overlay-a loaded" cz-shortcut-listen="true">
+  <div data-role="page" data-url="/" tabindex="0" class="ui-page ui-page-theme-a ui-page-active">
+
+    <script src="${staticfiles_storage.url('assets/script.js')}" type="text/javascript"></script>
+    <style>
+      #passResetF label {
+        color: red;
+      }
+
+      @media only screen and (max-width: 650px) {
+        .headers .navbar .row {
+          margin-left: 0px !important;
+          margin-right: 0px !important;
+        }
+
+        .headers .navbar .panel-body {
+          font-size: 70% !important;
+        }
+
+        .headers .navbar .alert1 {
+          width: 67px;
+        }
+
+        .headers .navbar .col-sm-2,
+        .headers .navbar .col-sm-3,
+        .headers .navbar .col-sm-4,
+        .headers .navbar .col-sm-5,
+        .headers .navbar .col-sm-6,
+        .headers .navbar .col-sm-7,
+        .headers .navbar .col-sm-8,
+        .headers .navbar .col-sm-9 {
+          padding-right: 5px;
+          padding-left: 5px;
+        }
+      }
+    </style>
+
+    <div class="headers">
+
+
+
+
+
+
+
+      <div id="menus" class="container menus op">
+
+
+        <div class="row text-left p">
+          <div class="col-sm-6 r1">
+            <div class="row">
+              <div class="col-sm-2"></div>
+              <div class="col-sm-8 m1"><strong style="font-size: 21px; line-height: 65px;">COLLECTIONS</strong></div>
+              <div class="col-sm-2"></div>
             </div>
-            % endif
-        </div>
-      </div>
-    </div>
-  </div> -->
 
 
+            <div class="row">
+              <div class="wrapper center-block">
+                <div class="panel-group bt" id="accordion" role="tablist" aria-multiselectable="true">
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne">
+                      <h4 class="panel-title">
+                        <a class="collapsed ui-link" role="button" data-toggle="collapse" data-parent="#accordion"
+                          href="http://vbhc.dellmed.utexas.edu/#collapseOne" aria-expanded="true"
+                          aria-controls="collapseOne">
+                          <div class="row vertical-align short-width">
+                            <div class="col-sm-3 text-center small"><span style="color:#a0a0a0;">not started</span>
+                            </div>
+                            <div class="col-sm-9 CollectionText"><span style="color:#333;">COLLECTION 1: INTRODUCTION TO
+                                VALUE-BASED HEALTH CARE</span></div>
+                          </div>
+                        </a>
+                      </h4>
+                    </div>
 
- <!--  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12 bgColor">
+                    <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                      <div class="panel-body">
+                        <div class="row"></div>
+                        <div class="row btns vertical-align bb bt btnM1 act" module="m1">
+                          <div class="col-sm-2 text-center small"><span style="color:#a0a0a0;">active</span></div>
+                          <div class="col-sm-7"><strong>1 There's a Better Way</strong></div>
+                          <div class="col-sm-3">
+                            <div class="alert1" role="alert">
+                              Continue
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row btns vertical-align bb btnM2" module="m2">
+                          <div class="col-sm-2 text-center small"><span style="color:#a0a0a0;">active</span></div>
+                          <div class="col-sm-7"><strong>2 Measuring What Matters</strong></div>
+                          <div class="col-sm-3">
+                            <div class="alert1" role="alert">
+                              Continue
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row btns  vertical-align bb btnM3" module="m3">
+                          <div class="col-sm-2 text-center small">complete</div>
+                          <div class="col-sm-7"><strong>3 Understanding Costs in Health Care</strong></div>
+                          <div class="col-sm-3">
+                            <div class="alert1" role="alert">
+                              Continue
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row btns vertical-align bb btnMC1" module="survay_m1">
+                          <div class="col-sm-2 text-center small">active</div>
+                          <div class="col-sm-7"><strong>User Feedback Survey</strong></div>
+                          <div class="col-sm-3">
+                            <div class="alert1" role="alert">
+                              Start
+                            </div>
+                          </div>
+                        </div>
 
-        <div class="input-group courseSearch">
+                      </div>
+                    </div>
+                  </div>
 
-          <span class="search-title">Search for Course </span>
-          % if settings.FEATURES.get('ENABLE_COURSEWARE_SEARCH'):
-            <div class="input-group-prepend">
-                <label><span class="form-control">${_("Search for a course")}</span>
-                  <input class="search-input" name="search_query" type="text" placeholder="${_("Search for a course")}"></input>
-                </label>
-                <button class="" type="submit">
-                  <span class="icon fa fa-search" aria-hidden="true"></span><span class="sr">${_("Search")}</span>
-                </button>
-                <input type="text" class="form-control"style="border:none;">
-                <div class="input-group-append">
-            <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingTwo">
+                      <h4 class="panel-title">
+                        <a class="collapsed ui-link" role="button" data-toggle="collapse" data-parent="#accordion"
+                          href="http://vbhc.dellmed.utexas.edu/#collapseTwo" aria-expanded="false"
+                          aria-controls="collapseTwo">
+                          <div class="row vertical-align short-width">
+                            <div class="col-sm-3 text-center small"><span style="color:#a0a0a0;">not started</span>
+                            </div>
+                            <div class="col-sm-9 CollectionText"><span style="color:#333;">COLLECTION 2: VALUE-BASED
+                                HEALTH CARE DELIVERY</span></div>
+                          </div>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                      <div class="panel-body">
+
+
+                        <div class="row btns  vertical-align bb btnM4" module="m4">
+                          <div class="col-sm-2 text-center small">complete</div>
+                          <div class="col-sm-7"><strong>4 Coordinating Care for Patients</strong></div>
+                          <div class="col-sm-3">
+                            <div class="alert1" role="alert">
+                              Continue
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row btns  vertical-align bb btnM5" module="m5">
+                          <div class="col-sm-2 text-center small">complete</div>
+                          <div class="col-sm-7"><strong>5 Bringing It All Together: Value-Based Health Care
+                              Delivery</strong></div>
+                          <div class="col-sm-3">
+                            <div class="alert1" role="alert">
+                              Continue
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row btns vertical-align bb btnMC2" module="survay_m2">
+                          <div class="col-sm-2 text-center small">active</div>
+                          <div class="col-sm-7"><strong>User Feedback Survey</strong></div>
+                          <div class="col-sm-3">
+                            <div class="alert1" role="alert">
+                              Start
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingThree">
+                      <h4 class="panel-title">
+                        <a class="collapsed ui-link" role="button" data-toggle="collapse" data-parent="#accordion"
+                          href="http://vbhc.dellmed.utexas.edu/#collapseThree" aria-expanded="false"
+                          aria-controls="collapseThree">
+                          <div class="row vertical-align short-width">
+                            <div class="col-sm-3 text-center small"><span style="color:#a0a0a0;">not started</span>
+                            </div>
+                            <div class="col-sm-9 CollectionText"><span style="color:#333;">COLLECTION 3: IMPROVING VALUE
+                                AT THE BEDSIDE</span></div>
+                          </div>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseThree" class="panel-collapse collapse" role="tabpanel"
+                      aria-labelledby="headingThree">
+                      <div class="panel-body">
+                        <div class="row btns  vertical-align bb btnM6" module="m6">
+                          <div class="col-sm-2 text-center small"><span style="color:#a0a0a0;">active</span></div>
+                          <div class="col-sm-7"><strong>6 Enhancing Affordability for Patients through High-Value
+                              Prescribing</strong></div>
+                          <div class="col-sm-3">
+                            <div class="alert1" role="alert">
+                              Start
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row btns vertical-align bb btnM7" module="m7">
+                          <div class="col-sm-2 text-center small"><span style="color:#a0a0a0;">active</span></div>
+                          <div class="col-sm-7"><strong>7 High-Value Communication</strong></div>
+                          <div class="col-sm-3">
+                            <div class="alert1" role="alert">
+                              Start
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row btns vertical-align bb btnMC3" module="survay_m3">
+                          <div class="col-sm-2 text-center small">active</div>
+                          <div class="col-sm-7"><strong>User Feedback Survey</strong></div>
+                          <div class="col-sm-3">
+                            <div class="alert1" role="alert">
+                              Start
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingFour">
+                      <h4 class="panel-title">
+                        <a class="collapsed ui-link" role="button" data-toggle="collapse" data-parent="#accordion"
+                          href="http://vbhc.dellmed.utexas.edu/#collapseFour" aria-expanded="false"
+                          aria-controls="collapseFour">
+                          <div class="row vertical-align short-width">
+                            <div class="col-sm-3 text-center small"><span style="color:#a0a0a0;">available soon!</span>
+                            </div>
+                            <div class="col-sm-9 CollectionText"><span style="color:#333;">COLLECTION 4: IMPROVING VALUE
+                                IN SYSTEMS</span></div>
+                          </div>
+                        </a>
+                      </h4>
+                    </div>
+                    <div id="collapseFour" class="panel-collapse collapse" role="tabpanel"
+                      aria-labelledby="collapseFour">
+                      <div class="panel-body">
+
+                        <div class="row btns vertical-align bb btnM8" module="m8">
+                          <div class="col-sm-2 text-center small"><span style="color:#a0a0a0;">active</span></div>
+                          <div class="col-sm-7"><strong>8 Creating a High-Value Culture</strong></div>
+                          <div class="col-sm-3">
+                            <div class="alert1" role="alert">
+                              Start
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row btns vertical-align bb btnM9" module="m9">
+                          <div class="col-sm-2 text-center small"><span style="color:#a0a0a0;">active</span></div>
+                          <div class="col-sm-7"><strong>9 Shifting Payments from Volume to Value</strong></div>
+                          <div class="col-sm-3">
+                            <div class="alert1" role="alert">
+                              Start
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row btns vertical-align bb btnM10" module="m10">
+                          <div class="col-sm-2 text-center small"><span style="color:#a0a0a0;">active</span></div>
+                          <div class="col-sm-7"><strong>10 Leading Value-Improvement Programs on the Frontlines</strong>
+                          </div>
+                          <div class="col-sm-3">
+                            <div class="alert1" role="alert">
+                              Start
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row btns vertical-align bb btnMC4" module="survay_m4">
+                          <div class="col-sm-2 text-center small">active</div>
+                          <div class="col-sm-7"><strong>User Feedback Survey</strong></div>
+                          <div class="col-sm-3">
+                            <div class="alert1" role="alert">
+                              Start
+                            </div>
+                          </div>
+                        </div>
+
+
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
             </div>
-          % endif
-          
-          <div class="input-group-append">
-            <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
+
+          </div>
+
+          <div class="col-sm-6 r2">
+            <br>
+            <div class="row menu-row">
+              <div class="col-sm-4 lG1 ">
+                <div class="row">
+                  <div class="col-sm-12 text-center">Estimated Time to Complete</div>
+                </div>
+                <div class="row  text-center">
+                  <div class="col-sm-12">
+                    <i class="fa fa-clock-o fa-3x iconOutconeTime" aria-hidden="true"></i>
+
+                  </div>
+                </div>
+                <div class="row  text-center">
+                  <div class="col-sm-12">
+                    <div class="text"><span class="fontSize HR">01</span> HR <span class="fontSize MIN">45</span> MIN
+                    </div>
+                  </div>
+                </div>
+                <div class="row"></div>
+              </div>
+              <div class="col-sm-8 lG2 ">
+                <div class="row  text-center vertical-align1">
+                  <div class="col-sm-12 text-left">
+                    <span class="ProgressText" style="margin-left:16px;">Module Progress</span><br>
+                    <div class="progress">
+                      <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0"
+                        aria-valuemax="100" style="width:70%">
+                      </div>
+                    </div>
+                    <span style="margin-left:16px;"><span class="mP">75</span>% COMPLETE</span>
+                  </div>
+                </div>
+                <div class="row  text-center">
+                  <div class="col-sm-12">
+                    <form action="http://vbhc.dellmed.utexas.edu/" method="post" class="mSearch"
+                      novalidate="novalidate">
+                      <div class="input-group" style="width:100%; margin-top: 18px;padding:0 39px 0 9px;">
+                        <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input type="Search"
+                            id="inputs" placeholder="Search..." class="form-control"></div>
+                        <div class="input-group-btn">
+                          <button class="btn btn-info navbar-left ui-btn ui-shadow ui-corner-all" type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+            <div class="row menu-row">
+
+              <div class="row">
+                <div class="wellC">
+                  <div class="col-sm-12 text-center">
+
+                    <i class="fa fa-bullseye fa-3x iconOutcone" aria-hidden="true"></i>
+                  </div>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="wellC">
+                  <div class="col-sm-12 text-center">
+                    <div id="mdocm"><span><strong>MODULE <span class="mn">1</span> OUTCOMES</strong></span><br>
+                      <span><strong>____</strong></span></div>
+                    <div id="clocm"><span><strong>COLLECTION <span class="mn">1</span> OUTCOMES</strong></span><br>
+                      <span><strong>____</strong></span></div>
+                  </div>
+                </div>
+
+
+              </div>
+
+            </div>
+            <br>
+
+            <div class="row Collection1 hide menu-row" style="padding:10px;">
+              <div class="col-sm-12">
+                <f>
+                  <p>What is value in health care? This collection contains three modules, which introduce the concept
+                    of value in health care - outcomes that matter to patients / total costs of care - and describes
+                    what it means for both patients and clinicians. Module 2 explores different types of measures and
+                    discusses the importance of measuring outcomes that matter to patients (the numerator of the value
+                    equation). Module 3 confronts the confusing world of costs in health care (the denominator of the
+                    value equation), defining different cost terms and payment models, and exploring cost accounting and
+                    insurance coverage structure.</p>
+                </f>
+              </div>
+            </div>
+
+            <div class="row Collection2 hide menu-row" style="padding:10px;">
+              <div class="col-sm-12">
+                <f>
+                  <p>Collection two examines what value-based health care delivery can look like in practice. The
+                    collection contains two modules that cover the importance of working with teams to coordinate care
+                    around the needs of patients, including the description of two example delivery structures:
+                    Integrated Practice Units (IPUs) and Patient Centered Medical Homes (PCMHs). Module 5 brings the
+                    concepts from modules 1-4 all together and covers the 6 guiding principles of value-based health
+                    care delivery. </p>
+                </f>
+              </div>
+            </div>
+            <div class="row Collection3 hide menu-row" style="padding:10px;">
+              <div class="col-sm-12">
+                <f>How can clinicians integrate high-value care into their day-to-day work? This collection contains two
+                  modules and describes ways clinicians can enhance affordability for patients and communicate about
+                  costs and value. Module 6 primarily describes high-value prescribing and decreasing out-of-pocket
+                  costs for patients. Module 7 addresses the communication techniques that enable the delivery of
+                  high-value care.</f>
+              </div>
+            </div>
+            <div class="row Collection4 hide menu-row" style="padding:10px;">
+              <div class="col-sm-12">
+                <f>
+                  <p>How can the systems we work in better contribute to high-value care, and how can we affect change
+                    from within them? Our final collection in <i>Discovering Value-Based Health Care</i> examines
+                    organizational culture, payment structures, and systems change methodologies for promoting authentic
+                    and large-scale high-value care initiatives. Module 8 focuses on recognizing how organizational
+                    culture affects care delivery, Module 9 examines health care reimbursement strategies and
+                    alternatives to the current predominant fee-for-service system, and Module 10 describes how
+                    individuals can lead improvement initiatives in their institutions. </p>
+                </f>
+                <!--<f><p><b>Collection not yet available.</b></p></f>
+            <f><p><b>Will launch in Fall/Winter 2018. Hope to see you back at that time for Modules 8-10 of <i>Discovering Value-Based Health Care!</i></b></p></f>-->
+              </div>
+            </div>
+
+
+
+            <div class="row clickM1 clickM hide">
+              <div class="col-sm-6">
+                <ul>
+                  <f>
+                    <li>Reflect on the causes of waste and inefficiencies in health care.</li>
+                  </f>
+                  <f>
+                    <li>Define ‘value’ for patients</li>
+                  </f>
+                  <f>
+                    <li>Define ‘health care waste’ </li>
+                  </f>
+                  <f>
+                    <li>Identify the major contributing components of healthcare waste</li>
+                  </f>
+                  <f>
+                    <li>Connect how the pursuit of high-value care for patients supports the professionalism of
+                      clinicians.</li>
+                  </f>
+                </ul>
+              </div>
+              <div class="col-sm-6">
+
+                <ul>
+                  <f>
+                    <li>Introduce the concept of health care outcomes</li>
+                  </f>
+                  <f>
+                    <li>Examine a case that presents strategies and tools for increasing value in health care.</li>
+                  </f>
+                  <f>
+                    <li>Explore data to gain understanding and appreciation of the perspectives of patients, individual
+                      clinicians, and health systems as it pertains to value-based health care.</li>
+                  </f>
+                </ul>
+              </div>
+            </div>
+
+            <div class="row clickM2 clickM hide">
+              <div class="col-sm-6">
+                <ul>
+                  <f>
+                    <li>Appreciate and reflect on outcomes that are meaningful to the patient.</li>
+                  </f>
+                  <f>
+                    <li>Define the measurement of ‘patient outcomes’ as they relate to value-based health care.</li>
+                  </f>
+                  <f>
+                    <li>Define the measurement of ‘patient outcomes’ as they relate to value-based health care.; Examine
+                      resources for defining and measuring patient outcomes.</li>
+                  </f>
+                  <f>
+                    <li>Describe different types of measures and when they would be used; Identify the reasons for
+                      collecting ‘patient-reported outcomes.’</li>
+                  </f>
+                </ul>
+              </div>
+              <div class="col-sm-6">
+                <ul>
+                  <f>
+                    <li>Apply a measures framework to evaluate the success of health care value programs from the
+                      perspective of patient outcomes.</li>
+                  </f>
+                  <f>
+                    <li>Examine resources for defining and measuring patient outcomes; Apply a measures framework to
+                      evaluate the success of health care value programs from the perspective of patient outcomes.
+                      Appreciate and reflect on how patient outcomes define physicians’ success.</li>
+                  </f>
+                </ul>
+              </div>
+            </div>
+
+
+
+            <div class="row clickM3 clickM hide">
+              <div class="col-sm-6">
+                <ul>
+                  <f>
+                    <li>Reflect on the impact of cost on patient care and the overall value of provided health care.
+                    </li>
+                  </f>
+                  <f>
+                    <li>Describe basic principles of health care delivery, organization, and financing.</li>
+                  </f>
+                  <f>
+                    <li>Define terms used in discussing health care costs.</li>
+                  </f>
+                  <f>
+                    <li>Compare the application of traditional and value-based costing methods in the course of a
+                      patient’s treatment.</li>
+                  </f>
+                </ul>
+              </div>
+              <div class="col-sm-6">
+
+                <ul>
+                  <f>
+                    <li>Reflect on the impact of cost on patient care and the overall value of provided health care;
+                      Evaluate various charging and payment methods used in health care.</li>
+                  </f>
+                  <f>
+                    <li>Describe new methods for health care cost accounting and value-based payments.</li>
+                  </f>
+                  <f>
+                    <li>Study methods to measure and evaluate the success of health care value programs.</li>
+                  </f>
+
+                </ul>
+              </div>
+            </div>
+
+            <div class="row clickM4 clickM hide">
+              <div class="col-sm-6">
+                <ul>
+                  <f>
+                    <li>Reflect on the inefficiencies for patients and clinicians coordinating care in the current
+                      system.</li>
+                  </f>
+                  <f>
+                    <li>Identify how inefficiencies contribute to harm to patients and clinicians.</li>
+                  </f>
+                  <f>
+                    <li>Recognize the benefits of team-based care interactions organized around patient circumstances or
+                      conditions.</li>
+                  </f>
+                  <f>
+                    <li>Define key components of patient-centered medical homes (PCMHs).</li>
+                  </f>
+                </ul>
+              </div>
+              <div class="col-sm-6">
+
+                <ul>
+                  <f>
+                    <li>Evaluate the purpose of PCMHs.</li>
+                  </f>
+                  <f>
+                    <li>Define integrated practice units (IPUs).</li>
+                  </f>
+                  <f>
+                    <li>Evaluate the benefits and limitations of IPU models.</li>
+                  </f>
+                  <f>
+                    <li>Demonstrate ability to design care models coordinated around the needs of patients.</li>
+                  </f>
+                </ul>
+              </div>
+            </div>
+
+
+            <div class="row clickM5 clickM hide">
+              <div class="col-sm-6">
+
+                <ul>
+                  <f>
+                    <li>Analyze the features of a high-functioning value-based health care delivery system</li>
+                  </f>
+                  <f>
+                    <li>Recognize the benefits of team-based care interactions organized around patient medical needs
+                      and conditions</li>
+                  </f>
+                  <f>
+                    <li>Reflect on the importance of measurement focused on patient health outcomes</li>
+                  </f>
+                  <f>
+                    <li>Recognize the benefits of measuring and capturing actual costs of providing patient care</li>
+                  </f>
+                  <f>
+                    <li>Reflect on the causes and impacts of waste in health care
+                      <p>Explore methods to curb overuse in health care</p>
+                    </li>
+                  </f>
+
+                </ul>
+              </div>
+              <div class="col-sm-6">
+
+                <ul>
+
+                  <f>
+                    <li>Describe reimbursement mechanisms that support value of care provided across a full care cycle
+                      for medical conditions</li>
+                  </f>
+                  <f>
+                    <li>Explore examples of how health information technology can be leveraged to help restructure care
+                      delivery and accurately measure results</li>
+                  </f>
+                  <f>
+                    <li>Describe key structures of a delivery system focused on moving from volume to value</li>
+                  </f>
+                  <f>
+                    <li>Review key components of value-based health care</li>
+                  </f>
+                </ul>
+              </div>
+            </div>
+
+            <div class="row clickM6 clickM hide">
+              <div class="col-sm-6">
+
+                <ul>
+                  <f>
+                    <li>Reflect on the impacts of high medication costs on patients</li>
+                  </f>
+
+                  <f>
+                    <li>Recognize the harms of cost-related medication non-adherence</li>
+                  </f>
+                  <f>
+                    <li>Define high-value prescribing</li>
+                  </f>
+                  <f>
+                    <li>Explore the principles of conservative prescribing</li>
+                  </f>
+                  <f>
+                    <li>Articulate how to identify patients who are having difficulty paying for their medications</li>
+                  </f>
+
+                </ul>
+              </div>
+              <div class="col-sm-6">
+
+                <ul>
+                  <f>
+                    <li>Describe strategies to reduce out-of-pocket drug costs for patients</li>
+                  </f>
+                  <f>
+                    <li>Reflect on how Kaiser Permanente has achieved better outcomes for patients through high rates of
+                      generic prescribing and affordable medications</li>
+                  </f>
+                  <f>
+                    <li>Practice methods for decreasing the costs of necessary medications for a patient</li>
+                  </f>
+                </ul>
+              </div>
+            </div>
+
+            <div class="row clickM7 clickM hide">
+              <div class="col-sm-6">
+
+                <ul>
+                  <f>
+                    <li>Identify the challenges to addressing misconceptions at the point-of-care</li>
+                  </f>
+                  <f>
+                    <li>Suggest strategies for promoting high-value, shared decisions</li>
+                  </f>
+                  <f>
+                    <li>Develop an approach to discussing optimal use of resources with colleagues, consultants, and
+                      supervisors</li>
+                  </f>
+                  <f>
+                    <li>Discuss opportunities to improve interprofessional communication to limit less helpful tests and
+                      treatments and promote patient-centered, team-based care</li>
+                  </f>
+
+
+                </ul>
+              </div>
+              <div class="col-sm-6">
+
+                <ul>
+
+                  <f>
+                    <li>Use tools that help patients actively engage in their health</li>
+                  </f>
+                  <f>
+                    <li>Reflect on the key principles of the communication program developed at Cleveland Clinic</li>
+                  </f>
+                  <f>
+                    <li>Apply high-value communication techniques during a patient encounter</li>
+                  </f>
+                </ul>
+              </div>
+            </div>
+            <div class="row clickM8 clickM hide">
+              <div class="col-sm-6">
+
+                <ul>
+                  <f>
+                    <li>Describe the ways ingrained institutional cultures contributes to low-value care</li>
+                  </f>
+                  <f>
+                    <li>Identify how organizational culture influences the value of health care delivery</li>
+                  </f>
+                  <f>
+                    <li>Define how culture can be measured and analyzed
+                      <p>Analyze the key domains that contribute to a high-value care culture</p>
+                    </li>
+                  </f>
+                  <f>
+                    <li>Characterize change management strategies</li>
+                  </f>
+                  <f>
+                    <li>Describe conditions that support culture change related to overuse</li>
+                  </f>
+                </ul>
+              </div>
+              <div class="col-sm-6">
+
+                <ul>
+                  <f>
+                    <li>Define ‘nudge’ strategies
+                      <p>Describe how nudge strategies can used to minimize waste in health care</p>
+                    </li>
+                  </f>
+                  <f>
+                    <li>Recognize personal responsibility in promoting cultural change</li>
+                  </f>
+                  <f>
+                    <li>Apply nudge theories to advance behavior change toward high-value care</li>
+                  </f>
+                  <f>
+                    <li>Reflect upon your local organizational culture in order to make a commitment to create change
+                    </li>
+                  </f>
+                </ul>
+              </div>
+            </div>
+            <div class="row clickM9 clickM hide">
+              <div class="col-sm-6">
+                <ul>
+                  <li>Characterize the ways in which low-value care is incentivized</li>
+                  <li>Apply your knowledge of reimbursement mechanisms</li>
+                  <li>Describe the current predominant fee-for-service payment model</li>
+                  <li>Describe the drawbacks of the pay-for-performance reimbursement model</li>
+                  <li>Recognize the pros and cons of bundled payment models</li>
+                  <li>Recognize the pros and cons of capitation and global payment models</li>
+                </ul>
+              </div>
+              <div class="col-sm-6">
+                <ul>
+                  <li>Explore the value of combining elements of different reimbursement models</li>
+                  <li>Define value-based insurance design
+                    <p>Summarize the current evidence supporting the VBID strategy</p>
+                  </li>
+                  <li>Discuss the CMS application of the bundled payment model </li>
+                  <li>Compare systems and policies for clinical care reimbursement that maximize value and reduce costs
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row clickM10 clickM hide">
+              <div class="col-sm-6">
+                <ul>
+                  <li>Articulate the ways in which issues can often have complex, system-ingrained causes </li>
+                  <li>Describe common improvement methodologies </li>
+                  <li>Build an actionable foundation for change implementation
+                    <p>Identify tools that can help grow understanding of an issue</p>
+                  </li>
+                  <li>Evaluate the “COST” framework for value improvement efforts</li>
+                  <li>Utilize tools for change measurement and tracking</li>
+                </ul>
+              </div>
+              <div class="col-sm-6">
+                <ul>
+                  <li>Identify methods to measure and evaluate the success of health care value programs</li>
+                  <li>Evaluate examples of successful value improvement projects and systems </li>
+                  <li>Compare a lean health care system approach to a problem in your local organization</li>
+                  <li>Apply the concepts of change implementation and/or change analysis in authentic situations</li>
+                </ul>
+              </div>
+            </div>
+            <div class="row clickM11 clickM hide">
+              <div class="col-md-12" id="Survey-notcomplete">
+
+              </div>
+
+            </div>
+
           </div>
         </div>
       </div>
-    </div>
-  </div> -->
 
 
-  
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12 bgColor">
 
-        <div class="input-group courseSearch">
-          <span class="search-title">Search for Course </span>
-          <!-- <div class="input-group-prepend">
-            <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown" style="border: none;border-right: 1px solid #aaa;"
-              aria-haspopup="true" aria-expanded="false">-- All Categories --</button>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Course 1</a>
-              <a class="dropdown-item" href="#">Course 2</a>
-              <a class="dropdown-item" href="#">Course 3</a>
+
+      <!-- <div class="dis"></div> -->
+
+      
+
+      <!-- Load Registration Page-->
+<!--       <div class="container">
+        <div class="modal fade" id="registration" role="dialog">
+          <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+              <div class="modal-header">
+                <div class="row">
+                  <div class="col-sm-6"></div>
+                  <div class="col-sm-6 text-right"><span style="color:#e2873b;">Already have an account? </span> <button
+                      class="btn btn-default right-block ui-btn ui-shadow ui-corner-all" onclick="app.OpenMS();"
+                      type="button">Sign in</button></div>
+                </div>
+
+
+              </div>
+
+              <div class="modal-body">
+                <h3 class="form-signin-heading text-center" style="color:#e2873b;">SIGN UP TO ACCESS DELL MEDICAL
+                  SCHOOL’S DISCOVERING VBHC MODULES</h3>
+
+                <form class="form-signin input-sm" id="registrationF" action="http://vbhc.dellmed.utexas.edu/"
+                  method="post" novalidate="novalidate">
+
+                  <br>
+                  <div class="row">
+                    <div class="col-sm-3"></div>
+                    <div class="col-sm-6">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input type="text"
+                                name="Fname" id="Fname" class="form-control text-center c" placeholder="First Name"
+                                autofocus=""></div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input type="text"
+                                name="Lname" id="Lname" class="form-control text-center c" placeholder="Last Name"
+                                required="" aria-required="true"></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input type="email"
+                                name="Email" id="Email" class="form-control text-center c" placeholder="Email Address"
+                                required="" aria-required="true"></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input
+                                type="password" name="Pass" id="Pass" class="form-control text-center c"
+                                placeholder="Password" required="" aria-required="true"></div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input
+                                type="password" name="Passc" id="Passc" class="form-control text-center c"
+                                placeholder="Confirm Password" required="" aria-required="true"></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input type="text"
+                                name="Org" id="Org" class="form-control text-center c" placeholder="Organization"
+                                required="" aria-required="true"></div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input
+                                type="number" name="Age" id="Age" class="form-control text-center c"
+                                placeholder="Age in years" required="" aria-required="true"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row vertical-align" style="margin-bottom: 17px;">
+
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="sel1">Gender:</label>
+                            <div class="ui-select">
+                              <div id="Gender-button"
+                                class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow"><span
+                                  class="form-control text-center c">[select from list below]</span><select
+                                  class="form-control text-center c" id="Gender" name="Gender">
+                                  <option value="">[select from list below]</option>
+                                  <option value="Female">Female</option>
+                                  <option value="Male">Male</option>
+                                  <option value="Others">Other</option>
+                                  <option value="RatherNotSay">Rather not say</option>
+
+                                </select></div>
+                            </div>
+
+                          </div>
+                        </div>
+
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="Country">Country:</label>
+                            <div class="ui-select">
+                              <div id="Country-button"
+                                class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow"><span
+                                  class="form-control text-center c">[select from list below]</span><select
+                                  class="form-control text-center c" name="Country" id="Country" required=""
+                                  aria-required="true">
+                                  <option value="">[select from list below]</option>
+                                  <option value="Afghanistan">Afghanistan</option>
+                                  <option value="Albania">Albania</option>
+                                  <option value="Algeria">Algeria</option>
+                                  <option value="American Samoa">American Samoa</option>
+                                  <option value="Andorra">Andorra</option>
+                                  <option value="Angola">Angola</option>
+                                  <option value="Anguilla">Anguilla</option>
+                                  <option value="Antarctica">Antarctica</option>
+                                  <option value="Antigua And Barbuda">Antigua And Barbuda</option>
+                                  <option value="Argentina">Argentina</option>
+                                  <option value="Armenia">Armenia</option>
+                                  <option value="Aruba">Aruba</option>
+                                  <option value="Australia">Australia</option>
+                                  <option value="Austria">Austria</option>
+                                  <option value="Azerbaijan">Azerbaijan</option>
+                                  <option value="Bahamas The">Bahamas The</option>
+                                  <option value="Bahrain">Bahrain</option>
+                                  <option value="Bangladesh">Bangladesh</option>
+                                  <option value="Barbados">Barbados</option>
+                                  <option value="Belarus">Belarus</option>
+                                  <option value="Belgium">Belgium</option>
+                                  <option value="Belize">Belize</option>
+                                  <option value="Benin">Benin</option>
+                                  <option value="Bermuda">Bermuda</option>
+                                  <option value="Bhutan">Bhutan</option>
+                                  <option value="Bolivia">Bolivia</option>
+                                  <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
+                                  <option value="Botswana">Botswana</option>
+                                  <option value="Bouvet Island">Bouvet Island</option>
+                                  <option value="Brazil">Brazil</option>
+                                  <option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
+                                  <option value="Brunei">Brunei</option>
+                                  <option value="Bulgaria">Bulgaria</option>
+                                  <option value="Burkina Faso">Burkina Faso</option>
+                                  <option value="Burundi">Burundi</option>
+                                  <option value="Cambodia">Cambodia</option>
+                                  <option value="Cameroon">Cameroon</option>
+                                  <option value="Canada">Canada</option>
+                                  <option value="Cape Verde">Cape Verde</option>
+                                  <option value="Cayman Islands">Cayman Islands</option>
+                                  <option value="Central African Republic">Central African Republic</option>
+                                  <option value="Chad">Chad</option>
+                                  <option value="Chile">Chile</option>
+                                  <option value="China">China</option>
+                                  <option value="Christmas Island">Christmas Island</option>
+                                  <option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
+                                  <option value="Colombia">Colombia</option>
+                                  <option value="Comoros">Comoros</option>
+                                  <option value="Congo">Congo</option>
+                                  <option value="Congo The Democratic Republic Of The">Congo The Democratic Republic Of
+                                    The</option>
+                                  <option value="Cook Islands">Cook Islands</option>
+                                  <option value="Costa Rica">Costa Rica</option>
+                                  <option value="Cote D&#39;Ivoire (Ivory Coast)">Cote D'Ivoire (Ivory Coast)</option>
+                                  <option value="Croatia (Hrvatska)">Croatia (Hrvatska)</option>
+                                  <option value="Cuba">Cuba</option>
+                                  <option value="Cyprus">Cyprus</option>
+                                  <option value="Czech Republic">Czech Republic</option>
+                                  <option value="Denmark">Denmark</option>
+                                  <option value="Djibouti">Djibouti</option>
+                                  <option value="Dominica">Dominica</option>
+                                  <option value="Dominican Republic">Dominican Republic</option>
+                                  <option value="East Timor">East Timor</option>
+                                  <option value="Ecuador">Ecuador</option>
+                                  <option value="Egypt">Egypt</option>
+                                  <option value="El Salvador">El Salvador</option>
+                                  <option value="Equatorial Guinea">Equatorial Guinea</option>
+                                  <option value="Eritrea">Eritrea</option>
+                                  <option value="Estonia">Estonia</option>
+                                  <option value="Ethiopia">Ethiopia</option>
+                                  <option value="External Territories of Australia">External Territories of Australia
+                                  </option>
+                                  <option value="Falkland Islands">Falkland Islands</option>
+                                  <option value="Faroe Islands">Faroe Islands</option>
+                                  <option value="Fiji Islands">Fiji Islands</option>
+                                  <option value="Finland">Finland</option>
+                                  <option value="France">France</option>
+                                  <option value="French Guiana">French Guiana</option>
+                                  <option value="French Polynesia">French Polynesia</option>
+                                  <option value="French Southern Territories">French Southern Territories</option>
+                                  <option value="Gabon">Gabon</option>
+                                  <option value="Gambia The">Gambia The</option>
+                                  <option value="Georgia">Georgia</option>
+                                  <option value="Germany">Germany</option>
+                                  <option value="Ghana">Ghana</option>
+                                  <option value="Gibraltar">Gibraltar</option>
+                                  <option value="Greece">Greece</option>
+                                  <option value="Greenland">Greenland</option>
+                                  <option value="Grenada">Grenada</option>
+                                  <option value="Guadeloupe">Guadeloupe</option>
+                                  <option value="Guam">Guam</option>
+                                  <option value="Guatemala">Guatemala</option>
+                                  <option value="Guernsey and Alderney">Guernsey and Alderney</option>
+                                  <option value="Guinea">Guinea</option>
+                                  <option value="Guinea-Bissau">Guinea-Bissau</option>
+                                  <option value="Guyana">Guyana</option>
+                                  <option value="Haiti">Haiti</option>
+                                  <option value="Heard and McDonald Islands">Heard and McDonald Islands</option>
+                                  <option value="Honduras">Honduras</option>
+                                  <option value="Hong Kong S.A.R.">Hong Kong S.A.R.</option>
+                                  <option value="Hungary">Hungary</option>
+                                  <option value="Iceland">Iceland</option>
+                                  <option value="India">India</option>
+                                  <option value="Indonesia">Indonesia</option>
+                                  <option value="Iran">Iran</option>
+                                  <option value="Iraq">Iraq</option>
+                                  <option value="Ireland">Ireland</option>
+                                  <option value="Israel">Israel</option>
+                                  <option value="Italy">Italy</option>
+                                  <option value="Jamaica">Jamaica</option>
+                                  <option value="Japan">Japan</option>
+                                  <option value="Jersey">Jersey</option>
+                                  <option value="Jordan">Jordan</option>
+                                  <option value="Kazakhstan">Kazakhstan</option>
+                                  <option value="Kenya">Kenya</option>
+                                  <option value="Kiribati">Kiribati</option>
+                                  <option value="Korea North">Korea North</option>
+                                  <option value="Korea South">Korea South</option>
+                                  <option value="Kuwait">Kuwait</option>
+                                  <option value="Kyrgyzstan">Kyrgyzstan</option>
+                                  <option value="Laos">Laos</option>
+                                  <option value="Latvia">Latvia</option>
+                                  <option value="Lebanon">Lebanon</option>
+                                  <option value="Lesotho">Lesotho</option>
+                                  <option value="Liberia">Liberia</option>
+                                  <option value="Libya">Libya</option>
+                                  <option value="Liechtenstein">Liechtenstein</option>
+                                  <option value="Lithuania">Lithuania</option>
+                                  <option value="Luxembourg">Luxembourg</option>
+                                  <option value="Macau S.A.R.">Macau S.A.R.</option>
+                                  <option value="Macedonia">Macedonia</option>
+                                  <option value="Madagascar">Madagascar</option>
+                                  <option value="Malawi">Malawi</option>
+                                  <option value="Malaysia">Malaysia</option>
+                                  <option value="Maldives">Maldives</option>
+                                  <option value="Mali">Mali</option>
+                                  <option value="Malta">Malta</option>
+                                  <option value="Man (Isle of)">Man (Isle of)</option>
+                                  <option value="Marshall Islands">Marshall Islands</option>
+                                  <option value="Martinique">Martinique</option>
+                                  <option value="Mauritania">Mauritania</option>
+                                  <option value="Mauritius">Mauritius</option>
+                                  <option value="Mayotte">Mayotte</option>
+                                  <option value="Mexico">Mexico</option>
+                                  <option value="Micronesia">Micronesia</option>
+                                  <option value="Moldova">Moldova</option>
+                                  <option value="Monaco">Monaco</option>
+                                  <option value="Mongolia">Mongolia</option>
+                                  <option value="Montserrat">Montserrat</option>
+                                  <option value="Morocco">Morocco</option>
+                                  <option value="Mozambique">Mozambique</option>
+                                  <option value="Myanmar">Myanmar</option>
+                                  <option value="Namibia">Namibia</option>
+                                  <option value="Nauru">Nauru</option>
+                                  <option value="Nepal">Nepal</option>
+                                  <option value="Netherlands Antilles">Netherlands Antilles</option>
+                                  <option value="Netherlands The">Netherlands The</option>
+                                  <option value="New Caledonia">New Caledonia</option>
+                                  <option value="New Zealand">New Zealand</option>
+                                  <option value="Nicaragua">Nicaragua</option>
+                                  <option value="Niger">Niger</option>
+                                  <option value="Nigeria">Nigeria</option>
+                                  <option value="Niue">Niue</option>
+                                  <option value="Norfolk Island">Norfolk Island</option>
+                                  <option value="Northern Mariana Islands">Northern Mariana Islands</option>
+                                  <option value="Norway">Norway</option>
+                                  <option value="Oman">Oman</option>
+                                  <option value="Pakistan">Pakistan</option>
+                                  <option value="Palau">Palau</option>
+                                  <option value="Palestinian Territory Occupied">Palestinian Territory Occupied</option>
+                                  <option value="Panama">Panama</option>
+                                  <option value="Papua new Guinea">Papua new Guinea</option>
+                                  <option value="Paraguay">Paraguay</option>
+                                  <option value="Peru">Peru</option>
+                                  <option value="Philippines">Philippines</option>
+                                  <option value="Pitcairn Island">Pitcairn Island</option>
+                                  <option value="Poland">Poland</option>
+                                  <option value="Portugal">Portugal</option>
+                                  <option value="Puerto Rico">Puerto Rico</option>
+                                  <option value="Qatar">Qatar</option>
+                                  <option value="Reunion">Reunion</option>
+                                  <option value="Romania">Romania</option>
+                                  <option value="Russia">Russia</option>
+                                  <option value="Rwanda">Rwanda</option>
+                                  <option value="Saint Helena">Saint Helena</option>
+                                  <option value="Saint Kitts And Nevis">Saint Kitts And Nevis</option>
+                                  <option value="Saint Lucia">Saint Lucia</option>
+                                  <option value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option>
+                                  <option value="Saint Vincent And The Grenadines">Saint Vincent And The Grenadines
+                                  </option>
+                                  <option value="Samoa">Samoa</option>
+                                  <option value="San Marino">San Marino</option>
+                                  <option value="Sao Tome and Principe">Sao Tome and Principe</option>
+                                  <option value="Saudi Arabia">Saudi Arabia</option>
+                                  <option value="Senegal">Senegal</option>
+                                  <option value="Serbia">Serbia</option>
+                                  <option value="Seychelles">Seychelles</option>
+                                  <option value="Sierra Leone">Sierra Leone</option>
+                                  <option value="Singapore">Singapore</option>
+                                  <option value="Slovakia">Slovakia</option>
+                                  <option value="Slovenia">Slovenia</option>
+                                  <option value="Smaller Territories of the UK">Smaller Territories of the UK</option>
+                                  <option value="Solomon Islands">Solomon Islands</option>
+                                  <option value="Somalia">Somalia</option>
+                                  <option value="South Africa">South Africa</option>
+                                  <option value="South Georgia">South Georgia</option>
+                                  <option value="South Sudan">South Sudan</option>
+                                  <option value="Spain">Spain</option>
+                                  <option value="Sri Lanka">Sri Lanka</option>
+                                  <option value="Sudan">Sudan</option>
+                                  <option value="Suriname">Suriname</option>
+                                  <option value="Svalbard And Jan Mayen Islands">Svalbard And Jan Mayen Islands</option>
+                                  <option value="Swaziland">Swaziland</option>
+                                  <option value="Sweden">Sweden</option>
+                                  <option value="Switzerland">Switzerland</option>
+                                  <option value="Syria">Syria</option>
+                                  <option value="Taiwan">Taiwan</option>
+                                  <option value="Tajikistan">Tajikistan</option>
+                                  <option value="Tanzania">Tanzania</option>
+                                  <option value="Thailand">Thailand</option>
+                                  <option value="Togo">Togo</option>
+                                  <option value="Tokelau">Tokelau</option>
+                                  <option value="Tonga">Tonga</option>
+                                  <option value="Trinidad And Tobago">Trinidad And Tobago</option>
+                                  <option value="Tunisia">Tunisia</option>
+                                  <option value="Turkey">Turkey</option>
+                                  <option value="Turkmenistan">Turkmenistan</option>
+                                  <option value="Turks And Caicos Islands">Turks And Caicos Islands</option>
+                                  <option value="Tuvalu">Tuvalu</option>
+                                  <option value="Uganda">Uganda</option>
+                                  <option value="Ukraine">Ukraine</option>
+                                  <option value="United Arab Emirates">United Arab Emirates</option>
+                                  <option value="United Kingdom">United Kingdom</option>
+                                  <option value="United States">United States</option>
+                                  <option value="United States Minor Outlying Islands">United States Minor Outlying
+                                    Islands</option>
+                                  <option value="Uruguay">Uruguay</option>
+                                  <option value="Uzbekistan">Uzbekistan</option>
+                                  <option value="Vanuatu">Vanuatu</option>
+                                  <option value="Vatican City State (Holy See)">Vatican City State (Holy See)</option>
+                                  <option value="Venezuela">Venezuela</option>
+                                  <option value="Vietnam">Vietnam</option>
+                                  <option value="Virgin Islands (British)">Virgin Islands (British)</option>
+                                  <option value="Virgin Islands (US)">Virgin Islands (US)</option>
+                                  <option value="Wallis And Futuna Islands">Wallis And Futuna Islands</option>
+                                  <option value="Western Sahara">Western Sahara</option>
+                                  <option value="Yemen">Yemen</option>
+                                  <option value="Yugoslavia">Yugoslavia</option>
+                                  <option value="Zambia">Zambia</option>
+                                  <option value="Zimbabwe">Zimbabwe</option>
+                                </select></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="State">State:</label>
+                            <div class="ui-select">
+                              <div id="State-button"
+                                class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow"><span
+                                  class="form-control text-center c">[select from list below]</span><select
+                                  class="form-control text-center c" name="State" id="State" required=""
+                                  aria-required="true">
+                                  <option value="">[select from list below]</option>
+                                </select></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"><input type="text"
+                                name="City" id="City" class="form-control text-center c" placeholder="City" required=""
+                                aria-required="true"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm-12">
+                          <div class="form-group">
+                            <label for="sel1">Primary Professional Role:</label>
+                            <div class="ui-select">
+                              <div id="PPRole-button"
+                                class="ui-btn ui-icon-carat-d ui-btn-icon-right ui-corner-all ui-shadow"><span
+                                  class="form-control text-center c">[select from list below]</span><select
+                                  class="form-control text-center c" id="PPRole" name="PPRole">
+                                  <option value="">[select from list below]</option>
+                                  <option value="Practicing Clinical Physician">Practicing Clinical Physician</option>
+                                  <option value="Resident Physician">Resident Physician</option>
+                                  <option value="Medical Student">Medical Student</option>
+                                  <option value="Undergraduate Student">Undergraduate Student</option>
+                                  <option value="Nursing Student">Nursing Student</option>
+                                  <option value="Pharmacy Student">Pharmacy Student</option>
+                                  <option value="Graduate Student">Graduate Student</option>
+                                  <option value="Social Worker">Social Worker</option>
+                                  <option value="Hospital Administrator">Hospital Administrator</option>
+                                  <option value="Researcher">Researcher</option>
+                                  <option value="Fellow">Fellow</option>
+                                  <option value="Analyst">Analyst</option>
+                                  <option value="Administrative Assistant">Administrative Assistant</option>
+                                  <option value="Allied Health Professional">Allied Health Professional</option>
+                                  <option value="Nurse">Nurse</option>
+                                  <option value="Nurse Practioner">Nurse Practioner</option>
+                                  <option value="Manager/Director">Manager/Director</option>
+                                  <option value="Teacher/Professor">Teacher/Professor</option>
+                                  <option value="Office Manager">Office Manager</option>
+                                  <option value="Program Director">Program Director</option>
+                                  <option value="Physician Assistants">Physician Assistants</option>
+                                  <option value="Other">Other</option>
+                                </select></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm-12 text-center text-sm-center">
+                          <div class="form-group">
+                            <button class="btn btn-default ui-btn ui-shadow ui-corner-all" type="submit"
+                              name="registration">Sign up</button>
+                          </div>
+                        </div>
+                        <div class="col-sm-12 text-center " style="color:red;">
+                          *All fields are required.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-3"></div>
+                  </div>
+                </form>
+              </div>
+
+              <div class="modal-footer">
+
+
+              </div>
+
             </div>
-          </div> -->
-          <input type="text" class="form-control"style="border:none;">
-          <div class="input-group-append">
-            <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
           </div>
         </div>
+        <script>
+          $("#registrationF").validate({
+            rules: {
+              Fname: "required",
+              Lname: "required",
+              email: {
+                required: true,
+                email: true //email is required AND must be in the form of a valid email address
+              },
+              Age: {
+                required: true,
+                range: [18, 110]
+              },
+              Pass: {
+                required: true,
+                minlength: 8
+              },
+              Passc: {
+                required: true,
+                minlength: 8,
+                equalTo: "#Pass"
+              },
+              Gender: {
+                required: true,
+              },
+              Org: {
+                required: true,
+                alphanumeric: true,
+              },
+              PPRole: {
+                required: true,
+              },
+            },
+
+            PPRole: {
+              required: function () {
+                return alert();
+              }
+            },
+
+            //specify validation error messages
+            messages: {
+              Fname: "This field is required.",
+              Lname: "This field is required.",
+              password: {
+                required: "Password field cannot be blank!",
+                minlength: "Your password must be at least 8 characters long"
+              },
+              //Org: "Please use only alphanumeric characters",
+              email: "Please enter a valid email address"
+            },
+
+            submitHandler: function (form) {
+              form.submit();
+            }
+          });
+        </script>
+      </div> -->
+
+      <!-- Load Registration Page-->
+
+      <div class="modal fade alerts" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close ui-btn ui-shadow ui-corner-all" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body text-center " style="padding-top: 0px;">
+              <h3 style="color:#e2873b;margin-bottom: 25px;"></h3>
+              <button class="btn btn-default right-block ui-btn ui-shadow ui-corner-all" onclick="app.OpenMS();"
+                type="button">Sign in</button>
+            </div>
+            <div class="modal-footer">
+            </div>
+          </div>
+
+        </div>
       </div>
-    </div>
-  </div>
+
+      <!-- Load FAQ-->
+      <div class="container FAQ">
+        <div class="row text-left mainFAQ">
+          <div class="col-sm-12">
+
+            <h1 style="color: rgb(34, 34, 34);">FAQ</h1>
+            <hr>
+
+            <div class="panel-group" id="accordion1">
+              <div class="panel panel-default">
+                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse"
+                  data-parent="#accordion1,#accordion2,#accordion3,#accordion4,#accordion5,#accordion6,#accordion7,#accordion8"
+                  data-target="#collapseOne1">
+                  <h4 class="panel-title">1. Do I need to register to complete these modules? </h4>
+                </div>
+                <div id="collapseOne1" class="panel-collapse collapse">
+                  <div class="panel-body" style="background-color:#eaeaea;">Yes. To complete your registration, simply
+                    go to ‘Register’ at the bottom of the login screen. </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse"
+                  data-parent="#accordion1,#accordion2,#accordion3,#accordion4,#accordion5,#accordion6,#accordion7,#accordion8"
+                  data-target="#collapseTwo1">
+                  <h4 class="panel-title">2. Do I need to complete the modules/module sections in order? </h4>
+                </div>
+                <div id="collapseTwo1" class="panel-collapse collapse">
+                  <div class="panel-body" style="background-color:#eaeaea;">No. Though some of the content, particularly
+                    our Story from the Frontlines story arc, is written in a linear fashion, you may explore the modules
+                    and sections in any order you wish. </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse"
+                  data-parent="#accordion1,#accordion2,#accordion3,#accordion4,#accordion5,#accordion6,#accordion7,#accordion8"
+                  data-target="#collapseThree1">
+                  <h4 class="panel-title">3. How long do I have to complete each section or module? </h4>
+                </div>
+                <div id="collapseThree1" class="panel-collapse collapse">
+                  <div class="panel-body" style="background-color:#eaeaea;">Sections and Modules are not timed. You may
+                    leave and come back at your convenience. </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse"
+                  data-parent="#accordion1,#accordion2,#accordion3,#accordion4,#accordion5,#accordion6,#accordion7,#accordion8"
+                  data-target="#collapseFour1">
+                  <h4 class="panel-title">4. How do I contact the instructor? </h4>
+                </div>
+                <div id="collapseFour1" class="panel-collapse collapse">
+                  <div class="panel-body" style="background-color:#eaeaea;">This is a fully online program. Though there
+                    is not a formal instructor, you may contact the <a href="mailto:victoria.valencia@austin.utexas.edu"
+                      class="ui-link">course content manager</a> with any questions, comments, or concerns you have
+                    about the material in these modules. For any technical issues, <a
+                      href="mailto:discoveringvbhc@dellmed.utexas.edu" class="ui-link">Contact Technical Support</a>.
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse"
+                  data-parent="#accordion1,#accordion2,#accordion3,#accordion4,#accordion5,#accordion6,#accordion7,#accordion8"
+                  data-target="#collapseFive1">
+                  <h4 class="panel-title">5. Will there be an exam at the end of this course? </h4>
+                </div>
+                <div id="collapseFive1" class="panel-collapse collapse">
+                  <div class="panel-body" style="background-color:#eaeaea;">At this time, there are questions to check
+                    your understanding and engagement throughout modules and sections, but there is not a comprehensive
+                    exam. </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse"
+                  data-parent="#accordion1,#accordion2,#accordion3,#accordion4,#accordion5,#accordion6,#accordion7,#accordion8"
+                  data-target="#collapseSix1">
+                  <h4 class="panel-title">6. How much do these modules cost? </h4>
+                </div>
+                <div id="collapseSix1" class="panel-collapse collapse">
+                  <div class="panel-body" style="background-color:#eaeaea;">These modules are provided to you at no
+                    cost. </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse"
+                  data-parent="#accordion1,#accordion2,#accordion3,#accordion4,#accordion5,#accordion6,#accordion7,#accordion8"
+                  data-target="#collapseSeven1">
+                  <h4 class="panel-title">7. Will I receive a certificate or continuing education credits for completing
+                    these modules? </h4>
+                </div>
+                <div id="collapseSeven1" class="panel-collapse collapse">
+                  <div class="panel-body" style="background-color:#eaeaea;">Continuing Medical Education (CME) credits
+                    as well as a certificate of completion will be available upon completion of each collection (1-4).
+                    These are contingent upon submission of a survey following the completion of each of these
+                    collections. For more information on the CMEs obtainable, please see this <a
+                      href="http://vbhc.dellmed.utexas.edu/cme.html" target="_blank" class="ui-link"> link</a>.</div>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse"
+                  data-parent="#accordion1,#accordion2,#accordion3,#accordion4,#accordion5,#accordion6,#accordion7,#accordion8"
+                  data-target="#collapseEight1">
+                  <h4 class="panel-title">8. I’m an instructor or facilitator hoping to use these modules with students.
+                    Are there recommendations for doing so?</h4>
+                </div>
+                <div id="collapseEight1" class="panel-collapse collapse">
+                  <div class="panel-body" style="background-color:#eaeaea;">
+                    Yes! Each collection has its own Facilitator Guide. These can be downloaded from the Facilitator
+                    Guide menu next to the FAQ icon.
+                    <!-- Yes! Each collection will have its own Facilitator Guide. Download Collection 1 Facilitator Guide <a target="_blank" href="view/Collection_1_Facilitator_Guide.pdf" download>here</a>. Download Collection 2 Facilitator Guide <a target="_blank" href="view/Collection_2_Facilitator_Guide.pdf" download>here</a>. Download Collection 3 Facilitator Guide <a target="_blank" href="view/Collection_3_Facilitator_Guide.pdf" download>here</a>.-->
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel panel-default">
+                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse"
+                  data-parent="#accordion1,#accordion2,#accordion3,#accordion4,#accordion5,#accordion6,#accordion7,#accordion8"
+                  data-target="#collapseNine1">
+                  <h4 class="panel-title">9. How and for what problems should I contact technical support? </h4>
+                </div>
+                <div id="collapseNine1" class="panel-collapse collapse">
+                  <div class="panel-body" style="background-color:#eaeaea;">You should <a
+                      href="mailto:discoveringvbhc@dellmed.utexas.edu" class="ui-link">Contact Technical Support</a> for
+                    any problem associated with:
+                    <ul>
+                      <li>Issues logging in or registering</li>
+                      <li>Broken links</li>
+                      <li>Non-working audio or visual content</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div><!-- Load FAQ-->
 
 
 
+      <!-- Load FrgotPassword Page -->
+
+      <!-- Load FrgotPassword Page -->
 
 
+      <!-- Load ResetPassword Page -->
+
+      <!-- Load ResetPassword Page -->
+
+      <script type="text/javascript" src="./assets/jquitelight.js.download"></script>
+      <script type="text/javascript">
+        function ReDirectHomePage() {
+          var protocol = $(location).attr('protocol') + '\\\\' + 'vbhc.dellmed.utexas.edu//';
+          window.location = protocol;
+
+        }
+        app.SearchFull = function () {
+          app.SearchFunction(app.SearchKey, '', 'Sfull');
+        }
+        app.SearchFunction = function (inputs, mn, id) {
+          var data = { inputs: inputs, mn: "m" + mn };
+          if (inputs != "") {
+            $.post("search.php", data, function (d) { }, "json")
+              .done(function (d) {
+                console.log(JSON.stringify(d));
+              }).fail(function (d) {
+                var loc = d.responseText;
+                loc = loc.replace(/dd/);
+                $("#" + id).html(loc);
+                $("#WS").text(inputs);
+                $(".saerch").show();
+                $(".MSection, .menus, .FAQ, .Facilitator").hide();
+                $("#" + id).mark(inputs);
+                $(".SCL").click(function () {
+                  var id = $(this).attr('id');
+                  if (id != 'home') {
+                    if (id[2] == 0) window.location = "?id=m" + id[1] + id[2] + "/" + id;
+                    else
+                      window.location = "?id=m" + id[1] + "/" + id;
+                  } else {
+                    window.location = "http://vbhc.dellmed.utexas.edu/";
+                    console.log(id);
+                  }
+                });
+              }).always(function (d) { });
+          }
+        }
 
 
+        $(".mSearch").validate({
+          rules: {
+            inputs: {
+              required: true
+            }
+          },
+          submitHandler: function (form) {
+            var inputs = form.elements["inputs"].value;
+            app.SearchKey = inputs;
+            //var mn = app.SelecteM[1];
+            var mn = app.SelecteM.replace('m', '');
+            $(".Smn").text(mn);
+            app.SearchFunction(inputs, mn, 'Smodule');
+            var h = $(document).height() - 80;
+            $(".disS").toggle().css({ "height": h + 'px' })
+
+          }
+        });
+
+        $("#loginF").validate({
+          rules: {
+
+            email: {
+              required: true,
+              email: true
+            },
+            Pass: {
+              required: true,
+              minlength: 8
+            },
+
+          },
+          messages: {
+            email: "Please enter a valid email address"
+          },
+
+          submitHandler: function (form) {
+            var dataSave = { email: form.elements["username"].value, password: form.elements["password"].value };
+            $.post("check.php", dataSave,
+              function (data) {
+                if (data == 1) {
+                  $(".NExists h4").text('');
+                  form.submit();
+                  //console.log(typeof(data));
+                } else {
+                  $(".NExists h4").text('Incorrect username or password.');
+                }
+              }, "json");
+
+          }
+        });
+
+        // adds alphanumeric validation method
+        jQuery.validator.addMethod("alphanumeric", function (value, element) {
+          return this.optional(element) || /^[\w\s]+$/i.test(value);
+        }, "Letters, numbers, spaces, and underscores only please");
 
 
- <!-- Page Content -->
-  <div class="container">
-    <!-- Portfolio Section -->
-    <h2 class="mt-5 mb-3 text-center">Popular Courses</h2>
-    <p class="mb-3 text-center short-border robato-cnd"><i>ALL THE TOP POPULAR COURSES WE OFFERED</i></p>
+        $(".module1button").click(function () {
+          //app.ClickOnModule="module1";
+          $("#Collection_1 .allModule1 .btn").eq(0).addClass('act1');
+          $('#Collection_1').show();
+          $('#Collection_2').hide();
+          $('#Collection_3').hide();
+          $('#Collection_4').hide();
+          //$("#Collection_1 .allModule1 .btn").eq(0).addClass('act1');
+        });
+        $(".module2button").click(function () {
+          $('#Collection_2').show();
+          $('#Collection_1').hide();
+          $('#Collection_3').hide();
+          $('#Collection_4').hide();
+          $("#Collection_2 .allModule1 .btn").eq(1).addClass('act1');
+          //app.ClickOnModule="module2";
+        });
+        $(".module3button").click(function () {
+          $('#Collection_3').show();
+          $('#Collection_1').hide();
+          $('#Collection_2').hide();
+          $('#Collection_4').hide();
+          $("#Collection_3 .allModule1 .btn").eq(2).addClass('act1');
+        });
+        $(".module4button").click(function () {
+          $('#Collection_4').show();
+          $('#Collection_1').hide();
+          $('#Collection_2').hide();
+          $('#Collection_3').hide();
+          $("#Collection_4 .allModule1 .btn").eq(3).addClass('act1');
+        });
+        $(".btnM1,.btnM2,.btnM3,.btnM4,.btnM5,.btnM6,.btnM7").click(function () {
+          //debugger;
+          var M_no = $(this).attr('module');
+          app.ClickOnModule = "module" + M_no.replace('m', '');
+        });
+
+        $("#Country").on("change", function () {
+          var cid = $(this).val();
+          $.post("getState.php", { id: cid })
+            .done(function (data) {
+              $("#State").html(data);
+            });
+        });
+
+        /* $(".btnM6").hover(function(){
+        $(".btnM1,.btnM2,.btnM3,.btnM4,.btnM5").removeClass("act");
+        $(this).addClass("act");
+        });
+        
+        $(".btnM6").mouseleave(function(){
+        $(this).removeClass("act");
+        }); */
+
+      </script>
+
+
+      <!--Read more Popup  for carousel -->
+
+
+      <!-- Remove code after completed collection 4 and 5 -->
+
+      <script type="text/javascript">
+
+        $(document).ready(function () {
+
+          $('.noimg').hide();
+
+          /* $(".module4button").click(function(){
+           $(this).css({'background-color': '#fff'});    
+          }); */
+          /* $(".module4button").hover(function(){
+               $(this).css({'background-color': '#fff'});    
+           $('.noimg').show();
+           },  function(){
+             $('.noimg').hide();
+           }); */
+        });
+      </script>
+      <script type="text/javascript">
+        app.CallM = function (v) {
+          var ss = "";
+          if (ss) {
+            window.location = '?id=m' + v[1] + '/' + v;
+          } else {
+            $('#login').modal({ show: 'false' });
+          }
+        }
+        app.CallM2 = function (v) {
+          var ss = "";
+          if (ss) {
+            window.location = '?id=m10' + '/' + v;
+          } else {
+            $('#login').modal({ show: 'false' });
+          }
+        }
+      </script>
+      <div class="home">
+        <div class="jumbotron b1">
+          <div class="container text-center">
+            <br>
+            <br>
+            <br>
+            <div class="row">
+              <div class="col-sm-12">
+                <f>
+                  <h2 class="">Discovering Value-Based Health Care<br><span
+                      style="font-family: GothamHTF-Book; font-style: italic; font-weight: light; clear: both; font-size: 18px;">Interactive
+                      Learning Modules from Dell Medical School</span></h2>
+                </f>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <a class="wow fadeInDownBig ui-link" href="javascript:app.topScroll(&#39;Step1&#39;);"
+                  style="color: rgb(255, 255, 255); visibility: visible; animation-name: fadeInDownBig;"><i
+                    class="fa fa-angle-down fa-4x dArowh" aria-hidden="true"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br>
+        <div id="b1" class="Step1 container bg-3 text-center">
+          <f>
+            <h3 class="boldT ">MISSION: EMPOWERING YOU TO DELIVER HIGH-VALUE CARE TO PATIENTS</h3>
+          </f>
+          <br>
+          <div class="row text-left">
+            <div class="col-sm-6">
+              <f>
+                <p>We find ourselves in a turbulent but exciting time in health care. As a society, our capabilities to
+                  diagnose and treat disease are accelerating at a remarkable pace, yet unless we understand how to
+                  deliver health care in ways that meaningfully and consistently improve patient outcomes, we will fail
+                  to achieve our true goals. We must learn how to consider the intricate needs of our patients – their
+                  health circumstances, priorities, context, time and monetary stress – and to integrate the powerful
+                  capabilities of our health care system to provide the best possible care for each patient in front of
+                  us.</p>
+              </f>
+              <f>
+                <p>This transformation will occur on multiple levels. Leaders will transform the culture, strategy and
+                  goals of their organizations to high-value care delivery. Individuals, particularly early in their
+                  careers, often have less influence on the transformation of systems, but each of us can still make a
+                  difference. This course aims at that day-to-day difference you can make to improve the value of health
+                  care delivered in our current systems.</p>
+              </f>
+            </div>
+            <div class="col-sm-6 ">
+              <f>
+                <p>We must understand and embrace the concepts of value-based health care: maximizing outcomes that
+                  matter to patients per total costs of care. Our mission in this course is to help you as a
+                  professional – a medical, nursing, pharmacy or social work student; a resident physician or clinical
+                  fellow; a frontline physician or nurse; a respiratory, occupational, or physical therapist - not only
+                  learn what high-value health care <em>is</em>, but to engage you in the mission to ensure we can
+                  deliver on this promise to our patients. We seek through these modules to provide you with tools and
+                  to empower you to be a model for health care change and a leader in the effort to bring value to the
+                  forefront of our field.</p>
+              </f>
+            </div>
+          </div>
+        </div>
+        <br><br>
+        <br>
+
+          <div class="container-full t2 text-left">
     <div class="row">
       <%include file="${courses_list}" />
     </div>
      
   </div>
-  <!-- /.container -->
 
-  <!-- /.container -->
 
-  <div class="container-fluid">
-      <h2 class="mt-5 mb-3 text-center">Testimonials</h2>
-    <p class="mb-3 text-center short-border uppercase robato-cnd"><i>What our students say</i></p>
-    <div class='row'>
-      <div class='col-md-12'>
-        <div class="testimonial">
-            <div class="overlay-bg-img overlay-bg-vc"></div>
-          <div class="overlay-bg-vc" style="background-color: rgba(22,34,64,0.85);"></div>
-          <!-- Carousel Slides / Quotes -->
-          <div id="quote-carousel" class="carousel slide" data-ride="carousel">
+<!--         <div class="container-full t2 text-left">
 
-            <!-- Indicators -->
-            <ul class="carousel-indicators">
-              <li data-target="#quote-carousel" data-slide-to="0" class="active"></li>
-              <li data-target="#quote-carousel" data-slide-to="1"></li>
-              <li data-target="#quote-carousel" data-slide-to="2"></li>
-            </ul>
-
-            <!-- The slideshow -->
-            <div class="carousel-inner">
-              <div class="carousel-item active">
-                <div class="blockquote">
-                  <div class="row">
-                    <div class="col-sm-3 text-right">
-                      <img class="rounded-circle" src="http://www.reactiongifs.com/r/overbite.gif" style="width: 100px;height:100px;">
-                    </div>
-                    <div class="col-sm-9">
-                      <p>Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit!</p>
-                      <small>Someone famous</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <div class="blockquote">
-                  <div class="row">
-                    <div class="col-sm-3 text-right">
-                      <img class="rounded-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/mijustin/128.jpg"
-                        style="width: 100px;height:100px;">
-                    </div>
-                    <div class="col-sm-9">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam auctor nec lacus ut tempor.
-                        Mauris.</p>
-                      <small>Someone famous</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="carousel-item">
-                <div class="blockquote">
-                  <div class="row">
-                    <div class="col-sm-3 text-right">
-                      <img class="rounded-circle" src="https://s3.amazonaws.com/uifaces/faces/twitter/keizgoesboom/128.jpg"
-                        style="width: 100px;height:100px;">
-                    </div>
-                    <div class="col-sm-9">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut rutrum elit in arcu blandit, eget
-                        pretium nisl accumsan. Sed ultricies commodo tortor, eu pretium mauris.</p>
-                      <small>Someone famous</small>
-                    </div>
-                  </div>
-                </div>
+          <div id="collect_1" class="row gray" style="cursor:pointer;">
+            <div class="col-sm-6">
+              <img src="./assets/m2s2img1.png"
+                style="width: 100%; visibility: visible; animation-name: fadeInLeft;"
+                class="wow fadeInLeft img-responsive Home_DesiMageC1">
+              <img src="./assets/Home_c1.png" style="width: 100%; visibility: visible; animation-name: fadeInLeft;"
+                class="wow fadeInLeft img-responsive Home_iPadiMageC1 animated">
+            </div>
+            <div class="col-sm-6">
+              <div class="well wow fadeInRight" style="visibility: visible; animation-name: fadeInRight;">
+                <f>
+                  <h3>Collection 1</h3>
+                </f>
+                <f>
+                  <h4 class="text-uppercase">Introduction to Value-Based Health Care</h4>
+                </f>
+                <f>
+                  <p>What is value in health care? This collection contains three modules, which introduce the concept
+                    of value in health care - outcomes that matter to patients / total costs of care - and describes
+                    what it means for both patients and clinicians. Module 2 explores different types of measures and
+                    discusses the importance of measuring outcomes that matter to patients (the numerator of the value
+                    equation). Module 3 confronts the confusing world of costs in health care (the denominator of the
+                    value equation), defining different cost terms and payment models, and exploring cost accounting and
+                    insurance coverage structure.</p>
+                </f>
               </div>
             </div>
+          </div>
 
-            <!-- Left and right controls -->
-            <a class="carousel-control-prev" href="#quote-carousel" data-slide="prev">
-              <i class="fa fa-chevron-left" aria-hidden="true"></i>
-            </a>
-            <a class="carousel-control-next" href="#quote-carousel" data-slide="next">
-              <i class="fa fa-chevron-right" aria-hidden="true"></i>
-            </a>
+          <div id="collect_1a" class="row gray" onclick="app.CallM(&#39;m1s1p1&#39;)"
+            style="cursor: pointer; display: none;">
+            <div class="col-sm-3">
+              <img src="./assets/Mod1_Home.png" style="width:100%;" class="img-responsive HomeM1_DesiMage">
+              <img src="./assets/Mod1_homeiPad.png" style="width:100%;" class="img-responsive HomeM1_iPadiMage">
+              <img src="./assets/Mod1_homeiPada.png" style="width:100%;" class="img-responsive HomeM1_iPadiMageA">
+            </div>
+            <div class="col-sm-9">
+              <div class="well">
+                <f>
+                  <h3>MODULE 1</h3>
+                </f>
+                <f>
+                  <h4>THERE’S A BETTER WAY</h4>
+                </f>
+                <f>
+                  <p>Our medical system is vast, complex, and teeming with wide variations in outcomes, disparities in
+                    care and results, virtual miracles and tragic harms, overuse, underuse and inappropriate use of
+                    services, inefficiencies and waste. These complex issues impact the care we provide and the outcomes
+                    of patients’ care, and they can seem an overwhelming problem too difficult to fully comprehend, let
+                    alone change. This module defines the goals of value-based health care—working with patients and
+                    families to achieve better health outcomes, efficiently. </p>
+                </f>
+              </div>
+            </div>
+          </div>
+          <div id="collect_1b" class="row black" onclick="app.CallM(&#39;m2s1p1&#39;)"
+            style="cursor: pointer; display: none;">
+            <div class="col-sm-3">
+              <img src="./assets/Mod2_Home.jpg" style="width:100%;" class="img-responsive HomeM2_DesiMage">
+              <img src="./assets/Mod2_homeiPad.png" style="width:100%;" class="img-responsive HomeM2_iPadiMage">
+              <img src="./assets/Mod2_homeiPada.png" style="width:100%;" class="img-responsive HomeM2_iPadiMageA">
+            </div>
+            <div class="col-sm-9">
+              <div class="well">
+                <f>
+                  <h3><span>MODULE 2</span></h3>
+                </f>
+                <f>
+                  <h4>MEASURING WHAT MATTERS</h4>
+                </f>
+                <f>
+                  <p>How do we measure our success in health care? How do we define it, and where do we begin? These
+                    questions have a very clear answer: our success is inextricably tied to and based on our patients’
+                    outcomes. In this module, you will explore how to measure outcomes that matter to patients. We will
+                    discuss patient goals, priorities, desires, and experiences.</p>
+                </f>
+              </div>
+            </div>
+          </div>
+          <div id="collect_1c" class="bottomRow row gray" onclick="app.CallM(&#39;m3s1p1&#39;)"
+            style="cursor: pointer; display: none;">
+            <div class="col-sm-3">
+              <img src="./assets/Mod3_Home.png" style="width:100%;" class="img-responsive HomeM3_DesiMage">
+              <img src="./assets/Mod3_homeiPad.png" style="width:100%;" class="img-responsive HomeM3_iPadiMage">
+              <img src="./assets/Mod3_homeiPada.png" style="width:100%;" class="img-responsive HomeM3_iPadiMageA">
+            </div>
+            <div class="col-sm-9">
+              <div class="well">
+                <f>
+                  <h3>MODULE 3</h3>
+                </f>
+                <f>
+                  <h4>UNDERSTANDING COSTS IN HEALTH CARE</h4>
+                </f>
+                <f>
+                  <p>Costs are a major problem with our health care system today, not only at the individual patient
+                    level, but at the level of organizations as well. Yet, few health professionals learn even the
+                    basics about how costs are handled in health care; for example, what is the difference between
+                    charges, costs, and reimbursement? This module will teach about how costs are assessed and paid for
+                    in health care, as well as introduce contemporary tools for cost accounting.</p>
+                </f>
+              </div>
+            </div>
+          </div>
 
+
+          <div id="collect_2" class="row black" style="cursor:pointer;">
+            <div class="col-sm-6">
+              <img src="./assets/Home_2.png" style="width: 100%; visibility: visible; animation-name: fadeInLeft;"
+                class="wow fadeInLeft img-responsive Home_DesiMageC2">
+              <img src="./assets/Home_2iPad.png"
+                style="width: 100%; visibility: visible; animation-name: fadeInLeft;"
+                class="wow fadeInLeft img-responsive Home_iPadiMageC2 animated">
+            </div>
+            <div class="col-sm-6 ">
+              <div class="well wow fadeInRight" style="visibility: visible; animation-name: fadeInRight;">
+                <f>
+                  <h3><span>Collection 2</span></h3>
+                </f>
+                <f>
+                  <h4 class="text-uppercase">Value-Based Health Care Delivery</h4>
+                </f>
+                <f>
+                  <p>Collection two examines what value-based health care delivery can look like in practice. The
+                    collection contains two modules that cover the importance of working with teams to coordinate care
+                    around the needs of patients, including the description of two example delivery structures:
+                    Integrated Practice Units (IPUs) and Patient Centered Medical Homes (PCMHs). Module 5 brings the
+                    concepts all together and shows real examples of how to put into practice the six guiding principles
+                    of value-based health care delivery.</p>
+                </f>
+              </div>
+            </div>
+          </div>
+          <div id="collect_2a" class="topRow row gray" onclick="app.CallM(&#39;m4s1p1&#39;)"
+            style="cursor: pointer; display: none;">
+            <div class="col-sm-3">
+              <img src="./assets/m4s1img1_home.png" style="width:100%;" class="img-responsive HomeM4_DesiMage">
+              <img src="./assets/m4s1img1_homeiPad.png" style="width:100%;"
+                class="img-responsive HomeM4_iPadiMage">
+              <img src="./assets/m4s1img1_homeiPada.png" style="width:100%;"
+                class="img-responsive HomeM4_iPadiMageA">
+            </div>
+            <div class="col-sm-9">
+              <div class="well">
+                <f>
+                  <h3>MODULE 4</h3>
+                </f>
+                <f>
+                  <h4 class="text-uppercase">Coordinating Care for Patients</h4>
+                </f>
+                <f>
+                  <p>Health care can be designed around team-based care coordinated around the needs of patients. This
+                    module describes how. It includes real-world descriptions of Patient-Centered Medical Homes (PCMHs)
+                    and Integrated Practice Units (IPUs), highlighting the early experience of designing and building
+                    the UT Health Austin Women’s Health clinic at Dell Medical School.</p>
+                </f>
+              </div>
+            </div>
+          </div>
+          <div id="collect_2b" class="bottomRow row black" onclick="app.CallM(&#39;m5s1p1&#39;)"
+            style="cursor: pointer; display: none;">
+            <div class="col-sm-3">
+              <img src="./assets/m5s1img1_home.png" style="width:100%;" class="img-responsive HomeM5_DesiMage">
+              <img src="./assets/m5s1img1_homeiPad.png" style="width:100%;"
+                class="img-responsive HomeM5_iPadiMage">
+              <img src="./assets/m5s1img1_homeiPada.png" style="width:100%;"
+                class="img-responsive HomeM5_iPadiMageA">
+            </div>
+            <div class="col-sm-9">
+              <div class="well">
+                <f>
+                  <h3><span>MODULE 5</span></h3>
+                </f>
+                <f>
+                  <h4 class="text-uppercase">Bringing it all Together: Value Based Health Care Delivery</h4>
+                </f>
+                <f>
+                  <p>This module will bring together all of the concepts to show what is required to make value-based
+                    health care delivery a reality. Each component includes concrete examples to show how this work is
+                    already being implemented in practice.</p>
+                </f>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div id="collect_3" class="row gray" style="cursor:pointer;">
+            <div class="col-sm-6 Home_3des">
+              <img id="Home_3" src="./assets/Home_3.png"
+                style="width: 100%;  animation-name: none;"
+                class="wow fadeInLeft img-responsive Home_DesiMageC3">
+              <img id="Home_3a" style="display: none; visibility: visible; animation-name: fadeInLeft;"
+                src="./assets/Home_3a.png" class="wow fadeInLeft img-responsive Home_iPadiMageC2 animated">
+            </div>
+
+            <div class="col-sm-6 Home_3iPad">
+              <img id="Home_3iP" src="./assets/Home_3iPad.png"
+                style="width: 100%; visibility: visible; animation-name: fadeInLeft;"
+                class="wow fadeInLeft img-responsive animated">
+              <img id="Home_3iPa" style="display: none;" src="./assets/Home_3iPada.png" class="img-responsive">
+            </div>
+
+            <div class="col-sm-6">
+              <div class=" well wow fadeInRight" style=" animation-name: none;">
+                <f>
+                  <h3>Collection 3</h3>
+                </f>
+                <f>
+                  <h4 class="text-uppercase">Improving Value at the Bedside</h4>
+                </f>
+                <f>
+                  <p>This collection describes clear ways clinicians can practice high-value care in their day-to-day
+                    work . Module6 describes how to decrease out-of-pocket costs for patients through high-value
+                    prescribing. Module7 addresses communication techniques that build trusting relationships with
+                    patients and enable the delivery of high-value care.</p>
+                </f>
+              </div>
+            </div>
+          </div>
+
+
+          <div id="collect_3a" class="topRow row gray" onclick="app.CallM(&#39;m6s1p1&#39;)"
+            style="cursor: pointer; display: none;">
+            <div class="col-sm-3">
+              <img src="./assets/Mod6_Home.png" style="width:100%;" class="img-responsive HomeM4_DesiMage">
+              <img src="./assets/Mod6_homeiPad.png" style="width:100%;" class="img-responsive HomeM4_iPadiMage">
+              <img src="./assets/Mod6_homeiPada.png" style="width:100%;" class="img-responsive HomeM4_iPadiMageA">
+            </div>
+            <div class="col-sm-9">
+              <div class="well">
+                <f>
+                  <h3>MODULE 6</h3>
+                </f>
+                <f>
+                  <h4 class="text-uppercase">Enhancing Affordability for Patients through High-Value Prescribing</h4>
+                </f>
+                <f>
+                  <p>This module will focus on how you can help patients decrease their out-of-pocket medication costs
+                    through pragmatic solutions. The high costs of medications is an increasing challenge for patients,
+                    leading many to not be able to follow through with their treatment plans. There are simple steps you
+                    can take to help them.</p>
+                </f>
+              </div>
+            </div>
+          </div>
+          <div id="collect_3b" class="bottomRow row black" onclick="app.CallM(&#39;m7s1p1&#39;)"
+            style="cursor: pointer; display: none;">
+            <div class="col-sm-3">
+              <img src="./assets/Mod7_Home.png" style="width:100%;" class="img-responsive HomeM5_DesiMage">
+              <img src="./assets/Mod7_homeiPad.png" style="width:100%;" class="img-responsive HomeM5_iPadiMage">
+              <img src="./assets/Mod7_homeiPada.png" style="width:100%;" class="img-responsive HomeM5_iPadiMageA">
+            </div>
+            <div class="col-sm-9">
+              <div class="well">
+                <f>
+                  <h3><span>MODULE 7</span></h3>
+                </f>
+                <f>
+                  <h4 class="text-uppercase">INTRODUCTION TO HIGH-VALUE COMMUNICATION</h4>
+                </f>
+                <f>
+                  <p>Effective communication is the key to developing strong relationships that lead to high-value care
+                    delivery. However, these conversations can be challenging. This module provides clear tactics to
+                    overcome common pitfalls and to lead conversations that enhance trust and understanding.</p>
+                </f>
+              </div>
+            </div>
+          </div>
+
+
+          <div id="collect_4" class="row black" style="cursor:pointer;">
+            <div class="col-sm-6 Home_4des">
+              <img id="Home_4" src="./assets/Home_4.png"
+                style="width: 100%;  animation-name: none;" class="wow fadeInLeft img-responsive">
+              <img id="Home_4a" style="display: none;" src="./assets/Home_4a.png" class="img-responsive">
+            </div>
+            <div class="col-sm-6 Home_4iPad">
+              <img id="Home_4iP" src="./assets/Home_4iPad.png"
+                style="width: 100%; visibility: visible; animation-name: fadeInLeft;"
+                class="wow fadeInLeft img-responsive animated">
+              <img id="Home_4iPa" style="display: none;" src="./assets/Home_4iPada.png" class="img-responsive">
+            </div>
+
+            <div class="col-sm-6">
+              <div class="well wow fadeInRight" style=" animation-name: none;">
+                <f>
+                  <h3><span>Collection 4</span></h3>
+                </f>
+                <f>
+                  <h4 class="text-uppercase">Improving Value in Systems</h4>
+                </f>
+                <f>
+                  <p>This final collection tackles how to create programs that will improve value in complex health care
+                    systems. This collection covers how culture influences the delivery of health care value and
+                    introduces strategies to catalyze local culture change, along with proven improvement methods. We
+                    also review value-based payment models and strategies for controlling cost as components that can
+                    support the delivery of value-based health care.
+                    <!-- <h4 id="coll_4">Will launch in Fall/Winter 2018</h4>-->
+                  </p>
+                </f>
+              </div>
+            </div>
+          </div>
+
+          <div id="collect_4a" class="row topRow gray" onclick="app.CallM(&#39;m8s1p1&#39;)"
+            style="cursor: pointer; display: none;">
+            <div class="col-sm-3">
+              <img src="./assets/Mod8_Home.png" style="width:100%;" class="img-responsive HomeM1_DesiMage">
+              <img src="./assets/Mod8_homeiPad.png" style="width:100%;" class="img-responsive HomeM1_iPadiMage">
+              <img src="./assets/Mod8_homeiPada.png" style="width:100%;" class="img-responsive HomeM1_iPadiMageA">
+            </div>
+            <div class="col-sm-9">
+              <div class="well">
+                <f>
+                  <h3>MODULE 8</h3>
+                </f>
+                <f>
+                  <h4 class="text-uppercase">CREATING A HIGH-VALUE CARE CULTURE</h4>
+                </f>
+                <f>
+                  <p>This module describes the profound impact of local organizational culture on health care delivery
+                    practices and attitudes, and how you can contribute to creating a culture that promotes high-value
+                    care.</p>
+                </f>
+              </div>
+            </div>
+          </div>
+
+          <div id="collect_4b" class="row black" onclick="app.CallM(&#39;m9s1p1&#39;)"
+            style="cursor: pointer; display: none;">
+            <div class="col-sm-3">
+              <img src="./assets/Mod9_Home.png" style="width:100%;" class="img-responsive HomeM1_DesiMage">
+              <img src="./assets/Mod9_homeiPad.png" style="width:100%;" class="img-responsive HomeM1_iPadiMage">
+              <img src="./assets/Mod9_homeiPada.png" style="width:100%;" class="img-responsive HomeM1_iPadiMageA">
+            </div>
+            <div class="col-sm-9">
+              <div class="well">
+                <f>
+                  <h3><span>MODULE 9</span></h3>
+                </f>
+                <f>
+                  <h4 class="text-uppercase">SHIFTING PAYMENTS FROM VOLUME TO VALUE</h4>
+                </f>
+                <f>
+                  <p>Expanding upon the basic health care cost and accounting terms from module 3 (Understanding Costs
+                    in Health Care), this module explores the array of potential payment models, from fee-for-service to
+                    episode-based bundled payments and global budgets, and how each may contribute to (or inhibit)
+                    value-based health care delivery.</p>
+                </f>
+              </div>
+            </div>
+          </div>
+
+          <div id="collect_4c" class="row bottomRow gray" onclick="app.CallM2(&#39;m10s1p1&#39;)"
+            style="cursor: pointer; display: none;">
+            <div class="col-sm-3">
+              <img src="./assets/Mod10_Home.png" style="width:100%;" class="img-responsive HomeM1_DesiMage">
+              <img src="./assets/Mod10_homeiPad.png" style="width:100%;" class="img-responsive HomeM1_iPadiMage">
+              <img src="./assets/Mod10_homeiPada.png" style="width:100%;" class="img-responsive HomeM1_iPadiMageA">
+            </div>
+            <div class="col-sm-9">
+              <div class="well">
+                <f>
+                  <h3>MODULE 10</h3>
+                </f>
+                <f>
+                  <h4 class="text-uppercase">LEADING VALUE IMPROVEMENT PROGRAMS ON THE FRONTLINES</h4>
+                </f>
+                <f>
+                  <p>This module tackles how to make actual change in the day-to-day delivery of health care. We
+                    introduce improvement methodologies and processes for change implementation to help you analyze,
+                    plan, implement, and measure proposed improvements. You will be taken through each part of the
+                    process and provided with tools that you can carry into your own organization to promote real
+                    change.</p>
+                </f>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script type="text/javascript">
+          $(document).ready(function () {
+            hideCollection();
+            showCollectin();
+
+            /* $("#collect_3").hover(function(){    
+                $('#Home_3a').show();   
+                $('#Home_3').hide();    
+                $('#coll_3').hide();
+             },  function(){         
+                $('#Home_3').show();   
+                $('#Home_3a').hide();   
+                $('#coll_3').show();
+             });
+           
+           $("#collect_3").hover(function(){    
+                $('#Home_3iPa').show();   
+                $('#Home_3iP').hide();    
+                $('#coll_3').hide();
+             },  function(){         
+                $('#Home_3iP').show();   
+                $('#Home_3iPa').hide();   
+                $('#coll_3').show();
+             });
+             
+           
+             $("#collect_4").hover(function(){    
+                $('#Home_4a').show();   
+                $('#Home_4').hide();    
+                $('#coll_4').hide();
+             },  function(){         
+                $('#Home_4').show();   
+                $('#Home_4a').hide();   
+                $('#coll_4').show();
+             });
+           
+             $("#collect_4").hover(function(){    
+                $('#Home_4iPa').show();   
+                $('#Home_4iP').hide();    
+                $('#coll_4').hide();
+             },  function(){         
+                $('#Home_4iP').show();   
+                $('#Home_4iPa').hide();     
+                $('#coll_4').show();
+             }); */
+            var ss = "";
+            if (ss) {
+              debugger;
+
+              var Collection1 = 'NotComplete';
+              var Collection2 = 'NotComplete';
+              var Collection3 = 'NotComplete';
+              var Collection4 = 'NotComplete';
+
+              var popup = false;
+              if (app.MData['m1']['status'] == "complete" && app.MData['m2']['status'] == "complete" && app.MData['m3']['status'] == "complete") {
+                Collection1 = 'Complete';
+              }
+              if (app.MData['m4']['status'] == "complete" && app.MData['m5']['status'] == "complete") {
+                Collection2 = 'Complete';
+              }
+              if (app.MData['m6']['status'] == "complete" && app.MData['m7']['status'] == "complete") {
+                Collection3 = 'Complete';
+              }
+              if (app.MData['m8']['status'] == "complete" && app.MData['m9']['status'] == "complete" && app.MData['m10']['status'] == "complete") {
+                Collection4 = 'Complete';
+              }
+              if (Collection1 == 'Complete' || Collection2 == 'Complete' || Collection3 == 'Complete' || Collection4 == 'Complete') {
+                if ((("" == "OPEN") || ("" == "")) && Collection4 == 'Complete') {
+                  document.getElementById('id04').style.display = 'block';
+                  popup = true;
+                }
+                else if ((("" == "OPEN") || ("" == "")) && Collection3 == 'Complete') {
+                  document.getElementById('id03').style.display = 'block';
+                  popup = true;
+                }
+                else if ((("" == "OPEN") || ("" == "")) && Collection2 == 'Complete') {
+                  document.getElementById('id02').style.display = 'block';
+                  popup = true;
+                }
+                else if ((("" == "OPEN") || ("" == "")) && Collection1 == 'Complete') {
+                  document.getElementById('id01').style.display = 'block';
+                  popup = true;
+                }
+              }
+              else {
+                /* $("#Survey-notcomplete").css("display","block");
+                $("#Survey-complete").css("display","none");
+                $("#Survey-notcompleteC2").css("display","block");
+                $("#Survey-completeC2").css("display","none");
+                $("#Survey-notcompleteC3").css("display","block");
+                $("#Survey-completeC3").css("display","none");
+                $("#Survey-notcompleteC4").css("display","block");
+                $("#Survey-completeC4").css("display","none");     */
+                $(".btnM4 .small").text("active");
+                $(".btnM4").removeClass('complete');
+                $(".btn-Survey").css("pointer-events", "none");
+                $("#SurveyButton").css("pointer-events", "none");
+              }
+              if (!popup && app.Decrypt(app.role) == 'PPRole') {
+                document.getElementById('PPRoleUpdate').style.display = 'block';
+              }
+              //console.log('sdff');
+            }
+
+          });
+
+          function hideCollection() {
+            //$('#collect_3a,#collect_4a').hide();
+            $('#collect_1a,#collect_1b,#collect_1c').hide();
+            $('#collect_2a,#collect_2b').hide();
+            $('#collect_3a,#collect_3b').hide();
+            $('#collect_4a,#collect_4b,#collect_4c').hide();
+          }
+
+          function showCollectin() {
+            $('#collect_1,#collect_2,#collect_3,#collect_4').show(); //,#collect_3,#collect_4
+          }
+
+          $('#collect_1').on('click', function () {
+            showCollectin();
+            $(this).fadeOut();
+            hideCollection();
+            $('#collect_1a').fadeIn(1000);
+            $('#collect_1b').fadeIn(2000);
+            $('#collect_1c').fadeIn(3000);
+          });
+
+          $('#collect_2').on('click', function () {
+            showCollectin();
+            $(this).fadeOut();
+            hideCollection();
+            $('#collect_2a').fadeIn(1000);
+            $('#collect_2b').fadeIn(2000);
+          });
+          $('#collect_3').on('click', function () {
+            showCollectin();
+            $(this).fadeOut();
+            hideCollection();
+            $('#collect_3a').fadeIn(1000);
+            $('#collect_3b').fadeIn(1000);
+          });
+          $('#collect_4').on('click', function () {
+            showCollectin();
+            $(this).fadeOut();
+            hideCollection();
+            $('#collect_4a').fadeIn(1000);
+            $('#collect_4b').fadeIn(1000);
+            $('#collect_4c').fadeIn(1000);
+          });
+
+
+
+
+        </script>
+
+
+        <div class="jumbotron b2">
+          <div class="container-full text-left">
+            <div class="well">
+              <f>
+                <p>The Dell Medical School Value-Based Health Care (VBHC) modules are supported by the generous grant
+                  support of the Episcopal Health Foundation. We have worked to develop a rich, interactive
+                  instructional experience that brings the expertise and research Dell Medical School has invested into
+                  the provision of VBHC together with an innovative, high-impact pedagogical approach.</p>
+              </f>
+            </div>
           </div>
         </div>
 
 
+        <br><br>
+        <div id="dd" class="conmyCarousel container bg-4 text-center">
+          <div class="row text-left">
+            <div id="myCarousel" class="carousel slide  crHome" data-ride="carousel" data-interval="false">
+
+
+              <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active" id="1point"></li>
+                <li data-target="#myCarousel" data-slide-to="1" id="2point"></li>
+                <li data-target="#myCarousel" data-slide-to="2" id="3point"></li>
+              </ol>
+              <!-- Wrapper for slides -->
+              <div class="carousel-inner" role="listbox">
+
+
+
+
+
+                <div class="item active" id="item1forswap">
+                  <f>
+                    <h3 class="boldT text-center">MEET THE TEAM</h3>
+                  </f>
+                  <div class="row text-center">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                      <f>
+                        <p class="text-center">These modules have been developed by a large team of health care,
+                          education, and business experts. Here is a small sample of the many people who came together
+                          to create the Dell Medical School Value-Based Health Care modules:</p>
+                      </f>
+                    </div>
+                    <div class="col-sm-2"></div>
+                  </div>
+                  <br><br>
+
+                  <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                      <div class="row">
+                        <div class="col-sm-2"></div>
+                        <div class="col-sm-4">
+                          <img src="${staticfiles_storage.url('assets/l1.png')}" class="img-responsive" style="width:100%;">
+                          <f>
+                            <p class="text-center">CHRISTOPHER MORIATES, MD</p>
+                          </f>
+                          <f>
+                            <div class="text-center">Lead Author</div>
+                          </f>
+                          <f>
+                            <div class="text-center"><a href="javascript:app.scroll(&#39;dd&#39;,&#39;myModal&#39;)"
+                                class="ui-link">View Bio</a></div>
+                          </f>
+
+                          <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <!-- <div class="modal-header">
+                                        
+                                      </div> -->
+                                <div class="modal-body">
+                                  <button type="button" class="close ui-btn ui-shadow ui-corner-all"
+                                    data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                  <div class="row">
+                                    <div class="col-sm-4">
+                                       <img src="${staticfiles_storage.url('assets/l1.png')}" class="img-responsive" style="width:100%;">
+                                      <f>
+                                        <p class="model_name">Christopher Moriates, MD</p>
+                                      </f>
+                                      <a target="_blank" href="https://twitter.com/ChrisMoriates?lang=en"
+                                        class="ui-link"><span class="fa-stack fa-lg">
+                                          <i class="fa fa-square-o fa-stack-2x"></i>
+                                          <i class="fa fa-twitter fa-stack-1x"></i>
+                                        </span></a>
+                                    </div>
+                                    <div class="col-sm-8">
+                                      <f>
+                                        <p>Dr. Chris Moriates is the Assistant Dean for Healthcare Value and an
+                                          Associate Professor in the Department of Internal Medicine at the Dell Medical
+                                          School at The University of Texas at Austin. He is responsible for creating an
+                                          innovative curriculum for value-based healthcare for undergraduate, graduate,
+                                          and continuing medical education. Dr. Moriates co-authored the McGraw-Hill
+                                          book, Understanding Value-based Healthcare, and contributes to national
+                                          curricula on high-value care for trainees and frontline clinicians.</p>
+                                      </f>
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <img src="${staticfiles_storage.url('assets/l2.png')}" class="img-responsive" style="width:100%;">
+                          <f>
+                            <p class="text-center">VICTORIA VALENCIA, MPH</p>
+                          </f>
+                          <f>
+                            <div class="text-center">Co-Author</div>
+                          </f>
+                          <f>
+                            <div class="text-center"><a href="javascript:app.scroll(&#39;dd&#39;,&#39;myModal_1&#39;)"
+                                class="ui-link">View Bio</a></div>
+                          </f>
+                          <div class="modal fade" id="myModal_1" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <!-- <div class="modal-header">
+                                        
+  
+                                      </div> -->
+                                <div class="modal-body">
+                                  <button type="button" class="close ui-btn ui-shadow ui-corner-all"
+                                    data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                  <div class="row">
+                                    <div class="col-sm-4">
+                                       <img src="${staticfiles_storage.url('assets/l2.png')}" class="img-responsive" style="width:100%;">
+
+                                      <f>
+                                        <p class="model_name">Victoria Valencia, MPH</p>
+                                      </f>
+                                      <a target="_blank" href="https://twitter.com/valuevictoria" class="ui-link"><span
+                                          class="fa-stack fa-lg">
+                                          <i class="fa fa-square-o fa-stack-2x"></i>
+                                          <i class="fa fa-twitter fa-stack-1x"></i>
+                                        </span></a>
+                                    </div>
+                                    <div class="col-sm-8">
+                                      <f>
+                                        <p>Victoria Valencia is the Assistant Director for Healthcare Value at Dell
+                                          Medical School at The University of Texas at Austin. Her background is in
+                                          public health and statistics. She is a data analyst and programmer and uses R
+                                          to analyze and visualize complex data from clinical research databases and
+                                          electronic health records to help answer questions around quality, value and
+                                          appropriateness of care provided to patients. She has co-authored several
+                                          articles that investigate ways to improve the value of care patients receive
+                                          while in the hospital.</p>
+                                      </f>
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-2"></div>
+                      </div>
+                    </div>
+                    <div class="col-sm-2"></div>
+                  </div>
+
+                </div>
+
+
+                <div class="item" id="item2forswap">
+
+
+                  <f>
+                    <h3 class="boldT  text-center text-uppercase">Executive Review Committee</h3>
+                  </f>
+                  <div class="row text-center">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                      <f>
+                        <p class="text-center">These modules have been developed by a large team of health care,
+                          education, and business experts. Here is a small sample of the many people who came together
+                          to create the Dell Medical School Value-Based Health Care modules:</p>
+                      </f>
+                    </div>
+                    <div class="col-sm-2"></div>
+                  </div>
+                  <br><br>
+
+                  <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                      <div class="row">
+
+                        <div class="col-sm-4">
+                          <img src="${staticfiles_storage.url('assets/l3.png')}" class="img-responsive" style="width:100%;">
+                          <f>
+                            <p class="text-center">Susan Cox, MD</p>
+                          </f>
+                          <f>
+                            <div class="text-center">Executive Vice Dean of Academics and Chair of Medical Education
+                            </div>
+                          </f>
+                          <f>
+                            <div class="text-center"><a href="javascript:app.scroll(&#39;dd&#39;,&#39;myModal_2&#39;)"
+                                class="ui-link">View Bio</a></div>
+                          </f>
+                          <div class="modal fade" id="myModal_2" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <!-- <div class="modal-header">
+                                       
+  
+                                        </div> -->
+                                <div class="modal-body">
+                                  <button type="button" class="close ui-btn ui-shadow ui-corner-all"
+                                    data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                  <div class="row">
+                                    <div class="col-sm-4">
+                                      <img src="${staticfiles_storage.url('assets/l3.png')}" class="img-responsive" style="width:100%;">
+                                      <f>
+                                        <p class="model_name">Susan Cox, MD</p>
+                                      </f>
+                                      <!-- <span class="fa-stack fa-lg">
+                                                    <i class="fa fa-square-o fa-stack-2x"></i>
+                                                    <i class="fa fa-twitter fa-stack-1x"></i>
+                                                  </span> -->
+                                    </div>
+                                    <div class="col-sm-8">
+                                      <f>
+                                        <p>Dr. Cox is Executive Vice Dean of Academics and Chair of Medical Education at
+                                          the Dell Medical School at the University of Texas at Austin. She is also the
+                                          President of the Alliance for Clinical Education, previously was Interim
+                                          Senior Associate Dean of the Dell Medical School helping to establish the
+                                          foundation for the new school and the incoming dean.</p>
+                                      </f>
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="col-sm-4">
+                          <img src="${staticfiles_storage.url('assets/l4.png')}" class="img-responsive" style="width:100%;">
+                          <f>
+                            <p class="text-center">Keven Bozic, MD, MBA</p>
+                          </f>
+                          <f>
+                            <div class="text-center">Chair of the Department of Surgery and Perioperative Care</div>
+                          </f>
+                          <f>
+                            <div class="text-center"><a href="javascript:app.scroll(&#39;dd&#39;,&#39;myModal_3&#39;)"
+                                class="ui-link">View Bio</a></div>
+                          </f>
+                          <div class="modal fade" id="myModal_3" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <!-- <div class="modal-header">
+
+  
+                                        </div> -->
+                                <div class="modal-body">
+                                  <button type="button" class="close ui-btn ui-shadow ui-corner-all"
+                                    data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                  <div class="row">
+                                    <div class="col-sm-4">
+                                       <img src="${staticfiles_storage.url('assets/l4.png')}" class="img-responsive" style="width:100%;">
+                                      <f>
+                                        <p class="model_name">Keven Bozic, MD, MBA</p>
+                                      </f>
+                                      <!-- <span class="fa-stack fa-lg">
+                                                    <i class="fa fa-square-o fa-stack-2x"></i>
+                                                    <i class="fa fa-twitter fa-stack-1x"></i>
+                                                  </span> -->
+                                    </div>
+                                    <div class="col-sm-8">
+                                      <f>
+                                        <p>Dr. Kevin Bozic is the inaugural Chair of the Department of Surgery and
+                                          Perioperative Care, and Professor of Orthopaedic Surgery, at the Dell Medical
+                                          School at The University of Texas at Austin. Dr. Bozic has extensive clinical,
+                                          research, and policy experience in developing and implementing value-based
+                                          health care delivery and payment programs.</p>
+                                      </f>
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <img src="${staticfiles_storage.url('assets/l5.png')}" class="img-responsive" style="width:100%;">
+                          <f>
+                            <p class="text-center">Elizabeth Teisberg, PhD</p>
+                          </f>
+                          <f>
+                            <div class="text-center">Executive Director and Professor in the Department of Medical
+                              Education </div>
+                          </f>
+                          <f>
+                            <div class="text-center"><a href="javascript:app.scroll(&#39;dd&#39;,&#39;myModal_4&#39;)"
+                                class="ui-link">View Bio</a></div>
+                          </f>
+                          <div class="modal fade" id="myModal_4" tabindex="-1" role="dialog"
+                            aria-labelledby="myModalLabel">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <!-- <div class="modal-header">
+                                        
+  
+                                        </div> -->
+                                <div class="modal-body">
+                                  <button type="button" class="close ui-btn ui-shadow ui-corner-all"
+                                    data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                  <div class="row">
+                                    <div class="col-sm-4">
+                                      <img src="${staticfiles_storage.url('assets/l5.png')}" class="img-responsive" style="width:100%;">
+                                      <f>
+                                        <p class="model_name">Elizabeth Teisberg, PhD</p>
+                                      </f>
+                                      <!-- <span class="fa-stack fa-lg">
+                                                    <i class="fa fa-square-o fa-stack-2x"></i>
+                                                    <i class="fa fa-twitter fa-stack-1x"></i>
+                                                  </span> -->
+                                    </div>
+                                    <div class="col-sm-8">
+                                      <f>
+                                        <p>Elizabeth Teisberg is Executive Director and Professor in the Department of
+                                          Medical Education at Dell Medical School. She is co-creator of the idea of
+                                          value-based health care strategy and an internationally recognized author and
+                                          professor. She co-authored with Professor Michael Porter the book, “Redefining
+                                          Health Care: Creating Value-based Competition on Results.”</p>
+                                      </f>
+                                    </div>
+                                  </div>
+
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="col-sm-2"></div>
+                  </div>
+                </div>
+                <div class="item container" id="item3forswap">
+
+                  <f>
+                    <h3 class="boldT  text-center text-uppercase">Content Review Committee</h3>
+                  </f>
+                  <div class="row text-center">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                      <f>
+                        <p class="text-center">These modules have been developed by a large team of health care,
+                          education, and business experts. Here is a small sample of the many people who came together
+                          to create the Dell Medical School Value-Based Health Care modules:</p>
+                      </f>
+                    </div>
+                    <div class="col-sm-2"></div>
+                  </div>
+                  <br><br>
+
+                  <div class="row">
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                      <div class="row slideP">
+
+                        <div class="col-sm-4">
+
+                          <f>
+                            <p class="text-center"><a target="_blank"
+                                href="http://dellmedschool.utexas.edu/team-profile/luann-wilkerson"
+                                class="ui-link">LuAnn Wilkerson, EdD</a></p>
+                          </f>
+                          <f>
+                            <div class="text-center">Associate Dean for Evaluation and Faculty Development</div>
+                          </f>
+
+                        </div>
+
+                        <div class="col-sm-4">
+
+                          <f>
+                            <p class="text-center"><a target="_blank"
+                                href="http://dellmedschool.utexas.edu/team-profile/jonathan-macclements"
+                                class="ui-link">Jonathan MacClements, MD </a></p>
+                          </f>
+                          <f>
+                            <div class="text-center">Assistant Dean of Graduate Medical Education</div>
+                          </f>
+
+                        </div>
+
+                        <div class="col-sm-4">
+
+                          <f>
+                            <p class="text-center"><a target="_blank"
+                                href="http://dellmedschool.utexas.edu/team-profile/beth-nelson"
+                                class="ui-link">Elizabeth Nelson, MD</a></p>
+                          </f>
+                          <f>
+                            <div class="text-center">Associate Dean of Undergraduate Medical Education</div>
+                          </f>
+
+                        </div>
+
+
+
+                      </div>
+                      <div class="row slideP">
+
+                        <div class="col-sm-4">
+
+                          <f>
+                            <p class="text-center"><a target="_blank"
+                                href="https://dellmed.utexas.edu/directory/michael-pignone" class="ui-link">Michael
+                                Pignone, MD, MPH </a></p>
+                          </f>
+                          <f>
+                            <div class="text-center">Chair of Internal Medicine Professor Internal Medicine</div>
+                          </f>
+                        </div>
+
+                        <div class="col-sm-4">
+
+                          <f>
+                            <p class="text-center" style="color:#f0ad4e;"><a target="_blank"
+                                href="http://in-training.org/author/joseph-joo" class="ui-link">Joseph Joo, MS2</a></p>
+                          </f>
+                          <f>
+                            <div class="text-center">Second year medical student at Texas A&amp;M University </div>
+                          </f>
+
+                        </div>
+
+                        <div class="col-sm-4"></div>
+
+                      </div>
+                    </div>
+                    <div class="col-sm-2"></div>
+                  </div>
+                </div>
+
+
+              </div>
+              <!-- Left and right controls -->
+              <a class="left carousel-control ui-link" href="http://vbhc.dellmed.utexas.edu/#myCarousel" role="button"
+                data-slide="prev">
+                <i class="fa fa-angle-left fa-2x" aria-hidden="true"></i>
+              </a>
+              <a class="right carousel-control ui-link" href="http://vbhc.dellmed.utexas.edu/#myCarousel" role="button"
+                data-slide="next">
+                <i class="fa fa-angle-right fa-2x" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
+
+
+      <style>
+        .footer-bs {
+          background-color: #3c3d41;
+          padding: 60px 40px;
+          color: rgba(255, 255, 255, 1.00);
+          /*margin-bottom: 20px;*/
+          /*border-bottom-right-radius: 6px;*/
+          /*border-top-left-radius: 0px;
+    border-bottom-left-radius: 6px;*/
+        }
+
+        .footer-bs .footer-brand,
+        .footer-bs .footer-nav,
+        .footer-bs .footer-social,
+        .footer-bs .footer-ns {
+          padding: 10px 25px;
+        }
+
+        .footer-bs .footer-nav,
+        .footer-bs .footer-social,
+        .footer-bs .footer-ns {
+          border-color: transparent;
+        }
+
+        .footer-bs .footer-brand h2 {
+          margin: 0px 0px 10px;
+        }
+
+        .footer-bs .footer-brand p {
+          font-size: 12px;
+          color: rgba(255, 255, 255, 0.70);
+        }
+
+        .footer-bs .footer-nav ul.pages {
+          list-style: none;
+          padding: 0px;
+        }
+
+        .footer-bs .footer-nav ul.pages li {
+          padding: 5px 0px;
+        }
+
+        .footer-bs .footer-nav ul.pages a {
+          color: rgba(255, 255, 255, 1.00);
+          font-weight: bold;
+          text-transform: uppercase;
+        }
+
+        .footer-bs .footer-nav ul.pages a:hover {
+          color: rgba(255, 255, 255, 0.80);
+          text-decoration: none;
+        }
+
+        .footer-bs .footer-nav h4 {
+          font-size: 11px;
+          text-transform: uppercase;
+          letter-spacing: 3px;
+          margin-bottom: 10px;
+        }
+
+        .footer-bs .footer-nav ul.list {
+          list-style: none;
+          padding: 0px;
+        }
+
+        .footer-bs .footer-nav ul.list li {
+          padding: 5px 0px;
+        }
+
+        .footer-bs .footer-nav ul.list a {
+          color: rgba(240, 173, 78);
+        }
+
+        .footer-bs .footer-nav ul.list a:hover {
+          color: rgba(240, 173, 78);
+          text-decoration: none;
+        }
+
+        .footer-bs .footer-social ul {
+          list-style: none;
+          padding: 0px;
+        }
+
+        .footer-bs .footer-social h4 {
+          font-size: 15px;
+          /*text-transform: uppercase;*/
+          /*letter-spacing: 3px;*/
+          font-family: "GothamHTF-Bold";
+        }
+
+        .footer-bs .footer-social li {
+          padding: 5px 4px;
+        }
+
+        .footer-bs .footer-social a {
+          color: rgba(255, 255, 255, 1.00);
+        }
+
+        .footer-bs .footer-social a:hover {
+          color: rgba(255, 255, 255, 0.80);
+          text-decoration: none;
+        }
+
+        .footer-bs .footer-ns h4 {
+          font-size: 11px;
+          text-transform: uppercase;
+          letter-spacing: 3px;
+          margin-bottom: 10px;
+        }
+
+        .footer-bs .footer-ns p {
+          font-size: 12px;
+          color: rgba(255, 255, 255, 0.70);
+        }
+
+
+        .footer-nav {
+          border-right: 2px solid #fff !important;
+        }
+
+
+
+        .footimg {
+          position: relative;
+          /*background-color: #fff;  */
+          margin-top: -4%;
+        }
+
+        .footer-bs ul li {
+          color: #f49951 !important;
+        }
+
+        .list a {
+          color: #f49951 !important;
+        }
+
+        /*.form-control{
+    border: 2px solid #f0ad4e !important;
+    border-radius: 4px;
+    box-shadow: 1px rgba(240, 173, 78) inset !important;
+ }*/
+
+        .footer-bs .row {
+          margin-top: 2%;
+        }
+
+        .full {
+          width: 100%;
+          border: 2px solid #f0ad4e !important;
+          cursor: pointer;
+          background: #fff;
+          font-size: 16px;
+          font-family: "GothamHTF-Bold";
+          text-decoration: none;
+        }
+
+
+
+
+        @media screen and (min-device-width : 501px) and (max-device-width : 765px) {
+          .footer-nav {
+            border-right: 0px solid #fff !important;
+          }
+        }
+
+        @media screen and (min-device-width : 501px) and (max-device-width : 765px) {
+          .footer-nav {
+            border-right: 0px solid #fff !important;
+          }
+        }
+
+        @media screen and (min-device-width : 300px) and (max-device-width : 500px) {
+          .footer-nav {
+            border-right: 0px solid #fff !important;
+          }
+        }
+
+        @media screen and (min-device-width : 100px) and (max-device-width : 299px) {
+          .footer-nav {
+            border-right: 0px solid #fff !important;
+          }
+        }
+      </style>
+
+      <footer class="footer-bs">
+        <div class="row text-center">
+          <div class="col-sm-3"></div>
+          <div class="col-sm-6">
+            <img src="${staticfiles_storage.url('assets/logo2.png')}" class="footimg img-responsive center-block" height="auto" width="65%">
+</div>
+          <div class="col-sm-3"></div>
+        </div>
+
+        <div class="row text-left">
+          <div class="col-sm-1"></div>
+          <div class="col-sm-5 footer-nav ">
+            <ul class="list">
+              <li>Questions or comments regarding the Value Based Health Care modules?</li>
+              <li><a style="text-decoration:none;" href="mailto:discoveringvbhc@dellmed.utexas.edu" class="ui-link">
+                  <div class="full text-center">Email us</div>
+                </a></li>
+              <li>Questions regarding continuing medical education (CME) credits?</li>
+              <li><a style="text-decoration:none;" target="_blank" href="http://vbhc.dellmed.utexas.edu/cme.html"
+                  class="ui-link">
+                  <div class="full text-center">Click here</div>
+                </a></li>
+              <br> &nbsp;
+
+            </ul>
+          </div>
+          <div class="col-sm-4 footer-social">
+            <h4>Helpful links</h4>
+            <ul>
+              <li><a href="mailto:solutions@utx.edu?subject=VBHC%20Technical%20Request" class="ui-link">Problems logging
+                  in or technical issues?</a></li>
+              <li><a target="_blank" href="http://ut-internal-staging-native.adaptive-datamatics.com" class="ui-link">Dell Medical School </a>
+              </li>
+              <li><a target="_blank" href="http://www.utsystem.edu/" class="ui-link">University of Texas System</a></li>
+              <li><a target="_blank" href="https://cio.utexas.edu/policies/web-privacy" class="ui-link">Web Privacy
+                  Policy</a></li>
+              <li><a target="_blank" href="https://cio.utexas.edu/policies/web-accessibility" class="ui-link">Web
+                  Accessibility Policy</a></li>
+            </ul>
+          </div>
+          <div class="col-sm-2"></div>
+        </div>
+
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <div class="col-md-5 col-sm-4 col-xs-4"></div>
+          <div class="col-md-2 col-sm-4 col-xs-4">
+            <a target="_blank" href="https://creativecommons.org/licenses/by-nc-nd/2.5/" class="ui-link">
+              <img src="${staticfiles_storage.url('assets/CC.png')}" class="img-responsive center-block" width="auto" height="auto">              
+          </div>
+          <div class="col-md-5 col-sm-4 col-xs-4"></div>
+        </div>
+
+      </footer>
+      <script>
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        $("#item1forswap").on("swipeleft", function () {
+          if (isMobile) {
+            $("#item1forswap").removeClass("active");
+            $("#item2forswap").addClass("active");
+            $("#1point,#3point").removeClass("active");
+            $("#2point").addClass("active");
+          }
+        });
+        $("#item2forswap").on("swipeleft", function () {
+          if (isMobile) {
+            $("#item2forswap").removeClass("active");
+            $("#item3forswap").addClass("active");
+            $("#2point,#1point").removeClass("active");
+            $("#3point").addClass("active");
+          }
+        });
+        $("#item3forswap").on("swipeleft", function () {
+          if (isMobile) {
+            $("#item3forswap").removeClass("active");
+            $("#item1forswap").addClass("active");
+            $("#3point,#2point").removeClass("active");
+            $("#1point").addClass("active");
+          }
+        });
+
+
+        $("#item1forswap").on("swiperight", function () {
+          if (isMobile) {
+            $("#item1forswap").removeClass("active");
+            $("#item3forswap").addClass("active");
+            $("#1point, #2point").removeClass("active");
+            $("#3point").addClass("active");
+          }
+        });
+        $("#item2forswap").on("swiperight", function () {
+          if (isMobile) {
+            $("#item2forswap").removeClass("active");
+            $("#item1forswap").addClass("active");
+            $("#2point,#3point").removeClass("active");
+            $("#1point").addClass("active");
+          }
+        });
+        $("#item3forswap").on("swiperight", function () {
+          if (isMobile) {
+            $("#item3forswap").removeClass("active");
+            $("#item2forswap").addClass("active");
+            $("#3point,#1point").removeClass("active");
+            $("#2point").addClass("active");
+          }
+        }); 
+      </script>
+
     </div>
   </div>
 
-<div class="container">
-    <div class="partners-logo d-flex align-items-center justify-content-between flex-wrap">
-        <a href="#"><img src="${staticfiles_storage.url('images/clients/partner-1.png')}" alt=""></a>
-        <a href="#"><img src="${staticfiles_storage.url('images/clients/partner-2.png')}" alt=""></a>
-        <a href="#"><img src="${staticfiles_storage.url('images/clients/partner-3.png')}" alt=""></a>
-        <a href="#"><img src="${staticfiles_storage.url('images/clients/partner-4.png')}" alt=""></a>
-        <a href="#"><img src="${staticfiles_storage.url('images/clients/partner-5.png')}" alt=""></a>
-    </div>
-</div>
-
-  <!-- Footer -->
- <!--  <footer class="mt-5 py-5 bg-dark" style="min-height: 250px;">
-    <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; Your Website 2018</p>
-    </div>
-  </footer> -->
-
-  <!-- Bootstrap core JavaScript -->
-  <!-- <script src="${staticfiles_storage.url('vendor/jquery/jquery.min.js')}"></script> -->
-  <script src="${staticfiles_storage.url('vendor/bootstrap/js/bootstrap.bundle.min.js')}"></script>
 </body>
 
 </html>
