@@ -590,7 +590,6 @@ def order_confirmation(request):
                 raise AuthFailedError(_('Please Enter Order Number to Login.'))
             else:
                 try:
-                    log.info('here the oder number is:%s'% order_number)
                     order_number = TxShopDetails.objects.get(transaction_id=order_number)
                 except:
                     raise AuthFailedError(_('Order Number is Incorrect.'))
