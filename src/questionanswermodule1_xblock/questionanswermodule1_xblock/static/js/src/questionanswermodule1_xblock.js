@@ -42,6 +42,8 @@ function QuestionAnsXBlock(runtime, element) {
       $('.slide-indicator .dotslide').removeClass('active');
       $('#second_slide').addClass('active');
       $('.additem #1').addClass('active');
+      $('.left').show();
+      $('.right').show();
     });
 
     $('#first_slide').on('click', function () {
@@ -49,6 +51,8 @@ function QuestionAnsXBlock(runtime, element) {
       $('.slide-indicator .dotslide').removeClass('active');
       $('#first_slide').addClass('active');
       $('.additem #0').addClass('active');
+      $('.left').hide();
+      $('.right').show();
     });
 
     $('#third_slide').on('click', function () {
@@ -56,6 +60,8 @@ function QuestionAnsXBlock(runtime, element) {
       $('.slide-indicator .dotslide').removeClass('active');
       $('#third_slide').addClass('active');
       $('.additem #2').addClass('active');
+      $('.left').show();
+      $('.right').hide();
     });
 
 

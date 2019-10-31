@@ -576,12 +576,12 @@ display: -webkit-flex;
 .left .fa-angle-left, .right .fa-angle-right {
     color: #000;
 }
-.carousel-control.right {
+.carousel-control .right {
     background-image: none;
     line-height: 624px;
     height: 0px;
 }
-.carousel-control.left {
+.carousel-control .left {
     background-image: none;
     line-height: 624px;
     height: 0px;

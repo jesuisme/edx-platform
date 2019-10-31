@@ -1,11 +1,11 @@
-function UserResponseXBlocks(runtime, element) {
+function ReflectionUserResponseXBlocks(runtime, element) {
 
     // function updateCount(result) {
     //     $('.count', element).text(result.count);
     // }
     function editstudioquestions(result) {
         $('.studio_questions_class', element).text(result.studio_questions);
-        // window.location.reload();
+        window.location.reload();
     }
 
     // var handlerUrl = runtime.handlerUrl(element, 'increment_count');

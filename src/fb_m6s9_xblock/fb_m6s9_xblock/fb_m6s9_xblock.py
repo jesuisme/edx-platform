@@ -2,10 +2,10 @@
 
 import pkg_resources
 from xblock.core import XBlock
-from xblock.fields import Integer, Scope
+from xblock.fields import Integer, Scope, List
 from xblock.fragment import Fragment
 
-
+@XBlock.wants('user')
 class FBm6s9XBlock(XBlock):
     """
     TO-DO: document what your XBlock does.
@@ -19,6 +19,10 @@ class FBm6s9XBlock(XBlock):
         default=0, scope=Scope.user_state,
         help="A simple counter, to show something happening",
     )
+
+    fb_responses = List(help="responses from students", default=[], scope=Scope.user_state_summary)
+
+    user_record = List(help="responses from students", default=[], scope=Scope.user_state_summary)
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
@@ -43,15 +47,49 @@ class FBm6s9XBlock(XBlock):
     # TO-DO: change this handler to perform your own actions.  You may need more
     # than one handler, or you may not need any handlers at all.
     @XBlock.json_handler
-    def increment_count(self, data, suffix=''):
+    def fb_add_responses(self, data, suffix=''):
         """
         An example handler, which increments the data.
         """
-        # Just to show data coming in...
-        assert data['hello'] == 'world'
+        user_service = self.runtime.service(self, 'user')
+        xb_user = user_service.get_current_user()
+        
+        import ast
 
-        self.count += 1
-        return {"count": self.count}
+        convert_dictionay = ast.literal_eval(data['Data'])
+        add_reply = {
+            "full_name": xb_user.full_name,
+            "user_mail":xb_user.emails,
+            "response": convert_dictionay
+
+        }
+        self.fb_responses.append(add_reply)
+        Current_user = add_reply
+        return {"user_record": self.fb_responses, "Current_user": Current_user}
+
+    @XBlock.json_handler
+    def check_user_submmited(self, data, suffix=''):
+
+        user_service = self.runtime.service(self, 'user')
+        xb_user = user_service.get_current_user()
+
+        user_data = self.fb_responses
+        user_match_counter = 0
+        Current_user = None
+        diffcost = None
+        if len(user_data) > 0:
+            for user_row in user_data:
+                print("user row====%s===" % user_row)
+                if str(user_row['user_mail'][0]) == str(xb_user.emails[0]):
+                    user_match_counter += 1
+                    Current_user = user_row
+
+        if user_match_counter > 0:
+            return {"user_record": self.fb_responses, "Current_user": Current_user}
+        else:
+            return {"user_record": "new_user"}
+
+        return
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
