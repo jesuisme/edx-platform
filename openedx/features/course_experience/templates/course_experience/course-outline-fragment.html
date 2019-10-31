@@ -179,8 +179,8 @@ course_sections = blocks.get('children')
                                             </div>
                         % if vertical.get('complete'):
                         <% 
-                        if str(vertical['display_name']) == 'cert disp':
-                            deep_drive_badge(request.user)
+                        if str(vertical['display_name']) == '𝗗𝗶𝘃𝗲 𝗗𝗲𝗲𝗽𝗲𝗿: 𝗕𝗮𝘀𝗶𝗰𝘀 𝗼𝗳 𝗛𝗲𝗮𝗹𝘁𝗵 𝗖𝗮𝗿𝗲 𝗙𝗶𝗻𝗮𝗻𝗰𝗶𝗻𝗴 𝗶𝗻 𝘁𝗵𝗲 𝗨𝗦':
+                            deep_drive_badge(request.user, completed_first_challenge="deep_drive")
                         
                         
 

@@ -89,20 +89,21 @@ def deep_drive_badge(user, completed_first_challenge=None):
     """
     """
     # slug = config.get(count)first_challenge
-    if completed_first_challenge:
+    if completed_first_challenge == "first_challenge":
         badge_class = BadgeClass.get_badge_class(slug= 'value_practitioner',issuing_component='openedx__course', create=False,
         )
         if not badge_class:
             return
         if not badge_class.get_for_user(user):
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
+    if completed_first_challenge == "deep_drive":
 
-    badge_class = BadgeClass.get_badge_class(slug= 'deep_drive',issuing_component='openedx__course', create=False,
-    )
-    if not badge_class:
-        return
-    if badge_class and not badge_class.get_for_user(user):
-        assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
+        badge_class = BadgeClass.get_badge_class(slug= 'deep_drive',issuing_component='openedx__course', create=False,
+        )
+        if not badge_class:
+            return
+        if badge_class and not badge_class.get_for_user(user):
+            assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
 
 
 

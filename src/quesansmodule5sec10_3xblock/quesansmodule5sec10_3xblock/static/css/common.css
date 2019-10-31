@@ -422,7 +422,7 @@ display: -webkit-flex;
 
 .container .carousel-inner{
     padding-bottom: 75px !important;
-    min-height: 680px;
+    /*min-height: 680px;*/
 }
 
 .b2 {
@@ -590,10 +590,10 @@ display: -webkit-flex;
     bottom: 50px;
 }
 .carousel-indicators .active {
-    background-color: #ccc;
+    background-color: #999;
 }
 .carousel-indicators li {
-    background-color: #999;
+    background-color: #ccc;
 }
 #myCarousel .col-sm-4 p {
     color: #7f90a5;

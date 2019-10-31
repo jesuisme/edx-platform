@@ -5,7 +5,6 @@ function UserResponseXBlocks(runtime, element) {
     // }
     function editstudioquestions(result) {
         $('.studio_questions_class', element).text(result.studio_questions);
-        console.log("last point of function=====");
         window.location.reload();
     }
 
@@ -13,7 +12,6 @@ function UserResponseXBlocks(runtime, element) {
     var set_question = runtime.handlerUrl(element, 'set_studio_question');
 
     $('#addresponses_studio', element).click(function(eventObject) {
-        console.log("after click submit====");
         var response = document.getElementById("studentresponse_studio").value;
         $.ajax({
             type: "POST",

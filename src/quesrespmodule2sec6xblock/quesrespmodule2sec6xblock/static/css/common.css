@@ -1,5 +1,5 @@
 body {
-    font-family: "GothamHTF-Book";
+    /*/*font-family: "GothamHTF-book";*/*/
     overflow-x: hidden;
     padding-right: 0px !important;
 }
@@ -167,7 +167,7 @@ div.jqcloud span.vertical {
 left: 32px;
 position: absolute;
 top: 8px;
-font-family: "GothamHTF-book";
+/*font-family: "GothamHTF-book";*/
 color: #f6821f;
 width: 442px;
 word-wrap: break-word;
@@ -177,7 +177,7 @@ word-wrap: break-word;
 .s_top{
     position: relative;
    top: -10px;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     word-wrap: break-word;
 }
 .vcenter {
@@ -399,7 +399,7 @@ display: -webkit-flex;
 
         background: rgba(255, 255, 255, 0.75) none repeat scroll 0 0;
     color: #232a30;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
@@ -417,12 +417,12 @@ display: -webkit-flex;
     position: relative;
     text-shadow: none;
     width: 28%;
-    font-family: "GothamHTF-Bold"; line-height:17px;
+    /*font-family: "GothamHTF-Bold";*/ line-height:17px;
 }
 
 .container .carousel-inner{
     padding-bottom: 75px !important;
-    min-height: 680px;
+    /*min-height: 680px;*/
 }
 
 .b2 {
@@ -465,7 +465,7 @@ display: -webkit-flex;
     z-index: 999;
 }
 .boldT {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 .panel {
     border: 0 none;
@@ -474,7 +474,7 @@ display: -webkit-flex;
     text-shadow: none;
 }
 .panel h2 {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 15px;
 }
 .panel h5 {
@@ -482,7 +482,7 @@ display: -webkit-flex;
     font-size: 14px;
 }
 .panel p {
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
     font-size: 12px;
 }
 .b2 .tint {
@@ -519,14 +519,14 @@ display: -webkit-flex;
 }
 .well h3 {
     color: #f49951;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 14px;
 }
 .well h3 span {
     color: #7e90a8;
 }
 .well h4 {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 18px;
 }
 #coll_3 {
@@ -590,19 +590,19 @@ display: -webkit-flex;
     bottom: 50px;
 }
 .carousel-indicators .active {
-    background-color: #ccc;
+    background-color: #999;
 }
 .carousel-indicators li {
-    background-color: #999;
+    background-color: #ccc;
 }
 #myCarousel .col-sm-4 p {
     color: #7f90a5;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     margin-top: 12px;
 }
 #myCarousel .col-sm-4 div {
     font-size: 12px;
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
     overflow: hidden; 
 }
            
@@ -611,7 +611,7 @@ display: -webkit-flex;
 color: #f0ad4e;
 }
 #myCarousel .row .slideP {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
      margin-bottom: 13%;
     margin-top: 19px;
 }
@@ -623,7 +623,7 @@ color: #f0ad4e;
 
 #myCarousel .model_name{
     font-size: 12px;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     color: #f0ad4e !important;
 } 
  
@@ -1228,7 +1228,7 @@ footer span:nth-child(2) {
 .b2 h5,.b2 .container p {
     background: rgba(255, 255, 255, 0.6) none repeat scroll 0 0;
     color: #232a30;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     padding: 10px 30px;
     display: inline-block;
 }
@@ -1271,7 +1271,7 @@ footer span:nth-child(2) {
 }
 
 .headers .panel-group .panel-heading .panel-title {
-        font-family: "GothamHTF-Medium"  !important;
+        /*font-family: "GothamHTF-Medium"  !important;*/
         font-size: 110% !important;
         cursor: pointer  !important;
     }

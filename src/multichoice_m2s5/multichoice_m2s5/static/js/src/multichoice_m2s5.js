@@ -9,23 +9,23 @@ function TryA(obj){
     function checkAnswer(obj, f) {
     
             //console.log($(obj).parents(".row-eq-height"));
-        var TempJson=JasonData;
+        // var TempJson=JasonData;
         // TempJson.item_id="m2s5";
         // TempJson.test_name="Dell Med\\ Module 2\\ Section 5 Item";
         // TempJson.test_id="m2s5t001";
         // TempJson.student_id=app.Decrypt(app.LoginEmail);
-        TempJson.item_stem=$(obj).closest('.item').find('.ques').text();
-        var options=$(obj).closest('.row-eq-height').find('.ans');
-        TempJson.options = new Array();
-        $.each(options,function(i,v)
-        {
-            TempJson.options.push({
-                "letter" : i,
-                "text"  : $(v).text().trim(),
-                "selected":$(v).text().trim() == $(obj).text().trim() ? true : false,
-                "correct":  $(v).attr('onclick').indexOf('1')!=-1 ? true : false,
-            });
-        })
+        $(obj).closest('.item').find('.ques').text();
+        $(obj).closest('.row-eq-height').find('.ans');
+        // TempJson.options = new Array();
+        // $.each(options,function(i,v)
+        // {
+        //     TempJson.options.push({
+        //         "letter" : i,
+        //         "text"  : $(v).text().trim(),
+        //         "selected":$(v).text().trim() == $(obj).text().trim() ? true : false,
+        //         "correct":  $(v).attr('onclick').indexOf('1')!=-1 ? true : false,
+        //     });
+        // })
             //$('.item .ans').addClass('Dis');
             $(obj).closest('.row-eq-height').addClass('Dis');
             
@@ -42,7 +42,7 @@ function TryA(obj){
                 $(".5401, .2497").addClass("hide");
                 $("." + f).removeClass("hide");
             }
-            app.SaveJson(JSON.stringify(TempJson));
+            // app.SaveJson(JSON.stringify(TempJson));
         }
 /* Javascript for MultichoiceM2S5XBlock. */
 function MultichoiceM2S5XBlock(runtime, element) {

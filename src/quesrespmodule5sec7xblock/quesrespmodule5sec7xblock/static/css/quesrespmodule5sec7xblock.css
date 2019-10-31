@@ -16,3 +16,8 @@
     font-size: 2em;
 }
 
+
+.selectedAns{
+     background: transparent;
+     border:2px solid #fff;
+}

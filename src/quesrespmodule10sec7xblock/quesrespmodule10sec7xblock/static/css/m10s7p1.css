@@ -7,7 +7,7 @@
 
 .m10s7p1 .dotColr{
      color:#000;     
-     font-family: "GothamHTF-Book";
+     /*font-family: "GothamHTF-Book";*/
 }
 .m10s7p1 a .dotColr:hover {
      text-decoration: none !important;
@@ -90,8 +90,8 @@
 }
   .container .carousel .right.carousel-control{
      margin-right: -14px;
-     height: 10px;
-     top: 33%;
+     /*height: 10px;*/
+     top: 50%;
 }
   .container .carousel .right.carousel-control span{
      position: absolute;
@@ -131,7 +131,7 @@
   .b1 h2{
      background: rgba(255, 255, 255, 0.75) none repeat scroll 0 0;
      color: #232a30;
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
      margin-bottom: auto;
      margin-left: auto;
      margin-right: auto;
@@ -149,13 +149,13 @@
      position: relative;
      text-shadow: none;
      width: 28%;
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
 }
   .m4s4s1 {
      margin-top: 12px 
 }
   .m4s4s2 h4,  .m4s4s4 h3 {
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
 }
   .m4s4s2 {
      background: #ffffff;
@@ -299,6 +299,12 @@
   .m3s4b7 .m3s4b8 {
      line-height: 464px !important;
 }
+.carousel-indicators .active {
+    background-color: #999;
+}
+.carousel-indicators li {
+    background-color: #ccc;
+}
  .m10s7p1 .m3s4b7 .eq-h {
      display: -webkit-box;
      display: -webkit-flex;
@@ -308,10 +314,10 @@
 }
  .m10s7p1 .m4s4s8 ol {
      margin-left: -22px;
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
 }
  .m10s7p1 .m4s4s8 h5 {
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
 }
  .m10s7p1 .m4s5s3 {
      margin-bottom: 0px;
@@ -381,7 +387,7 @@
      padding: 10px;
      text-align: center;
      font-size: 16px;
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
 }
  .m10s7p1 .m4s4s5 {
      margin-top: 30px;
@@ -390,10 +396,10 @@
      /* border-bottom: 2px #222 solid; */
 }
  .m10s7p1 .m4s4s5 h3, .m10s7p1 .s1bgcol h3{
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
 }
  .m10s7p1 .response3 h2{
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
      font-size: 24px;
 }
 
@@ -403,21 +409,21 @@
      background: #fff;
 }
  .m10s7p1 .m4s4s7 h3 {
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
      margin-top: 0px;
 }
  .m10s7p1 .m10s7s8 ol {
      margin-left: -22px;
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
 }
  .m10s7p1 .m10s7s8 h5 {
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
 }
  .m10s7p1 .act1 h2, .m10s7p1 .act2 h2 {
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
 }
  .m10s7p1 .boldT {
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
 }
  .m10s7p1 .panel{
      border-radius:0px;
@@ -427,7 +433,7 @@
 }
  .m10s7p1 .panel h2 {
      font-size: 15px;
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
 }
  .m10s7p1 .panel h5 {
      font-size: 14px;
@@ -435,7 +441,7 @@
 }
  .m10s7p1 .panel p {
      font-size: 100%;
-     font-family: "GothamHTF-Book";
+     /*font-family: "GothamHTF-Book";*/
 }
  .m10s7p1 .b2_s1 .tint{
      width: 100%;
@@ -483,12 +489,12 @@
      padding: 0;
 }
  .m10s7p1 .s1bgcol5 .well p{
-     font-family: "GothamHTF-Book";
+     /*font-family: "GothamHTF-Book";*/
      font-size: 22px;
      margin-top: 35px;
 }
  .m10s7p1 .s1bgcol5 .well h6{
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
      font-size: 12px;
      color: #f4821f;
 }
@@ -568,7 +574,7 @@
     text-decoration:underline!important;
 }
  .m10s7p1 .s1bgcol3 .col-sm-8 h6, .m10s7p1 .m10s7s8 .col-sm-8 h6 {
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
      font-size: 12px;
      color: #f4821f;
 }
@@ -591,7 +597,7 @@
 }
  .m10s7p1 .m1s1imgT{
      font-size: 14px;
-     font-family: "GothamHTF-Book";
+     /*font-family: "GothamHTF-Book";*/
 }
  .m10s7p1 .middleTxt{
      position: absolute;
@@ -648,19 +654,19 @@
  .m10s7p1 .m7b2 h2{
      text-shadow:none;
      color:#000;
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
      color: #fff;
 }
  .m10s7p1 .m7b3 .col-sm-9 .well p:nth-child(1){
      color: #f68121;
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
 }
  .m10s7p1 .m7b3 .col-sm-9 .well p:nth-child(2){
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
      font-size: 18px !important;
 }
  .m10s7p1 .m7b3 .col-sm-9 .well p:nth-child(3){
-     font-family: "GothamHTF-Medium";
+     /*font-family: "GothamHTF-Medium";*/
 }
  .m10s7p1 .m7b3 .col-sm-9 .well p:nth-child(4){
      font-family: "GothamHTF-BookItalic";
@@ -674,7 +680,7 @@
  
  .m10s7p1 .m2s4b6 h2 {
      color:#fff;
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
 }
  .m10s7p1 .m7b3 .col-sm-12 .well1{
      background: #f5f5f5 none repeat scroll 0 0;
@@ -778,7 +784,7 @@
     border-bottom: 1px solid #dcdddf; margin:0 auto; margin-top:40px; 
 	}	
 .m10s7p1 .m10s7bg h3 {
-    font-family: "GothamHTF-Bold" !important;
+    /*font-family: "GothamHTF-Bold" !important;*/
     font-size: 20px; text-transform:uppercase;
 }	
 
@@ -959,12 +965,12 @@
 }
 .m10s7p1 .box{padding:30px; padding-top:40px; padding-bottom:40px;}
 .m10s7p1 .box h3{font-size:18px;}
-.m10s7p1 .color1{color:#f68121; font-family: "GothamHTF-Medium";}
-.m10s7p1 .color2{color:#36a1ce; font-family: "GothamHTF-Medium";}
-.m10s7p1 .color3{color:#ed604b; font-family: "GothamHTF-Medium";}
-.m10s7p1 .color4{color:#2f9b5a; font-family: "GothamHTF-Medium";}
-.m10s7p1 .correct1{background-color:#25ad95; color:#ffffff; font-family: "GothamHTF-Medium"; width:100%; padding:40px; margin:0 auto;}
-.m10s7p1 .wrong1{background-color:#f06858; color:#ffffff;  font-family: "GothamHTF-Medium"; width:100%; padding:40px;margin:0 auto;}
+.m10s7p1 .color1{color:#f68121; /*font-family: "GothamHTF-Medium";*/}
+.m10s7p1 .color2{color:#36a1ce; /*font-family: "GothamHTF-Medium";*/}
+.m10s7p1 .color3{color:#ed604b; /*font-family: "GothamHTF-Medium";*/}
+.m10s7p1 .color4{color:#2f9b5a; /*font-family: "GothamHTF-Medium";*/}
+.m10s7p1 .correct1{background-color:#25ad95; color:#ffffff; /*font-family: "GothamHTF-Medium";*/ width:100%; padding:40px; margin:0 auto;}
+.m10s7p1 .wrong1{background-color:#f06858; color:#ffffff;  /*font-family: "GothamHTF-Medium";*/ width:100%; padding:40px;margin:0 auto;}
 .m10s7p1 .wrong1 .msgBtn{    background: #fff;
     width: 200px;
     color: #F06858;
@@ -989,7 +995,7 @@
 .tab1 table td p {
     margin: 0px;
 }	
-.tab1 table td  h3{font-family: "GothamHTF-Medium"; font-size:20px; }
+.tab1 table td  h3{/*font-family: "GothamHTF-Medium";*/ font-size:20px; }
 .m10s7p1 .panel-body a{color:#F68121;}
 .m10s7p1 .panel-body a:hover{text-decoration:underline;}
 .m10s7p1 .bg4{background-color:#f4f4f4;}
@@ -997,7 +1003,7 @@
     border: 1px #f48221 solid;
     padding: 10px;
     color: #f48221;
-	font-family: "GothamHTF-Medium";
+	/*font-family: "GothamHTF-Medium";*/
 	margin-bottom:50px;
 }
 @media screen and (min-device-width : 766px) and (max-device-width : 1024px) {
@@ -1054,12 +1060,12 @@
          padding-right: 0px;
     }
      .m10s7p1 .b1 h2 {
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
          font-size: 124%;
          width: 70%;
     }
      .m10s7p1 .b1 .container p{
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
          font-size: 107%;
          width: 42%;
     }
@@ -1176,14 +1182,14 @@
          padding-right: : 10px;
     }
      .m10s7p1 .b1 h2 {
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
          font-size: 124%;
          width: 70%;
     }
      .m10s7p1 .b1 .container p{
          font-size: 107%;
          width: 42%;
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
     }
      .m10s7p1 .s1hide {
          display: none;
@@ -1280,12 +1286,12 @@
          padding-right: : 10px;
     }
      .m10s7p1 .b1 h2{
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
          font-size: 103%;
          width: 90%;
     }
      .m10s7p1 .b1 .container p{
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
          font-size: 83%;
          width: 65%;
     }
@@ -1347,7 +1353,7 @@
 .m10s7p1 .correct1 {
     background-color: #25ad95;
     color: #ffffff;
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
     width: 100%;
     padding: 15px;
     margin: 0 auto;
@@ -1390,12 +1396,12 @@
          padding-right: : 10px;
     }
      .m10s7p1 .b1 h2 {
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
          font-size: 48%;
          width: 86%;
     }
      .m10s7p1 .b1 .container p {
-         font-family: "GothamHTF-Bold";
+         /*font-family: "GothamHTF-Bold";*/
          font-size: 42%;
          width: 60%;
     }

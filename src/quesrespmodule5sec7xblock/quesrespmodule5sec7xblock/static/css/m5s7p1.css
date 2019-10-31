@@ -17,7 +17,7 @@ cursor: pointer;
  .m5s7b1 h2{
     background: rgba(255, 255, 255, 0.6) none repeat scroll 0 0;
     color: #232a30;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
@@ -35,10 +35,10 @@ cursor: pointer;
     position: relative;
     text-shadow: none;
     width: 28%;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 .m5s7p1 .bg-3  h3 {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 
 /* start bg */
@@ -47,7 +47,7 @@ cursor: pointer;
  .m5s7d2 .container {   
     text-shadow:none;
     color:#000;
-    font-family: "GothamHTF-Bold";    
+    /*font-family: "GothamHTF-Bold";*/    
     color: #fff;   
 }
 
@@ -55,7 +55,7 @@ cursor: pointer;
 /* end bg */
 
 .m5s7p1 .m2s1ms2 h3{
-    font-family: "GothamHTF-Bold";    
+    /*font-family: "GothamHTF-Bold";*/    
 }
 .m5s7p1 .m2s1ms2 .row{
     margin:30px;
@@ -71,7 +71,7 @@ cursor: pointer;
 }
 
 .m5s7p1 .m5s7b2 h4 {
-    font-family: "GothamHTF-Bold" !important;
+    /*font-family: "GothamHTF-Bold" !important;*/
 }
 
 .m5s7p1 .m5s7b2 .line_left{
@@ -83,7 +83,7 @@ cursor: pointer;
 font-size: 14px;
 }
 .m5s7p1 .m5s7b2 .bText{
-font-family: "GothamHTF-Bold";
+/*font-family: "GothamHTF-Bold";*/
 }
 
 .m5s7p1 .m5s7b3{
@@ -102,7 +102,7 @@ font-family: "GothamHTF-Bold";
 }
 
 .m5s7p1 .m5s7b5  p {    
-    font-family: "GothamHTF-Book";
+    /*font-family: "GothamHTF-Book";*/
     font-size: 18px;
     margin-bottom: 0px;
     color: #fff;
@@ -159,7 +159,7 @@ font-family: "GothamHTF-Bold";
 }
 
 .m5s7p1 .m5s7b8 h4{
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 } 
 
 .m5s7p1 .m5s7b8 .bdr_btm {
@@ -168,10 +168,10 @@ font-family: "GothamHTF-Bold";
 }
 
 .m5s7p1 .m5s7b8 h4{
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 } 
 .m5s7p1 .m5s7b8 .m5s7b9 .bText{
-  font-family: "GothamHTF-Bold"; 
+  /*font-family: "GothamHTF-Bold";*/ 
   font-size: 14px;
   margin-top: 30px;
 }
@@ -224,14 +224,14 @@ font-family: "GothamHTF-Bold";
 }
 .m5s7p1 .org {
     color:#f68121;
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
 } 
 .m5s7p1 .m2s8c1 h4 {
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     margin-top: 2px !important;
 }
 .m5s7p1 .bl {    
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
 } 
 .m5s7p1 .m2s8c2 {
     background: #28ae95;
@@ -242,7 +242,7 @@ font-family: "GothamHTF-Bold";
 
 }
 .m5s7p1 .bl {    
-    font-family: "GothamHTF-Medium";
+    /*font-family: "GothamHTF-Medium";*/
 } 
 /*end c2*/
 
@@ -435,7 +435,7 @@ font-family: "GothamHTF-Bold";
 }
 .m5s7p1 .m5s7bg .well .bba{
     padding-top: 30px;
-    font-family: "GothamHTF-Bold" !important;
+    /*font-family: "GothamHTF-Bold" !important;*/
 }
 
 .m5s7p1 .m5s7bba .vertical-align {
@@ -483,7 +483,7 @@ and (max-device-width : 1000px) {
 }
 .m5s7p1 .m5s7bg .well .bba{
     padding-top: 0px;
-    font-family: "GothamHTF-Bold" !important;
+    /*font-family: "GothamHTF-Bold" !important;*/
 }
 .m5s7p1 .m5s7bg img {
     padding-bottom: 20px;
@@ -521,12 +521,12 @@ and (max-device-width : 1000px) {
 
 
 .m5s7b1 .container h2{
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 124%;
     width: 70%;
  }
  .m5s7b1 .container p{
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 107%;
     width: 42%;
     }
@@ -614,7 +614,7 @@ and (max-device-width : 765px) {
 }
 .m5s7p1 .m5s7bg .well .bba{
     padding-top: 0px;
-    font-family: "GothamHTF-Bold" !important;
+    /*font-family: "GothamHTF-Bold" !important;*/
 }
 
 .m5s7p1 .m2s6b7 {
@@ -636,14 +636,14 @@ and (max-device-width : 765px) {
 
 
  .m5s7b1 .container h2{
-     font-family: "GothamHTF-Bold";
+     /*font-family: "GothamHTF-Bold";*/
     font-size: 124%;
     width: 70%;
 }
  .m5s7b1 .container p{
     font-size: 107%;
     width: 42%;
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
 }
 
 .m5s7p1 .dArowh {
@@ -716,7 +716,7 @@ and (max-device-width : 500px) {
 }
 .m5s7p1 .m5s7bg .well .bba{
     padding-top: 0px;
-    font-family: "GothamHTF-Bold" !important;
+    /*font-family: "GothamHTF-Bold" !important;*/
 }
 
 .m5s7p1 .m5s7bg img {
@@ -756,13 +756,13 @@ and (max-device-width : 500px) {
   display: none;
 }
  .m5s7b1 .container h2{  
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 103%;
     width: 100%;
     }
 
  .m5s7b1 .container p{
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 83%;
     width: 65%;
     }
@@ -821,7 +821,7 @@ and (max-device-width : 299px) {
 }
 .m5s7p1 .m5s7bg .well .bba{
     padding-top: 0px;
-    font-family: "GothamHTF-Bold" !important;
+    /*font-family: "GothamHTF-Bold" !important;*/
 }
 
 .m5s7p1 .eq-h {
@@ -858,12 +858,12 @@ and (max-device-width : 299px) {
 
 
  .m5s7b1 .container h2 {  
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 48%;
     width: 86%;
     }
  .m5s7b1 .container p{
-    font-family: "GothamHTF-Bold";
+    /*font-family: "GothamHTF-Bold";*/
     font-size: 42%;
     width: 60%;
     }
