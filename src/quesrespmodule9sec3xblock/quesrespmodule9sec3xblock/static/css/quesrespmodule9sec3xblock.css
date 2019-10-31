@@ -1,10 +1,7 @@
-/* CSS for QuesRespModule9Sec3XBlock */
-
-/*.quesrespmodule9sec3xblock_block .count {
-    font-weight: bold;
+.carousel .left.carousel-control {
+	height: 0px;
 }
 
-.quesrespmodule9sec3xblock_block p {
-    cursor: pointer;
+.carousel .right.carousel-control {
+	height: 0px;
 }
-*/
