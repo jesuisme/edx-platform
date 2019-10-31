@@ -577,6 +577,8 @@ def Merge(dict1, dict2):
 def order_confirmation(request):
     if request.method == 'POST':
         order_number = request.POST.get('order_number')
+        order_number = str(order_number).strip()
+
         user = request.user
         try:
             organization = OrganizationRegistration.objects.get(organization_email=user.email)
@@ -588,6 +590,7 @@ def order_confirmation(request):
                 raise AuthFailedError(_('Please Enter Order Number to Login.'))
             else:
                 try:
+                    log.info('here the oder number is:%s'% order_number)
                     order_number = TxShopDetails.objects.get(transaction_id=order_number)
                 except:
                     raise AuthFailedError(_('Order Number is Incorrect.'))
