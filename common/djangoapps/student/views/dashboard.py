@@ -577,6 +577,8 @@ def Merge(dict1, dict2):
 def order_confirmation(request):
     if request.method == 'POST':
         order_number = request.POST.get('order_number')
+        order_number = str(order_number).strip()
+
         user = request.user
         try:
             organization = OrganizationRegistration.objects.get(organization_email=user.email)
