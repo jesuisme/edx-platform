@@ -62,9 +62,9 @@ function TryA(obj){
 
 function QuesRespModule10Sec4XBlock(runtime, element) {
 
-  $(document).ready(function(){
-    setMsgBoxHeight();
-});
+//   $(document).ready(function(){
+//     setMsgBoxHeight();
+// });
 
 $('#myCarousel').on('slid.bs.carousel', function (e) {
        $('.item .ans').removeClass('Dis');
@@ -80,26 +80,26 @@ $('#myCarousel').on('slid.bs.carousel', function (e) {
             $('.left1').show();
             $('.right1').show();
           }
-          setMsgBoxHeight();
+          // setMsgBoxHeight();
       });
     
       
-        function setMsgBoxHeight() {
-    var f_height = 0;
-            var msgboxHeight = $(".carousel .active .row-eq-height").height();
-       var l = $(".carousel .active .ans").length;
-        for(var i=1;i<=l;i++)
-        {
-        var h =  $(".carousel .active .row-eq-height div:nth-child("+i+") .ans").css("height");
-        var h1 = h.split('p');
-       if(f_height < Number(h1[0]))
-       {
-          f_height = h1[0];
-       }
-      }
-           $(".carousel .active .ans").css("height",f_height+"px"); 
-        $(".carousel .active .ans").css("line-height","block-height !important");      
-    }
+    //     function setMsgBoxHeight() {
+    // var f_height = 0;
+    //         var msgboxHeight = $(".carousel .active .row-eq-height").height();
+    //    var l = $(".carousel .active .ans").length;
+    //     for(var i=1;i<=l;i++)
+    //     {
+    //     var h =  $(".carousel .active .row-eq-height div:nth-child("+i+") .ans").css("height");
+    //     var h1 = h.split('p');
+    //    if(f_height < Number(h1[0]))
+    //    {
+    //       f_height = h1[0];
+    //    }
+    //   }
+    //        $(".carousel .active .ans").css("height",f_height+"px"); 
+    //     $(".carousel .active .ans").css("line-height","block-height !important");      
+    // }
     
   $("#my-Carousel1 .additem").on("swipeleft",function(){
   if(app.isMobile){
@@ -117,7 +117,7 @@ $('#myCarousel').on('slid.bs.carousel', function (e) {
      $("#my-Carousel1 .carousel-indicators li:nth-child("+i+")").addClass("active");
       $("#my-Carousel1 .additem div.item:nth-child("+i+")").addClass("active");
    }
-   setMsgBoxHeight();
+   // setMsgBoxHeight();
 }
   });
   $("#my-Carousel1 .additem").on("swiperight",function(){
@@ -136,7 +136,7 @@ $('#myCarousel').on('slid.bs.carousel', function (e) {
      $("#my-Carousel1 .carousel-indicators li:nth-child("+i+")").addClass("active");
       $("#my-Carousel1 .additem div.item:nth-child("+i+")").addClass("active");
    }
-     setMsgBoxHeight();
+     // setMsgBoxHeight();
 }
   });
 

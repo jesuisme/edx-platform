@@ -1,9 +1,9 @@
 
-#main {
+#main1 {
     margin: 0 auto;
     padding: 0px;
     height: auto;
-    width: 835px;
+    width: 100%;
     overflow: hidden;
     border: 0px solid #ccc;
     background-color: #f3f5f4;

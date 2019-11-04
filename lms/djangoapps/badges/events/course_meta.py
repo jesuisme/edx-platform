@@ -3,9 +3,32 @@ Events which have to do with a user doing something with more than one course, s
 as enrolling in a certain number, completing a certain number, or completing a specific set of courses.
 """
 import logging
+# from edx_ace import ace
 from badges.models import PercentBaseBadges, BadgeAssertion, BadgeClass, CourseEventBadgesConfiguration
 from badges.utils import requires_badges_enabled
+# from openedx.core.djangoapps.ace_common.template_context import get_base_template_context
+# from edx_ace.recipient import Recipient
+# from django.contrib.sites.models import Site
+# from ..message_types import BadgesMails
+
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from django.conf import settings
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from edxmako.shortcuts import  render_to_string
 log = logging.getLogger(__name__)
+
+
+# def logo_data(): 
+#     #file_path = staticfiles_storage.url('images/logo_ut.jpg')
+#     file_path = settings.STATIC_ROOT_BASE + '/images/logo_ut.jpg'
+#     f = 'logo_ut.jpg'
+#     fp = open(file_path, 'rb')
+#     msg_img = MIMEImage(fp.read())
+#     fp.close()
+#     msg_img.add_header('Content-ID', '<{}>'.format(f))
+#     return msg_img
+
+
 
 def  award_badge(config, count, user):
     """
@@ -19,6 +42,7 @@ def  award_badge(config, count, user):
     Example config:
         {3: 'slug_for_badge_for_three_enrollments', 5: 'slug_for_badge_with_five_enrollments'}
     """
+    from student.views.management import logo_data
     slug = config.get(count)
     if not slug:
         return
@@ -30,6 +54,29 @@ def  award_badge(config, count, user):
     if not badge_class.get_for_user(user):
         assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
         # badge_class.award(user)
+        context  = {
+                "badge_name": badge_class.display_name
+        }
+        mail_subject = "you have earn a new badge"
+        to_email = user.email
+
+        from_address = configuration_helpers.get_value(
+                'email_from_address',
+                settings.DEFAULT_FROM_EMAIL
+        )
+
+        message_for_activation = render_to_string('emails/badges_mails.txt', context)
+
+        email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])
+
+        email.attach_alternative(message_for_activation, "text/html")
+
+        email.mixed_subtype = 'related'
+
+        email.attach(logo_data())
+        
+        email.send()
+
 
 
 def award_enrollment_badge(user):
@@ -63,6 +110,7 @@ def course_group_check(user, course_key):
     Awards a badge if a user has completed every course in a defined set.
     """
     from lms.djangoapps.certificates.models import CertificateStatuses
+    from student.views.management import logo_data
     config = CourseEventBadgesConfiguration.current().course_group_settings
     awards = []
     for slug, keys in config.items():
@@ -81,6 +129,28 @@ def course_group_check(user, course_key):
         if badge_class and not badge_class.get_for_user(user):
             # badge_class.award(user)
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
+            context  = {
+                "badge_name": badge_class.display_name
+            }
+            mail_subject = "you have earn a new badge"
+            to_email = user.email
+
+            from_address = configuration_helpers.get_value(
+                    'email_from_address',
+                    settings.DEFAULT_FROM_EMAIL
+            )
+
+            message_for_activation = render_to_string('emails/badges_mails.txt', context)
+
+            email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])
+
+            email.attach_alternative(message_for_activation, "text/html")
+
+            email.mixed_subtype = 'related'
+
+            email.attach(logo_data())
+            
+            email.send()
 
 
 
@@ -89,6 +159,7 @@ def deep_drive_badge(user, completed_first_challenge=None):
     """
     """
     # slug = config.get(count)first_challenge
+    from student.views.management import logo_data
     if completed_first_challenge == "first_challenge":
         badge_class = BadgeClass.get_badge_class(slug= 'value_practitioner',issuing_component='openedx__course', create=False,
         )
@@ -96,6 +167,28 @@ def deep_drive_badge(user, completed_first_challenge=None):
             return
         if not badge_class.get_for_user(user):
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
+            context  = {
+                "badge_name": badge_class.display_name
+            }
+            mail_subject = "you have earn a new badge"
+            to_email = user.email
+
+            from_address = configuration_helpers.get_value(
+                    'email_from_address',
+                    settings.DEFAULT_FROM_EMAIL
+            )
+
+            message_for_activation = render_to_string('emails/badges_mails.txt', context)
+
+            email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])
+
+            email.attach_alternative(message_for_activation, "text/html")
+
+            email.mixed_subtype = 'related'
+
+            email.attach(logo_data())
+            
+            email.send()
     if completed_first_challenge == "deep_drive":
 
         badge_class = BadgeClass.get_badge_class(slug= 'deep_drive',issuing_component='openedx__course', create=False,
@@ -104,6 +197,28 @@ def deep_drive_badge(user, completed_first_challenge=None):
             return
         if badge_class and not badge_class.get_for_user(user):
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
+            context  = {
+                "badge_name": badge_class.display_name
+            }
+            mail_subject = "you have earn a new badge"
+            to_email = user.email
+
+            from_address = configuration_helpers.get_value(
+                    'email_from_address',
+                    settings.DEFAULT_FROM_EMAIL
+            )
+
+            message_for_activation = render_to_string('emails/badges_mails.txt', context)
+
+            email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])
+
+            email.attach_alternative(message_for_activation, "text/html")
+
+            email.mixed_subtype = 'related'
+
+            email.attach(logo_data())
+            
+            email.send()
 
 
 
@@ -112,6 +227,7 @@ def percent_base_badges(user):
     """
     """
     from student.models import CourseProgress
+    from student.views.management import logo_data
     count = 0
     count1 = 0
     # slug = config.get(count)
@@ -130,10 +246,54 @@ def percent_base_badges(user):
         badge_class = BadgeClass.get_badge_class(slug= 'power_learner',issuing_component='openedx__course', create=False,)
         if badge_class and not badge_class.get_for_user(user):
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
+            context  = {
+                "badge_name": badge_class.display_name
+            }
+            mail_subject = "you have earn a new badge"
+            to_email = user.email
+
+            from_address = configuration_helpers.get_value(
+                    'email_from_address',
+                    settings.DEFAULT_FROM_EMAIL
+            )
+
+            message_for_activation = render_to_string('emails/badges_mails.txt', context)
+
+            email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])
+
+            email.attach_alternative(message_for_activation, "text/html")
+
+            email.mixed_subtype = 'related'
+
+            email.attach(logo_data())
+            
+            email.send()
     if count1 > 0:
         badge_class = BadgeClass.get_badge_class(slug= 'engaged_learner',issuing_component='openedx__course', create=False,)
         if badge_class and not badge_class.get_for_user(user):
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
+            context  = {
+                "badge_name": badge_class.display_name
+            }
+            mail_subject = "you have earn a new badge"
+            to_email = user.email
+
+            from_address = configuration_helpers.get_value(
+                    'email_from_address',
+                    settings.DEFAULT_FROM_EMAIL
+            )
+
+            message_for_activation = render_to_string('emails/badges_mails.txt', context)
+
+            email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])
+
+            email.attach_alternative(message_for_activation, "text/html")
+
+            email.mixed_subtype = 'related'
+
+            email.attach(logo_data())
+            
+            email.send()
 
 
 
@@ -141,12 +301,59 @@ def percent_base_badges(user):
 def user_response_badges(user):
     """
     """
-    from student.models import QuestionResponse, StudentModuleViews
+    from student.models import QuestionResponse, StudentModuleViews, UserProfile
+    from student.views.management import logo_data
     user_response = QuestionResponse.objects.filter(user=user)
+    log.info("user mail------%s------" % user.email)
     if user_response:
         badge_class = BadgeClass.get_badge_class(slug = 'user_response',issuing_component='openedx__course', create=False,)
         if badge_class and not badge_class.get_for_user(user):
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
+            log.info("badge_class.display_name======%s====" % badge_class.display_name)
+            # try:
+            #     get_user_name = UserProfile.objects.get(user=user)
+            #     log.info("get_user_name========%s=====" % get_user_name)
+            #     log.info("get_user_name====nnn====%s=====" % get_user_name.name)
+            #     log.info("get_user_name====badge_class.display_name====%s=====" % badge_class.display_name)
+            #     site = Site.objects.get_current()
+            #     log.info("site========%s-----" % site)
+            #     notification_context = get_base_template_context(site)
+            #     notification_context.update({'full_name': get_user_name.name})
+            #     notification_context.update({'badge_name': badge_class.display_name})
+            #     notification = BadgesMails().personalize(
+            #         recipient=Recipient(email_address=user.email),
+            #         language=get_user_name.language,
+            #         user_context=notification_context,
+            #     )
+            #     ace.send(notification)
+            #     log.info("after send mail===========")
+            context  = {
+                "badge_name": badge_class.display_name
+            }
+            mail_subject = "you have earn a new badge"
+            to_email = user.email
+
+            from_address = configuration_helpers.get_value(
+                    'email_from_address',
+                    settings.DEFAULT_FROM_EMAIL
+            )
+
+            message_for_activation = render_to_string('emails/badges_mails.txt', context)
+
+            email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])
+
+            email.attach_alternative(message_for_activation, "text/html")
+
+            email.mixed_subtype = 'related'
+
+            email.attach(logo_data())
+            
+            email.send()
+
+            # except Exception as exc:
+            #     log.exception('Error sending out deletion notification email')
+            #     log.info('Error sending out deletion notification email===%s====' % exc)
+            #     raise
 
     moduleview = StudentModuleViews.objects.filter(user=user)
     count = 0
@@ -159,3 +366,25 @@ def user_response_badges(user):
             # if badge_class:
             if badge_class and not badge_class.get_for_user(user):
                 assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
+                context  = {
+                "badge_name": badge_class.display_name
+                }
+                mail_subject = "you have earn a new badge"
+                to_email = user.email
+
+                from_address = configuration_helpers.get_value(
+                        'email_from_address',
+                        settings.DEFAULT_FROM_EMAIL
+                )
+
+                message_for_activation = render_to_string('emails/badges_mails.txt', context)
+
+                email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])
+
+                email.attach_alternative(message_for_activation, "text/html")
+
+                email.mixed_subtype = 'related'
+
+                email.attach(logo_data())
+                
+                email.send()

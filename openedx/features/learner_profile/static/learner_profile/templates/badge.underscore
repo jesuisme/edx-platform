@@ -74,7 +74,7 @@ true
     $.ajax({
          type: "POST",
       	 dataType: 'json',
-      	 url: "/ut_new/linkedin_click",
+      	 url: "/ut_new/social_share",
          data: {badge: "linkedin_click"},
          
          success: function (data) {
@@ -92,7 +92,7 @@ true
     $.ajax({
          type: "POST",
       	 dataType: 'json',
-      	 url: "/ut_new/linkedin_click",
+      	 url: "/ut_new/social_share",
          data: {badge: "linkedin_click"},
          
          success: function (data) {
