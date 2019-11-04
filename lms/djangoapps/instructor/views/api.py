@@ -427,12 +427,10 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                             if course_key_new == course_id:
                                 cohort_names_list.append(coherts_object.coherts_name) 
 
-            log.info('cohort names list----%s---'% cohort_names_list)
 
             if cohort_names_list:
                 if cohort_name in cohort_names_list:
                     final_cohort_name = CohertsOrganization.objects.get(coherts_name=cohort_name)
-                    log.info('final_cohort_name----%s---'% final_cohort_name)
                 else:
                     general_errors.append({                        
                         'username': '', 'email': '', 'response': _('Cohort Name in CSV and Cohort Name Registered for this course does not Match. Cohort Name Registered for this course:  %s'% ', '.join(cohort_names_list)) })   
@@ -501,7 +499,6 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                     # enroll a user if it is not already enrolled.
                     if not CourseEnrollment.is_enrolled(user, course_id):
                         # Enroll user to the course and add manual enrollment audit trail 
-                        log.info("enroll the user if not enrolled----")
                         create_manual_course_enrollment(
                             user=user,
                             course_id=course_id,
@@ -545,7 +542,6 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
         'general_errors': general_errors,
         'warnings': warnings
     }
-    log.info("in the final results--%s--"% results)
     return JsonResponse(results)
 
 
