@@ -37,7 +37,7 @@ class MultichoiceM2S5XBlock(XBlock):
         frag.add_css(self.resource_string("static/css/multichoice_m2s5.css"))
         frag.add_css(self.resource_string("static/css/common.css"))
         frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
-        frag.add_css(self.resource_string("static/css/m2s5p1.css"))
+        #frag.add_css(self.resource_string("static/css/m2s5p1.css"))
         
         # frag.add_javascript(self.resource_string("static/js/src/jquery_min.js"))
         # frag.add_javascript(self.resource_string("static/js/src/bootstrap.min.js"))

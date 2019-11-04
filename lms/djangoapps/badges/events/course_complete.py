@@ -7,7 +7,9 @@ import logging
 from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
-
+from django.conf import settings
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from edxmako.shortcuts import  render_to_string
 from badges.models import BadgeAssertion, BadgeClass, CourseCompleteImageConfiguration, CourseCompleteBadges
 from badges.utils import requires_badges_enabled, site_prefix
 from xmodule.modulestore.django import modulestore
@@ -75,6 +77,7 @@ def get_completion_badge(course_id, user):
     and get the Course Completion badge.
     """
     from student.models import CourseEnrollment
+    from student.views.management import logo_data
     badge_classes = CourseEnrollment.objects.filter(
         user=user, course_id=course_id
     ).order_by('-is_active')
@@ -111,6 +114,29 @@ def get_completion_badge(course_id, user):
     	image_url_from_drive=completion_badge.url_of_badges
     	)
     assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badclass_object,image_url=badclass_object.image.url,drive_image_url=badclass_object.image_url_from_drive)
+    context  = {
+                "badge_name": badclass_object.display_name
+    }
+    mail_subject = "you have earn a new badge"
+    to_email = user.email
+
+    from_address = configuration_helpers.get_value(
+            'email_from_address',
+            settings.DEFAULT_FROM_EMAIL
+    )
+
+    message_for_activation = render_to_string('emails/badges_mails.txt', context)
+
+    email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])
+
+    email.attach_alternative(message_for_activation, "text/html")
+
+    email.mixed_subtype = 'related'
+
+    email.attach(logo_data())
+    
+    email.send()
+
     return badclass_object	
 
 

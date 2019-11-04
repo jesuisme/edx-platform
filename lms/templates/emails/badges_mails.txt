@@ -1,0 +1,7 @@
+<%! from django.utils.translation import ugettext as _ %>
+
+<p>${_("You have earned a new badge")}</p>
+<p><b>${_("Please check your profile.")}</b></p>
+<p>${_("badge name is : {badge_name}").format(badge_name=badge_name)}</p>
+<img src="cid:logo_ut.jpg">
+
