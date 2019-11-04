@@ -102,7 +102,8 @@ from openedx.core.djangolib.markup import HTML, Text
       <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }">
     </form>
     <br>
-    <p id="demo" style="display: none;"></p>
+    <p class="enrollcsv" id="demo" style="display: none;"></p>
+    <div id="loader" style="display: none;"></div>
     <div id="success_results" class="results"></div>
     <div class='cohort-register-error' style="color: red;"></div>
 </div>
@@ -302,18 +303,18 @@ from openedx.core.djangolib.markup import HTML, Text
       $('#demo').css("display","block");
       document.getElementById("demo").innerHTML = "<b>Please Wait Uploading CSV File..</b>";
     }   
-    window.setInterval(function(){
-      display();
-      /// call your function here
-    }, 1000);
+    // window.setInterval(function(){
+    //   display();      
+    // }, 1000);
   }
+
   function enroll_validation() {
     $('#enroll_validate').css("display","block");
     document.getElementById("enroll_validate").innerHTML = "<b>Please Wait...</b>";
-    window.setInterval(function(){
-      alertFunc();
-      /// call your function here
-    }, 1000);
+    // window.setInterval(function(){
+    //   alertFunc();
+    //   /// call your function here
+    // }, 1000);
   }
   function alertFunc() {
     var success_msg = $('.request-res-section').text();
@@ -342,3 +343,25 @@ from openedx.core.djangolib.markup import HTML, Text
 
 
 
+<style type="text/css">
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>

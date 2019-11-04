@@ -131,6 +131,7 @@ def has_access(user, action, obj, course_key=None):
         user = AnonymousUser()
 
     # Preview mode is only accessible by staff.
+    
     if user.is_staff:
         if in_preview_mode() and course_key:
             if not has_staff_access_to_preview_mode(user, course_key):

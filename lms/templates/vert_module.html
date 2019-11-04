@@ -4,7 +4,7 @@
 <% s_value='User Feedback Survey' %>
 
 % if unit_title == s_value.decode('utf-8') and course_progress != 100:
-	<p style="padding-left: 450px;color: red;"><b>Access Restricted<b></p>
+	<p style="padding-left: 250px;color: black;"><b>You have to complete all of the modules in this course to access User Feedback Survey.<b></p>
 % else:
 	%if unit_title:   
 	  <h2 class="hd hd-2 unit-title"><b>${unit_title}</b></h2>
