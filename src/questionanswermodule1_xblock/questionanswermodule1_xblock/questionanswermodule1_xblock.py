@@ -33,10 +33,9 @@ class QuestionAnsXBlock(XBlock):
         """
         html = self.resource_string("static/html/questionanswermodule1_xblock.html")
         frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
         frag.add_css(self.resource_string("static/css/questionanswermodule1_xblock.css"))
         frag.add_css(self.resource_string("static/css/common.css"))
-        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
-        frag.add_css(self.resource_string("static/css/m1s4p1.css"))
         # frag.add_css(self.resource_string("static/css/font-awesome.min.css"))
         
         # js_str = pkg_resources.resource_string(__name__, "static/js/src/common.css")

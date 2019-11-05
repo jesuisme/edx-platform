@@ -35,10 +35,9 @@ class QuesRespModule5Sec4XBlock(XBlock):
 
         html = self.resource_string("static/html/quesrespmodule5sec4xblock.html")
         frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
         frag.add_css(self.resource_string("static/css/quesrespmodule5sec4xblock.css"))
         frag.add_css(self.resource_string("static/css/common.css"))
-        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
-        frag.add_css(self.resource_string("static/css/m5s4p1.css"))
         
         
         # frag.add_javascript(self.resource_string("static/js/src/bootstrap.min.js"))

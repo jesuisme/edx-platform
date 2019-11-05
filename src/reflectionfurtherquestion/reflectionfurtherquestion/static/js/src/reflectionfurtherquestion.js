@@ -6,8 +6,8 @@ function ReflectionFurtherXBlock(runtime, element) {
     var responseSlides = document.getElementById('responses');
 
 
-    $('#addresponse', element).click(function (eventObject) {
-        var response = document.getElementById("studentresponse").value;
+    $('#addresponse1', element).click(function (eventObject) {
+        var response = document.getElementById("studentresponse1").value;
         var slide = "";
         // var course_id;
         // var current_url = window.location.href;

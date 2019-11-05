@@ -33,12 +33,11 @@ class QuesAnswModule3Sec32XBlock(XBlock):
         """
         html = self.resource_string("static/html/questionanswmodule3sec32xblock.html")
         frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
         frag.add_css(self.resource_string("static/css/questionanswmodule3sec32xblock.css"))
         # frag.add_css(self.resource_string("static/css/fonts.css"))
         
         frag.add_css(self.resource_string("static/css/common.css"))
-        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
-        frag.add_css(self.resource_string("static/css/m3s3p1.css"))
         # frag.add_css(self.resource_string("static/css/font-awesome.min.css"))
         # frag.add_javascript(self.resource_string("static/js/src/bootstrap.min.js"))
         # frag.add_javascript(self.resource_string("static/js/src/jquery.inview.js"))

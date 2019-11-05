@@ -4,15 +4,15 @@ function ReflectionUserResponseXBlocks(runtime, element) {
     //     $('.count', element).text(result.count);
     // }
     function editstudioquestions(result) {
-        $('.studio_questions_class', element).text(result.studio_questions);
+        $('.studio_questions_class1', element).text(result.studio_questions);
         window.location.reload();
     }
 
     // var handlerUrl = runtime.handlerUrl(element, 'increment_count');
     var set_question = runtime.handlerUrl(element, 'set_studio_question');
 
-    $('#addresponses_studio', element).click(function(eventObject) {
-        var response = document.getElementById("studentresponse_studio").value;
+    $('#addresponses_studio1', element).click(function(eventObject) {
+        var response = document.getElementById("studentresponse_studio1").value;
         $.ajax({
             type: "POST",
             url: set_question,

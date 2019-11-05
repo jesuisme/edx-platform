@@ -36,7 +36,7 @@ class QuesAnsModule3Section3XBlock(XBlock):
         frag.add_css(self.resource_string("static/css/quesansmodule3section3.css"))
         frag.add_css(self.resource_string("static/css/common.css"))
         frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
-        frag.add_css(self.resource_string("static/css/m3s3p1.css"))
+        #frag.add_css(self.resource_string("static/css/m3s3p1.css"))
         js_str = pkg_resources.resource_string(__name__, "static/js/src/jquery.min.js")
         js_str = pkg_resources.resource_string(__name__, "static/js/src/bootstrap.min.js")
         frag.add_javascript(unicode(js_str))
