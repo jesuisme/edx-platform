@@ -21,7 +21,7 @@ class ReflectionFurtherXBlock(XBlock):
     )
 
     # reflection_question = String(help="A question for students", default="testing questions?", scope=Scope.content)
-    responses = List(help="responses from students", default=[], scope=Scope.user_state_summary)
+    responses_for_reflection = List(help="responses from students", default=[], scope=Scope.user_state_summary)
     
 
     def resource_string(self, path):
@@ -98,26 +98,26 @@ class ReflectionFurtherXBlock(XBlock):
         """
         user_service = self.runtime.service(self, 'user')
         xb_user = user_service.get_current_user()
-        user_reply = data['studentReply']
+        user_reply = data['studentReply_reflection']
         # course_id = data['course_id']
-        newReply = {
+        newReply1 = {
             "student": xb_user.full_name,
             "email": xb_user.emails,
-            "reply": data['studentReply']
+            "reply": data['studentReply_reflection']
         }
-        self.responses.append(newReply)
-        return {"responses": self.responses}
+        self.responses_for_reflection.append(newReply1)
+        return {"responses_first_time_user": self.responses_for_reflection}
 
 
     @XBlock.json_handler
-    def check_user_reply(self, data, suffix=''):
+    def check_user_reply_for_reflection(self, data, suffix=''):
         """
         this handler accepts a new reply
         """
         user_service = self.runtime.service(self, 'user')
         xb_user = user_service.get_current_user()
         # course_id = data['course_id']
-        user_data = self.responses
+        user_data = self.responses_for_reflection
         user_match_counter = 0
         if len(user_data) > 0:
             for user_row in user_data:
@@ -125,9 +125,9 @@ class ReflectionFurtherXBlock(XBlock):
                     user_match_counter += 1
 
         if user_match_counter > 0:
-            return {"responses": self.responses}
+            return {"responses_data": self.responses_for_reflection}
         else:
-            return {"responses": "new_user"}
+            return {"responses_data": "new_user"}
 
 
     # TO-DO: change this to create the scenarios you'd like to see in the

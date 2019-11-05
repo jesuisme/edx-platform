@@ -9,13 +9,13 @@ function ReflectionUserResponseXBlocks(runtime, element) {
     }
 
     // var handlerUrl = runtime.handlerUrl(element, 'increment_count');
-    var set_question = runtime.handlerUrl(element, 'set_studio_question_reflection');
+    var set_question_reflection = runtime.handlerUrl(element, 'set_studio_question_reflection');
 
     $('#addresponses_studio1', element).click(function(eventObject) {
         var response_reflection = document.getElementById("studentresponse_studio1").value;
         $.ajax({
             type: "POST",
-            url: set_question,
+            url: set_question_reflection,
             data: JSON.stringify({"studio_questions_reflection": response_reflection}),
             success: editstudioquestions_reflection
         });

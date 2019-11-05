@@ -1,13 +1,13 @@
 /* Javascript for ReflectionFurtherXBlock. */
 function ReflectionFurtherXBlock(runtime, element) {
 
-    var addResponseUrl = runtime.handlerUrl(element, 'add_response');
+    // var addResponseUrl = runtime.handlerUrl(element, 'add_response');
     var addReplyUrl_reflection = runtime.handlerUrl(element, 'add_reply_reflection');
-    var responseSlides = document.getElementById('responses');
+    var responseSlides_reflection = document.getElementById('responses_reflection');
 
 
     $('#addresponse1', element).click(function (eventObject) {
-        var response = document.getElementById("studentresponse1").value;
+        var response11 = document.getElementById("studentresponse1").value;
         var slide = "";
         // var course_id;
         // var current_url = window.location.href;
@@ -23,14 +23,14 @@ function ReflectionFurtherXBlock(runtime, element) {
             type: "POST",
             url: addReplyUrl_reflection,
             data: JSON.stringify({
-                "studentReply": response,
+                "studentReply_reflection": response11,
             }),
             success: function (data) {
-                responseSlides.innerHTML = "";
-                data.responses.reverse();
+                responseSlides_reflection.innerHTML = "";
+                data.responses_first_time_user.reverse();
                 var count = 0;
                 var j = 0;
-                for (var i = 0; i < data.responses.length; i++) {
+                for (var i = 0; i < data.responses_first_time_user.length; i++) {
                     if (i === 0) {
                         var active = 'active';
                     } else {
@@ -41,9 +41,9 @@ function ReflectionFurtherXBlock(runtime, element) {
                         $(".carousel-indicators").append('<li data-target="#responseCarousel" data-slide-to="' + j + '" class="' + active + '"></li>');
                         j++;
                     }
-                    if (data.responses[i].reply.length > 200) {
+                    if (data.responses_first_time_user[i].reply.length > 200) {
                         var dot = "...";
-                        var readmore = "<p class='read-more' data-reply='"+data.responses[i].reply+"' onclick=\"$('#popup-content').text($(this).data('reply')); $('.popup_ques, #overlay').fadeIn();\"> Read More<p>";
+                        var readmore = "<p class='read-more' data-reply='"+data.responses_first_time_user[i].reply+"' onclick=\"$('#popup-content').text($(this).data('reply')); $('.popup_ques, #overlay').fadeIn();\"> Read More<p>";
                     } else {
                         var dot = "";
                         var readmore = '';
@@ -56,12 +56,12 @@ function ReflectionFurtherXBlock(runtime, element) {
                                     style="box-sizing: border-box; font-size: 11.9px; text-align: left; min-height: 20px; padding: 19px; margin-bottom: 20px; background: none 0px 0px repeat scroll #ffffff; border: 0px solid #e3e3e3; border-radius: 0px; box-shadow: none; color: #8e9091;">
                                     <div class="iHeight"
                                         style="box-sizing: border-box; max-height: 155px; overflow: hidden; min-height: 155px !important;">
-                                        <span style="box-sizing: border-box;">`+ data.responses[i].reply.substring(0, 200) + dot + `</span>` + readmore + `</div>
+                                        <span style="box-sizing: border-box;">`+ data.responses_first_time_user[i].reply.substring(0, 200) + dot + `</span>` + readmore + `</div>
                                     <br/><span style="box-sizing: border-box;"><span
                                             class="fa fa-user-circle fa-3x" aria-hidden="true"
                                             style="box-sizing: border-box; display: inline-block; font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 3em; line-height: 1; font-family: FontAwesome; text-rendering: auto; -webkit-font-smoothing: antialiased;"></span>&nbsp;<span
                                             class="text-uppercase"
-                                            style="box-sizing: border-box; text-transform: uppercase; color: #000000;">`+ data.responses[i].student + `</span></span><br style="box-sizing: border-box;" /><a
+                                            style="box-sizing: border-box; text-transform: uppercase; color: #000000;">`+ data.responses_first_time_user[i].student + `</span></span><br style="box-sizing: border-box;" /><a
                                         href="#" class="Org"
                                         style="box-sizing: border-box; background-color: transparent; color: #f58320; text-decoration-line: none; cursor: pointer; line-height: 22px;">Lumina
                                         Datamatics Ltd</a><br style="box-sizing: border-box;" /><a
@@ -76,7 +76,7 @@ function ReflectionFurtherXBlock(runtime, element) {
                         html += '</div>';
                         count = 0;
                         slide += html;
-                    }else if((i+1) == data.responses.length && count != 3){
+                    }else if((i+1) == data.responses_first_time_user.length && count != 3){
                         html += '</div>';
                         slide += html;
                     }
@@ -84,9 +84,9 @@ function ReflectionFurtherXBlock(runtime, element) {
 
                 }
 
-                responseSlides.innerHTML = slide;
-                $("#ask_question").hide();
-                $('#responseCarousel-container').show();
+                responseSlides_reflection.innerHTML = slide;
+                $("#ask_question1").hide();
+                $('#responseCarousel-container1').show();
             }
         });
     });
@@ -96,7 +96,7 @@ function ReflectionFurtherXBlock(runtime, element) {
         /* Here's where you'd do things on page load. */
         //get the question on page load
 
-    var check_user_reply = runtime.handlerUrl(element, 'check_user_reply');
+    var check_user_reply_for_reflection = runtime.handlerUrl(element, 'check_user_reply_for_reflection');
     var slide = "";
     // var course_id;
     // var current_url = window.location.href;
@@ -111,19 +111,18 @@ function ReflectionFurtherXBlock(runtime, element) {
 
     $.ajax({
             type: "POST",
-            url: check_user_reply,
+            url: check_user_reply_for_reflection,
             data: JSON.stringify({
                 "course_id": "course_id"
             }),
             success: function (data) {
                 
-                if (data.responses != "new_user"){
-                    responseSlides.innerHTML = "";
-                    console.log("replies: ", data.responses);
-                    data.responses.reverse();
+                if (data.responses_data != "new_user"){
+                    responseSlides_reflection.innerHTML = "";
+                    data.responses_data.reverse();
                     var count = 0;
                     var j = 0;
-                    for (var i = 0; i < data.responses.length; i++) {
+                    for (var i = 0; i < data.responses_data.length; i++) {
                         if (i === 0) {
                             var active = 'active';
                         } else {
@@ -134,9 +133,9 @@ function ReflectionFurtherXBlock(runtime, element) {
                             $(".carousel-indicators").append('<li data-target="#responseCarousel" data-slide-to="' + j + '" class="' + active + '"></li>');
                             j++;
                         }
-                        if (data.responses[i].reply.length > 200) {
+                        if (data.responses_data[i].reply.length > 200) {
                             var dot = "...";
-                            var readmore = "<p class='read-more' data-reply='"+data.responses[i].reply+"' onclick=\"$('#popup-content').text($(this).data('reply')); $('.popup_ques, #overlay').fadeIn();\"> Read More<p>";
+                            var readmore = "<p class='read-more' data-reply='"+data.responses_data[i].reply+"' onclick=\"$('#popup-content').text($(this).data('reply')); $('.popup_ques, #overlay').fadeIn();\"> Read More<p>";
                         } else {
                             var dot = "";
                             var readmore = '';
@@ -149,12 +148,12 @@ function ReflectionFurtherXBlock(runtime, element) {
                                         style="box-sizing: border-box; font-size: 11.9px; text-align: left; min-height: 20px; padding: 19px; margin-bottom: 20px; background: none 0px 0px repeat scroll #ffffff; border: 0px solid #e3e3e3; border-radius: 0px; box-shadow: none; color: #8e9091;">
                                         <div class="iHeight"
                                             style="box-sizing: border-box; max-height: 155px; overflow: hidden; min-height: 155px !important;">
-                                            <span style="box-sizing: border-box;">`+ data.responses[i].reply.substring(0, 200) + dot + `</span>` + readmore + `</div>
+                                            <span style="box-sizing: border-box;">`+ data.responses_data[i].reply.substring(0, 200) + dot + `</span>` + readmore + `</div>
                                         <br/><span style="box-sizing: border-box;"><span
                                                 class="fa fa-user-circle fa-3x" aria-hidden="true"
                                                 style="box-sizing: border-box; display: inline-block; font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; font-size: 3em; line-height: 1; font-family: FontAwesome; text-rendering: auto; -webkit-font-smoothing: antialiased;"></span>&nbsp;<span
                                                 class="text-uppercase"
-                                                style="box-sizing: border-box; text-transform: uppercase; color: #000000;">`+ data.responses[i].student + `</span></span><br style="box-sizing: border-box;" /><a
+                                                style="box-sizing: border-box; text-transform: uppercase; color: #000000;">`+ data.responses_data[i].student + `</span></span><br style="box-sizing: border-box;" /><a
                                             href="#" class="Org"
                                             style="box-sizing: border-box; background-color: transparent; color: #f58320; text-decoration-line: none; cursor: pointer; line-height: 22px;">Lumina
                                             Datamatics Ltd</a><br style="box-sizing: border-box;" /><a
@@ -163,14 +162,13 @@ function ReflectionFurtherXBlock(runtime, element) {
                                     </div>
                                 </div>`;
 
-                        console.log(count);
 
                         count++;
                         if (count === 3 ) {
                             html += '</div>';
                             count = 0;
                             slide += html;
-                        }else if((i+1) == data.responses.length && count != 3){
+                        }else if((i+1) == data.responses_data.length && count != 3){
                             html += '</div>';
                             slide += html;
                         }
@@ -179,9 +177,9 @@ function ReflectionFurtherXBlock(runtime, element) {
 
                     }
 
-                    responseSlides.innerHTML = slide;
-                    $("#ask_question").hide();
-                    $('#responseCarousel-container').show();
+                    responseSlides_reflection.innerHTML = slide;
+                    $("#ask_question1").hide();
+                    $('#responseCarousel-container1').show();
                 }
 
             }
