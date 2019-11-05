@@ -330,6 +330,9 @@ urlpatterns += [
         name='about_course',
     ),
 
+    # About Admin Dashboard Page
+ 
+
     url(
         r'^courses/{}/enroll_staff$'.format(
             settings.COURSE_ID_PATTERN,

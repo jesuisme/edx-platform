@@ -3,6 +3,7 @@
 <%!
 import urllib
 from mako.template import Template
+from mako import exceptions
 
 from django.utils.translation import ugettext as _
 from django.utils.translation import ungettext
@@ -588,12 +589,12 @@ length_total_list = len(total_value_list)
     percent_round = percent_div * 100
     percent = Template("${'{0:.0f}'.format((a/b) * 100)}", future_imports=['division']).render(a=length_value_list, b=length_total_list)
 
-    %>
+    %>      
 
+  % try:
     <%
-    course_prog, course_prog_created = CourseProgress.objects.get_or_create(user=user,course_id=enrollment.course_id)
+      course_prog, course_prog_created = CourseProgress.objects.get_or_create(user=user,course_id=enrollment.course_id)
     %>
-
     % if course_prog_created:
       <% 
       course_prog.student_course_progress = 0
@@ -605,6 +606,15 @@ length_total_list = len(total_value_list)
       course_prog.save()      
       %>
     % endif 
+  % except CourseProgress.MultipleObjectsReturned as ex: 
+      <%     
+        dups = CourseProgress.objects.filter(user=user,course_id=enrollment.course_id)
+        course_prog = dups[0]
+      %>
+      % for dup in dups[1:]:                
+        <%  dup.delete() %>
+      % endfor
+  % endtry  
     
     <div class="row">
         <div class="col-md-4">            
@@ -616,18 +626,28 @@ length_total_list = len(total_value_list)
             </div>            
         </div>
     </div>    
-% else:  
+% else:
 
+  % try:
     <%
-    course_prog, course_prog_created = CourseProgress.objects.get_or_create(user=user,course_id=enrollment.course_id)
+      course_prog, course_prog_created = CourseProgress.objects.get_or_create(user=user,course_id=enrollment.course_id)
     %>
-
     % if course_prog_created:
       <% 
       course_prog.student_course_progress = 0
       course_prog.save()
       %>
     % endif
+
+  % except CourseProgress.MultipleObjectsReturned as ex: 
+      <%     
+        dups = CourseProgress.objects.filter(user=user,course_id=enrollment.course_id)
+        course_prog = dups[0]
+      %>
+      % for dup in dups[1:]:                
+        <%  dup.delete() %>
+      % endfor 
+  % endtry 
 
    <div class="row">
         <div class="col-md-4">            

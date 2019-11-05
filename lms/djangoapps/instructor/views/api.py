@@ -429,7 +429,7 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
 
 
             if cohort_names_list:
-                if any(cohort_name_ls in cohort_name for cohort_name_ls in cohort_names_list):
+                if cohort_name in cohort_names_list:
                     final_cohort_name = CohertsOrganization.objects.get(coherts_name=cohort_name)
                 else:
                     general_errors.append({                        
@@ -483,6 +483,18 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                             email
                         )
 
+                        user_organization = UserProfile.objects.get(user=user).organization
+
+                        if str(staff_organization) != str(user_organization):
+                            warning_message = _(
+                                'An account with email {email} already exists and belongs to different organization, Organization Name: {user_organization}.'                                
+                            ).format(email=email, user_organization=user_organization)
+
+                            warnings.append({
+                                'username': username, 'email': email, 'response': warning_message
+                            })                            
+                           
+
 
                     # enroll a user if it is not already enrolled.
                     if not CourseEnrollment.is_enrolled(user, course_id):
@@ -519,11 +531,11 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                         email, username, name, country, password, final_cohort_name, organization_staff, course_id, course_mode, request.user, email_params
                     )
                     row_errors.extend(errors)
-
     else:
         general_errors.append({
             'username': '', 'email': '', 'response': _('File is not attached.')
         })
+
 
     results = {
         'row_errors': row_errors,

@@ -1,0 +1,32 @@
+<%page expression_filter="h"/>
+<%! from django.utils.translation import ugettext as _ %>
+<%inherit file="../main.html" />
+
+<%block name="pagetitle">${_("About")}</%block>
+
+<main id="main" aria-label="Content" tabindex="-1">
+    <section class="container about">
+        <h1>
+            <%block name="pageheader">${page_header or _("About")}</%block>
+        </h1>
+        <p>
+            <%block name="pagecontent"><b>Welcome to the Administrator Cohort Management Dashboard.</b> Below are definitions of the elements included on this dashboard.<br><br>
+            <b>Cohorts:</b> The number of cohorts you have created.<br><br>
+            <b>Modules Assigned:</b> The total number of modules assigned to your cohorts or cohort depending on which cohort is selected.<br><br>
+            <b>On Track:</b> Students who have completed the course.<br><br>
+            <b>Performance:</b> Students who have Registered,Started and Completed the course.<br><br>
+            <b>Facilitators assigned:</b> The number of facilitators you have assigned that have facilitator access to your institutional account.<br><br><br>
+            <b><u>Cohort Progress stacked bar chart</u></b><br><br>
+            X axis lists all of the cohorts you have created and the y-axis is a count of the number of learners in that cohort by status of registration and completion of assignments. <br><br>
+            <li><b>Started = </b>Learner has viewed at least one page of content.</li>
+            <li><b>Not Yet Started =</b> Learner has registered but has not viewed any content.</li>
+            <li><b>Completed =</b> Learner is registered and has completed all tasks assigned  </li>
+            <li><b>Not Registered =</b> Learner has not completed user registration process</li><br><br>
+
+            <b><u>Cohorts donut chart</u></b> <br><br>A breakdown of what what percentage each of the cohorts you created make up of the total number of learners registered under your institutional account </%block>
+
+
+
+        </p>
+    </section>
+</main>

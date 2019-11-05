@@ -324,12 +324,13 @@ such that the value can be defined later than this assignment (file load order).
             this.$students_list_file = this.$container.find("input[name='students_list']");
             this.$csrf_token = this.$container.find("input[name='csrfmiddlewaretoken']");
             this.$results = this.$container.find('div.results');
+            this.$enrollcsv = this.$container.find('.enrollcsv');
             this.$browse_button = this.$container.find('#browseBtn-auto-enroll');
             this.$browse_file = this.$container.find('#browseFile');
             this.processing = false;
             this.$browse_button.on('change', function(event) {
                 if (event.currentTarget.files.length === 1) {
-                    return autoenrollviacsv.$browse_file.val(
+                    return autoenrollviacsv.$browse_file.val(                       
                         event.currentTarget.value.substring(event.currentTarget.value.lastIndexOf('\\') + 1)
                     );
                 }
@@ -353,6 +354,7 @@ such that the value can be defined later than this assignment (file load order).
                         contentType: false,
                         success: function(responsedata) {
                             autoenrollviacsv.processing = false;
+                            $(autoenrollviacsv.$enrollcsv).css("display","none");
                             return autoenrollviacsv.display_response(responsedata);
                         }
                     });
@@ -414,23 +416,20 @@ such that the value can be defined later than this assignment (file load order).
                     edx.HtmlUtils.HTML(displayResponse.render_notification_view(type, title, message, details))
                 );
             };
-            if (errors.length) {
-                console.log("errors:",errors)
-                console.log("errors are:",errors[0]['response']);
-                console.log("cohort err--",(typeof errors[0]['response']));
-                if (errors[0]['response'] == "Cohort Name is not Registered for this course.") {
+            if (errors.length) {                              
+                if (errors[0]['response'] == "Cohort Name is not Registered for this course.") {                    
                     $('.cohort-register-error').html("Click <a href='/ut_new/ut_cohorts/'>here</a> to register cohort.");
                 }
                 renderResponse(gettext('Errors'),
                     gettext('The following errors were generated:'), 'error', errors
                 );
             }
-            if (warnings.length) {
+            if (warnings.length) {                
                 renderResponse(gettext('Warnings'),
                     gettext('The following warnings were generated:'), 'warning', warnings
                 );
             }
-            if (resultFromServerIsSuccess) {                
+            if (resultFromServerIsSuccess) {                       
                 return renderResponse(gettext('Success'),                    
                     gettext('All accounts were created successfully.'), 'confirmation', []
                 );
@@ -680,9 +679,11 @@ such that the value can be defined later than this assignment (file load order).
                     url: $(event.target).data('endpoint'),
                     data: sendData,
                     success: function(data) {
+                        $(batchEnroll.$test).css("display","none");
                         return batchEnroll.display_response(data);
                     },
                     error: statusAjaxError(function() {
+                        $(batchEnroll.$test).css("display","none");
                         return batchEnroll.fail_with_error(gettext('Error enrolling/unenrolling users.'));
                     })
                 });

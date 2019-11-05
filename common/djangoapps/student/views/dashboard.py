@@ -927,6 +927,7 @@ def student_dashboard(request):
     students_data_dict = {}
     complete_list = []
 
+
     for enrollment in course_enrollments:
         value_unicode = str(enrollment.course_id).decode("utf-8")
         course_block_tree = get_course_outline_block_tree(request,value_unicode)
@@ -937,7 +938,7 @@ def student_dashboard(request):
             'blocks': course_block_tree
         }
 
-        course_sections_view = blocks_view['blocks'].get('children')
+        course_sections_view = blocks_view['blocks'].get('children')         
 
         if course_sections_view is not None:
             for section in course_sections_view:  
@@ -946,9 +947,17 @@ def student_dashboard(request):
                     students_data_dict['completed'] = section['complete']
 
 
-        if 'section_name' and 'completed' in students_data_dict.keys():            
-            student_details,created_student_details = StudentCourseDetails.objects.get_or_create(user=user,module_name=enrollment.course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today())
-            
+        if 'section_name' and 'completed' in students_data_dict.keys():
+            try:            
+                student_details,created_student_details = StudentCourseDetails.objects.get_or_create(user=user,module_name=enrollment.course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today())
+            except StudentCourseDetails.MultipleObjectsReturned as ex:
+                dups = StudentCourseDetails.objects.filter(user=user,module_name=enrollment.course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today())
+                student_details = dups[0]
+                for dup in dups[1:]:                    
+                    log.info('Deleting duplicate %s' % dup)
+                    dup.delete()
+
+
             if created_student_details:
                 student_details.completed = students_data_dict['completed']
                 student_details.save()
@@ -1005,6 +1014,7 @@ def student_dashboard(request):
         'display_dashboard_courses': (user.is_active or not hide_dashboard_courses_until_activated),
         'empty_dashboard_message': empty_dashboard_message,
         'blocks_list': complete_list, # For custom progress bar on student dashboard
+
     }  
 
     try:
