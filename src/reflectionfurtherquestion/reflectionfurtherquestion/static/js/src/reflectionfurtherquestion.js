@@ -2,7 +2,7 @@
 function ReflectionFurtherXBlock(runtime, element) {
 
     var addResponseUrl = runtime.handlerUrl(element, 'add_response');
-    var addReplyUrl = runtime.handlerUrl(element, 'add_reply');
+    var addReplyUrl_reflection = runtime.handlerUrl(element, 'add_reply_reflection');
     var responseSlides = document.getElementById('responses');
 
 
@@ -21,7 +21,7 @@ function ReflectionFurtherXBlock(runtime, element) {
         // }
         $.ajax({
             type: "POST",
-            url: addReplyUrl,
+            url: addReplyUrl_reflection,
             data: JSON.stringify({
                 "studentReply": response,
             }),

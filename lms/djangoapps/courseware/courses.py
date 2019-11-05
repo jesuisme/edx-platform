@@ -114,9 +114,14 @@ def get_course_overview_with_access(user, action, course_key, check_if_enrolled=
     try:
         course_overview = CourseOverview.get_from_id(course_key)
         course_name = CourseOverview.objects.get(id=course_key)
-
         try:
             module_name, created_module = StudentCourseViews.objects.get_or_create(date_updated=date.today(),module_name=course_name.display_name)
+            if created_module:
+                module_name.course_views = 1
+                module_name.save()
+            else:
+                module_name.course_views += 1
+                module_name.save()
         except StudentCourseViews.MultipleObjectsReturned as ex:
             dups_module = StudentCourseViews.objects.filter(date_updated=date.today(),module_name=course_name.display_name)
             module_name = dups_module[0]
@@ -125,16 +130,16 @@ def get_course_overview_with_access(user, action, course_key, check_if_enrolled=
                 dup_mod.delete()
 
 
-        if created_module:
-            module_name.course_views = 1
-            module_name.save()
-        else:
-            module_name.course_views += 1
-            module_name.save()
 
 
         try:
             studentmodule_views, created_studentmodule = StudentModuleViews.objects.get_or_create(user=user,date_updated=date.today(),module_name=course_name.display_name)        
+            if created_studentmodule:
+                studentmodule_views.course_views = 1
+                studentmodule_views.save()
+            else:
+                studentmodule_views.course_views += 1
+                studentmodule_views.save()
         except StudentModuleViews.MultipleObjectsReturned as ex:
             dups_module_views = StudentCourseViews.objects.filter(date_updated=date.today(),module_name=course_name.display_name)
             studentmodule_views = dups_module_views[0]
@@ -142,12 +147,7 @@ def get_course_overview_with_access(user, action, course_key, check_if_enrolled=
                 log.info('Deleting duplicate %s' % dup_mod_views)
                 dup_mod_views.delete()
 
-        if created_studentmodule:
-            studentmodule_views.course_views = 1
-            studentmodule_views.save()
-        else:
-            studentmodule_views.course_views += 1
-            studentmodule_views.save()
+        
 
 
         # module_name, created_module = StudentCourseViews.objects.get_or_create(date_updated=date.today(),module_name=course_name.display_name)

@@ -15,12 +15,12 @@ class ReflectionFurtherXBlock(XBlock):
     # self.<fieldname>.
 
     # TO-DO: delete count, and define your own fields.
-    studio_questions = String(
+    studio_questions_reflection = String(
         default='Add Questions?',display_name='Questions', scope=Scope.content,
         help="A simple counter, to show something happening",
     )
 
-    question = String(help="A question for students", default="testing questions?", scope=Scope.content)
+    # reflection_question = String(help="A question for students", default="testing questions?", scope=Scope.content)
     responses = List(help="responses from students", default=[], scope=Scope.user_state_summary)
     
 
@@ -72,27 +72,27 @@ class ReflectionFurtherXBlock(XBlock):
 
     # TO-DO: change this to create the scenarios you'd like to see in the
     # workbench while developing your XBlock.
+    # @XBlock.json_handler
+    # def set_question(self, data, suffix=''):
+    #     """
+    #     this handler accepts the question 
+    #     """
+
+    #     self.reflection_question = data['question']
+    #     return {"question": self.reflection_question}
+
     @XBlock.json_handler
-    def set_question(self, data, suffix=''):
+    def set_studio_question_reflection(self, data, suffix=''):
         """
         this handler accepts the question 
         """
 
-        self.question = data['question']
-        return {"question": self.question}
+        self.studio_questions_reflection = data['studio_questions_reflection']
+
+        return {"studio_questions_reflection": self.studio_questions_reflection}
 
     @XBlock.json_handler
-    def set_studio_question(self, data, suffix=''):
-        """
-        this handler accepts the question 
-        """
-
-        self.studio_questions = data['studio_questions']
-
-        return {"studio_questions": self.studio_questions}
-
-    @XBlock.json_handler
-    def add_reply(self, data, suffix=''):
+    def add_reply_reflection(self, data, suffix=''):
         """
         this handler accepts a new reply
         """
