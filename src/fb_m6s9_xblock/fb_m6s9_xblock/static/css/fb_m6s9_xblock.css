@@ -23,6 +23,7 @@
     }
     
     .m6s9p1 input[type="text"]:focus,
+    .m6s9p1 input[type="number"]:focus,
     .m6s9p1 input[type="text"].focus {
     
     }
