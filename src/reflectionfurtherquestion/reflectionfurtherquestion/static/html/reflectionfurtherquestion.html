@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-<div class="reflectionfurtherquestion_block" id="ask_question">
+<div class="reflectionfurtherquestion_block" id="ask_question1">
 <div class="col-sm-8 "
         style="box-sizing: border-box; position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; margin: 0 auto; width: 75%; color: rgb(51, 51, 51);  font-size: 14px; text-align: center;">
         <div class="response1"
@@ -19,7 +19,7 @@
                                 style="box-sizing: border-box; border-bottom: 2px solid rgb(220, 221, 223); margin: 40px auto; width: 296.188px;">
                             </div>
                             <f style="box-sizing: border-box;">
-                                <p style="box-sizing: border-box; margin: 0px 0px 10px; text-align: center;">{self.studio_questions}</p>
+                                <p style="box-sizing: border-box; margin: 0px 0px 10px; text-align: center;">{self.studio_questions_reflection}</p>
                             </f>
                             <div class="line4"
                                 style="box-sizing: border-box; border-bottom: 2px solid rgb(220, 221, 223); margin: 40px auto; width: 296.188px;">
@@ -47,13 +47,13 @@
                             <div class="input-group"
                                 style="box-sizing: border-box; position: relative; display: inline-table; border-collapse: separate; vertical-align: middle; width: 100%;">
                                 <div class="ui-input-text ui-body-inherit ui-corner-all ui-shadow-inset"
-                                    style="box-sizing: border-box;"><input id="studentresponse" type="Search"
+                                    style="box-sizing: border-box;"><input id="studentresponse1" type="Search"
                                         placeholder="Please enter a brief response here." class=" form-control"
                                         style="margin: 0px; font-style: inherit; font-variant: inherit; font-weight: inherit; font-stretch: inherit; font-size: 14px; line-height: 1.42857; font-family: inherit; color: rgb(0, 0, 0); width: 100%; height: 55px; padding: 6px 12px; background: none 0px 0px repeat scroll rgba(0, 0, 0, 0); border-width: medium; border-style: none; border-radius: 0px; box-shadow: none; transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s; -webkit-appearance: none; position: relative; z-index: 2; float: left; vertical-align: middle;" />
                                 </div>
                                 <div class="input-group-btn text-right"
                                     style="box-sizing: border-box; text-align: right; display: table-cell; width: 149px; white-space: nowrap; vertical-align: middle; position: relative; font-size: 0px;">
-                                    <button class="btn btn-info ui-btn ui-shadow ui-corner-all" id="addresponse"
+                                    <button class="btn btn-info ui-btn ui-shadow ui-corner-all" id="addresponse1"
                                         style="margin: 0px 0px 0px -1px; font-style: inherit; font-variant: inherit; font-stretch: inherit; font-size: 18px; line-height: 1.42857; font-family: inherit; color: rgb(255, 255, 255); overflow: visible; cursor: pointer; padding: 6px 12px; vertical-align: middle; touch-action: manipulation; user-select: none; background: none 0px 0px repeat scroll rgb(172, 173, 177); border-width: medium; border-style: none; border-color: initial; border-radius: 0px; position: relative; z-index: 2; box-shadow: none; height: 55px; width: 150px;"><span
                                             class="fa fa-arrow-circle-o-up" aria-hidden="true"
                                             style="box-sizing: border-box; display: inline-block; font-variant-numeric: normal; font-variant-east-asian: normal; font-stretch: normal; line-height: 1; font-family: FontAwesome; font-size: inherit; text-rendering: auto; -webkit-font-smoothing: antialiased;"></span>&nbsp;SUBMIT<br /></button>
@@ -68,26 +68,26 @@
 
 </div>
 
-<div id="responseCarousel-container">
+<div id="responseCarousel-container1" style="display: none;">
     <div class="m1s2-slider-head">As you watched the video, what problems did you see in the health care Ms. Jones received?
         Scroll through user responses.
     </div>
-    <div id="responseCarousel" class="carousel slide">
+    <div id="responseCarousel_reflection" class="carousel slide">
         <!-- Indicators -->
-        <ol class="carousel-indicators">
+        <ol class="carousel-indicators" id="reflection_indicatore">
 
         </ol>
 
         <!-- Wrapper for slides -->
-        <div id="responses" class="carousel-inner">
+        <div id="responses_reflection" class="carousel-inner">
 
         </div>
 
         <!-- Left and right controls -->
-        <a class="left carousel-control" href="#responseCarousel" style="background:none !important;left: -10px;" data-slide="prev">
+        <a class="left carousel-control" href="#responseCarousel_reflection" style="background:none !important;left: -10px;" data-slide="prev">
             <span class="fa fa-angle-left fa-2x" aria-hidden="true" style="position: absolute;top: 40%;color:#000;"></span>
         </a>
-        <a class="right carousel-control" href="#responseCarousel" data-slide="next" style="background:none !important">
+        <a class="right carousel-control" href="#responseCarousel_reflection" data-slide="next" style="background:none !important">
             <span class="fa fa-angle-right fa-2x" aria-hidden="true" style="position: absolute;top: 40%;color:#000;"></span>
         </a>
     </div>

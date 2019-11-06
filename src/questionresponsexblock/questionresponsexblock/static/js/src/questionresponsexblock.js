@@ -42,7 +42,7 @@ function QuestionresponseXBlock(runtime, element) {
                     }
                     if (count === 0) {
                         var html = '<div class="item ' + active + '">';
-                        $(".carousel-indicators").append('<li data-target="#responseCarousel" data-slide-to="' + j + '" class="' + active + '"></li>');
+                        $("#question_indicatore").append('<li data-target="#responseCarousel" data-slide-to="' + j + '" class="' + active + '"></li>');
                         j++;
                     }
                     if (data.responses[i].reply.length > 200) {
@@ -135,7 +135,7 @@ function QuestionresponseXBlock(runtime, element) {
                         }
                         if (count === 0) {
                             var html = '<div class="item ' + active + '">';
-                            $(".carousel-indicators").append('<li data-target="#responseCarousel" data-slide-to="' + j + '" class="' + active + '"></li>');
+                            $("#question_indicatore").append('<li data-target="#responseCarousel" data-slide-to="' + j + '" class="' + active + '"></li>');
                             j++;
                         }
                         if (data.responses[i].reply.length > 200) {

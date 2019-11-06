@@ -33,12 +33,12 @@ class QuesAnsModule5Sec103XBlock(XBlock):
         """
         html = self.resource_string("static/html/quesansmodule5sec10_3xblock.html")
         frag = Fragment(html.format(self=self))
-        frag.add_css(self.resource_string("static/css/quesansmodule5sec10_3xblock.css"))
         # frag.add_css(self.resource_string("static/css/animate.css"))
-        frag.add_css(self.resource_string("static/css/common.css"))
         frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
+        frag.add_css(self.resource_string("static/css/common.css"))
+        frag.add_css(self.resource_string("static/css/quesansmodule5sec10_3xblock.css"))
         
-        frag.add_css(self.resource_string("static/css/m5s10p1.css"))
+        #frag.add_css(self.resource_string("static/css/m5s10p1.css"))
 
         js_str = pkg_resources.resource_string(__name__, "static/js/src/jquery.min.js")
         js_str = pkg_resources.resource_string(__name__, "static/js/src/bootstrap.min.js")

@@ -12,14 +12,18 @@
         width: 100%;
     }
     
-    .m6s9p1 input[type="text"] {
+    .m6s9p1 input[type="text"], .m6s9p1 input[type="number"]  {
         border: none;
         transition: border 0.3s;
         background: none;
         width: 100%;
     }
+    .m6s9p1 input[type="number"] {
+      height: 32px;
+    }
     
     .m6s9p1 input[type="text"]:focus,
+    .m6s9p1 input[type="number"]:focus,
     .m6s9p1 input[type="text"].focus {
     
     }

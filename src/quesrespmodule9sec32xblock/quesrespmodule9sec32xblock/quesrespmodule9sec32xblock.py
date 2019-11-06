@@ -33,14 +33,13 @@ class QUesRespModule9Sec32XBlock(XBlock):
         """
         html = self.resource_string("static/html/quesrespmodule9sec32xblock.html")
         frag = Fragment(html.format(self=self))
+        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
         frag.add_css(self.resource_string("static/css/quesrespmodule9sec32xblock.css"))
         frag.add_css(self.resource_string("static/css/common.css"))
-        frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
         # frag.add_css(self.resource_string("static/css/font-awesome.min.css"))
         # frag.add_css(self.resource_string("static/css/animate.css"))
         
         # frag.add_css(self.resource_string("static/css/fonts.css"))
-        frag.add_css(self.resource_string("static/css/m9s3p1.css"))
         js_str = pkg_resources.resource_string(__name__, "static/js/src/jquery.min.js")
         js_str = pkg_resources.resource_string(__name__, "static/js/src/bootstrap.min.js")
         frag.add_javascript(unicode(js_str))
