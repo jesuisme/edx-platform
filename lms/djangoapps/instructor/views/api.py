@@ -459,7 +459,10 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
 
                             row_errors.append({
                                 'username': username, 'email': email, 'response': error_message
-                            }) 
+                            })
+                            
+                            continue
+
 
 
                     # enroll a user if it is not already enrolled.
