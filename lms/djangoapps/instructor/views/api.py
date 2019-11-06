@@ -461,10 +461,7 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                                 'username': username, 'email': email, 'response': error_message
                             })
                             
-                            continue
-
-
-                            continue
+                            continue                            
 
                     # enroll a user if it is not already enrolled.
                     if not CourseEnrollment.is_enrolled(user, course_id):
