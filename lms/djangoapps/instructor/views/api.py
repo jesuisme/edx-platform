@@ -15,6 +15,7 @@ import string
 import StringIO
 import time
 import ast
+import uuid
 
 import unicodecsv
 from django.conf import settings
@@ -348,8 +349,6 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
             upload_file = request.FILES.get('students_list')
             if upload_file.name.endswith('.csv'):
                 students = [row for row in csv.reader(upload_file.read().splitlines())]
-
-
                 course = get_course_by_id(course_id)
             else:
                 general_errors.append({
@@ -368,24 +367,18 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
         row_num = 0
         for student in students:
             row_num = row_num + 1
-
             # verify that we have exactly four columns in every row but allow for blank lines
-            if len(student) != 5:
+            if len(student) != 1:
                 if len(student) > 0:
                     general_errors.append({
                         'username': '',
                         'email': '',
-                        'response': _('Data in row #{row_num} must have exactly four columns: email, username, full name, country and cohort').format(row_num=row_num)
+                        'response': _('Data in row #{row_num} must have exactly one columns: email.').format(row_num=row_num)
                     })
                 continue
 
             # Iterate each student in the uploaded csv file.
             email = student[EMAIL_INDEX]
-            username = student[USERNAME_INDEX]
-            name = student[NAME_INDEX]
-            country = student[COUNTRY_INDEX][:2]
-            cohort_name = student[COHORT_NAME]
-
             try:
                 staff_organization = UserProfile.objects.get(user=request.user).organization
                 organization_staff = OrganizationRegistration.objects.get(organization_name=staff_organization)        
@@ -401,21 +394,6 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                 }
                 return JsonResponse(results)
 
-            # try:
-            #     cohort_org_name = CohertsOrganization.objects.get(coherts_name=cohort_name)
-            # except CohertsOrganization.DoesNotExist:
-            #     cohort_org_name = None
-            #     general_errors.append({
-            #         'username': '', 'email': '', 'response': _('Register the Cohort.')
-            #     })
-            #     results = {
-            #         'row_errors': row_errors,
-            #         'general_errors': general_errors,
-            #         'warnings': warnings
-            #     }
-            #     return JsonResponse(results)  
-
-
             if organization_staff:
                 cohort_names_org = CohertsOrganization.objects.filter(organization=organization_staff)
                 if cohort_names_org:
@@ -427,19 +405,8 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                             if course_key_new == course_id:
                                 cohort_names_list.append(coherts_object.coherts_name) 
 
-
             if cohort_names_list:
-                if cohort_name in cohort_names_list:
-                    final_cohort_name = CohertsOrganization.objects.get(coherts_name=cohort_name)
-                else:
-                    general_errors.append({                        
-                        'username': '', 'email': '', 'response': _('Cohort Name in CSV and Cohort Name Registered for this course does not Match. Cohort Name Registered for this course:  %s'% ', '.join(cohort_names_list)) })   
-                    results = {
-                        'row_errors': row_errors,
-                        'general_errors': general_errors,
-                        'warnings': warnings
-                    }
-                    return JsonResponse(results)  
+                final_cohort_name = CohertsOrganization.objects.get(coherts_name=cohort_names_list[0])
             else:
                 general_errors.append({
                             'username': '', 'email': '', 'response': _('Cohort Name is not Registered for this course.') })
@@ -449,21 +416,21 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                     'warnings': warnings
                 }
                 return JsonResponse(results)  
-  
 
-
-
+            cohort_names_list = []
             email_params = get_email_params(course, True, secure=request.is_secure())
             try:
                 validate_email(email)  # Raises ValidationError if invalid
             except ValidationError:
                 row_errors.append({
-                    'username': username, 'email': email, 'response': _('Invalid email {email_address}.').format(email_address=email)})
+                    'username': '', 'email': email, 'response': _('Invalid email {email_address}.').format(email_address=email)})
             else:
                 if User.objects.filter(email=email).exists():
                     # Email address already exists. assume it is the correct user
                     # and just register the user in the course and send an enrollment email.
                     user = User.objects.get(email=email)
+                    
+                    username = user.username
                     # see if it is an exact match with email and username
                     # if it's not an exact match then just display a warning message, but continue onwards
                     if not User.objects.filter(email=email, username=username).exists():
@@ -486,14 +453,13 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                         user_organization = UserProfile.objects.get(user=user).organization
 
                         if str(staff_organization) != str(user_organization):
-                            warning_message = _(
+                            error_message = _(
                                 'An account with email {email} already exists and belongs to different organization, Organization Name: {user_organization}.'                                
                             ).format(email=email, user_organization=user_organization)
 
-                            warnings.append({
-                                'username': username, 'email': email, 'response': warning_message
-                            })                            
-                           
+                            row_errors.append({
+                                'username': username, 'email': email, 'response': error_message
+                            }) 
 
 
                     # enroll a user if it is not already enrolled.
@@ -515,9 +481,9 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                     # We are either attempting to enroll a retired user or create a new user with an email which is
                     # already associated with a retired account.  Simply block these attempts.
                     row_errors.append({
-                        'username': username,
+                        'username': '',
                         'email': email,
-                        'response': _('Invalid email {email_address}.').format(email_address=email),
+                        'response': _('Invalid email: {email_address}').format(email_address=email),
                     })
                     log.warning(u'Email address %s is associated with a retired user, so course enrollment was ' +
                                 u'blocked.', email)
@@ -525,6 +491,21 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                     # This email does not yet exist, so we need to create a new account
                     # If username already exists in the database, then create_and_enroll_user
                     # will raise an IntegrityError exception.
+                    leaner_email = email.split('@')
+                    if len(leaner_email) > 0:
+                        username = generate_leaner_username(leaner_email[0])
+                        country = ''
+                        name = ''
+                    else:
+                        general_errors.append({                        
+                            'username': '', 'email': email, 'response': _('Enter a valid Email Address.') })   
+                        results = {
+                            'row_errors': row_errors,
+                            'general_errors': general_errors,
+                            'warnings': warnings
+                        }
+                        return JsonResponse(results) 
+
                     password = generate_unique_password(generated_passwords)
 
                     errors = create_and_enroll_user(
@@ -543,6 +524,14 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
         'warnings': warnings
     }
     return JsonResponse(results)
+
+
+def generate_leaner_username(email):    
+    unique_number = uuid.uuid4()
+    unique_id_1 = uuid.uuid1()
+    leaner_email = email 
+    leaner_username = leaner_email + str(unique_number)[:8] + str(unique_id_1)[:5]
+    return leaner_username
 
 
 def generate_random_string(length):
@@ -784,6 +773,19 @@ def students_update_enrollment(request, course_id):
             # validity (obviously, cannot check if email actually /exists/,
             # simply that it is plausibly valid)
             validate_email(email)  # Raises ValidationError if invalid
+            try:
+                staff_organization = UserProfile.objects.get(user=request.user).organization
+            except OrganizationRegistration.DoesNotExist:
+                staff_organization = None
+
+            if User.objects.filter(email=identifier).exists():
+                user = User.objects.get(email=identifier)
+                user_organization = UserProfile.objects.get(user=user).organization                
+                if str(staff_organization) != str(user_organization):
+                    raise PermissionDenied(                        
+                        _("An account with email {email} already exists and belongs to different organization, Organization Name: {user_organization}.").format(email=identifier, user_organization=user_organization)
+                    )                                  
+                
             if action == 'enroll':
                 before, after, enrollment_obj = enroll_email(
                     course_id, email, auto_enroll, email_students, email_params, language=language
@@ -834,6 +836,16 @@ def students_update_enrollment(request, course_id):
             results.append({
                 'identifier': identifier,
                 'invalidIdentifier': True,
+            })
+
+        except PermissionDenied as ex:
+            # Flag this email as an error if invalid, but continue checking
+            # the remaining in the list
+            log.exception('in user exists error---%s---'% ex)
+            identifier = str(ex)
+            results.append({
+                'identifier': identifier,
+                'error': True,
             })
 
         except Exception as exc:  # pylint: disable=broad-except
@@ -3650,7 +3662,6 @@ def coherts_students_update_enrollment(request, course_id,user_mail, cohort_name
             error_message = "Learner added to cohorts successfully"
 
         except ValidationError:
-            log.info("enrolment obj-------ValidationError------")
             # Flag this email as an error if invalid, but continue checking
             # the remaining in the list
             error_message = "ValidationError: Email not valid"
@@ -3658,7 +3669,6 @@ def coherts_students_update_enrollment(request, course_id,user_mail, cohort_name
         except Exception as exc:  # pylint: disable=broad-except
             # catch and log any exceptions
             # so that one error doesn't cause a 500.
-            log.info("exception===========%s====" % exc)
             log.exception(u"Error while #{}ing student")
             log.exception(exc)
             error_message = exc

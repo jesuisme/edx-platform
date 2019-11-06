@@ -68,9 +68,10 @@
   
 <br>
 <div id="outer-container" class="group group-form group-form-requiredinformation">
-
+  <b style="padding-left: 125px;"><font size="5">$1000</font></b><br><br>
   <form id="form-id" action="{% url 'cancel_order' %}" method="post">
     {% csrf_token %}
+
     <input type="hidden" name="new_user" value="{{new_user}}">
     <button type="submit" name="buy" value="buy"><img src="/static/ut_theme/images/buynow.png" alt="Your Platform Name" style="width: 120px;"></button>
     <button type="submit" name="cancel" value="cancel" style="height: 60px;"><img src="/static/ut_theme/images/cancel.png" alt="Your Platform Name" style="width: 150px; right: 230px;"></button>   

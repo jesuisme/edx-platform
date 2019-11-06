@@ -949,18 +949,16 @@ def student_dashboard(request):
 
         if 'section_name' and 'completed' in students_data_dict.keys():
             try:            
-                student_details,created_student_details = StudentCourseDetails.objects.get_or_create(user=user,module_name=enrollment.course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today())
+                student_details,created_student_details = StudentCourseDetails.objects.get_or_create(user=user,module_name=enrollment.course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today())                
+                if created_student_details:
+                    student_details.completed = students_data_dict['completed']
+                    student_details.save()
             except StudentCourseDetails.MultipleObjectsReturned as ex:
                 dups = StudentCourseDetails.objects.filter(user=user,module_name=enrollment.course_overview.display_name_with_default,section=students_data_dict['section_name'],date_updated=date.today())
                 student_details = dups[0]
                 for dup in dups[1:]:                    
                     log.info('Deleting duplicate %s' % dup)
                     dup.delete()
-
-
-            if created_student_details:
-                student_details.completed = students_data_dict['completed']
-                student_details.save()
 
         students_data_dict = {}    
 
