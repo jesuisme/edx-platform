@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
 <div class="reflectionfurtherquestion_block" id="ask_question1">
 <div class="col-sm-8 "
-        style="box-sizing: border-box; position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; margin: 0 auto; width: 75%; color: rgb(51, 51, 51);  font-size: 14px; text-align: center;">
+        style="box-sizing: border-box; position: relative; min-height: 1px; padding-right: 15px; padding-left: 15px; margin: 0 auto; width: 75%; max-width: 1030px; float: inherit; color: rgb(51, 51, 51);  font-size: 14px; text-align: center;">
         <div class="response1"
             style="box-sizing: border-box; background-color: rgb(240, 240, 240);display: inline-block;width: 100%;">
             <div class="act1" style="box-sizing: border-box;">
@@ -68,7 +68,7 @@
 
 </div>
 
-<div id="responseCarousel-container1" style="display: none;">
+<div id="responseCarousel-container1" style="display: none; max-width: 1030px;">
     <div class="m1s2-slider-head">As you watched the video, what problems did you see in the health care Ms. Jones received?
         Scroll through user responses.
     </div>
@@ -84,10 +84,10 @@
         </div>
 
         <!-- Left and right controls -->
-        <a class="left carousel-control" href="#responseCarousel_reflection" style="background:none !important;left: -10px;" data-slide="prev">
+        <a class="left carousel-control" href="#responseCarousel_reflection" style="background:none !important;left: -10px; top: 40%;" data-slide="prev">
             <span class="fa fa-angle-left fa-2x" aria-hidden="true" style="position: absolute;top: 40%;color:#000;"></span>
         </a>
-        <a class="right carousel-control" href="#responseCarousel_reflection" data-slide="next" style="background:none !important">
+        <a class="right carousel-control" href="#responseCarousel_reflection" data-slide="next" style="background:none !important; top: 40%;">
             <span class="fa fa-angle-right fa-2x" aria-hidden="true" style="position: absolute;top: 40%;color:#000;"></span>
         </a>
     </div>
@@ -96,21 +96,21 @@
 
 
 <!--popup-->
-<div id="popup" class="popup_ques"
+<div id="popup_reflection" class="popup_ques1"
   style="z-index: 1000; box-shadow: 0 0 20px #494949; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%); max-width: 800px; width: 90%; background: #ffffff; display: none; border: 1px solid #ccc;border-radius: 10px;">
 	  <div class="modal-header"
 		style="height: 48px; box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 15px; border-bottom: 1px solid #e5e5e5; color: #333333; font-size: 14px; text-align: center;">
-		<button type="button" style="    box-shadow: none;margin: -2px 0px 0px;font-weight: bold;font-size: 21px;color: #000000;overflow: visible;cursor: pointer;border: 0px;float: right;opacity: 0.5;padding: 0px;background: transparent;" onclick="$('.popup_ques, #overlay').fadeOut()">×</button>
+		<button type="button" style="    box-shadow: none;margin: -2px 0px 0px;font-weight: bold;font-size: 21px;color: #000000;overflow: visible;cursor: pointer;border: 0px;float: right;opacity: 0.5;padding: 0px;background: transparent;" onclick="$('.popup_ques1, #overlay_reflection').fadeOut()">×</button>
 	</div>
   <div class="transcription"
     style="box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); color: #222222; width: 100%; padding: 15px; font-size: 14px; overflow: auto; max-height: 70vh;">
-    <p id="popup-content" style="box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); margin: 0px 0px 10px;">
+    <p id="popup-content1" style="box-sizing: border-box; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); margin: 0px 0px 10px;">
     </p>
   </div>
 </div>
-<div id="overlay"
+<div id="overlay_reflection"
   style="z-index: 999; display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.4);"
-  onclick="$('.popup_ques, #overlay').fadeOut()"></div>
+  onclick="$('.popup_ques1, #overlay_reflection').fadeOut()"></div>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
     integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"

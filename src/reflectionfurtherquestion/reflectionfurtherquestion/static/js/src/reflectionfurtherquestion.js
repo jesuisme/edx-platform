@@ -43,7 +43,7 @@ function ReflectionFurtherXBlock(runtime, element) {
                     }
                     if (data.responses_first_time_user[i].reply.length > 200) {
                         var dot = "...";
-                        var readmore = "<p class='read-more' data-reply='"+data.responses_first_time_user[i].reply+"' onclick=\"$('#popup-content').text($(this).data('reply')); $('.popup_ques, #overlay').fadeIn();\"> Read More<p>";
+                        var readmore = "<p class='read-more1' data-reply='"+data.responses_first_time_user[i].reply+"' onclick=\"$('#popup-content1').text($(this).data('reply')); $('.popup_ques1, #overlay_reflection').fadeIn();\"> Read More<p>";
                     } else {
                         var dot = "";
                         var readmore = '';
@@ -140,7 +140,7 @@ function ReflectionFurtherXBlock(runtime, element) {
                         }
                         if (data.responses_data[i].reply.length > 200) {
                             var dot = "...";
-                            var readmore = "<p class='read-more' data-reply='"+data.responses_data[i].reply+"' onclick=\"$('#popup-content').text($(this).data('reply')); $('.popup_ques, #overlay').fadeIn();\"> Read More<p>";
+                            var readmore = "<p class='read-more1' data-reply='"+data.responses_data[i].reply+"' onclick=\"$('#popup-content1').text($(this).data('reply')); $('.popup_ques1, #overlay_reflection').fadeIn();\"> Read More<p>";
                         } else {
                             var dot = "";
                             var readmore = '';

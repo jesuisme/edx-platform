@@ -68,7 +68,6 @@
     position: relative;
     border-radius: 8px;
     padding: 5px;
-    /*font-family: "GothamHTF-Book";*/
 }
 .hover_bkgr_fricc1 > div {
     background-color: #fff;
@@ -212,7 +211,6 @@ div.patient_desc {
 }
 .col_sm_4 p {
     font-size: 15px !important;
-    font-family: "GothamHTF-Medium";
     overflow: hidden;
     color: #FFFFFF !important;
     align-items: center;
