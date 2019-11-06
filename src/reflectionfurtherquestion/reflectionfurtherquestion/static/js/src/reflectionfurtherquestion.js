@@ -38,7 +38,7 @@ function ReflectionFurtherXBlock(runtime, element) {
                     }
                     if (count === 0) {
                         var html = '<div class="item ' + active + '">';
-                        $(".carousel-indicators").append('<li data-target="#responseCarousel" data-slide-to="' + j + '" class="' + active + '"></li>');
+                        $("#reflection_indicatore").append('<li data-target="#responseCarousel_reflection" data-slide-to="' + j + '" class="' + active + '"></li>');
                         j++;
                     }
                     if (data.responses_first_time_user[i].reply.length > 200) {
@@ -81,6 +81,9 @@ function ReflectionFurtherXBlock(runtime, element) {
                         slide += html;
                     }
 
+                    
+
+
 
                 }
 
@@ -98,6 +101,7 @@ function ReflectionFurtherXBlock(runtime, element) {
 
     var check_user_reply_for_reflection = runtime.handlerUrl(element, 'check_user_reply_for_reflection');
     var slide = "";
+    var slidecount = 0;
     // var course_id;
     // var current_url = window.location.href;
     // var split_url = current_url.split("/");
@@ -122,6 +126,7 @@ function ReflectionFurtherXBlock(runtime, element) {
                     data.responses_data.reverse();
                     var count = 0;
                     var j = 0;
+                    slidecount = data.responses_data.length;
                     for (var i = 0; i < data.responses_data.length; i++) {
                         if (i === 0) {
                             var active = 'active';
@@ -130,7 +135,7 @@ function ReflectionFurtherXBlock(runtime, element) {
                         }
                         if (count === 0) {
                             var html = '<div class="item ' + active + '">';
-                            $(".carousel-indicators").append('<li data-target="#responseCarousel" data-slide-to="' + j + '" class="' + active + '"></li>');
+                            $("#reflection_indicatore").append('<li data-target="#responseCarousel_reflection" data-slide-to="' + j + '" class="' + active + '"></li>');
                             j++;
                         }
                         if (data.responses_data[i].reply.length > 200) {
@@ -173,6 +178,8 @@ function ReflectionFurtherXBlock(runtime, element) {
                             slide += html;
                         }
 
+                   
+
 
 
                     }
@@ -187,6 +194,23 @@ function ReflectionFurtherXBlock(runtime, element) {
 
 
         });
+        
+      //   $('.carousel').on('slid.bs.carousel', function (e) {
+      //      $('.item .ans').removeClass('Dis');
+      //      console.log("slider indicator");
+      //      var id = parseInt(e.relatedTarget.id);
+      //      console.log("id---", id);
+      //         if(id == 0){
+      //             $('.left').hide();
+      //             $('.right').show();
+      //         }else if(id == slidecount){
+      //           $('.left').show();
+      //           $('.right').hide();
+      //         }  else {
+      //           $('.left').show();
+      //           $('.right').show();
+      //         }
+      // });
 
 
 
