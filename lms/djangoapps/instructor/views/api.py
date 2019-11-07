@@ -461,9 +461,7 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                                 'username': username, 'email': email, 'response': error_message
                             })
                             
-                            continue
-
-
+                            continue                            
 
                     # enroll a user if it is not already enrolled.
                     if not CourseEnrollment.is_enrolled(user, course_id):
@@ -844,7 +842,7 @@ def students_update_enrollment(request, course_id):
         except PermissionDenied as ex:
             # Flag this email as an error if invalid, but continue checking
             # the remaining in the list
-            log.exception('in user exists error---%s---'% ex)
+
             identifier = str(ex)
             results.append({
                 'identifier': identifier,
@@ -876,12 +874,14 @@ def students_update_enrollment(request, course_id):
                 'before': before.to_dict(),
                 'after': after.to_dict(),
             })
-
+            
+    log.info('results----%s---'% results)
     response_payload = {
         'action': action,
         'results': results,
         'auto_enroll': auto_enroll,
     }
+    log.info('response_payload-----%s----'% response_payload)
     return JsonResponse(response_payload)
 
 

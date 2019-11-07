@@ -788,15 +788,17 @@ such that the value can be defined later than this assignment (file load order).
                     var srItem,
                         k = 0,
                         results = [];
-                    for (k = 0, len = errs.length; k < len; k++) {
+                    for (k = 0, len = errs.length; k < len; k++) { 
                         srItem = errs[k];
                         results.push(srItem.identifier);
                     }
                     return results;
                 };
+
                 for (j = 0, len1 = errors.length; j < len1; j++) {
                     studentResults = errors[j];
                     renderList(errorsLabel, renderIdsLists(errors));
+                    break;
                 }
             }
             if (enrolled.length && emailStudents) {
