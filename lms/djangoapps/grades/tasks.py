@@ -130,21 +130,27 @@ def recalculate_course_and_subsection_grades_for_user(self, **kwargs):  # pylint
     """
     user_id = kwargs.get('user_id')
     course_key_str = kwargs.get('course_key')
-
+    user = None
+    
     if not (user_id or course_key_str):
         message = 'recalculate_course_and_subsection_grades_for_user missing "user" or "course_key" kwargs from {}'
         raise Exception(message.format(kwargs))
 
-    user = User.objects.get(id=user_id)
+    try:
+        user = User.objects.get(id=user_id)
+    except Exception as exc:
+        user = None
+
     course_key = CourseKey.from_string(course_key_str)
 
-    previous_course_grade = CourseGradeFactory().read(user, course_key=course_key)
-    if previous_course_grade and previous_course_grade.attempted:
-        CourseGradeFactory().update(
-            user=user,
-            course_key=course_key,
-            force_update_subsections=True
-        )
+    if user:
+        previous_course_grade = CourseGradeFactory().read(user, course_key=course_key)
+        if previous_course_grade and previous_course_grade.attempted:
+            CourseGradeFactory().update(
+                user=user,
+                course_key=course_key,
+                force_update_subsections=True
+            )
 
 
 @task(
@@ -281,34 +287,41 @@ def _update_subsection_grades(course_key, scored_block_usage_key, only_if_higher
     for each subsection containing the given block, and to signal
     that those subsection grades were updated.
     """
-    student = User.objects.get(id=user_id)
+    student = None    
+    try:
+        student = User.objects.get(id=user_id)
+    except Exception as ex:
+        student = None
+
     store = modulestore()
-    with store.bulk_operations(course_key):
-        course_structure = get_course_blocks(student, store.make_course_usage_key(course_key))
-        subsections_to_update = course_structure.get_transformer_block_field(
-            scored_block_usage_key,
-            GradesTransformer,
-            'subsections',
-            set(),
-        )
 
-        course = store.get_course(course_key, depth=0)
-        subsection_grade_factory = SubsectionGradeFactory(student, course, course_structure)
+    if student:
+        with store.bulk_operations(course_key):
+            course_structure = get_course_blocks(student, store.make_course_usage_key(course_key))
+            subsections_to_update = course_structure.get_transformer_block_field(
+                scored_block_usage_key,
+                GradesTransformer,
+                'subsections',
+                set(),
+            )
 
-        for subsection_usage_key in subsections_to_update:
-            if subsection_usage_key in course_structure:
-                subsection_grade = subsection_grade_factory.update(
-                    course_structure[subsection_usage_key],
-                    only_if_higher,
-                    score_deleted
-                )
-                SUBSECTION_SCORE_CHANGED.send(
-                    sender=None,
-                    course=course,
-                    course_structure=course_structure,
-                    user=student,
-                    subsection_grade=subsection_grade,
-                )
+            course = store.get_course(course_key, depth=0)
+            subsection_grade_factory = SubsectionGradeFactory(student, course, course_structure)
+
+            for subsection_usage_key in subsections_to_update:
+                if subsection_usage_key in course_structure:
+                    subsection_grade = subsection_grade_factory.update(
+                        course_structure[subsection_usage_key],
+                        only_if_higher,
+                        score_deleted
+                    )
+                    SUBSECTION_SCORE_CHANGED.send(
+                        sender=None,
+                        course=course,
+                        course_structure=course_structure,
+                        user=student,
+                        subsection_grade=subsection_grade,
+                    )
 
 
 def _course_task_args(course_key, **kwargs):
