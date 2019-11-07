@@ -419,6 +419,7 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
 
             cohort_names_list = []
             email_params = get_email_params(course, True, secure=request.is_secure())
+            email = str(email).strip()
             try:
                 validate_email(email)  # Raises ValidationError if invalid
             except ValidationError:
