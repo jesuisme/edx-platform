@@ -419,11 +419,12 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
 
             cohort_names_list = []
             email_params = get_email_params(course, True, secure=request.is_secure())
+            email = str(email).strip()
             try:
                 validate_email(email)  # Raises ValidationError if invalid
-            except ValidationError:
+            except ValidationError as ex:
                 row_errors.append({
-                    'username': '', 'email': email, 'response': _('Invalid email {email_address}.').format(email_address=email)})
+                    'username': '', 'email': email, 'response': _('Invalid email {email_address}').format(email_address=email)})
             else:
                 if User.objects.filter(email=email).exists():
                     # Email address already exists. assume it is the correct user
