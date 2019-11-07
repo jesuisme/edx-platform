@@ -39,7 +39,8 @@ class FBm6s9XBlock(XBlock):
         frag = Fragment(html.format(self=self))
         frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
         frag.add_css(self.resource_string("static/css/fb_m6s9_xblock.css"))
-        frag.add_javascript(self.resource_string("static/js/src/bootstrap.min.js"))
+        js_str = pkg_resources.resource_string(__name__, "static/js/src/bootstrap.min.js")
+        frag.add_javascript(unicode(js_str))
         frag.add_javascript(self.resource_string("static/js/src/fb_m6s9_xblock.js"))
         frag.initialize_js('FBm6s9XBlock')
         return frag

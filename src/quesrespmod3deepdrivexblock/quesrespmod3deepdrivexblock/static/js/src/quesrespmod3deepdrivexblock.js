@@ -5,10 +5,10 @@
 
 
 
-function TryA(){
-      $('#myCarousel_a .item.active div').removeClass("incorrect").removeClass("selectedAns");
-      $('#myCarousel_a .item .ans').removeClass('DisB');      
-    }
+// function TryA(){
+//       $('#myCarousel_a .item.active div').removeClass("incorrect").removeClass("selectedAns");
+//       $('#myCarousel_a .item .ans').removeClass('DisB');      
+//     }
 
 
         function checkAnswer(obj, f) {

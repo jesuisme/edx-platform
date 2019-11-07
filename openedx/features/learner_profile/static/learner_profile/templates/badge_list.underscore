@@ -2,3 +2,67 @@
 <div class="<%= type %>-paging-header"></div>
 <div class="<%= type %>-list cards-list"></div>
 <div class="<%= type %>-paging-footer"></div>
+
+
+<script>
+  $(document).ready(function(){
+  $("#linkedin_click").click(function(){
+    
+    $.ajax({
+         type: "POST",
+      	 dataType: 'json',
+      	 url: "/ut_new/linkedin_click",
+         data: {badge: "linkedin_click"},
+         
+         success: function (data) {
+           console.log("ffffffff");
+           
+       
+             
+           }
+       });
+    
+  });
+
+  $("#social_share").click(function(){
+    
+    $.ajax({
+         type: "POST",
+      	 dataType: 'json',
+      	 url: "/ut_new/social_share",
+         data: {badge: "linkedin_click"},
+         
+         success: function (data) {
+           console.log("ffffffff");
+           
+       
+             
+           }
+       });
+    
+  });
+
+  $("#social_share_fb").click(function(){
+    
+    $.ajax({
+         type: "POST",
+      	 dataType: 'json',
+      	 url: "/ut_new/social_share",
+         data: {badge: "linkedin_click"},
+         
+         success: function (data) {
+           console.log("ffffffff");
+           
+       
+             
+           }
+       });
+    
+  });
+
+
+});
+
+
+  
+  </script>

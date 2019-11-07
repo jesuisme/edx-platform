@@ -56,11 +56,14 @@ def ut_coherts(request):
 def enroll_user(request):
     """
     """
+    log.info("enroll user========")
     from student.views.management import logo_data
     user = request.user
     if request.method == "GET" or request.method == "POST":
+        log.info("enroll user==if======")
         badge_class = BadgeClass.get_badge_class(slug = 'diligent_learner',issuing_component='openedx__course', create=False,)
         if badge_class and not badge_class.get_for_user(user):
+            log.info("enroll user=====badge===")
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
             context  = {
                 "badge_name": badge_class.display_name
@@ -93,11 +96,14 @@ def enroll_user(request):
 def linkedin_click(request):
     """
     """
+    log.info("enroll linkedin_click========")
     from student.views.management import logo_data
     user = request.user
     if request.method == "GET" or request.method == "POST":
+        log.info("enroll linkedin_click=====lll===")
         badge_class = BadgeClass.get_badge_class(slug = 'value-wise',issuing_component='openedx__course', create=False,)
         if badge_class and not badge_class.get_for_user(user):
+            log.info("enroll linkedin_click====badge====")
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
             context  = {
                 "badge_name": badge_class.display_name
@@ -133,11 +139,14 @@ def linkedin_click(request):
 def social_share(request):
     """
     """
+    log.info("social_share social_share========")
     from student.views.management import logo_data
     user = request.user
     if request.method == "GET" or request.method == "POST":
+        log.info("social_share social_share=====post===")
         badge_class = BadgeClass.get_badge_class(slug = 'spread_the_word',issuing_component='openedx__course', create=False,)
         if badge_class and not badge_class.get_for_user(user):
+            log.info("social_share social_share==badge======")
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
             context  = {
                 "badge_name": badge_class.display_name
