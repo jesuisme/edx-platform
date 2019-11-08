@@ -55,12 +55,12 @@ $('#myCarousel').on('slid.bs.carousel', function (e) {
        var id = parseInt(e.relatedTarget.id);
        console.log("3.3 id--", id);
           if(id == 0){
-              $('.left_a').hide();
-              $('.right_a').show();
+              $('#myCarousel .left_a').hide();
+              $('#myCarousel .right_a').show();
                // setMsgBoxHeight1();
           }else{
-            $('.left_a').show();
-            $('.right_a').hide();
+            $('#myCarousel .left_a').show();
+            $('#myCarousel .right_a').hide();
             // setMsgBoxHeight1();
          }
       });

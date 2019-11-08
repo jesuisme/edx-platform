@@ -63,16 +63,16 @@ $('#myCarousel_a').on('slid.bs.carousel', function (e) {
        var id = parseInt(e.relatedTarget.id);
        console.log("iddgdgdf=3.32==", id);
           if(id == 2){
-              $('.left').hide();
-              $('.right').show();
+              $('#myCarousel_a .left').hide();
+              $('#myCarousel_a .right').show();
                // setMsgBoxHeight2();
           }else if(id == 11){
-            $('.left').show();
-            $('.right').hide();
+            $('#myCarousel_a .left').show();
+            $('#myCarousel_a .right').hide();
              // setMsgBoxHeight2();
           } else {
-            $('.left').show();
-            $('.right').show();
+            $('#myCarousel_a .left').show();
+            $('#myCarousel_a .right').show();
              // setMsgBoxHeight2();
           }
            
