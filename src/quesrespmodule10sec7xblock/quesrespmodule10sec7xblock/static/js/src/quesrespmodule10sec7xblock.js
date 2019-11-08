@@ -3,13 +3,13 @@
 
 
 
- function TryA(obj) {
+ function TryAB(obj) {
     $(obj).closest('.item.active').find('div').removeClass("incorrect").removeClass("selectedAns");
       //$('.item.active div').removeClass("incorrect").removeClass("selectedAns");
       $(obj).closest('.item').find('.row-eq-height').removeClass('Dis'); 
     }
     
-    function checkAnswer(obj, f) {
+    function checkAnswerAB(obj, f) {
        
              if($(obj).hasClass("customansclass1"))
               {
@@ -57,7 +57,8 @@ function QuesRespModule10Sec7XBlock(runtime, element) {
   $('#myCarousel_1').on('slid.bs.carousel', function (e) {
        $('.item .ans').removeClass('Dis');
        //var id = parseInt(e.relatedTarget.id); 
-          var id = e.relatedTarget.id; 
+          var id = e.relatedTarget.id;
+          console.log("10.7 id--", id); 
           //alert(id);
           if(id == '0'){
               $('.left').hide();              

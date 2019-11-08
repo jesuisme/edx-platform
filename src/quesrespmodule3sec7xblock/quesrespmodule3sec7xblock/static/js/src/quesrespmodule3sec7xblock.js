@@ -111,7 +111,7 @@ function QuesRespModule3Sec7XBlock(runtime, element) {
             console.log('TEDASSA');
            $('.item.active').removeClass('Dis');
            var id = parseInt(e.relatedTarget.id);
-           console.log('id--',id)
+           console.log('id-3.7-',id);
              
               if(id == 0){
                   $('.left1').hide();              

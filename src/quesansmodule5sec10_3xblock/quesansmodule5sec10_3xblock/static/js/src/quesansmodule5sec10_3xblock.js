@@ -37,27 +37,27 @@ function checkAnswerC(obj, f) {
 function QuesAnsModule5Sec103XBlock(runtime, element) {
 
 
-    $(function () {
-// setMsgBoxHeight();
-// setMsgBoxHeightB();
-setMsgBoxHeightC();
-});
+//     $(function () {
+// // setMsgBoxHeight();
+// // setMsgBoxHeightB();
+// // setMsgBoxHeightC();
+// });
 
-function setMsgBoxHeightC() {
-var f_height = 0;
-var msgboxHeight = $(".carousel .active .row-eq-height").height();
-var l = $(".carousel .active .ansC").length;
-for(var i=1;i<=l;i++)
-{
-var h =  $(".carousel .active .row-eq-height div:nth-child("+i+") .ansC").css("height");
-var h1 = h.split('p');
-if(f_height < Number(h1[0]))
-{
-f_height = h1[0];
-}
-}
-$(".carousel .active .ansC").css("height",f_height+"px");    
-}
+// function setMsgBoxHeightC() {
+// var f_height = 0;
+// var msgboxHeight = $(".carousel .active .row-eq-height").height();
+// var l = $(".carousel .active .ansC").length;
+// for(var i=1;i<=l;i++)
+// {
+// var h =  $(".carousel .active .row-eq-height div:nth-child("+i+") .ansC").css("height");
+// var h1 = h.split('p');
+// if(f_height < Number(h1[0]))
+// {
+// f_height = h1[0];
+// }
+// }
+// $(".carousel .active .ansC").css("height",f_height+"px");    
+// }
 
 
 

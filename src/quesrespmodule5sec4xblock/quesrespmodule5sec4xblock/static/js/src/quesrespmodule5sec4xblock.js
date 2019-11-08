@@ -2,37 +2,17 @@
 
 
 
-    //     $(function () {
-    //             setMsgBoxHeight();
-    //     });
-    //     function setMsgBoxHeight() {
-    //     var f_height = 0;
-    //         var msgboxHeight = $(".carousel .active .row-eq-height").height();
-    //          var l = $(".carousel .active .ans").length;
-    //           for(var i=1;i<=l;i++)
-    //           {
-    //           var h =  $(".carousel .active .row-eq-height div:nth-child("+i+") .ans").css("height");
-    //           var h1 = h.split('p');
-    //          if(f_height < Number(h1[0]))
-    //          {
-    //             f_height = h1[0];
-    //          }
-    //         }
-    //        $(".carousel .active .ans").css("height",f_height+"px");    
-    // }
-    
-
-   
 
 
 
-function TryA(obj){
+
+function TryAB(obj){
        $(obj).closest('.item.active').find('div').removeClass("incorrect").removeClass("selectedAns");
       //$('.item.active div').removeClass("incorrect").removeClass("selectedAns");
       $(obj).closest('.item').find('.row-eq-height').removeClass('Dis'); 
     }
     
-    function checkAnswer(obj, f) {
+    function checkAnswerAB(obj, f) {
             //console.log($(obj).parents(".row-eq-height"));
        
             $(obj).closest('.row-eq-height').addClass('Dis');
@@ -60,17 +40,17 @@ function QuesRespModule5Sec4XBlock(runtime, element) {
         console.log("slider----");
        $('.item .ans').removeClass('Dis');
        var id = parseInt(e.relatedTarget.id);
-       console.log("id=====", id);
+       console.log("id===5.4==", id);
           
           if(id == 0){
-              $('.left').hide();              
-              $('.right').show();
+              $('.left_aa').hide();              
+              $('.right_aa').show();
           }else if(id == 2){
-            $('.left').show();
-            $('.right').hide();
+            $('.left_aa').show();
+            $('.right_aa').hide();
           } else {
-            $('.left').show();
-            $('.right').show();
+            $('.left_aa').show();
+            $('.right_aa').show();
           }
 
     });

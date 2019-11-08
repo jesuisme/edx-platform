@@ -7,6 +7,7 @@
 <script>
   $(document).ready(function(){
   $("#linkedin_click").click(function(){
+  console.log("linkedin_click===");
     
     $.ajax({
          type: "POST",
@@ -25,6 +26,7 @@
   });
 
   $("#social_share").click(function(){
+  console.log("social_share===");
     
     $.ajax({
          type: "POST",
@@ -43,6 +45,7 @@
   });
 
   $("#social_share_fb").click(function(){
+  console.log("social_share_fb===");
     
     $.ajax({
          type: "POST",

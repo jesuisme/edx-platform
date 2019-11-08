@@ -58,7 +58,7 @@ $('#myCarousel').on('slid.bs.carousel', function (e) {
    console.log("clider====");
        $('.item .ans').removeClass('Dis');
        var id = parseInt(e.relatedTarget.id);
-       console.log("id-----", id);
+       console.log("id--3.4---", id);
           
           if(id == 0){          
             //alert('a');
