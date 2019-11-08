@@ -118,12 +118,12 @@
     cursor: pointer;
 }
 
-.carousel-control.right_aa {
+.carousel-control.right {
     background-image: none;
     line-height: 424px;
     height: 0px;
 }
-.carousel-control.left_aa {
+.carousel-control.left {
     background-image: none;
     line-height: 424px;
     height: 0px;
@@ -147,6 +147,6 @@
 .jumbotron p{
     font-size: 14px !important;
 }
-.left_aa .fa-angle-left, .right_aa .fa-angle-right {
+.left .fa-angle-left, .right .fa-angle-right {
     color: #000 !important;
 }
