@@ -127,6 +127,8 @@ class QuestionresponseXBlock(XBlock):
         """
         user_service = self.runtime.service(self, 'user')
         xb_user = user_service.get_current_user()
+        log.info("Info data")
+        log.info(data) 
         course_id = data['course_id']
         user_data = self.responses
         user_match_counter = 0

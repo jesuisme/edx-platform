@@ -423,3 +423,7 @@ font-weight: 600 !important;
 {
   text-align:center !important;
 }
+
+.incorrect .container>div,.correct .container>div{
+   background:transparent !important;
+}
