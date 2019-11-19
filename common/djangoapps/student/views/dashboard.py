@@ -1187,7 +1187,7 @@ def student_dashboard(request):
                             student_badges_dict['Badge'] = 1
                             student_badges_dict['Progress'] = progress_key.student_course_progress
                             student_badges_dict['Grade'] = total_percent['percent']*100
-                            student_badges_dict['Homework'] = dict(total_percent['grade_breakdown'])['Homework']['detail']
+                            #student_badges_dict['Homework'] = dict(total_percent['grade_breakdown'])['Homework']['detail']
                             if 'Midterm Exam' in dict(total_percent['grade_breakdown']):
                                 student_badges_dict['Midterm Exam'] = dict(total_percent['grade_breakdown'])['Midterm Exam']['detail']
 
@@ -1202,7 +1202,7 @@ def student_dashboard(request):
                         student_badges_dict['Badge'] = 0
                         student_badges_dict['Progress'] = progress_key.student_course_progress
                         student_badges_dict['Grade'] = total_percent['percent']*100
-                        student_badges_dict['Homework'] = dict(total_percent['grade_breakdown'])['Homework']['detail']
+                        #student_badges_dict['Homework'] = dict(total_percent['grade_breakdown'])['Homework']['detail']
                         if 'Midterm Exam' in dict(total_percent['grade_breakdown']):
                             student_badges_dict['Midterm Exam'] = dict(total_percent['grade_breakdown'])['Midterm Exam']['detail']
 
