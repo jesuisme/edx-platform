@@ -12,22 +12,21 @@ function QuestionresponseXBlock(runtime, element) {
     $('#addresponse', element).click(function (eventObject) {
         var response = document.getElementById("studentresponse").value;
         var slide = "";
-        var course_id;
-        var current_url = window.location.href;
-        var split_url = current_url.split("/");
-        for (i = 0; i < split_url.length; i++) { 
-          if (split_url[i].includes("course-v1:")){
-            console.log(split_url[i]);
-            course_id = split_url[i];
+        // var course_id;
+        // var current_url = window.location.href;
+        // var split_url = current_url.split("/");
+        // for (i = 0; i < split_url.length; i++) { 
+        //   if (split_url[i].includes("course-v1:")){
+        //     console.log(split_url[i]);
+        //     course_id = split_url[i];
 
-          }
-        }
+        //   }
+        // }
         $.ajax({
             type: "POST",
             url: addReplyUrl,
             data: JSON.stringify({
-                "studentReply": response,
-                "course_id": course_id
+                "studentReply": response
             }),
             success: function (data) {
                 responseSlides.innerHTML = "";
@@ -102,16 +101,16 @@ function QuestionresponseXBlock(runtime, element) {
 
     var check_user_reply = runtime.handlerUrl(element, 'check_user_reply');
     var slide = "";
-    var course_id;
-    var current_url = window.location.href;
-    var split_url = current_url.split("/");
-    for (i = 0; i < split_url.length; i++) { 
-      if (split_url[i].includes("course-v1:")){
-        console.log(split_url[i]);
-        course_id = split_url[i];
+    var course_id = "testing course";
+    // var current_url = window.location.href;
+    // var split_url = current_url.split("/");
+    // for (i = 0; i < split_url.length; i++) { 
+    //   if (split_url[i].includes("course-v1:")){
+    //     console.log(split_url[i]);
+    //     course_id = split_url[i];
 
-      }
-    }
+    //   }
+    // }
 
     $.ajax({
             type: "POST",
