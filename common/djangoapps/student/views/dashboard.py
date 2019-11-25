@@ -1173,6 +1173,8 @@ def student_dashboard(request):
                 for key,value in cert_statuses.items():
                     course_name_cert = CourseOverview.objects.get(id=key)
                     data = value['status']
+
+                    log.info('data----download----cerf----%s----'% data)
                
                     if str(course_name.display_name) == str(course_name_cert.display_name):
                         if data == 'downloadable':
@@ -1182,14 +1184,16 @@ def student_dashboard(request):
 
                 log.info('get_grade------%s----'% get_grade)
 
+                badges_count = 0
 
                 for progress_key in progress_details:    
                     if badges:
                         for badge in badges:
+                            badges_count +=1
                             student_badges_dict['Student'] = user.username
                             student_badges_dict['ModuleName'] = course_name.display_name
                             student_badges_dict['Organization'] = staff_organization
-                            student_badges_dict['Badge'] += 1
+                            student_badges_dict['Badge'] = badges_count
                             student_badges_dict['Progress'] = progress_key.student_course_progress
                             # student_badges_dict['Grade'] = total_percent['percent']*100
                             # student_badges_dict['Homework'] = dict(total_percent['grade_breakdown'])['Homework']['detail']
