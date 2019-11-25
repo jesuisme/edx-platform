@@ -14,11 +14,11 @@ urlpatterns = [
     url(r'^404$', views.render_404, name='static_template_view.views.render_404'),
     url(r'^500$', views.render_500, name='static_template_view.views.render_500'),
 
+    url(r'^about_student$', views.render, {'template': 'about_student.html'}, name="about_student"),
+
     url(r'^blog$', views.render, {'template': 'blog.html'}, name="blog"),
     url(r'^contact$', views.render, {'template': 'contact.html'}, name="contact"),
     url(r'^donate$', views.render, {'template': 'donate.html'}, name="donate"),
-    url(r'^about_admin$', views.render, {'template': 'about_admin.html'}, name="about_admin"),
-    url(r'^about_student$', views.render, {'template': 'about_student.html'}, name="about_student"),
     url(r'^faq$', views.render, {'template': 'faq.html'}, name="faq"),
     url(r'^help$', views.render, {'template': 'help.html'}, name="help_edx"),
     url(r'^jobs$', views.render, {'template': 'jobs.html'}, name="jobs"),

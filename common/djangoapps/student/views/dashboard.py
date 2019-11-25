@@ -1155,7 +1155,7 @@ def student_dashboard(request):
             student_badges_dict = {}
 
             badge_writer_module = csv.writer(badge_csvfile_module)
-            fieldnames_student = ['Student','ModuleName','Organization','Badge','Certificate','Progress','Grade','Homework','Midterm Exam','Final Exam']
+            fieldnames_student = ['Student','ModuleName','Organization','Badge','Certificate','Progress','Grade','Homework','Midterm Exam','Final Exam','Entrance Exam']
             badge_writer_module = csv.DictWriter(badge_csvfile_module, fieldnames=fieldnames_student)
             badge_writer_module.writeheader()
 
@@ -1167,10 +1167,14 @@ def student_dashboard(request):
                 progress_details = CourseProgress.objects.filter(user=user,course_id=courseids)
                 from courseware.views.views import student_progress
                 get_grade = student_progress(request,u'%s'%courseids,student_id=user.id)
-                total_percent = get_grade['grade_summary']
+
+                # total_percent = get_grade['grade_summary']
+                
                 for key,value in cert_statuses.items():
                     course_name_cert = CourseOverview.objects.get(id=key)
                     data = value['status']
+
+                    log.info('data----download----cerf----%s----'% data)
                
                     if str(course_name.display_name) == str(course_name_cert.display_name):
                         if data == 'downloadable':
@@ -1178,21 +1182,34 @@ def student_dashboard(request):
                         else:
                             student_badges_dict['Certificate'] = 0                   
 
+                log.info('get_grade------%s----'% get_grade)
+
+                badges_count = 0
+
                 for progress_key in progress_details:    
                     if badges:
                         for badge in badges:
+                            badges_count +=1
                             student_badges_dict['Student'] = user.username
                             student_badges_dict['ModuleName'] = course_name.display_name
                             student_badges_dict['Organization'] = staff_organization
-                            student_badges_dict['Badge'] = 1
+                            student_badges_dict['Badge'] = badges_count
                             student_badges_dict['Progress'] = progress_key.student_course_progress
-                            student_badges_dict['Grade'] = total_percent['percent']*100
-                            student_badges_dict['Homework'] = dict(total_percent['grade_breakdown'])['Homework']['detail']
-                            if 'Midterm Exam' in dict(total_percent['grade_breakdown']):
-                                student_badges_dict['Midterm Exam'] = dict(total_percent['grade_breakdown'])['Midterm Exam']['detail']
+                            # student_badges_dict['Grade'] = total_percent['percent']*100
+                            # student_badges_dict['Homework'] = dict(total_percent['grade_breakdown'])['Homework']['detail']
+                            
+                            # if 'Midterm Exam' in dict(total_percent['grade_breakdown']):
+                            #     student_badges_dict['Midterm Exam'] = dict(total_percent['grade_breakdown'])['Midterm Exam']['detail']
 
-                            if 'Final Exam' in dict(total_percent['grade_breakdown']):
-                                student_badges_dict['Final Exam'] = dict(total_percent['grade_breakdown'])['Final Exam']['detail']
+                            if 'Entrance Exam' in dict(get_grade): 
+                                entrance_exam_value = get_grade['Entrance Exam'].split('=')[1]
+                                entrance_exam_value = entrance_exam_value.replace('%','')
+                                student_badges_dict['Entrance Exam'] = entrance_exam_value                      
+
+                            if 'Final Exam' in dict(get_grade):
+                                final_exam_value = get_grade['Final Exam'].split('=')[1]
+                                final_exam_value = final_exam_value.replace('%','')
+                                student_badges_dict['Final Exam'] = final_exam_value
 
                             badge_writer_module.writerow(student_badges_dict)      
                     else:   
@@ -1201,15 +1218,23 @@ def student_dashboard(request):
                         student_badges_dict['Organization'] = staff_organization
                         student_badges_dict['Badge'] = 0
                         student_badges_dict['Progress'] = progress_key.student_course_progress
-                        student_badges_dict['Grade'] = total_percent['percent']*100
-                        student_badges_dict['Homework'] = dict(total_percent['grade_breakdown'])['Homework']['detail']
-                        if 'Midterm Exam' in dict(total_percent['grade_breakdown']):
-                            student_badges_dict['Midterm Exam'] = dict(total_percent['grade_breakdown'])['Midterm Exam']['detail']
+                        # student_badges_dict['Grade'] = total_percent['percent']*100
+                        # student_badges_dict['Homework'] = dict(total_percent['grade_breakdown'])['Homework']['detail']
 
-                        if 'Final Exam' in dict(total_percent['grade_breakdown']):
-                            student_badges_dict['Final Exam'] = dict(total_percent['grade_breakdown'])['Final Exam']['detail']
-                        badge_writer_module.writerow(student_badges_dict)                         
+                        # if 'Midterm Exam' in dict(total_percent['grade_breakdown']):
+                        #     student_badges_dict['Midterm Exam'] = dict(total_percent['grade_breakdown'])['Midterm Exam']['detail']
 
+                        if 'Entrance Exam' in dict(get_grade):  
+                            entrance_exam_value = get_grade['Entrance Exam'].split('=')[1]
+                            entrance_exam_value = entrance_exam_value.replace('%','')
+                            student_badges_dict['Entrance Exam'] = entrance_exam_value 
+
+                        if 'Final Exam' in dict(get_grade):
+                            final_exam_value = get_grade['Final Exam'].split('=')[1]
+                            final_exam_value = final_exam_value.replace('%','')
+                            student_badges_dict['Final Exam'] = final_exam_value
+
+                        badge_writer_module.writerow(student_badges_dict)  
                 student_badges_dict = {}    
 
         file_module = os.path.join(str(data_folder), "university_modules.csv")

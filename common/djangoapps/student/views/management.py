@@ -697,6 +697,9 @@ def _update_email_opt_in(request, org):
         preferences_api.update_email_opt_in(request.user, org, email_opt_in_boolean)
 
 
+def admin_about(request):
+    return render(request, 'admin_about.html',{})
+
 @transaction.non_atomic_requests
 @require_POST
 @outer_atomic(read_committed=True)

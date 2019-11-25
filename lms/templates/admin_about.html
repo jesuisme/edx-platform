@@ -34,7 +34,7 @@
   <div class="secondary">
     <div>
             <div class="mobile-nav-item hidden-mobile nav-item">
-              <a class="register-btn btn" href="/student_dashboard">Performance Tracking Dashboard</a>
+              <a class="register-btn btn" href="/admin_dashboard">Cohorts Performance Dashboard</a>
             </div>
 
     </div>
@@ -44,7 +44,7 @@
     </div>
     <div class="mobile-menu hidden" aria-label="More" options="" role="menu" id="mobile-menu"><div class="mobile-nav-item hidden-mobile nav-item mobile-nav-link">
       </div><div class="mobile-nav-item hidden-mobile nav-item mobile-nav-link">
-              <a class="register-btn btn" href="/student_dashboard" role="menuitem">Performance Tracking Dashboard</a>
+              <a class="register-btn btn" href="/admin_dashboard" role="menuitem">Cohorts Performance Dashboard</a>
             </div></div>
 
     </div>   
@@ -59,26 +59,35 @@
    </h1>
  </header>
 </section>
-<br><br>
+
 
 <section role="main" class="content">
   
 <br>
 <div id="outer-container" class="group group-form group-form-requiredinformation">
         <p>
-            <b>Welcome to the Student Performance Dashboard.</b> This dashboard is meant to be used to track your progress on pre and post tests as well as your certificates and badges, and some data on how often you log in and spend time viewing content. <br>Each of the dashboard elements are defined below:<br><br>
-            <b>Module views per day bar chart:</b> Bar chart with day on the x axis and number of module views on the y-axis. This chart tells you how many times you have logged in and viewed at least one page within a module.<br><br>
-            <b>Logins per day bar chart: </b>Bar chart with day on the x axis and number of logins on the y-axis. This chart tells you how often you have logged into this website over time.<br><br>
-            <b>Module Progress:</b> How far along you are in this course as defined by the number of sections you have completed divided by the total number of sections in the course<br><br>
-            <b>Pre-test:</b> Your score on the pre test for this course out of 100%. Defined as the number of questions correct/total number of questions.<br><br>
-            <b>Final test:</b> Your score on the final test for this course out of 100%. Defined as the number of questions correct/total number of questions.<br><br>
-            <b>Badge and Certificates Earned: </b> The total number of badges and certificates you have earned for this course. There is only one certificate available per course and multiple badges are possible per course.<br><br>
-            <b>Average time spent per log in: </b> The mean time you spent logged into the website across all of your logins in minutes.<br><br>        
+            <b>Welcome to the Administrator Cohort Management Dashboard.</b> Below are definitions of the elements included on this dashboard.<br><br>
+            <b>Cohorts:</b> The number of cohorts you have created.<br><br>
+            <b>Modules Assigned:</b> The total number of modules assigned to your cohorts or cohort depending on which cohort is selected.<br><br>
+            <b>On Track:</b> Students who have completed the course.<br><br>
+            <b>Performance:</b> Students who have Registered,Started and Completed the course.<br><br>
+            <b>Facilitators assigned:</b> The number of facilitators you have assigned that have facilitator access to your institutional account.<br><br><br>
+            <b><u>Cohort Progress stacked bar chart</u></b><br><br>
+            X axis lists all of the cohorts you have created and the y-axis is a count of the number of learners in that cohort by status of registration and completion of assignments. <br><br>
+            <li><b>Started = </b>Learner has viewed at least one page of content.</li>
+            <li><b>Not Yet Started =</b> Learner has registered but has not viewed any content.</li>
+            <li><b>Completed =</b> Learner is registered and has completed all tasks assigned  </li>
+            <li><b>Not Registered =</b> Learner has not completed user registration process</li><br><br>
+
+            <b><u>Cohorts donut chart</u></b> <br><br>A breakdown of what what percentage each of the cohorts you created make up of the total number of learners registered under your institutional account 
+
+
+
         </p>
 
     
 
-</div><br><br><br><br><br>
+</div><br>
 
 
 </section>
@@ -98,7 +107,7 @@
         <nav class="nav-colophon" aria-label="About">
           <ol>
               <li class="nav-colophon-01">
-                <a id="about" href="/about_student">About</a>
+                <a id="about" href="/admin_about">About</a>
               </li>
 
           </ol>

@@ -432,6 +432,8 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                     user = User.objects.get(email=email)
                     
                     username = user.username
+
+
                     # see if it is an exact match with email and username
                     # if it's not an exact match then just display a warning message, but continue onwards
                     if not User.objects.filter(email=email, username=username).exists():
@@ -452,6 +454,23 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                         )
 
                         user_organization = UserProfile.objects.get(user=user).organization
+
+                        try:
+                            cohort_manual_enrollment = ManualEnrollmentAudit.objects.get(enrolled_email=user.email, coherts_name=final_cohort_name, organization_name=user_organization)
+                        except:
+                            cohort_manual_enrollment = None
+
+
+                        if cohort_manual_enrollment:
+                            warning_message = _(
+                                'An account with email {email} exists and is already enrolled in this cohort.'                                
+                            ).format(email=email)
+
+                            warnings.append({
+                                'username': '', 'email': email, 'response': warning_message
+                            })
+                            log.warning(u'email %s already exist and is already enrolled in this cohort.', email)
+
 
                         if str(staff_organization) != str(user_organization):
                             error_message = _(
@@ -876,13 +895,11 @@ def students_update_enrollment(request, course_id):
                 'after': after.to_dict(),
             })
             
-    log.info('results----%s---'% results)
     response_payload = {
         'action': action,
         'results': results,
         'auto_enroll': auto_enroll,
     }
-    log.info('response_payload-----%s----'% response_payload)
     return JsonResponse(response_payload)
 
 

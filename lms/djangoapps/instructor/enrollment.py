@@ -492,11 +492,12 @@ def send_mail_to_student(student, param_dict, language=None):
 
         # Email subject *must not* contain newlines
         subject = ''.join(subject.splitlines())
+
         from_address = configuration_helpers.get_value(
             'email_from_address',
             settings.DEFAULT_FROM_EMAIL
         )
-
+        
         send_mail(subject, message, from_address, [student], fail_silently=False)
 
 

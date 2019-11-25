@@ -2,7 +2,8 @@
 
 .scatterplot {
     padding-bottom: 0;
-    min-height: 480px;
+    min-height: 100%;
+    background: #eee;
 }
  .scatterplot p {
     font-size: 14px;
@@ -196,3 +197,15 @@
       }
   }
 
+  .line4b {
+    border-bottom: 2px solid #DCDDDF;
+    margin: 35px auto;
+    width: 70%;
+}
+
+.carousel {
+    position: relative;
+    display: table;
+    margin: 0 auto;
+    width: 100%;
+}
