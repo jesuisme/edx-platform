@@ -1,12 +1,12 @@
 .scatterplot {
     padding-bottom: 0;
-    min-height: 480px;
+    min-height: 100%;
+    background: #eee;
 }
  .scatterplot p {
     font-size: 14px;
 }
  .scatterplot .white{
-    background: white;
     padding: 70px 0;
     height: 100%;
     /*min-height: 500px;    */
@@ -193,3 +193,15 @@
            text-align: left;
       }
   }
+  .line4b {
+    border-bottom: 2px solid #DCDDDF;
+    margin: 35px auto;
+    width: 70%;
+}
+
+.carousel {
+    position: relative;
+    display: table;
+    margin: 0 auto;
+    width: 100%;
+}

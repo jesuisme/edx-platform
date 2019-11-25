@@ -3,6 +3,14 @@
   navigation bar that can exist on any of the v1, v2 or bootstrap
   pages.
 */
+html {
+   font-size: 100% !important;
+}
+
+#ask_question>.col-sm-8, #ask_question1>.col-sm-8{
+width:100% !important;
+}
+
 .global-header {
   box-sizing: border-box;
   width: 100%;
@@ -401,4 +409,21 @@
   @include float(right);
 
   padding: $baseline/2;
+}
+
+
+
+// Custom CSS
+
+.boldT{
+font-weight: 600 !important;
+}
+
+.text-center>h1, .text-center>h2, .text-center>h3, .text-center>h4, .text-center>h5, .text-center>h6, .text-center>p, .text-center>label
+{
+  text-align:center !important;
+}
+
+.incorrect .container>div,.correct .container>div{
+   background:transparent !important;
 }

@@ -8,6 +8,7 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from edxmako.shortcuts import  render_to_string
 from badges.models import BadgeAssertion, BadgeClass, CourseCompleteImageConfiguration, CourseCompleteBadges
@@ -124,7 +125,8 @@ def get_completion_badge(course_id, user):
             'email_from_address',
             settings.DEFAULT_FROM_EMAIL
     )
-
+    LOGGER.info("From emails")
+    LOGGER.info(from_address)
     message_for_activation = render_to_string('emails/badges_mails.txt', context)
 
     email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])

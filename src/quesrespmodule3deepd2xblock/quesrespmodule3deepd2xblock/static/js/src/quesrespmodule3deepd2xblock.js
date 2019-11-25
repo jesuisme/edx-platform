@@ -27,10 +27,10 @@ function TryA(){
         } 
 
     
-    function TryAB() {
-      $('#myCarousel .item.active div').removeClass("incorrect").removeClass("selectedAns");
-      $('#myCarousel .item .ans').removeClass('DisB');
-    }        
+    // function TryAB() {
+    //   $('#myCarousel .item.active div').removeClass("incorrect").removeClass("selectedAns");
+    //   $('#myCarousel .item .ans').removeClass('DisB');
+    // }        
         
         function checkAnswerA(obj, f) {
             //console.log($(obj).parents(".row-eq-height"));          

@@ -9,7 +9,7 @@ function TryA(obj){
     }
 
 
-    function checkAnswer(obj, f) {
+    function checkAnswerA(obj, f) {
     
             //$('.item .ans').addClass('Dis');
             
@@ -69,6 +69,7 @@ function QuesRespModule10Sec4XBlock(runtime, element) {
 $('#myCarousel').on('slid.bs.carousel', function (e) {
        $('.item .ans').removeClass('Dis');
        var id = parseInt(e.relatedTarget.id);
+       console.log("10.4 id--", id);
          
           if(id == 0){
               $('.left1').hide();              
@@ -101,44 +102,44 @@ $('#myCarousel').on('slid.bs.carousel', function (e) {
     //     $(".carousel .active .ans").css("line-height","block-height !important");      
     // }
     
-  $("#my-Carousel1 .additem").on("swipeleft",function(){
-  if(app.isMobile){
-     var i = $(this).children("div.item.active").index()+1;
-   var l = $(this).children("div.item").length;
-   $("#my-Carousel1 .carousel-indicators li").removeClass("active");
-    $(this).children("div.item").removeClass("active");
-     if(i==l)
-   {
-      $("#my-Carousel1 .carousel-indicators li:nth-child(1)").addClass("active");
-      $("#my-Carousel1 .additem div.item:nth-child(1)").addClass("active");
-   }
-   else{
-       i++;
-     $("#my-Carousel1 .carousel-indicators li:nth-child("+i+")").addClass("active");
-      $("#my-Carousel1 .additem div.item:nth-child("+i+")").addClass("active");
-   }
-   // setMsgBoxHeight();
-}
-  });
-  $("#my-Carousel1 .additem").on("swiperight",function(){
-  if(app.isMobile){
-     var i = $(this).children("div.item.active").index()+1;
-   var l = $(this).children("div.item").length;
-   $("#my-Carousel1 .carousel-indicators li").removeClass("active");
-    $(this).children("div.item").removeClass("active");
-     if(i==1)
-   {
-      $("#my-Carousel1 .carousel-indicators li:nth-child("+l+")").addClass("active");
-      $("#my-Carousel1 .additem div.item:nth-child("+l+")").addClass("active");
-   }
-   else{
-       i--;
-     $("#my-Carousel1 .carousel-indicators li:nth-child("+i+")").addClass("active");
-      $("#my-Carousel1 .additem div.item:nth-child("+i+")").addClass("active");
-   }
-     // setMsgBoxHeight();
-}
-  });
+//   $("#my-Carousel1 .additem").on("swipeleft",function(){
+//   if(app.isMobile){
+//      var i = $(this).children("div.item.active").index()+1;
+//    var l = $(this).children("div.item").length;
+//    $("#my-Carousel1 .carousel-indicators li").removeClass("active");
+//     $(this).children("div.item").removeClass("active");
+//      if(i==l)
+//    {
+//       $("#my-Carousel1 .carousel-indicators li:nth-child(1)").addClass("active");
+//       $("#my-Carousel1 .additem div.item:nth-child(1)").addClass("active");
+//    }
+//    else{
+//        i++;
+//      $("#my-Carousel1 .carousel-indicators li:nth-child("+i+")").addClass("active");
+//       $("#my-Carousel1 .additem div.item:nth-child("+i+")").addClass("active");
+//    }
+//    // setMsgBoxHeight();
+// }
+//   });
+//   $("#my-Carousel1 .additem").on("swiperight",function(){
+//   if(app.isMobile){
+//      var i = $(this).children("div.item.active").index()+1;
+//    var l = $(this).children("div.item").length;
+//    $("#my-Carousel1 .carousel-indicators li").removeClass("active");
+//     $(this).children("div.item").removeClass("active");
+//      if(i==1)
+//    {
+//       $("#my-Carousel1 .carousel-indicators li:nth-child("+l+")").addClass("active");
+//       $("#my-Carousel1 .additem div.item:nth-child("+l+")").addClass("active");
+//    }
+//    else{
+//        i--;
+//      $("#my-Carousel1 .carousel-indicators li:nth-child("+i+")").addClass("active");
+//       $("#my-Carousel1 .additem div.item:nth-child("+i+")").addClass("active");
+//    }
+//      // setMsgBoxHeight();
+// }
+//   });
 
    
 

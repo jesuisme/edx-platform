@@ -1182,6 +1182,7 @@ def student_dashboard(request):
 
                 log.info('get_grade------%s----'% get_grade)
 
+
                 for progress_key in progress_details:    
                     if badges:
                         for badge in badges:
@@ -1199,8 +1200,7 @@ def student_dashboard(request):
                             if 'Entrance Exam' in dict(get_grade): 
                                 entrance_exam_value = get_grade['Entrance Exam'].split('=')[1]
                                 entrance_exam_value = entrance_exam_value.replace('%','')
-                                student_badges_dict['Entrance Exam'] = entrance_exam_value
-
+                                student_badges_dict['Entrance Exam'] = entrance_exam_value                      
 
                             if 'Final Exam' in dict(get_grade):
                                 final_exam_value = get_grade['Final Exam'].split('=')[1]
@@ -1223,16 +1223,14 @@ def student_dashboard(request):
                         if 'Entrance Exam' in dict(get_grade):  
                             entrance_exam_value = get_grade['Entrance Exam'].split('=')[1]
                             entrance_exam_value = entrance_exam_value.replace('%','')
-                            student_badges_dict['Entrance Exam'] = entrance_exam_value                            
-
+                            student_badges_dict['Entrance Exam'] = entrance_exam_value 
 
                         if 'Final Exam' in dict(get_grade):
                             final_exam_value = get_grade['Final Exam'].split('=')[1]
                             final_exam_value = final_exam_value.replace('%','')
                             student_badges_dict['Final Exam'] = final_exam_value
 
-                        badge_writer_module.writerow(student_badges_dict)
-
+                        badge_writer_module.writerow(student_badges_dict)  
                 student_badges_dict = {}    
 
         file_module = os.path.join(str(data_folder), "university_modules.csv")
