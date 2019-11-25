@@ -112,6 +112,8 @@ log = logging.getLogger("edx.courseware")
 
 mylog = logging.getLogger(__name__)
 
+logger = logging.getLogger("edx.student")
+
 # Only display the requirements on learner dashboard for
 # credit and verified modes.
 REQUIREMENTS_DISPLAY_MODES = CourseMode.CREDIT_MODES + [CourseMode.VERIFIED]
@@ -1018,6 +1020,10 @@ def _progress(request, course_key, student_id):
     course_grade = CourseGradeFactory().read(student, course)
     courseware_summary = course_grade.chapter_grades.values()
 
+    log.info('course_grade---%s---'% course_grade.summary)
+
+    log.info('courseware_summary----%s----'% courseware_summary)
+
     studio_url = get_studio_url(course, 'settings/grading')
     # checking certificate generation configuration
     enrollment_mode, _ = CourseEnrollment.enrollment_mode_for_user(student, course_key)
@@ -1785,5 +1791,14 @@ def _student_progress(request, course_key, student_id):
     course_grade = CourseGradeFactory().read(student, course)
     context = {        
         'grade_summary': course_grade.summary,
-    }      
+    }  
+
+    exams = course_grade.summary['section_breakdown']
+    for value in exams:
+        if 'Entrance Exam' in value['category']:
+            context['Entrance Exam'] = value['detail']
+
+        if 'Final Exam' in value['category']:
+            context['Final Exam'] = value['detail']
+
     return context

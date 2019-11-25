@@ -363,6 +363,7 @@ such that the value can be defined later than this assignment (file load order).
             });
         }
 
+
         AutoEnrollmentViaCsv.prototype.display_response = function(dataFromServer) {
             var error, errors, generalError, renderResponse,
                 resultFromServerIsSuccess, warning, warnings,
@@ -416,20 +417,23 @@ such that the value can be defined later than this assignment (file load order).
                     edx.HtmlUtils.HTML(displayResponse.render_notification_view(type, title, message, details))
                 );
             };
-            if (errors.length) {                              
-                if (errors[0]['response'] == "Cohort Name is not Registered for this course.") {                    
+            if (errors.length) {
+                $('.enrollcsv').css("display","none");               
+                if (errors[0]['response'] == "Cohort Name is not Registered for this course.") {  
                     $('.cohort-register-error').html("Click <a href='/ut_new/ut_cohorts/'>here</a> to register cohort.");
                 }
                 renderResponse(gettext('Errors'),
                     gettext('The following errors were generated:'), 'error', errors
                 );
             }
-            if (warnings.length) {                
+            if (warnings.length) {  
+                $('.enrollcsv').css("display","none");                
                 renderResponse(gettext('Warnings'),
                     gettext('The following warnings were generated:'), 'warning', warnings
                 );
             }
-            if (resultFromServerIsSuccess) {                       
+            if (resultFromServerIsSuccess) {   
+                $('.enrollcsv').css("display","none");                
                 return renderResponse(gettext('Success'),                    
                     gettext('All accounts were created successfully.'), 'confirmation', []
                 );

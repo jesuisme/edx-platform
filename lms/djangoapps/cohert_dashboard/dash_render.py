@@ -369,14 +369,9 @@ def _create_admin_dashboard_app(request,admin_organization):
                         html.Nav(className='nav-colophon',children=[
                             html.Ol(children=[
                                 html.Li([
-                                    html.A(["About"], href="/about_admin")
+                                    html.A(["About"], href="/admin_about")
 
                                 ],className='nav-colophon-01'),
-
-                                html.Li([
-                                    html.A(["Contact"], href="/support/contact_us")
-
-                                ],className='nav-colophon-02'),
 
                             ])
 
@@ -732,8 +727,8 @@ def _create_student_dashboard_app(request,admin_organization):
 
     # Write the DataFrame column to a set to remove duplicates
     # Convert the set to a list to support indexing later
-    if df_modules is not None:
-        module_options_set = list(set(df_modules["ModuleName"]))
+    if df_badges is not None:
+        module_options_set = list(set(df_badges["ModuleName"]))
         module_options_set.sort()
         module_options = [{'label': val, 'value': val} for val in module_options_set]
         student_options_set = list(set(df_students["Student"]))
@@ -832,18 +827,27 @@ def _create_student_dashboard_app(request,admin_organization):
             # The module values will be the input
         def update_cohort(value):
             graphs = list()
+
             module_data = df_modules[df_modules['ModuleName'] == value]
+
+
             student_data = df_students[df_students['Module'] == value]
             badges_data = df_badges[df_badges['ModuleName'] == value]
             
             dates_list = []
             login_date_list = []
 
-
-            for row in module_data['Date']:
-                t = datetime.datetime.strptime(row, '%Y-%m-%d')        
-                # t = datetime.datetime.strptime(row, '%Y-%m-%d %H:%M:%S+00:00')        
-                dates_list.append("{0} {1}".format(calendar.month_name[t.month],t.day))           
+            if not module_data.empty:
+                for row in module_data['Date']:
+                    t = datetime.datetime.strptime(row, '%Y-%m-%d')        
+                    # t = datetime.datetime.strptime(row, '%Y-%m-%d %H:%M:%S+00:00')        
+                    dates_list.append("{0} {1}".format(calendar.month_name[t.month],t.day))           
+            else:
+                date_today = date.today()
+                today_d1 = date_today.strftime("%Y-%m-%d")
+                today_d2 = datetime.datetime.strptime(today_d1, '%Y-%m-%d')
+                dates_list.append("{0} {1}".format(calendar.month_name[today_d2.month],today_d2.day))
+                module_data['Views'] = 0
 
 
             for login_date in df_logins['Date']:
@@ -948,7 +952,6 @@ def _create_student_dashboard_app(request,admin_organization):
         def update_student(student_value, module_value):
             badges_data = df_badges[df_badges['ModuleName'] == module_value] 
 
-            log.info('badges_data-----%s-----'% badges_data)
             
             df_logins['Time']= pd.to_timedelta(df_logins["Time"]).values.astype(np.int64)
             df1 = df_logins.groupby('Date', as_index=False).mean()
@@ -957,12 +960,25 @@ def _create_student_dashboard_app(request,admin_organization):
             avg_time = str(df1['Time'].mean())
             avg = avg_time.split('days', 1)[-1]
 
+
+            avg_sp = avg.split(':')
+
+            deltas = timedelta(hours=float(avg_sp[0]), minutes=float(avg_sp[1]), seconds=float(avg_sp[2]))
+            total_seconds = deltas.total_seconds()
+            minutes = int(total_seconds // 60)
+            seconds = int(total_seconds % 60)
+
+            final_avg_value = '{minutes}:{seconds}'.format(minutes=minutes, seconds=seconds)
             
 
             homework_data_list = re.findall(r'\d+\.\d+', str(badges_data['Homework']))
             mid_term_data_list = re.findall(r'\d+\.\d+', str(badges_data['Midterm Exam']))
+
             final_term_data_list = re.findall(r'\d+\.\d+', str(badges_data['Final Exam']))
-         
+            # final_term_data_list = str(badges_data['Final Exam'])
+            entrance_term_data_list = re.findall(r'\d+\.\d+', str(badges_data['Entrance Exam']))
+            # entrance_term_data_list = str(badges_data['Entrance Exam'])         
+
 
             if mid_term_data_list:
                 mid_term_header = ['Midterm Exam(out of '+str(mid_term_data_list[1])+'%)']
@@ -981,14 +997,20 @@ def _create_student_dashboard_app(request,admin_organization):
 
 
             if final_term_data_list:
-                final_term_header = ['Final Exam(out of '+str(final_term_data_list[1])+'%)']
+                final_term_header = ['Final test(out of 100%)']
                 final_term_value = str(final_term_data_list[0])+'%'
             else:
-                final_term_header = ['Final Exam']
+                final_term_header = ['Final test(out of 100%)']
                 final_term_value = '--'
 
-            # log.info('badges Earned----%s---'% badges_data['Badge'])
-            # log.info('Certificate Earned----%s---'% badges_data['Certificate'])
+
+
+            if entrance_term_data_list:
+                entrance_term_header = ['Pre test(out of 100%)']
+                entrance_term_value = str(entrance_term_data_list[0])+'%'
+            else:
+                entrance_term_header = ['Pre test(out of 100%)']
+                entrance_term_value = '--'
 
             if (int(badges_data['Badge']) == 0) & (int(badges_data['Certificate']) == 0):
                 certificate_earned = '0'
@@ -1021,6 +1043,67 @@ def _create_student_dashboard_app(request,admin_organization):
                                 ],className='widget'),
                         ],className='width25'),
 
+                        #Final Grade
+
+                        # html.Div(                                                        
+                        #     children=[
+                        #         html.Div(
+                        #             children=[
+                        #                 html.Div(
+                        #                     children=[
+                        #                         html.Div([
+                        #                             html.I(className='fa fa-graduation-cap')
+                        #                         ],className='widget-header-icon'),
+                        #                 ],className='widget-header'),
+                        #                 html.Div(
+                        #                     children=[
+                        #                         html.Div(['Final Grade'],className='text'),
+                        #                         html.H1(str(float(badges_data['Grade']))+'%', className='number')
+                        #                 ],className='widget-body'),
+                        #         ],className='widget'),
+                        # ],className='width25'),
+
+                        # HOmework Term
+
+                        # html.Div(                                                        
+                        #     children=[
+                        #         html.Div(
+                        #             children=[
+                        #                 html.Div(
+                        #                     children=[
+                        #                         html.Div([
+                        #                             html.I(className='fa fa-book')
+                        #                         ],className='widget-header-icon'),
+                        #                 ],className='widget-header'),
+                        #                 html.Div(
+                        #                     children=[
+                        #                         html.Div(homework_term_header,className='text'),
+                        #                         html.H1(homework_term_value, className='number')
+                        #                 ],className='widget-body'),
+                        #         ],className='widget'),
+                        # ],className='width25'),
+
+                        # Mid Term
+
+                        # html.Div(                                                        
+                        #     children=[
+                        #         html.Div(
+                        #             children=[
+                        #                 html.Div(
+                        #                     children=[
+                        #                         html.Div([
+                        #                             html.I(className='fa fa-file-text-o')
+                        #                         ],className='widget-header-icon'),
+                        #                 ],className='widget-header'),
+                        #                 html.Div(
+                        #                     children=[
+                        #                             html.Div(mid_term_header,className='text'),
+                        #                             html.H1(mid_term_value, className='number')
+                        #                 ],className='widget-body'),
+                        #         ],className='widget'),
+                        # ],className='width25'),
+
+                        #Entrance Exam
 
                         html.Div(                                                        
                             children=[
@@ -1029,55 +1112,18 @@ def _create_student_dashboard_app(request,admin_organization):
                                         html.Div(
                                             children=[
                                                 html.Div([
-                                                    html.I(className='fa fa-graduation-cap')
+                                                    html.I(className='fa fa-clipboard')
                                                 ],className='widget-header-icon'),
                                         ],className='widget-header'),
                                         html.Div(
-                                            children=[
-                                                html.Div(['Final Grade'],className='text'),
-                                                html.H1(str(float(badges_data['Grade']))+'%', className='number')
+                                            children=[                                            
+                                                html.Div(entrance_term_header,className='text'),
+                                                html.H1(str(entrance_term_value), className='number')                                                
                                         ],className='widget-body'),
                                 ],className='widget'),
                         ],className='width25'),
 
-
-                        html.Div(                                                        
-                            children=[
-                                html.Div(
-                                    children=[
-                                        html.Div(
-                                            children=[
-                                                html.Div([
-                                                    html.I(className='fa fa-book')
-                                                ],className='widget-header-icon'),
-                                        ],className='widget-header'),
-                                        html.Div(
-                                            children=[
-                                                html.Div(homework_term_header,className='text'),
-                                                html.H1(homework_term_value, className='number')
-                                        ],className='widget-body'),
-                                ],className='widget'),
-                        ],className='width25'),
-
-
-                        html.Div(                                                        
-                            children=[
-                                html.Div(
-                                    children=[
-                                        html.Div(
-                                            children=[
-                                                html.Div([
-                                                    html.I(className='fa fa-file-text-o')
-                                                ],className='widget-header-icon'),
-                                        ],className='widget-header'),
-                                        html.Div(
-                                            children=[
-                                                    html.Div(mid_term_header,className='text'),
-                                                    html.H1(mid_term_value, className='number')
-                                        ],className='widget-body'),
-                                ],className='widget'),
-                        ],className='width25'),
-
+                        #Final Exam
 
                         html.Div(                                                        
                             children=[
@@ -1092,7 +1138,7 @@ def _create_student_dashboard_app(request,admin_organization):
                                         html.Div(
                                             children=[                                            
                                                 html.Div(final_term_header,className='text'),
-                                                html.H1(final_term_value, className='number')                                                
+                                                html.H1(str(final_term_value), className='number')                                                
                                         ],className='widget-body'),
                                 ],className='widget'),
                         ],className='width25'),
@@ -1115,7 +1161,7 @@ def _create_student_dashboard_app(request,admin_organization):
                                                 html.H3('Badges: '+ str(badge_earned), style={'margin': '10px 0 0 0', 'color': '555'})                                                
                                         ],className='widget-body'),
                                 ],className='widget'),
-                        ],className='width25'),
+                        ],className='width25'), 
 
 
                         html.Div(                                                        
@@ -1130,8 +1176,8 @@ def _create_student_dashboard_app(request,admin_organization):
                                         ],className='widget-header'),
                                         html.Div(
                                             children=[
-                                                html.Div(['Average Time per Login'],className='text'),
-                                                html.H1(avg, className='number')
+                                                html.Div(['Average Time per Login(minutes)'],className='text'),
+                                                html.H1(final_avg_value, className='number')
                                         ],className='widget-body'),
                                 ],className='widget'),
                         ],className='width25'),
@@ -1155,11 +1201,6 @@ def _create_student_dashboard_app(request,admin_organization):
 
                                     ],className='nav-colophon-01'),
 
-
-                                    html.Li([
-                                        html.A(["Contact"], href="/support/contact_us")
-
-                                    ],className='nav-colophon-02'),
 
                                 ])
 
