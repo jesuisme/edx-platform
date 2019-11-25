@@ -1,0 +1,204 @@
+.m5s3p1 .m5s3s1 {
+    background-color: #58627d;
+    padding: 40px;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.m5s3p1 .m5s3s1 h3 {
+    font-weight: bold;
+    color: #fff;
+    margin: 0px 0px 25px 0px;
+}
+.m5s3p1 .m5s3s1 p {
+    color: #fff;
+}
+.m5s3p1 .m5s3s1 .drBox {
+    color: #fff;
+    border: 1px solid #fff;
+    max-width: 285px;
+    padding: 15px 10px; 
+}
+
+
+.m5s3p1 .m5s3s1 .dropTop {
+    margin-top: 10px;
+}
+
+.m5s3p1 .m5s3s1 .drgb {
+    background-color: #ececec;
+    box-shadow:  0 0 10px  rgba(0,0,0,0.6);
+    -moz-box-shadow: 0 0 10px  rgba(0,0,0,0.6);
+    -webkit-box-shadow: 0 0 10px  rgba(0,0,0,0.6);
+    -o-box-shadow: 0 0 10px  rgba(0,0,0,0.6);
+}
+.m5s3p1 .m5s3s1 .drgbN {
+    background-color: rgba(0,0,0,0);
+    box-shadow:  0 0 10px  rgba(0,0,0,0);
+    -moz-box-shadow: 0 0 10px  rgba(0,0,0,0);
+    -webkit-box-shadow: 0 0 10px  rgba(0,0,0,0);
+    -o-box-shadow: 0 0 10px  rgba(0,0,0,0);
+}
+
+
+
+
+.m5s3p1 .m5s3s1 .droppable {
+    width: 100%;
+    height: 70px;
+    position: absolute;    
+    text-align: center;
+    left: 0px;
+    /*border: 1px solid #fff;*/
+}
+
+
+.m5s3p1 .m5s3s1 .m5s3s1a {
+    height: 498px;
+    /*    height: 100%;*/
+/*    margin-top: 3px;*/
+}
+
+/*@Amar*/
+.m5s3p1 .m5s3s1 .dropTop .ui-droppable-disabled , .m5s3p1 .m5s3s1 .dropTop_1 .ui-droppable-disabled, 
+.m5s3p1 .m5s3s1 .bgYellow_1 .droppable, .m5s3p1 .m5s3s1 .bgGray_1 .droppable {
+    width: 99% !important;
+    position: initial;
+    vertical-align: middle;
+
+    /* Internet Explorer 10 */
+    display:-ms-flexbox;
+    -ms-flex-pack:center;
+    -ms-flex-align:center;
+
+    /* Firefox */
+    display:-moz-box;
+    -moz-box-pack:center;
+    -moz-box-align:center;
+
+    /* Safari, Opera, and Chrome */
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+
+    /* W3C */
+    display:box;
+    box-pack:center;
+    box-align:center;
+}
+
+.m5s3p1 .m5s3s1 .draggable {
+    font-size: 14px !important;
+    width: 98%;
+    position: absolute;
+    cursor: pointer;
+    z-index:10;
+	height: 75px;
+    text-align: left;
+    margin-left: auto; 
+    margin-right: auto;  
+    padding: 7px;
+    max-width: 320px;
+}
+
+
+.m5s3p1 .m5s3s1 .bgGray {       
+    background-color: #eaeaea;
+    padding: 15px 10px;     
+    height: 70px;
+    text-align:center;
+    vertical-align:middle;
+}
+.m5s3p1 .m5s3s1 .bgGray_1 {       
+    background-color: #eaeaea;
+    height: 70px;        
+    text-align: center;
+
+    position: initial;
+    vertical-align: middle;
+
+    /* Internet Explorer 10 */
+    display:-ms-flexbox;
+    -ms-flex-pack:center;
+    -ms-flex-align:center;
+
+    /* Firefox */
+    display:-moz-box;
+    -moz-box-pack:center;
+    -moz-box-align:center;
+
+    /* Safari, Opera, and Chrome */
+    display:-webkit-box;
+    -webkit-box-pack:center;
+    -webkit-box-align:center;
+
+    /* W3C */
+    display:box;
+    box-pack:center;
+    box-align:center;
+}
+
+.m5s3p1 .m5s3s1 .bgYellow {
+    background: #e4c72b;    
+    padding: 15px 10px;    
+    height: 70px;
+    background-image: url("https://s3.us-east-2.amazonaws.com/dms-vbhc/img/tr.png");
+    background-repeat: no-repeat;    
+    text-align:center;
+    vertical-align:middle;
+}
+
+.m5s3p1 .m5s3s1 .bgYellow_1 {
+    background: #e4c72b;        
+    height: 70px;
+    background-image: url("https://s3.us-east-2.amazonaws.com/dms-vbhc/img/tr.png");
+    background-repeat: no-repeat;    
+    text-align:center;
+    vertical-align:middle;
+}
+
+.m5s3p1 .m5s3s1 .answerDnD {
+    background-color: #2cb69d;    
+    width: 93%;
+    padding: 3%;
+    margin-top: 35%;
+    color: #fff;
+    display: none;
+}
+
+
+#drags0 {
+    top: 14%;
+    left: -10%;    
+    padding: 5px;  
+}  
+#drags1 {
+    top: 25%;
+    left: 13%;
+    padding: 15px 5px 5px 5px;
+    z-index: 11;
+} 
+#drags2 {
+    top: 37%;
+    left: -10%;
+    padding: 15px 5px 5px 5px;
+    z-index: 11;
+}  
+#drags3 {
+    top: 48%;
+    left: 13%;
+    padding: 15px 5px 5px 5px;
+    z-index: 13;
+}
+#drags4 {
+    top: 60%;
+    left: -10%;
+    padding: 5px;
+    z-index: 13;
+}
+#drags5 {
+	top: 73%;
+    left: 13%;
+    padding: 5px;
+    z-index: 13;
+}
