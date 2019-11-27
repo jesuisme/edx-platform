@@ -2,12 +2,13 @@
 <%! from django.utils.translation import ugettext as _ %>
 <%namespace name='static' file='../static_content.html'/>
 <%
+from django.contrib.staticfiles.storage import staticfiles_storage
 course_mode_class = course_mode if course_mode else ''
 %>
 
 <main class="accomplishment accomplishment-main">
 
-    <div class="wrapper-accomplishment-rendering">
+   <!--  <div class="wrapper-accomplishment-rendering">
         <div class="accomplishment-rendering">
             <span class="deco-corner deco-corner-tl"></span>
             <span class="deco-corner deco-corner-tr"></span>
@@ -112,6 +113,96 @@ course_mode_class = course_mode if course_mode else ''
                 </dl>
             </div>
         </div>
-    </div>
+    </div> -->
+
+ <style>
+    body{
+      background: #ccc;
+      padding: 0;
+      margin: 0;
+      height: 100%;
+    }
+    html{
+      height: 100%;
+    }
+  .certificate{
+    font-family: sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px 50px;
+    min-height: calc(100vh - 40px);
+  }
+  .certificate h2.ctitle{
+    font-size: 50px;
+    color: #C4541F;
+    text-align: center;
+  }
+
+  .certificate h3.cname{
+    font-size: 40px;
+    color: #222222;
+    text-align: center;
+    font-weight: 200;
+  }
+  .certificate .line{
+    height: 1px;
+    background: #FFA576;
+    width: 100%;
+  }
+  .certificate .body{
+    padding: 30px 50px;
+    font-size: 17px;
+    line-height: 28px;
+  }
+  .certificate .body p{
+    margin-bottom: 20px;
+  }
+  .certificate .ffooter{
+    margin-top: -100px;
+  }
+  </style>
+</head>
+<body>
+  <div class="certificate">
+      <h2 class="ctitle">Certificate of Completion</h2>
+      <h3 class="cname">${accomplishment_copy_username}</h3>
+      <div class="line"></div>
+      <div class="body">
+        <p>This certificate is given in acknowledgment of successful completion <strong>${accomplishment_copy_course_name}</strong> of the Discovering VBHC curriculum.</p>
+        <p>Awarded on: <dd class="value copy copy-base">${certificate_date_issued}</dd></p>
+        <br>
+        <p>
+        <!-- <img class="signatory-signature" src="${static.url(signatory['signature_image_path'])}" alt="${signatory['name']}"><br/>
+        <p> ${signatory['name']}</p><br/>
+        ${signatory['title']}<br/> -->
+
+        <div class="wrapper-signatories">
+                        <div class="list-signatories">
+                            % if certificate_data:
+                                % for signatory in certificate_data.get('signatories', []):
+                                <div class="signatory">
+                                    <img class="signatory-signature" src="${static.url(signatory['signature_image_path'])}" alt="${signatory['name']}">
+
+                                    <h4 class="signatory-name hd-5">${signatory['name']}</h4>
+                                    <p class="signatory-credentials copy copy-micro">
+                                        <span class="role">${signatory['title']}</span>
+                                        <span class="organization">${signatory['organization']}</span>
+                                    </p>
+                                </div>
+                                % endfor
+                            % endif
+                        </div>
+                    </div>
+        
+      </div>
+      <div class="ffooter">
+        <img src="${staticfiles_storage.url('images/footer_certificate.png')}" alt="footer" style="width: 100%;">
+      </div>
+  </div>
+</body>
+
+
+
 
 </main>
