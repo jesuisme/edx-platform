@@ -6,6 +6,16 @@
 html {
    font-size: 100% !important;
 }
+.scatterplot {
+    min-height: auto !important;
+}
+
+#responseCarousel > a.left.carousel-control{
+    left:-45px !important;
+}
+#responseCarousel > a.right.carousel-control{
+    right:-32px !important;
+}
 
 #ask_question>.col-sm-8, #ask_question1>.col-sm-8{
 width:100% !important;

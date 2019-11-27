@@ -108,14 +108,15 @@ class QuestionresponseXBlock(XBlock):
         user_service = self.runtime.service(self, 'user')
         xb_user = user_service.get_current_user()
         user_reply = data['studentReply']
-        course_id = data['course_id']
+        # course_id = data['course_id']
         newReply = {
             "student": xb_user.full_name,
             "email": xb_user.emails,
             "reply": data['studentReply']
         }
         user_object = User.objects.get(email=xb_user.emails[0])
-        created, user_obj = QuestionResponse.objects.get_or_create(user=user_object,course_id=course_id)
+        # created, user_obj = QuestionResponse.objects.get_or_create(user=user_object,course_id=course_id)
+        created, user_obj = QuestionResponse.objects.get_or_create(user=user_object)
         self.responses.append(newReply)
         return {"responses": self.responses}
 
@@ -129,7 +130,7 @@ class QuestionresponseXBlock(XBlock):
         xb_user = user_service.get_current_user()
         log.info("Info data")
         log.info(data) 
-        course_id = data['course_id']
+        # course_id = data['course_id']
         user_data = self.responses
         user_match_counter = 0
         if len(user_data) > 0:

@@ -757,8 +757,10 @@ margin-left: 0;
 }
 .m4s9p1 .m4s9b5  {    
     background-color: #f0f0f0;
-    padding-bottom: 0px;
+    padding: 15px 15px 0 15px;
     min-height: 580px;
+    max-width: 1170px !important;
+    margin: 0 auto;
 }
 
 .m4s9p1 .m4s9b5 .bText  { 
