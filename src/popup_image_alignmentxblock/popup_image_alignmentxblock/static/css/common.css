@@ -5,7 +5,7 @@ body {
 .clickM5 li p, .clickM8 li p, .clickM9 li p, .clickM10 li p{position:relative; margin-top:10px;}
 
 #RdDialog {
-	z-index: 1100 !important;
+    z-index: 1100 !important;
 }
 
 #RdDialog .modal-header button {
@@ -325,7 +325,7 @@ position: relative; top: -50%;
    background-color: #fff;
 }
 .headers .vertical-align {
-	display: flex;
+    display: flex;
 justify-content: center;
 -webkit-justify-content: center;
 align-items: center;
@@ -414,11 +414,6 @@ display: -webkit-flex;
     text-shadow: none;
     width: 28%;
     line-height:17px;
-}
-
-.container .carousel-inner{
-    padding-bottom: 75px !important;
-    min-height: 680px;
 }
 
 .b2 {
@@ -922,10 +917,10 @@ footer span:nth-child(2) {
 }
 
 .MSection .clickS{
-	display:none;
+    display:none;
 }
 .MSection .clickS1{
-	display:block;
+    display:block;
 }
 .MSection .wellC {
     padding-top: 16px;
@@ -1367,7 +1362,7 @@ background: #0097a7 none repeat scroll 0 0;
     text-align: center;
     width: 77px;
     float: right;
-   /* margin-right:10px;	*/
+   /* margin-right:10px;    */
 }
 .headers #section .faqBtn{
 min-width: 69px;
@@ -1443,15 +1438,15 @@ min-width: 69px;
   width:100%;
 }
 .wrapper .panel-heading {
-	padding: 0;
+    padding: 0;
     border:0;
 }
 
 .FAQ .panel-heading {
-	padding: 10px 15px !important;
+    padding: 10px 15px !important;
 }
 .FAQ .panel-heading {
-	padding: 15px !important;	
+    padding: 15px !important;   
 }
 .panel-title>a, .panel-title>a:active{
     display:block;
@@ -1465,7 +1460,7 @@ min-width: 69px;
    content: "\e114";
    float: right;
    transition: all 0.5s;
-   font-size: 26px;		
+   font-size: 26px;     
 }
 .wrapper .panel-heading.active a:before {
     -webkit-transform: rotate(180deg);
@@ -1498,7 +1493,7 @@ min-width: 69px;
 }
 
 #C1n1,#C1n2,#C1n1i,#C1n2i,#C2n1,#C2n2,#C2n1i,#C2n2i {
-	display: none;
+    display: none;
 }
 
 
@@ -1585,7 +1580,7 @@ min-width: 69px;
 .allModule1 .btn,.allModule2 .btn,.allModule3 .btn,.allModule4 .btn,.allModule5 .btn {
     width: 99px;
     margin-bottom: 10px;
-	}
+    }
     
 .btn {
     padding: 6px 6px;
@@ -1818,11 +1813,11 @@ font-size:12px;
    display: none;
     position: absolute;
     width: 220px;
-	right:60px;
-	background:#fff;
-	padding:0px!important;
+    right:60px;
+    background:#fff;
+    padding:0px!important;
     z-index: 99999;*/
-	 z-index: 99999;
+     z-index: 99999;
 }
 
 .headers .Facilitator .faci_row {cursor:pointer; background:#fff; width:100%; padding:10px; padding-top:15px; padding-bottom:15px; font-weight:600; border-bottom:2px #ddd solid; color:#222;}
@@ -1873,5 +1868,5 @@ and (max-device-width : 450px) {
 
 
 .refQuestionLeft {
-	padding-left: 19px;
+    padding-left: 19px;
 }
