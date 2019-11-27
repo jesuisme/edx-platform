@@ -32,7 +32,6 @@ such that the value can be defined later than this assignment (file load order).
     enableAddButton = function(enable, parent) {
         var $addButton = parent.$('input[type="button"].add');
         var $addField = parent.$('input[type="text"].add-field');
-        console.log("add field",$addField);
 
         if (enable) {
             $addButton.removeAttr('disabled');
@@ -68,7 +67,6 @@ such that the value can be defined later than this assignment (file load order).
         }
 
         memberListWidget.prototype.clear_input = function() {
-            console.log("add field inside",this.$('.add-field').val(''));
             return this.$('.add-field').val('');
         };
 
@@ -224,9 +222,7 @@ such that the value can be defined later than this assignment (file load order).
 
         AuthListWidget.prototype.show_errors = function(msg) {
             var result;
-            console.log("msg error show errors");
             result = this.$errorSection !== undefined ? this.$errorSection.text(msg) : undefined;
-            console.log("after result",result);
             return result;
         };
 
@@ -276,7 +272,6 @@ such that the value can be defined later than this assignment (file load order).
             this.clear_errors();
             this.clear_input();
             if (data.userDoesNotExist) {
-                console.log("userdoes not exist--"); 
                 msg = "Could not find a user with username or email address";
                 unique_student = data.unique_student_identifier;
                 var final_msg = msg +' '+ unique_student;  
@@ -294,16 +289,12 @@ such that the value can be defined later than this assignment (file load order).
                     gettext('Error: You cannot remove yourself from the Instructor group!')
                 );
             } else if(data.noOrganization) {
-                console.log("data no organization");
                 var msg_no_org = "Error: User- "+ data.unique_student_identifier + " does not belong to any Organization."
-                console.log("msgnoorg",msg_no_org);
                 return this.show_errors(
                     gettext(msg_no_org)
                 );
             } else if(data.organizationDoesNotMatch) { 
-                console.log("does not match");               
                 var msg_does_not_match =  "Error: User- "+ data.unique_student_identifier + " does not belong to an Organization: "+ data.organization +". As User Organization name does not match with Staff Organization."
-                console.log("org does not match",msg_does_not_match);
                 return this.show_errors(
                     gettext(msg_does_not_match)
                 );
@@ -349,6 +340,7 @@ such that the value can be defined later than this assignment (file load order).
                         dataType: 'json',
                         type: 'POST',
                         url: event.currentTarget.action,
+                        timeout: 1000000,
                         data: data,
                         processData: false,
                         contentType: false,
@@ -356,9 +348,19 @@ such that the value can be defined later than this assignment (file load order).
                             autoenrollviacsv.processing = false;
                             $(autoenrollviacsv.$enrollcsv).css("display","none");
                             return autoenrollviacsv.display_response(responsedata);
-                        }
+                        },
+                        error: statusAjaxError(function(xhr, status, error) {
+                            autoenrollviacsv.processing = false;
+                            $(autoenrollviacsv.$enrollcsv).css("display","none");
+                            var errorMessage = xhr.status + ': ' + xhr.statusText
+                            if(xhr.status == 504) {
+                                $('.results').html('<b>All Accounts created Successfully.</b>');
+                            }
+                            else{                                
+                                $('.cohort-register-error').html(errorMessage);
+                            }
+                        })
                     });
-                    return false;
                 });
             });
         }
@@ -400,7 +402,7 @@ such that the value can be defined later than this assignment (file load order).
                     warnings.push(warning);
                 }
             }
-            renderResponse = function(title, message, type, studentResults) {
+            renderResponse = function(title, message, type, studentResults) {                
                 var details, responseMessage, studentResult, l, len3;
 
                 details = [];
@@ -417,11 +419,14 @@ such that the value can be defined later than this assignment (file load order).
                     edx.HtmlUtils.HTML(displayResponse.render_notification_view(type, title, message, details))
                 );
             };
+
+            console.log('resultFromServerIsSuccess-----',resultFromServerIsSuccess);
+
             if (errors.length) {
-                $('.enrollcsv').css("display","none");               
-                if (errors[0]['response'] == "Cohort Name is not Registered for this course.") {  
+                $('.enrollcsv').css("display","none");
+                if (errors[0]['response'] == "Cohort Name is not Registered for this course.") { 
                     $('.cohort-register-error').html("Click <a href='/ut_new/ut_cohorts/'>here</a> to register cohort.");
-                }
+                }               
                 renderResponse(gettext('Errors'),
                     gettext('The following errors were generated:'), 'error', errors
                 );
@@ -433,7 +438,6 @@ such that the value can be defined later than this assignment (file load order).
                 );
             }
             if (resultFromServerIsSuccess) {   
-                $('.enrollcsv').css("display","none");                
                 return renderResponse(gettext('Success'),                    
                     gettext('All accounts were created successfully.'), 'confirmation', []
                 );

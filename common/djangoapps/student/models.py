@@ -670,26 +670,29 @@ def user_post_save_callback(sender, **kwargs):
 
                     if user_ob is not None:
                         try:                        
-                            update_manual_enrollment = ManualEnrollmentAudit.objects.get(enrolled_by=user_ob, enrolled_email = user.email)
+                            update_manual_enrollment_value = ManualEnrollmentAudit.objects.filter(enrolled_by=user_ob, enrolled_email = user.email).exists()
 
                         except ManualEnrollmentAudit.DoesNotExist:
-                            update_manual_enrollment = None
+                            update_manual_enrollment_value = None
 
-                        if update_manual_enrollment:  
+                        if update_manual_enrollment_value:
+                            update_enrollment = ManualEnrollmentAudit.objects.filter(enrolled_by=user_ob, enrolled_email = user.email)
 
-                            userprof = UserProfile.objects.get(user=update_manual_enrollment.enrolled_by)
-                            learner_user = User.objects.get(email=update_manual_enrollment.enrolled_email)
-                            orgregs = OrganizationRegistration.objects.get(organization_name=update_manual_enrollment.organization_name)
+                            for update_manual_enrollment in update_enrollment:
+                                log.info('update_manual_enrollment-----%s----'% update_manual_enrollment)
+                                userprof = UserProfile.objects.get(user=update_manual_enrollment.enrolled_by)
+                                learner_user = User.objects.get(email=update_manual_enrollment.enrolled_email)
+                                orgregs = OrganizationRegistration.objects.get(organization_name=update_manual_enrollment.organization_name)
 
-                            learner_userprofile_obj = UserProfile.objects.get(user__email=update_manual_enrollment.enrolled_email)
-                            if str(learner_userprofile_obj.organization) !=  str(update_manual_enrollment.organization_name):
-                                learner_userprofile_obj.organization = update_manual_enrollment.organization_name
-                                learner_userprofile_obj.save()
-                                
-                            if not CohertsUserDetail.objects.filter(learner=learner_user, instructor=userprof, coherts_name=update_manual_enrollment.coherts_name, organization=orgregs).exists():
-                                CohertsUserDetail.objects.create(learner=learner_user, instructor=userprof, coherts_name=update_manual_enrollment.coherts_name, organization=orgregs)
-                            update_manual_enrollment.state_transition = ALLOWEDTOENROLL_TO_ENROLLED
-                            update_manual_enrollment.save()
+                                learner_userprofile_obj = UserProfile.objects.get(user__email=update_manual_enrollment.enrolled_email)
+                                if str(learner_userprofile_obj.organization) !=  str(update_manual_enrollment.organization_name):
+                                    learner_userprofile_obj.organization = update_manual_enrollment.organization_name
+                                    learner_userprofile_obj.save()
+                                    
+                                if not CohertsUserDetail.objects.filter(learner=learner_user, instructor=userprof, coherts_name=update_manual_enrollment.coherts_name, organization=orgregs).exists():
+                                    CohertsUserDetail.objects.create(learner=learner_user, instructor=userprof, coherts_name=update_manual_enrollment.coherts_name, organization=orgregs)
+                                update_manual_enrollment.state_transition = ALLOWEDTOENROLL_TO_ENROLLED
+                                update_manual_enrollment.save()
 
 
 
@@ -1674,7 +1677,7 @@ class CourseEnrollment(models.Model):
         `course_id` is our usual course_id string (e.g. "edX/Test101/2013_Fall)
         """
         enrollment_state = cls._get_enrollment_state(user, course_key)
-        return enrollment_state.is_active or False
+        return enrollment_state.is_active or False   
 
     @classmethod
     def is_enrolled_by_partial(cls, user, course_id_partial):

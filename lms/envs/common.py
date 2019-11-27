@@ -923,8 +923,6 @@ ROOT_URLCONF = 'lms.urls'
 # NOTE: Please set ALLOWED_HOSTS to some sane value, as we do not allow the default '*'
 
 # Platform Email
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-#EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465
@@ -959,23 +957,23 @@ PAYMENT_DOMAIN = 'mail.luminad.com'
 
 
 #Custom Email settings
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#EMAIL_HOST = 'smtp.gmail.com'
-#EMAIL_PORT = 587
-# EMAIL_PORT = 465
-#EMAIL_HOST_USER = 'shrutie21work2@gmail.com'
-# EMAIL_HOST_USER = 'register@adaptivedatamatics.com'
-#EMAIL_HOST_PASSWORD = 'testing@123'
-#EMAIL_USE_TLS = True
-#DEFAULT_FROM_EMAIL = 'shrutie21work2@gmail.com'
-#DEFAULT_FEEDBACK_EMAIL = 'shrutie21work2@gmail.com'
-#SERVER_EMAIL = 'devops@utldaa.com'
-#TECH_SUPPORT_EMAIL = 'technical@utldaa.com'
-#CONTACT_EMAIL = 'info@utldaa.com'
-#BUGS_EMAIL = 'bugs@utldaa.com'
-#UNIVERSITY_EMAIL = 'university@utldaa.com'
-#PRESS_EMAIL = 'press@utldaa.com'
-#FINANCE_EMAIL = ''
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# # EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'shrutie21work2@gmail.com'
+# EMAIL_HOST_PASSWORD = 'testing@123'
+# # EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = True
+# DEFAULT_FROM_EMAIL = 'shrutie21work2@gmail.com'
+# DEFAULT_FEEDBACK_EMAIL = 'shrutie21work2@gmail.com'
+# SERVER_EMAIL = 'devops@adaptivedatamatics.com'
+# TECH_SUPPORT_EMAIL = 'technical@adaptivedatamatics.com'
+# CONTACT_EMAIL = 'info@adaptivedatamatics.com'
+# BUGS_EMAIL = 'bugs@adaptivedatamatics.com'
+# UNIVERSITY_EMAIL = 'university@adaptivedatamatics.com'
+# PRESS_EMAIL = 'press@adaptivedatamatics.com'
+# FINANCE_EMAIL = ''
 
 
 # Platform mailing address

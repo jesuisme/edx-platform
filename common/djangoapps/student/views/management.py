@@ -101,7 +101,8 @@ from student.models import (
     UserStanding,
     create_comments_service_user,
     email_exists_or_retired,
-    OrganizationRegistration
+    OrganizationRegistration,
+    ManualEnrollmentAudit
 )
 from student.signals import REFUND_ORDER
 from student.forms import OrganizationRegistrationForm
@@ -1411,19 +1412,47 @@ def create_account(request, post_override=None):
 
     #request.POST['reason_for_registration'] = reason_for_registration
     #AUDIT_LOG.info("dddddddddsssssffgfff-----create account------%s--------" % request.POST)
+
     user_mail = request.POST.getlist('email')
     selected_organization = request.POST.getlist('organization')
-    if selected_organization:
-        if selected_organization[0] == "on":
-            if selected_organization[1]:
-                organization_object = OrganizationRegistration.objects.get(organization_name=selected_organization[1])
-                organization_mail = organization_object.organization_email
-                user_mail = user_mail[0].split('@')
-                organization_mail = organization_mail.split('@')
-                if user_mail[1] != organization_mail[1]:
-                    return JsonResponse({'success': False, 'value': "your mail does not match to organization mail", 'field': "organization"}, status=400)
-            else:
-                return JsonResponse({'success': False, 'value': "Select valid organization!!", 'field': "organization"}, status=400)
+
+    try:
+        manual_bulk_value = ManualEnrollmentAudit.objects.filter(enrolled_email=str(user_mail[0]))[:1].get()
+    except:
+        manual_bulk_value = None
+
+
+    if manual_bulk_value:   
+        try:
+            manual_enroll_user_data = ManualEnrollmentAudit.objects.filter(enrolled_email=str(user_mail[0]),organization_name=selected_organization[1])[:1].get()
+        except:
+            manual_enroll_user_data = None
+
+        if not manual_enroll_user_data:
+            return JsonResponse({'success': False, 'value': "your mail does not match to organization mail", 'field': "organization"}, status=400)
+           
+
+
+    #Domain Validation
+
+    # if selected_organization:
+    #     log.info('selected organization----%s---'% selected_organization)
+    #     if selected_organization[0] == "on":
+    #         log.info('it is on---')
+    #         if selected_organization[1]:
+    #             log.info('here in selectd 1')
+    #             organization_object = OrganizationRegistration.objects.get(organization_name=selected_organization[1])
+    #             organization_mail = organization_object.organization_email
+    #             log.info('organization_mail--beforesplit----%s---'% organization_mail)
+    #             user_email_value = user_mail
+    #             log.info('user_email_value----%s---'% user_email_value)
+    #             user_mail = user_mail[0].split('@')
+    #             organization_mail = organization_mail.split('@')
+
+    #             if user_mail[1] != organization_mail[1]:
+    #                 return JsonResponse({'success': False, 'value': "your mail does not match to organization mail", 'field': "organization"}, status=400)
+    #         else:
+    #             return JsonResponse({'success': False, 'value': "Select valid organization!!", 'field': "organization"}, status=400)
 
 
     warnings.warn("Please use RegistrationView instead.", DeprecationWarning)
