@@ -485,11 +485,14 @@ def get_module_system_for_user(
         handlers = {
             'grade': handle_grade_event,
         }
+
         if completion_waffle.waffle().is_enabled(completion_waffle.ENABLE_COMPLETION_TRACKING):
+
             handlers.update({
                 'completion': handle_completion_event,
                 'progress': handle_deprecated_progress_event,
             })
+
         return handlers.get(event_type)
 
     def publish(block, event_type, event):
@@ -516,6 +519,7 @@ def get_module_system_for_user(
         """
         Submit a completion object for the block.
         """
+
         if not completion_waffle.waffle().is_enabled(completion_waffle.ENABLE_COMPLETION_TRACKING):
             raise Http404
         else:
@@ -549,6 +553,7 @@ def get_module_system_for_user(
         edx-solutions.  New XBlocks should not emit these events, but instead
         emit completion events directly.
         """
+        
         if not completion_waffle.waffle().is_enabled(completion_waffle.ENABLE_COMPLETION_TRACKING):
             raise Http404
         else:

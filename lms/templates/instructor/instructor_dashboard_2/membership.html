@@ -88,7 +88,7 @@ from openedx.core.djangolib.markup import HTML, Text
     <h3 class="hd hd-3">${_("Register/Enroll Students")}</h3>
 
     <p><b>${_("Note: To register and enroll a list of users in this course, choose a CSV file that contains the column, Email.")}</b></p>
-    <p><b>${_("Please include one student per row and do not include any headers, footers, or blank lines.")}</b></p>
+    <p><b>${_("Please include one student per row(Recommended not to exceed more than 15 rows) and do not include any headers, footers, or blank lines.")}</b></p>
     <form id="student-auto-enroll-form" method="post" action="${ section_data['upload_student_csv_button_url'] }" enctype="multipart/form-data">
       <div class="customBrowseBtn">
         <label for="browseBtn-auto-enroll">${_("Upload a CSV for bulk enrollment")}</label>

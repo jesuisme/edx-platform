@@ -592,7 +592,7 @@ def order_confirmation(request):
                 try:
                     order_number = TxShopDetails.objects.get(transaction_id=order_number)
                 except:
-                    raise AuthFailedError(_('Order Number is Incorrect.'))
+                    raise AuthFailedError(_("We haven't recieved your order confirmation yet.Please try again after sometime."))
 
                 if not order_number.user:
                     organization.invoice_id = order_number.transaction_id
@@ -1173,16 +1173,13 @@ def student_dashboard(request):
                 for key,value in cert_statuses.items():
                     course_name_cert = CourseOverview.objects.get(id=key)
                     data = value['status']
-
-                    log.info('data----download----cerf----%s----'% data)
                
                     if str(course_name.display_name) == str(course_name_cert.display_name):
                         if data == 'downloadable':
                             student_badges_dict['Certificate'] = 1
                         else:
-                            student_badges_dict['Certificate'] = 0                   
+                            student_badges_dict['Certificate'] = 0                  
 
-                log.info('get_grade------%s----'% get_grade)
 
                 badges_count = 0
 

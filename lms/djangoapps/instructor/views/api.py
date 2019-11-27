@@ -433,7 +433,6 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                     
                     username = user.username
 
-
                     # see if it is an exact match with email and username
                     # if it's not an exact match then just display a warning message, but continue onwards
                     if not User.objects.filter(email=email, username=username).exists():
@@ -460,7 +459,6 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                         except:
                             cohort_manual_enrollment = None
 
-
                         if cohort_manual_enrollment:
                             warning_message = _(
                                 'An account with email {email} exists and is already enrolled in this cohort.'                                
@@ -470,8 +468,8 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                                 'username': '', 'email': email, 'response': warning_message
                             })
                             log.warning(u'email %s already exist and is already enrolled in this cohort.', email)
-
-
+                       
+                        
                         if str(staff_organization) != str(user_organization):
                             error_message = _(
                                 'An account with email {email} already exists and belongs to different organization, Organization Name: {user_organization}.'                                
@@ -480,7 +478,6 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
                             row_errors.append({
                                 'username': username, 'email': email, 'response': error_message
                             })
-                            
                             continue                            
 
                     # enroll a user if it is not already enrolled.
@@ -537,7 +534,6 @@ def register_and_enroll_students(request, course_id):  # pylint: disable=too-man
         general_errors.append({
             'username': '', 'email': '', 'response': _('File is not attached.')
         })
-
 
     results = {
         'row_errors': row_errors,
@@ -699,7 +695,6 @@ def create_and_enroll_user(email, username, name, country, password, final_cohor
             })
         else:
             log.info(u'email sent to new created user at %s', email)
-
     return errors
 
 
