@@ -76,19 +76,19 @@ function PopupImageAlignmentXBlock(runtime, element) {
 
     $("#step4_1").click(function () {
       $('#myMd1').modal();
-      $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img5.png');
+      $('#m4s9_1').attr('src', '/static/images/m4s9img5.png');
     });
     $("#step4_2").click(function () {
       $('#myMd2').modal();
-      $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img8.png');
+      $('#m4s9_1').attr('src', '/static/images/m4s9img8.png');
     });
     $("#step4_3").click(function () {
       $('#myMd3').modal();
-      $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img7.png');
+      $('#m4s9_1').attr('src', '/static/images/m4s9img7.png');
     });
     $("#step4_4").click(function () {
       $('#myMd4').modal();
-      $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img6.png');
+      $('#m4s9_1').attr('src', '/static/images/m4s9img6.png');
     });
 
     $("#chall_M1 .col-sm-6").click(function () {
@@ -117,14 +117,14 @@ function PopupImageAlignmentXBlock(runtime, element) {
       doctPop();
       $("#step3a_0").hide();
       $("#step3a_1").show();
-      $('#m4s9s3').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img3_1.png');
+      $('#m4s9s3').attr('src', '/static/images/m4s9img3_1.png');
       // $('.left1, .right1').hide(); 
     });
     $("#step3_2").click(function () {
       doctPop();
       $("#step3a_0").hide();
       $("#step3a_2").show();
-      $('#m4s9s3').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img3_2.png');
+      $('#m4s9s3').attr('src', '/static/images/m4s9img3_2.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -132,49 +132,49 @@ function PopupImageAlignmentXBlock(runtime, element) {
       doctPop();
       $("#step3a_0").hide();
       $("#step3a_3").show();
-      $('#m4s9s3').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img3_3.png');
+      $('#m4s9s3').attr('src', '/static/images/m4s9img3_3.png');
     });
     $("#step3_4").click(function () {
       doctPop();
       $("#step3a_0").hide();
       $("#step3a_4").show();
-      $('#m4s9s3').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img3_4.png');
+      $('#m4s9s3').attr('src', '/static/images/m4s9img3_4.png');
     });
     $("#step3_5").click(function () {
       doctPop();
       $("#step3a_0").hide();
       $("#step3a_5").show();
-      $('#m4s9s3').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img3_5.png');
+      $('#m4s9s3').attr('src', '/static/images/m4s9img3_5.png');
     });
     $("#step3_6").click(function () {
       doctPop();
       $("#step3a_0").hide();
       $("#step3a_6").show();
-      $('#m4s9s3').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img3_6.png');
+      $('#m4s9s3').attr('src', '/static/images/m4s9img3_6.png');
     });
     $("#step3_7").click(function () {
       doctPop();
       $("#step3a_0").hide();
       $("#step3a_7").show();
-      $('#m4s9s3').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img3_7.png');
+      $('#m4s9s3').attr('src', '/static/images/m4s9img3_7.png');
     });
     $("#step3_8").click(function () {
       doctPop();
       $("#step3a_0").hide();
       $("#step3a_8").show();
-      $('#m4s9s3').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img3_8.png');
+      $('#m4s9s3').attr('src', '/static/images/m4s9img3_8.png');
     });
     $("#step3_9").click(function () {
       doctPop();
       $("#step3a_0").hide();
       $("#step3a_9").show();
-      $('#m4s9s3').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img3_9.png');
+      $('#m4s9s3').attr('src', '/static/images/m4s9img3_9.png');
     });
     $("#step3_10").click(function () {
       doctPop();
       $("#step3a_0").hide();
       $("#step3a_10").show();
-      $('#m4s9s3').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img3_10.png');
+      $('#m4s9s3').attr('src', '/static/images/m4s9img3_10.png');
     });
 
     /* step function */
@@ -193,7 +193,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       st_color();
       $('#step1').css({ 'background-color': '#21c4ff' });
       $('.left1, .right1').hide();
-      $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+      $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
       $('#T1').show();
       $('#T2').hide();
     });
@@ -214,7 +214,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       st_color();
       $('#step2').css({ 'background-color': '#21c4ff' });
       $('.left1, .right1').show();
-      $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+      $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -230,7 +230,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       app.Page3 = 3;
       $('#step3').css({ 'background-color': '#21c4ff' });
       $('.left1, .right1').show();
-      $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+      $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -245,7 +245,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       app.Page3 = 4;
       $('#step4').css({ 'background-color': '#21c4ff' });
       $('.left1, .right1').show();
-      $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+      $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -264,7 +264,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       app.Page3 = 6;
       $('#step5').css({ 'background-color': '#21c4ff' });
       $('.left1, .right1').show();
-      $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+      $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -285,7 +285,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       $('#step6').css({ 'background-color': '#21c4ff' });
       setMsgBoxHeight();
       $('.left1, .right1').show();
-      $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+      $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -301,7 +301,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       $('#step7').css({ 'background-color': '#21c4ff' });
       $('.left1').show();
       $('.right1').hide();
-      $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+      $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -354,7 +354,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         st_color();
         $('.m4s9mcq ol li').hide();
         $('#step1').css({ 'background-color': '#21c4ff' });
-        $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+        $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
         //$('#cha_1,#cha_2,#cha_3').removeClass('selectedAnsCha');
         // hideFun();
       }
@@ -364,7 +364,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(2)').show();
         st_color();
         $('#step2').css({ 'background-color': '#21c4ff' });
-        $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+        $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
         // $('#cha_1,#cha_2,#cha_3').removeClass('selectedAnsCha');
         //hideFun();
       }
@@ -376,7 +376,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(2)').show();
         st_color();
         $('#step2').css({ 'background-color': '#21c4ff' });
-        $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+        $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
         //alert('down');
         //$('#cha_1,#cha_2,#cha_3').removeClass('selectedAnsCha');
         //hideFun();
@@ -386,7 +386,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li').hide();
         st_color();
         $('#step3').css({ 'background-color': '#21c4ff' });
-        $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+        $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
         // $('#cha_1,#cha_2,#cha_3').removeClass('selectedAnsCha');
         //hideFun();
       }
@@ -394,7 +394,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li').hide();
         st_color();
         $('#step4').css({ 'background-color': '#21c4ff' });
-        $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+        $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
         //$('#cha_1,#cha_2,#cha_3').removeClass('selectedAnsCha');
         // hideFun();
       }
@@ -405,7 +405,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(7)').show();
         st_color();
         $('#step5').css({ 'background-color': '#21c4ff' });
-        $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+        $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
         // $('#cha_1,#cha_2,#cha_3').removeClass('selectedAnsCha');
         //hideFun();
       }
@@ -417,7 +417,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(7)').show();
         st_color();
         $('#step5').css({ 'background-color': '#21c4ff' });
-        $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+        $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
         //$('#cha_1,#cha_2,#cha_3').removeClass('selectedAnsCha');
         //hideFun();
       }
@@ -428,7 +428,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(7)').show();
         st_color();
         $('#step5').css({ 'background-color': '#21c4ff' });
-        $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+        $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
         //$('#cha_1,#cha_2,#cha_3').removeClass('selectedAnsCha');
         //hideFun();
       }
@@ -440,7 +440,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(10)').show();
         st_color();
         $('#step6').css({ 'background-color': '#21c4ff' });
-        $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+        $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
         // $('#cha_1,#cha_2,#cha_3').removeClass('selectedAnsCha');
         //  hideFun();
       }
@@ -451,7 +451,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(10)').show();
         st_color();
         $('#step6').css({ 'background-color': '#21c4ff' });
-        $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+        $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
         //$('#cha_1,#cha_2,#cha_3').removeClass('selectedAnsCha');
         // hideFun();
       }
@@ -462,7 +462,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(10)').show();
         st_color();
         $('#step6').css({ 'background-color': '#21c4ff' });
-        $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+        $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
         // $('#cha_1,#cha_2,#cha_3').removeClass('selectedAnsCha');
         // hideFun();
       }
@@ -471,7 +471,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li').hide();
         st_color();
         $('#step7').css({ 'background-color': '#21c4ff' });
-        $('#m4s9_1').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img4.png');
+        $('#m4s9_1').attr('src', '/static/images/m4s9img4.png');
         //$('#cha_1,#cha_2,#cha_3').removeClass('selectedAnsCha');
         //hideFun();
         $('.left1').show();
@@ -634,19 +634,19 @@ function PopupImageAlignmentXBlock(runtime, element) {
     }
     $("#step4_1").click(function () {
       $('#myMd1').modal();
-      $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16_1.png');
+      $('#m4s9img16').attr('src', '/static/images/m4s9img16_1.png');
     });
     $("#step4_2").click(function () {
       $('#myMd2').modal();
-      $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16_2.png');
+      $('#m4s9img16').attr('src', '/static/images/m4s9img16_2.png');
     });
     $("#step4_3").click(function () {
       $('#myMd3').modal();
-      $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16_3.png');
+      $('#m4s9img16').attr('src', '/static/images/m4s9img16_3.png');
     });
     $("#step4_4").click(function () {
       $('#myMd4').modal();
-      $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16_4.png');
+      $('#m4s9img16').attr('src', '/static/images/m4s9img16_4.png');
     });
 
     $("#chall_M1 .col-sm-6").click(function () {
@@ -677,73 +677,73 @@ function PopupImageAlignmentXBlock(runtime, element) {
       doctPop();
       $("#step3b_0").hide();
       $("#step3b_1").show();
-      $('#m4s9img15').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img15_1.png');
+      $('#m4s9img15').attr('src', '/static/images/m4s9img15_1.png');
     });
     $("#stepd3_2").click(function () {
       doctPop();
       $("#step3b_0").hide();
       $("#step3b_2").show();
-      $('#m4s9img15').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img15_2.png');
+      $('#m4s9img15').attr('src', '/static/images/m4s9img15_2.png');
     });
     $("#stepd3_3").click(function () {
       doctPop();
       $("#step3b_0").hide();
       $("#step3b_3").show();
-      $('#m4s9img15').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img15_3.png');
+      $('#m4s9img15').attr('src', '/static/images/m4s9img15_3.png');
     });
     $("#stepd3_4").click(function () {
       doctPop();
       $("#step3b_0").hide();
       $("#step3b_4").show();
-      $('#m4s9img15').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img15_4.png');
+      $('#m4s9img15').attr('src', '/static/images/m4s9img15_4.png');
     });
     $("#stepd3_5").click(function () {
       doctPop();
       $("#step3b_0").hide();
       $("#step3b_5").show();
-      $('#m4s9img15').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img15_5.png');
+      $('#m4s9img15').attr('src', '/static/images/m4s9img15_5.png');
     });
     $("#stepd3_6").click(function () {
       doctPop();
       $("#step3b_0").hide();
       $("#step3b_6").show();
-      $('#m4s9img15').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img15_6.png');
+      $('#m4s9img15').attr('src', '/static/images/m4s9img15_6.png');
     });
     $("#stepd3_7").click(function () {
       doctPop();
       $("#step3b_0").hide();
       $("#step3b_7").show();
-      $('#m4s9img15').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img15_7.png');
+      $('#m4s9img15').attr('src', '/static/images/m4s9img15_7.png');
     });
     $("#stepd3_8").click(function () {
       doctPop();
       $("#step3b_0").hide();
       $("#step3b_8").show();
-      $('#m4s9img15').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img15_8.png');
+      $('#m4s9img15').attr('src', '/static/images/m4s9img15_8.png');
     });
     $("#stepd3_9").click(function () {
       doctPop();
       $("#step3b_0").hide();
       $("#step3b_9").show();
-      $('#m4s9img15').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img15_9.png');
+      $('#m4s9img15').attr('src', '/static/images/m4s9img15_9.png');
     });
     $("#stepd3_10").click(function () {
       doctPop();
       $("#step3b_0").hide();
       $("#step3b_10").show();
-      $('#m4s9img15').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img15_10.png');
+      $('#m4s9img15').attr('src', '/static/images/m4s9img15_10.png');
     });
     $("#stepd3_11").click(function () {
       doctPop();
       $("#step3b_0").hide();
       $("#step3b_11").show();
-      $('#m4s9img15').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img15_11.png');
+      $('#m4s9img15').attr('src', '/static/images/m4s9img15_11.png');
     });
     $("#stepd3_12").click(function () {
       doctPop();
       $("#step3b_0").hide();
       $("#step3b_12").show();
-      $('#m4s9img15').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img15_12.png');
+      $('#m4s9img15').attr('src', '/static/images/m4s9img15_12.png');
     });
 
 
@@ -764,7 +764,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       st_color();
       $('#stepd1').css({ 'background-color': '#33d8ba' });
       $('.left1, .right1').hide();
-      $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+      $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       $('#T1').show();
       $('#T2').hide();
     });
@@ -786,7 +786,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       app.Page3 = 1;
       $('#stepd2').css({ 'background-color': '#33d8ba' });
       $('.left1, .right1').show();
-      $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+      $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -803,7 +803,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       app.Page3 = 3;
       $('#stepd3').css({ 'background-color': '#33d8ba' });
       $('.left1, .right1').show();
-      $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+      $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -819,7 +819,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       app.Page3 = 4;
       $('#stepd4').css({ 'background-color': '#33d8ba' });
       $('.left1, .right1').show();
-      $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+      $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -839,7 +839,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       app.Page3 = 6;
       $('#stepd5').css({ 'background-color': '#33d8ba' });
       $('.left1, .right1').show();
-      $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+      $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -861,7 +861,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       $('#stepd6').css({ 'background-color': '#33d8ba' });
       setMsgBoxHeight();
       $('.left1, .right1').show();
-      $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+      $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -878,7 +878,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       $('#stepd7').css({ 'background-color': '#33d8ba' });
       $('.left1').show();
       $('.right1').hide();
-      $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+      $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -928,7 +928,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         st_color();
         $('.m4s9mcq ol li').hide();
         $('#stepd1').css({ 'background-color': '#33d8ba' });
-        $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+        $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       }
       if (id == 1) {
         $('.m4s9mcq ol li').hide();
@@ -936,7 +936,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(2)').show();
         st_color();
         $('#stepd2').css({ 'background-color': '#33d8ba' });
-        $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+        $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       }
 
       if (id == 2) {
@@ -945,20 +945,20 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(2)').show();
         st_color();
         $('#stepd2').css({ 'background-color': '#33d8ba' });
-        $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+        $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       }
 
       if (id == 3) {
         $('.m4s9mcq ol li').hide();
         st_color();
         $('#stepd3').css({ 'background-color': '#33d8ba' });
-        $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+        $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       }
       if (id == 4) {
         $('.m4s9mcq ol li').hide();
         st_color();
         $('#stepd4').css({ 'background-color': '#33d8ba' });
-        $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+        $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       }
       if (id == 5) {
         $('.m4s9mcq ol li').hide();
@@ -967,7 +967,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(7)').show();
         st_color();
         $('#stepd5').css({ 'background-color': '#33d8ba' });
-        $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+        $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       }
 
       if (id == 6) {
@@ -977,7 +977,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(7)').show();
         st_color();
         $('#stepd5').css({ 'background-color': '#33d8ba' });
-        $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+        $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       }
       if (id == 7) {
         $('.m4s9mcq ol li').hide();
@@ -986,7 +986,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(7)').show();
         st_color();
         $('#stepd5').css({ 'background-color': '#33d8ba' });
-        $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+        $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       }
 
       if (id == 8) {
@@ -996,7 +996,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(10)').show();
         st_color();
         $('#stepd6').css({ 'background-color': '#33d8ba' });
-        $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+        $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       }
       if (id == 9) {
         $('.m4s9mcq ol li').hide();
@@ -1005,7 +1005,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(10)').show();
         st_color();
         $('#stepd6').css({ 'background-color': '#33d8ba' });
-        $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+        $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       }
       if (id == 10) {
         $('.m4s9mcq ol li').hide();
@@ -1014,14 +1014,14 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(10)').show();
         st_color();
         $('#stepd6').css({ 'background-color': '#33d8ba' });
-        $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+        $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
       }
 
       if (id == 11) {
         $('.m4s9mcq ol li').hide();
         st_color();
         $('#stepd7').css({ 'background-color': '#33d8ba' });
-        $('#m4s9img16').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img16.png');
+        $('#m4s9img16').attr('src', '/static/images/m4s9img16.png');
         $('.left1').show();
         $('.right1').hide();
       }
@@ -1179,19 +1179,19 @@ function PopupImageAlignmentXBlock(runtime, element) {
     }
     $("#step4_1").click(function () {
       $('#myMd1').modal();
-      $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21_1.png');
+      $('#m4s9img21').attr('src', '/static/images/m4s9img21_1.png');
     });
     $("#step4_2").click(function () {
       $('#myMd2').modal();
-      $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21_2.png');
+      $('#m4s9img21').attr('src', '/static/images/m4s9img21_2.png');
     });
     $("#step4_3").click(function () {
       $('#myMd3').modal();
-      $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21_3.png');
+      $('#m4s9img21').attr('src', '/static/images/m4s9img21_3.png');
     });
     $("#step4_4").click(function () {
       $('#myMd4').modal();
-      $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21_4.png');
+      $('#m4s9img21').attr('src', '/static/images/m4s9img21_4.png');
     });
 
     /*$("#chall_M1 .col-sm-6").click(function(){
@@ -1218,61 +1218,61 @@ function PopupImageAlignmentXBlock(runtime, element) {
       doctPop();
       $("#step3c_0").hide();
       $("#step3c_1").show();
-      $('#m4s9img20').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img20_1.png');
+      $('#m4s9img20').attr('src', '/static/images/m4s9img20_1.png');
     });
     $("#stepn3_2").click(function () {
       doctPop();
       $("#step3c_0").hide();
       $("#step3c_2").show();
-      $('#m4s9img20').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img20_2.png');
+      $('#m4s9img20').attr('src', '/static/images/m4s9img20_2.png');
     });
     $("#stepn3_3").click(function () {
       doctPop();
       $("#step3c_0").hide();
       $("#step3c_3").show();
-      $('#m4s9img20').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img20_3.png');
+      $('#m4s9img20').attr('src', '/static/images/m4s9img20_3.png');
     });
     $("#stepn3_4").click(function () {
       doctPop();
       $("#step3c_0").hide();
       $("#step3c_4").show();
-      $('#m4s9img20').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img20_4.png');
+      $('#m4s9img20').attr('src', '/static/images/m4s9img20_4.png');
     });
     $("#stepn3_5").click(function () {
       doctPop();
       $("#step3c_0").hide();
       $("#step3c_5").show();
-      $('#m4s9img20').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img20_5.png');
+      $('#m4s9img20').attr('src', '/static/images/m4s9img20_5.png');
     });
     $("#stepn3_6").click(function () {
       doctPop();
       $("#step3c_0").hide();
       $("#step3c_6").show();
-      $('#m4s9img20').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img20_6.png');
+      $('#m4s9img20').attr('src', '/static/images/m4s9img20_6.png');
     });
     $("#stepn3_7").click(function () {
       doctPop();
       $("#step3c_0").hide();
       $("#step3c_7").show();
-      $('#m4s9img20').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img20_7.png');
+      $('#m4s9img20').attr('src', '/static/images/m4s9img20_7.png');
     });
     $("#stepn3_8").click(function () {
       doctPop();
       $("#step3c_0").hide();
       $("#step3c_8").show();
-      $('#m4s9img20').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img20_8.png');
+      $('#m4s9img20').attr('src', '/static/images/m4s9img20_8.png');
     });
     $("#stepn3_9").click(function () {
       doctPop();
       $("#step3c_0").hide();
       $("#step3c_9").show();
-      $('#m4s9img20').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img20_9.png');
+      $('#m4s9img20').attr('src', '/static/images/m4s9img20_9.png');
     });
     $("#stepn3_10").click(function () {
       doctPop();
       $("#step3c_0").hide();
       $("#step3c_10").show();
-      $('#m4s9img20').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img20_10.png');
+      $('#m4s9img20').attr('src', '/static/images/m4s9img20_10.png');
     });
 
 
@@ -1293,7 +1293,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       st_color();
       $('#stepp1').css({ 'background-color': '#e4c72b' });
       $('.left1, .right1').hide();
-      $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+      $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       $('#T1').show();
       $('#T2').hide();
     });
@@ -1314,7 +1314,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       app.Page3 = 1;
       $('#stepp2').css({ 'background-color': '#e4c72b' });
       $('.left1, .right1').show();
-      $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+      $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -1331,7 +1331,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       app.Page3 = 3;
       $('#stepp3').css({ 'background-color': '#e4c72b' });
       $('.left1, .right1').show();
-      $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+      $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -1347,7 +1347,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       app.Page3 = 4;
       $('#stepp4').css({ 'background-color': '#e4c72b' });
       $('.left1, .right1').show();
-      $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+      $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -1367,7 +1367,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       app.Page3 = 6;
       $('#stepp5').css({ 'background-color': '#e4c72b' });
       $('.left1, .right1').show();
-      $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+      $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -1389,7 +1389,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       $('#stepp6').css({ 'background-color': '#e4c72b' });
       setMsgBoxHeight();
       $('.left1, .right1').show();
-      $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+      $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -1406,7 +1406,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
       $('#stepp7').css({ 'background-color': '#e4c72b' });
       $('.left1').show();
       $('.right1').hide();
-      $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+      $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       $('#T1').hide();
       $('#T2').show();
     });
@@ -1456,7 +1456,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         st_color();
         $('.m4s9mcq ol li').hide();
         $('#stepp1').css({ 'background-color': '#e4c72b' });
-        $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+        $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       }
       if (id == 1) {
         $('.m4s9mcq ol li').hide();
@@ -1464,7 +1464,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(2)').show();
         st_color();
         $('#stepp2').css({ 'background-color': '#e4c72b' });
-        $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+        $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       }
 
       if (id == 2) {
@@ -1473,20 +1473,20 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(2)').show();
         st_color();
         $('#stepp2').css({ 'background-color': '#e4c72b' });
-        $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+        $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       }
 
       if (id == 3) {
         $('.m4s9mcq ol li').hide();
         st_color();
         $('#stepp3').css({ 'background-color': '#e4c72b' });
-        $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+        $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       }
       if (id == 4) {
         $('.m4s9mcq ol li').hide();
         st_color();
         $('#stepp4').css({ 'background-color': '#e4c72b' });
-        $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+        $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       }
       if (id == 5) {
         $('.m4s9mcq ol li').hide();
@@ -1495,7 +1495,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(7)').show();
         st_color();
         $('#stepp5').css({ 'background-color': '#e4c72b' });
-        $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+        $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       }
 
       if (id == 6) {
@@ -1505,7 +1505,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(7)').show();
         st_color();
         $('#stepp5').css({ 'background-color': '#e4c72b' });
-        $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+        $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       }
       if (id == 7) {
         $('.m4s9mcq ol li').hide();
@@ -1514,7 +1514,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(7)').show();
         st_color();
         $('#stepp5').css({ 'background-color': '#e4c72b' });
-        $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+        $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       }
 
       if (id == 8) {
@@ -1524,7 +1524,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(10)').show();
         st_color();
         $('#stepp6').css({ 'background-color': '#e4c72b' });
-        $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+        $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       }
       if (id == 9) {
         $('.m4s9mcq ol li').hide();
@@ -1533,7 +1533,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(10)').show();
         st_color();
         $('#stepp6').css({ 'background-color': '#e4c72b' });
-        $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+        $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       }
       if (id == 10) {
         $('.m4s9mcq ol li').hide();
@@ -1542,14 +1542,14 @@ function PopupImageAlignmentXBlock(runtime, element) {
         $('.m4s9mcq ol li:eq(10)').show();
         st_color();
         $('#stepp6').css({ 'background-color': '#e4c72b' });
-        $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+        $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
       }
 
       if (id == 11) {
         $('.m4s9mcq ol li').hide();
         st_color();
         $('#stepp7').css({ 'background-color': '#e4c72b' });
-        $('#m4s9img21').attr('src', 'https://s3.us-east-2.amazonaws.com/dms-vbhc/img/m4s9img21.png');
+        $('#m4s9img21').attr('src', '/static/images/m4s9img21.png');
         $('.left1').show();
         $('.right1').hide();
       }
@@ -1662,6 +1662,7 @@ function PopupImageAlignmentXBlock(runtime, element) {
 
 
     $(document).ready(function () {
+      $('#m4s9img20').attr('src', '/static/images/m4s9img20.png');
       //fun_hide();
       //$('#slide1,#slides1').show();
 
@@ -1690,4 +1691,4 @@ function PopupImageAlignmentXBlock(runtime, element) {
 
   });
 
-}	
+} 
