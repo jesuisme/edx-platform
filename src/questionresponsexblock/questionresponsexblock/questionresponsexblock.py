@@ -116,7 +116,7 @@ class QuestionresponseXBlock(XBlock):
         }
         user_object = User.objects.get(email=xb_user.emails[0])
         # created, user_obj = QuestionResponse.objects.get_or_create(user=user_object,course_id=course_id)
-        created, user_obj = QuestionResponse.objects.get_or_create(user=user_object)
+        created, user_obj = QuestionResponse.objects.create(user=user_object)
         self.responses.append(newReply)
         return {"responses": self.responses}
 
