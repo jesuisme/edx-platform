@@ -118,7 +118,7 @@ def get_completion_badge(course_id, user):
     context  = {
                 "badge_name": badclass_object.display_name
     }
-    mail_subject = "you have earn a new badge"
+    mail_subject = "You earned a new VBHC Badge!"
     to_email = user.email
 
     from_address = configuration_helpers.get_value(

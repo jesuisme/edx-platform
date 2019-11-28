@@ -57,7 +57,7 @@ def  award_badge(config, count, user):
         context  = {
                 "badge_name": badge_class.display_name
         }
-        mail_subject = "you have earn a new badge"
+        mail_subject = "You earned a new VBHC Badge!"
         to_email = user.email
 
         from_address = configuration_helpers.get_value(
@@ -132,7 +132,7 @@ def course_group_check(user, course_key):
             context  = {
                 "badge_name": badge_class.display_name
             }
-            mail_subject = "you have earn a new badge"
+            mail_subject = "You earned a new VBHC Badge!"
             to_email = user.email
 
             from_address = configuration_helpers.get_value(
@@ -170,7 +170,7 @@ def deep_drive_badge(user, completed_first_challenge=None):
             context  = {
                 "badge_name": badge_class.display_name
             }
-            mail_subject = "you have earn a new badge"
+            mail_subject = "You earned a new VBHC Badge!"
             to_email = user.email
 
             from_address = configuration_helpers.get_value(
@@ -200,7 +200,7 @@ def deep_drive_badge(user, completed_first_challenge=None):
             context  = {
                 "badge_name": badge_class.display_name
             }
-            mail_subject = "you have earn a new badge"
+            mail_subject = "You earned a new VBHC Badge!"
             to_email = user.email
 
             from_address = configuration_helpers.get_value(
@@ -249,7 +249,7 @@ def percent_base_badges(user):
             context  = {
                 "badge_name": badge_class.display_name
             }
-            mail_subject = "you have earn a new badge"
+            mail_subject = "You earned a new VBHC Badge!"
             to_email = user.email
 
             from_address = configuration_helpers.get_value(
@@ -275,7 +275,7 @@ def percent_base_badges(user):
             context  = {
                 "badge_name": badge_class.display_name
             }
-            mail_subject = "you have earn a new badge"
+            mail_subject = "You earned a new VBHC Badge!"
             to_email = user.email
 
             from_address = configuration_helpers.get_value(
@@ -304,12 +304,10 @@ def user_response_badges(user):
     from student.models import QuestionResponse, StudentModuleViews, UserProfile
     from student.views.management import logo_data
     user_response = QuestionResponse.objects.filter(user=user)
-    log.info("user mail------%s------" % user.email)
     if user_response:
         badge_class = BadgeClass.get_badge_class(slug = 'user_response',issuing_component='openedx__course', create=False,)
         if badge_class and not badge_class.get_for_user(user):
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
-            log.info("badge_class.display_name======%s====" % badge_class.display_name)
             # try:
             #     get_user_name = UserProfile.objects.get(user=user)
             #     log.info("get_user_name========%s=====" % get_user_name)
@@ -330,7 +328,7 @@ def user_response_badges(user):
             context  = {
                 "badge_name": badge_class.display_name
             }
-            mail_subject = "you have earn a new badge"
+            mail_subject = "You earned a new VBHC Badge!"
             to_email = user.email
 
             from_address = configuration_helpers.get_value(
@@ -369,7 +367,7 @@ def user_response_badges(user):
                 context  = {
                 "badge_name": badge_class.display_name
                 }
-                mail_subject = "you have earn a new badge"
+                mail_subject = "You earned a new VBHC Badge!"
                 to_email = user.email
 
                 from_address = configuration_helpers.get_value(
