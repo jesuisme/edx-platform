@@ -162,6 +162,7 @@ function M10s10XBlock(runtime, element) {
     });
     
     $(function ($) {
+      $('#dlink').attr('href', '/static/pdf/My_Improvement_Project_planning_kit.pdf');
         if (	
 			
             navigator.userAgent.match(/Phone/i) ||

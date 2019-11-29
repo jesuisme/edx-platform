@@ -13,10 +13,11 @@ function UserResponseXBlocks(runtime, element) {
 
     $('#addresponses_studio', element).click(function(eventObject) {
         var response = document.getElementById("studentresponse_studio").value;
+        var studio_questions_after_submit = document.getElementById("studio_questions_after_submit").value;
         $.ajax({
             type: "POST",
             url: set_question,
-            data: JSON.stringify({"studio_questions": response}),
+            data: JSON.stringify({"studio_questions": response, "studio_questions_after_submit": studio_questions_after_submit}),
             success: editstudioquestions
         });
     });
