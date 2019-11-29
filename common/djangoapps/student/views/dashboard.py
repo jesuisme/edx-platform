@@ -1161,7 +1161,7 @@ def student_dashboard(request):
 
             for courseids in course_ids:
                 user_badges = BadgeClass.objects.filter(course_id=courseids)
-                badges = BadgeAssertion.objects.filter(user=user,badge_class=user_badges)
+                badges = BadgeAssertion.objects.filter(user=user)
                 course_name = CourseOverview.objects.select_related('image_set').get(id=courseids)
 
                 progress_details = CourseProgress.objects.filter(user=user,course_id=courseids)
