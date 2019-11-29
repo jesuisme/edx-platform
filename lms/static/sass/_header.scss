@@ -3,6 +3,22 @@
   navigation bar that can exist on any of the v1, v2 or bootstrap
   pages.
 */
+
+
+.learnmore .text-uppercase{
+    font-weight:600;
+}
+.learnmore .ui-link strong:hover{
+    text-decoration:underline;
+}
+.learnmore .well p:nth-child(3){
+    font-weight:600;
+}
+.learnmore .well p:nth-child(4){
+    font-style:italic;
+}
+
+
 html {
    font-size: 100% !important;
 }
