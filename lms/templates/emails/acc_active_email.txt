@@ -2,7 +2,7 @@
 
 <p>${_("You're almost there! Use the link to Sign In and access engaging, high-quality "
 "courses.")}</p>
-<p><b>${_("Note please enter your transcation/order number to activate and register your organization.")}</b></p>
+<p><b>${_("Please note: It may take up to 24 hours for us to receive confirmation of your payment.")}</b></p>
 
 http://${ domain }/login
 

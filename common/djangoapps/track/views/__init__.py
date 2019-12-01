@@ -17,6 +17,9 @@ from track import contexts
 from track import shim
 from track.models import TrackingLog
 from eventtracking import tracker as eventtracker
+import logging
+
+log = logging.getLogger(__name__)
 
 
 def log_event(event):

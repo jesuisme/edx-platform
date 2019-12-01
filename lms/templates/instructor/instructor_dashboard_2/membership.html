@@ -102,10 +102,11 @@ from openedx.core.djangolib.markup import HTML, Text
       <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }">
     </form>
     <br>
-    <p class="enrollcsv" id="demo" style="display: none;"></p>
+    <!-- <p class="enrollcsv" id="demo" style="display: none;"></p> -->
+    <progress class="progressbar" id="progress-bar" value="0" max="100" style="display:none; margin-bottom: 1em; height: 25px"></progress>
     <div id="loader" style="display: none;"></div>
     <div id="success_results" class="results"></div>
-    <div class='cohort-register-error' style="color: red;"></div>
+    <div class='cohort-register-error' style="color: black;"></div>
 </div>
 %endif
 

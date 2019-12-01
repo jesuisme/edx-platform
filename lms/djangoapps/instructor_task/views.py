@@ -8,7 +8,7 @@ from django.utils.translation import ugettext as _
 
 from lms.djangoapps.instructor_task.api_helper import get_status_from_instructor_task, get_updated_instructor_task
 from lms.djangoapps.instructor_task.models import PROGRESS
-
+from celery.result import AsyncResult
 log = logging.getLogger(__name__)
 
 # return status for completed tasks and tasks in progress

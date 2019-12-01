@@ -485,7 +485,8 @@ def cancel_order(request):
             else:
                 string_msg = "User not Registered."
                 messages.add_message(request, messages.ERROR, string_msg)
-            return HttpResponseRedirect('http://qual.its.utexas.edu/txshop/list.WBX?component=0&application_name=DMSCHOOL&cat_seq_chosen=02&subcategory_seq_chosen=000')
+            # return HttpResponseRedirect('http://qual.its.utexas.edu/txshop/list.WBX?component=0&application_name=DMSCHOOL&cat_seq_chosen=02&subcategory_seq_chosen=000')
+            return HttpResponseRedirect('http://utdirect.utexas.edu/txshop/item_details.WBX?application_name=DMSCHOOL&component=0&dept_prefix=ME&item_id=3&cat_seq_chosen=03&subcategory_seq_chosen=000')
         else:
             string_msg = "Order Canceled."
             messages.add_message(request, messages.ERROR, string_msg)

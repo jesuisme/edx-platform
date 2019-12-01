@@ -358,7 +358,9 @@ def get_course_info_section_module(request, user, course, section_key):
     - updates
     - guest_updates
     """
+
     usage_key = get_course_info_usage_key(course, section_key)
+
 
     # Use an empty cache
     field_data_cache = FieldDataCache([], course.id, user)
@@ -386,7 +388,9 @@ def get_course_info_section(request, user, course, section_key):
     - updates
     - guest_updates
     """
+
     info_module = get_course_info_section_module(request, user, course, section_key)
+
 
     html = ''
     if info_module is not None:
