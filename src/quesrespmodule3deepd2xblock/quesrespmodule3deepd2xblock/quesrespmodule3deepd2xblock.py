@@ -30,15 +30,9 @@ class Quesrespmodule3deep2XBlock(XBlock):
         """
         html = self.resource_string("static/html/quesrespmodule3deepd2xblock.html")
         frag = Fragment(html.format(self=self))
-        frag.add_css(self.resource_string("static/css/quesrespmodule3deepd2xblock.css"))
-        # frag.add_css(self.resource_string("static/css/animate.css"))
-        frag.add_css(self.resource_string("static/css/common.css"))
         frag.add_css(self.resource_string("static/css/bootstrap.min.css"))
-        # frag.add_css(self.resource_string("static/css/font-awesome.min.css"))
-        # frag.add_css(self.resource_string("static/css/animate.css"))
+        frag.add_css(self.resource_string("static/css/quesrespmodule3deepd2xblock.css"))
         
-        # frag.add_css(self.resource_string("static/css/fonts.css"))
-        frag.add_css(self.resource_string("static/css/m3s2p2.css"))
         js_str = pkg_resources.resource_string(__name__, "static/js/src/jquery.min.js")
         js_str = pkg_resources.resource_string(__name__, "static/js/src/bootstrap.min.js")
         frag.add_javascript(unicode(js_str))

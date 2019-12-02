@@ -32,23 +32,7 @@ function TryA(){
     //   $('#myCarousel .item .ans').removeClass('DisB');
     // }        
         
-        function checkAnswerA(obj, f) {
-            //console.log($(obj).parents(".row-eq-height"));          
-            $('#myCarousel .item .ans').addClass('DisB');
-            $('#myCarousel .item.active div').removeClass("incorrect").removeClass("selectedAns");
-            $(obj).parents(".eq-h").find(".ans")
-            $(obj).parents("#myCarousel .white").removeClass("correct incorrect");
-            if (f === 1) {
-                $(obj).addClass('selectedAns').parents('#myCarousel .white').addClass('correct');
-            } else if (f === 0) {
-                $(obj).addClass('selectedAns').parents('#myCarousel .white').addClass('incorrect');
-            } else {
-                $(obj).addClass('selectedAns').parents('#myCarousel .white').addClass('correct bothCorrect');
-                //alert(f);
-                $(".5401, .2497").addClass("hide");
-                $("." + f).removeClass("hide");
-            }
-        }      
+       
 
 
 

@@ -1,5 +1,5 @@
 {% autoescape off %}
 {% load i18n %}
 
-{% blocktrans %}Your Account Added To Cohorts{% endblocktrans %}
+{% blocktrans %} Welcome to DVBHC {% endblocktrans %}
 {% endautoescape %}
