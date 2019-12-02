@@ -31,6 +31,8 @@ class QuestionresponseXBlock(XBlock):
 
     question = String(help="A question for students", default="testing questions?", scope=Scope.content)
     responses = List(help="responses from students", default=[], scope=Scope.user_state_summary)
+
+    after_submit_title = String(help="A question for students", default="title after submit!", scope=Scope.content)
     
 
     def resource_string(self, path):
@@ -97,6 +99,7 @@ class QuestionresponseXBlock(XBlock):
         """
 
         self.studio_questions = data['studio_questions']
+        self.after_submit_title = data['studio_questions_after_submit']
 
         return {"studio_questions": self.studio_questions}
 
@@ -116,9 +119,9 @@ class QuestionresponseXBlock(XBlock):
         }
         user_object = User.objects.get(email=xb_user.emails[0])
         # created, user_obj = QuestionResponse.objects.get_or_create(user=user_object,course_id=course_id)
-        created, user_obj = QuestionResponse.objects.get_or_create(user=user_object)
+        user_obj = QuestionResponse.objects.create(user=user_object)
         self.responses.append(newReply)
-        return {"responses": self.responses}
+        return {"responses": self.responses, "after_submit_change_title": self.after_submit_title }
 
 
     @XBlock.json_handler
@@ -139,7 +142,7 @@ class QuestionresponseXBlock(XBlock):
                     user_match_counter += 1
 
         if user_match_counter > 0:
-            return {"responses": self.responses}
+            return {"responses": self.responses, "after_submit_change_title": self.after_submit_title}
         else:
             return {"responses": "new_user"}
 

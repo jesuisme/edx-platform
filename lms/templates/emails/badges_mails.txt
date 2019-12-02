@@ -1,7 +1,9 @@
 <%! from django.utils.translation import ugettext as _ %>
 
-<p>${_("You have earned a new badge")}</p>
-<p><b>${_("Please check your profile.")}</b></p>
-<p>${_("badge name is : {badge_name}").format(badge_name=badge_name)}</p>
-<img src="cid:logo_ut.jpg">
+<p>${_("Hello!")}</p>
+<p>${_("You just earned a new badge called {badge_name} as a result of your participation in Discovering Value Based Health Care (DVBHC)! Congrats! Badges are our way of recognizing your continued efforts in learning about value based health care and for your participation in the online learning community. You can check out a full list of the badges you have earned on your profile within the DVBHC website.").format(badge_name=badge_name)}</p>
+<p>${_("Thank you and congratulations, ")}</p>
+<p>${_("Dell Med Discovering Value Based Health Care ")}</p>
+<p>${_("Teamdiscoveringvbhc@dellmed.utexas.edu")}</p>
 
+<img src="cid:logo_ut.jpg">

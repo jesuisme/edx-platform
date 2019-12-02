@@ -73,7 +73,7 @@ def enroll_user(request):
             context  = {
                 "badge_name": badge_class.display_name
             }
-            mail_subject = "you have earn a new badge"
+            mail_subject = "You earned a new VBHC Badge!"
             to_email = user.email
 
             from_address = configuration_helpers.get_value(
@@ -110,7 +110,7 @@ def linkedin_click(request):
             context  = {
                 "badge_name": badge_class.display_name
             }
-            mail_subject = "you have earn a new badge"
+            mail_subject = "You earned a new VBHC Badge!"
             to_email = user.email
 
             from_address = configuration_helpers.get_value(
@@ -150,7 +150,7 @@ def social_share(request):
             context  = {
                 "badge_name": badge_class.display_name
             }
-            mail_subject = "you have earn a new badge"
+            mail_subject = "You earned a new VBHC Badge!"
             to_email = user.email
 
             from_address = configuration_helpers.get_value(

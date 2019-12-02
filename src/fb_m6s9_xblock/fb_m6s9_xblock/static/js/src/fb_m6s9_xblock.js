@@ -222,10 +222,15 @@ function FBm6s9XBlock(runtime, element) {
   });
 
   function Display_lowest_Data(result) {
-    var html = '';
-    $.each(result, function (i, v) {
-      //console.log(v);
+    result.sort((a, b) => parseFloat(a.response.Cost.Diff) - parseFloat(b.response.Cost.Diff));
+    if (result.length > 5){
+      var results_set=result.slice(0,5);
 
+    } else{
+      results_set = result
+    }
+    var html = '';
+    $.each(results_set, function (i, v) {
       html += '<tr><td>' + (i + 1) + '</td>';
       html += '<td>' + v.full_name + '</td>';
       html += '<td>' + v.response.Cost.Diff + '</td>';

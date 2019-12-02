@@ -80,7 +80,6 @@ class FBm6s9XBlock(XBlock):
         diffcost = None
         if len(user_data) > 0:
             for user_row in user_data:
-                print("user row====%s===" % user_row)
                 if str(user_row['user_mail'][0]) == str(xb_user.emails[0]):
                     user_match_counter += 1
                     Current_user = user_row
