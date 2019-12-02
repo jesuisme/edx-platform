@@ -119,28 +119,10 @@ Register Organization
 
   <p class="instructions">
     ${_('Create your own {platform_name} account below').format(platform_name=platform_name)}
-    <span class="note"><strong style="color: black;">${_('Required fields are noted by: <b class="indicator" style="color: black;">Bold text and an asterisk <b style="color: red;">(*)</b></b>.')}</strong></span>
+    
   </p>
 
-
-  % else:
-  <p class="instructions">
-## Translators: selected_provider is the name of an external, third-party user authentication service (like Google or LinkedIn).
-${_("You've successfully logged into {selected_provider} account, but this account isn't linked with a Dell Medical School account yet.").format(selected_provider='<strong>%s</strong>' % selected_provider)}<br />
-${_("Use your {platform_name} username and password to log in, and then link your {platform_name} account with {selected_provider} from your dashboard.").format(platform_name=settings.PLATFORM_NAME_1, selected_provider=selected_provider)}<br />
-${_("If you don't have a {platform_name} account yet, click Register at the top of the page.").format(platform_name=settings.PLATFORM_NAME_1)}
-</p>
-  % endif
-
-% else:
-
-<!-- <p class="instructions">
-  ${_("Please complete the following fields to register for an account. ")}<br />
-  ${_('Required fields are noted by <strong class="indicator">bold text and an asterisk (*)</strong>.')}
-</p> -->
-
-<br>
-<div class="form-actions form-third-party-auth">
+  <div class="form-actions form-third-party-auth">
 
   % for enabled in provider.Registry.displayed_for_login():
     ## Translators: provider_name is the name of an external, third-party user authentication service (like Google or LinkedIn).
@@ -156,10 +138,46 @@ ${_("If you don't have a {platform_name} account yet, click Register at the top 
 
   </div>
 
+  <span class="note"><strong style="color: black;">${_('Required fields are noted by: <b class="indicator" style="color: black;">Bold text and an asterisk <b style="color: red;">(*)</b></b>.')}</strong></span>
+
+
+  % else:
   <p class="instructions">
+## Translators: selected_provider is the name of an external, third-party user authentication service (like Google or LinkedIn).
+${_("You've successfully logged into {selected_provider} account, but this account isn't linked with a Dell Medical School account yet.").format(selected_provider='<strong>%s</strong>' % selected_provider)}<br />
+${_("Use your {platform_name} username and password to log in, and then link your {platform_name} account with {selected_provider} from your dashboard.").format(platform_name=settings.PLATFORM_NAME_1, selected_provider=selected_provider)}<br />
+${_("If you don't have a {platform_name} account yet, click Register at the top of the page.").format(platform_name=settings.PLATFORM_NAME_1)}
+</p>
+  % endif
+
+% else:
+
+<p class="instructions">
   ${_("Please complete the following fields to register for an account. ")}<br />
   ${_('Required fields are noted by <strong class="indicator">bold text and an asterisk (*)</strong>.')}
 </p>
+
+<!-- <br>
+<div class="form-actions form-third-party-auth">
+
+  % for enabled in provider.Registry.displayed_for_login():
+    ## Translators: provider_name is the name of an external, third-party user authentication service (like Google or LinkedIn).
+    <button type="submit" class="button button-primary button-${enabled.provider_id} register-${enabled.provider_id}" onclick="thirdPartySignin(event, '${pipeline_urls[enabled.provider_id]}');">
+      % if enabled.icon_class:
+      <span class="icon fa ${enabled.icon_class}" aria-hidden="true"></span>
+      % else:
+      <span class="icon" aria-hidden="true"><img class="icon-image" src="${enabled.icon_image.url}" alt="${enabled.name} icon" /></span>
+      % endif
+      ${_('Sign up with {provider_name}').format(provider_name=enabled.name)}
+    </button>
+  % endfor
+
+  </div> -->
+
+ <!--  <p class="instructions">
+  ${_("Please complete the following fields to register for an account. ")}<br />
+  ${_('Required fields are noted by <strong class="indicator">bold text and an asterisk (*)</strong>.')}
+</p> -->
 
 
 % endif
