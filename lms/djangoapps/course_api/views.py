@@ -15,8 +15,12 @@ from . import USE_RATE_LIMIT_2_FOR_COURSE_LIST_API, USE_RATE_LIMIT_10_FOR_COURSE
 from .api import course_detail, list_courses
 from .forms import CourseDetailGetForm, CourseListGetForm
 from .serializers import CourseDetailSerializer, CourseSerializer
+from celery.result import AsyncResult
 import logging
 log = logging.getLogger(__name__)
+
+
+
 
 @view_auth_classes(is_authenticated=False)
 class CourseDetailView(DeveloperErrorViewMixin, RetrieveAPIView):
@@ -106,6 +110,7 @@ class CourseDetailView(DeveloperErrorViewMixin, RetrieveAPIView):
             }
     """
 
+    log.info('in the course_api----');
 
     serializer_class = CourseDetailSerializer
 

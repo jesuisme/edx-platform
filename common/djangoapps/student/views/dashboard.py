@@ -724,20 +724,20 @@ def student_dashboard(request):
         course_enrollments, course_modes_by_course
     )
     course_optouts = Optout.objects.filter(user=user).values_list('course_id', flat=True)
-
+    ut_support_link = 'discoveringvbhc@dellmed.utexas.edu'
     # Display activation message
     activate_account_message = ''
     if not user.is_active:
         activate_account_message = Text(_(
             "Check your {email_start}{email}{email_end} inbox for an account activation link from {platform_name}. "
-            "If you need help, contact {link_start}{platform_name} Support{link_end}."
+            "If you need help, contact {link_start} discoveringvbhc@dellmed.utexas.edu {link_end}."
         )).format(
             platform_name=platform_name,
             email_start=HTML("<strong>"),
             email_end=HTML("</strong>"),
             email=user.email,
-            link_start=HTML("<a target='_blank' href='{activation_email_support_link}'>").format(
-                activation_email_support_link=activation_email_support_link,
+            link_start=HTML("<a href='mailto: {ut_support_link}?subject = Feedback&body = Message'>").format(
+                ut_support_link=ut_support_link,
             ),
             link_end=HTML("</a>"),
         )
@@ -1167,8 +1167,7 @@ def student_dashboard(request):
                 from courseware.views.views import student_progress
                 get_grade = student_progress(request,u'%s'%courseids,student_id=user.id)
 
-                # total_percent = get_grade['grade_summary']
-                
+                # total_percent = get_grade['grade_summary']                
                 for key,value in cert_statuses.items():
                     course_name_cert = CourseOverview.objects.get(id=key)
                     data = value['status']
@@ -1177,11 +1176,9 @@ def student_dashboard(request):
                         if data == 'downloadable':
                             student_badges_dict['Certificate'] = 1
                         else:
-                            student_badges_dict['Certificate'] = 0                  
-
-
+                            student_badges_dict['Certificate'] = 0 
+                
                 badges_count = 0
-
                 for progress_key in progress_details:    
                     if badges:
                         # for badge in badges:

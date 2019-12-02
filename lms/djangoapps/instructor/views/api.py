@@ -17,6 +17,7 @@ import time
 import ast
 import uuid
 
+
 import unicodecsv
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -27,6 +28,7 @@ from django.core.exceptions import (
     ValidationError
 )
 from django.core.mail.message import EmailMessage
+from celery.result import AsyncResult
 from django.urls import reverse
 from django.core.validators import validate_email
 from django.db import IntegrityError, transaction
@@ -118,6 +120,9 @@ from student.models import (
     OrganizationRegistration
 )
 from student.roles import CourseFinanceAdminRole, CourseSalesAdminRole
+
+from student.tasks import task_register_and_enroll_students
+
 from submissions import api as sub_api  # installed from the edx-submissions repository
 from util.file import (
     FileValidationException,
@@ -303,244 +308,338 @@ COHORT_NAME = 4
 @ensure_csrf_cookie
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 @require_level('staff')
-def register_and_enroll_students(request, course_id):  # pylint: disable=too-many-statements
-    """
-    Create new account and Enroll students in this course.
-    Passing a csv file that contains a list of students.
-    Order in csv should be the following email = 0; username = 1; name = 2; country = 3.
-    Requires staff access.
+def register_and_enroll_students(request, course_id):
 
-    -If the email address and username already exists and the user is enrolled in the course,
-    do nothing (including no email gets sent out)
-
-    -If the email address already exists, but the username is different,
-    match on the email address only and continue to enroll the user in the course using the email address
-    as the matching criteria. Note the change of username as a warning message (but not a failure). Send a standard enrollment email
-    which is the same as the existing manual enrollment
-
-    -If the username already exists (but not the email), assume it is a different user and fail to create the new account.
-     The failure will be messaged in a response in the browser.
-    """
-    
-    if not configuration_helpers.get_value(
-            'ALLOW_AUTOMATED_SIGNUPS',
-            settings.FEATURES.get('ALLOW_AUTOMATED_SIGNUPS', False),
-    ):
+    if not configuration_helpers.get_value( 
+        'ALLOW_AUTOMATED_SIGNUPS',
+        settings.FEATURES.get('ALLOW_AUTOMATED_SIGNUPS', False),
+    ):        
         return HttpResponseForbidden()
 
-    course_id = CourseKey.from_string(course_id)
-    warnings = []
-    row_errors = []
+    students = None
     general_errors = []
-    cohort_names_list = []
-    final_cohort_name = None
-
-    # for white labels we use 'shopping cart' which uses CourseMode.DEFAULT_SHOPPINGCART_MODE_SLUG as
-    # course mode for creating course enrollments.
-    if CourseMode.is_white_label(course_id):
-        course_mode = CourseMode.DEFAULT_SHOPPINGCART_MODE_SLUG
-    else:
-        course_mode = None
+    row_errors = []
+    warnings = []
 
     if 'students_list' in request.FILES:
-        students = []
-
+        json_dict = dict()
         try:
             upload_file = request.FILES.get('students_list')
             if upload_file.name.endswith('.csv'):
-                students = [row for row in csv.reader(upload_file.read().splitlines())]
-                course = get_course_by_id(course_id)
-            else:
+                students = [row for row in csv.reader(upload_file.read().splitlines())]                
+            else:                
                 general_errors.append({
                     'username': '', 'email': '',
                     'response': _('Make sure that the file you upload is in CSV format with no extraneous characters or rows.')
                 })
+                return HttpResponse(json.dumps({'general_errors': general_errors, 'row_errors': row_errors, 'warnings': warnings}), content_type='application/json')
 
         except Exception:  # pylint: disable=broad-except
             general_errors.append({
                 'username': '', 'email': '', 'response': _('Could not read uploaded file.')
             })
+            return HttpResponse(json.dumps({'general_errors': general_errors, 'row_errors': row_errors, 'warnings': warnings}), content_type='application/json')
         finally:
             upload_file.close()
 
-        generated_passwords = []
-        row_num = 0
-        for student in students:
-            row_num = row_num + 1
-            # verify that we have exactly four columns in every row but allow for blank lines
-            if len(student) != 1:
-                if len(student) > 0:
-                    general_errors.append({
-                        'username': '',
-                        'email': '',
-                        'response': _('Data in row #{row_num} must have exactly one columns: email.').format(row_num=row_num)
-                    })
-                continue
-
-            # Iterate each student in the uploaded csv file.
-            email = student[EMAIL_INDEX]
-            try:
-                staff_organization = UserProfile.objects.get(user=request.user).organization
-                organization_staff = OrganizationRegistration.objects.get(organization_name=staff_organization)        
-            except OrganizationRegistration.DoesNotExist:
-                organization_staff = None
-                general_errors.append({
-                    'username': '', 'email': '', 'response': _('Please register your organization to enroll the learners.')
-                })
-                results = {
-                    'row_errors': row_errors,
-                    'general_errors': general_errors,
-                    'warnings': warnings
-                }
-                return JsonResponse(results)
-
-            if organization_staff:
-                cohort_names_org = CohertsOrganization.objects.filter(organization=organization_staff)
-                if cohort_names_org:
-                    for coherts_object in cohort_names_org:
-                        coherts_l = coherts_object.course_list
-                        lq = ast.literal_eval(coherts_l)
-                        for list_item in range(len(lq)):
-                            course_key_new = CourseKey.from_string(str(lq[list_item]))
-                            if course_key_new == course_id:
-                                cohort_names_list.append(coherts_object.coherts_name) 
-
-            if cohort_names_list:
-                final_cohort_name = CohertsOrganization.objects.get(coherts_name=cohort_names_list[0])
-            else:
-                general_errors.append({
-                            'username': '', 'email': '', 'response': _('Cohort Name is not Registered for this course.') })
-                results = {                    
-                    'row_errors': row_errors,
-                    'general_errors': general_errors,
-                    'warnings': warnings
-                }
-                return JsonResponse(results)  
-
-            cohort_names_list = []
-            email_params = get_email_params(course, True, secure=request.is_secure())
-            email = str(email).strip()
-            try:
-                validate_email(email)  # Raises ValidationError if invalid
-            except ValidationError as ex:
-                row_errors.append({
-                    'username': '', 'email': email, 'response': _('Invalid email {email_address}').format(email_address=email)})
-            else:
-                if User.objects.filter(email=email).exists():
-                    # Email address already exists. assume it is the correct user
-                    # and just register the user in the course and send an enrollment email.
-                    user = User.objects.get(email=email)
-                    
-                    username = user.username
-
-                    # see if it is an exact match with email and username
-                    # if it's not an exact match then just display a warning message, but continue onwards
-                    if not User.objects.filter(email=email, username=username).exists():
-                        warning_message = _(
-                            'An account with email {email} exists but the provided username {username} '
-                            'is different. Enrolling anyway with {email}.'
-                        ).format(email=email, username=username)
-
-                        warnings.append({
-                            'username': username, 'email': email, 'response': warning_message
-                        })
-                        log.warning(u'email %s already exist', email)
-                    else:
-                        log.info(
-                            u"user already exists with username '%s' and email '%s'",
-                            username,
-                            email
-                        )
-
-                        user_organization = UserProfile.objects.get(user=user).organization
-
-                        try:
-                            cohort_manual_enrollment = ManualEnrollmentAudit.objects.get(enrolled_email=user.email, coherts_name=final_cohort_name, organization_name=user_organization)
-                        except:
-                            cohort_manual_enrollment = None
-
-                        if cohort_manual_enrollment:
-                            warning_message = _(
-                                'An account with email {email} exists and is already enrolled in this cohort.'                                
-                            ).format(email=email)
-
-                            warnings.append({
-                                'username': '', 'email': email, 'response': warning_message
-                            })
-                            log.warning(u'email %s already exist and is already enrolled in this cohort.', email)
-                       
-                        
-                        if str(staff_organization) != str(user_organization):
-                            error_message = _(
-                                'An account with email {email} already exists and belongs to different organization, Organization Name: {user_organization}.'                                
-                            ).format(email=email, user_organization=user_organization)
-
-                            row_errors.append({
-                                'username': username, 'email': email, 'response': error_message
-                            })
-                            continue                            
-
-                    # enroll a user if it is not already enrolled.
-                    if not CourseEnrollment.is_enrolled(user, course_id):
-                        # Enroll user to the course and add manual enrollment audit trail 
-                        create_manual_course_enrollment(
-                            user=user,
-                            course_id=course_id,
-                            mode=course_mode,
-                            coherts_name=final_cohort_name,
-                            organization_name=organization_staff,
-                            enrolled_by=request.user,                            
-                            reason='Enrolling via csv upload',
-                            state_transition=UNENROLLED_TO_ENROLLED,
-                        )
-                        enroll_email(course_id=course_id, student_email=email, auto_enroll=True, email_students=True, email_params=email_params)
-
-                elif is_email_retired(email):
-                    # We are either attempting to enroll a retired user or create a new user with an email which is
-                    # already associated with a retired account.  Simply block these attempts.
-                    row_errors.append({
-                        'username': '',
-                        'email': email,
-                        'response': _('Invalid email: {email_address}').format(email_address=email),
-                    })
-                    log.warning(u'Email address %s is associated with a retired user, so course enrollment was ' +
-                                u'blocked.', email)
-                else:
-                    # This email does not yet exist, so we need to create a new account
-                    # If username already exists in the database, then create_and_enroll_user
-                    # will raise an IntegrityError exception.
-                    leaner_email = email.split('@')
-                    if len(leaner_email) > 0:
-                        username = generate_leaner_username(leaner_email[0])
-                        country = ''
-                        name = ''
-                    else:
-                        general_errors.append({                        
-                            'username': '', 'email': email, 'response': _('Enter a valid Email Address.') })   
-                        results = {
-                            'row_errors': row_errors,
-                            'general_errors': general_errors,
-                            'warnings': warnings
-                        }
-                        return JsonResponse(results) 
-
-                    password = generate_unique_password(generated_passwords)
-
-                    errors = create_and_enroll_user(
-                        email, username, name, country, password, final_cohort_name, organization_staff, course_id, course_mode, request.user, email_params
-                    )
-                    row_errors.extend(errors)
+        csv_file_content = students
+        csv_file_content_string_format = str(csv_file_content)
+        json_dict['csv_file_data'] = csv_file_content_string_format
+        json_dict['course_id'] = course_id
+        json_dict['user'] = str(request.user)
+        json_dict['secure'] = str(request.is_secure())
+        final_object = task_register_and_enroll_students.delay(json_dict)
+        final_task_id = final_object.id
+        dump = json.dumps({'task_id': final_object.id})
+        return HttpResponse(dump, content_type='application/json')
     else:
         general_errors.append({
             'username': '', 'email': '', 'response': _('File is not attached.')
         })
+        return HttpResponse(json.dumps({'general_errors': general_errors, 'row_errors': row_errors, 'warnings': warnings}), content_type='application/json')
 
-    results = {
-        'row_errors': row_errors,
-        'general_errors': general_errors,
-        'warnings': warnings
-    }
-    return JsonResponse(results)
+
+def get_task_info(request,course_id):
+    task_id = request.GET.get('task_id', None)
+    if task_id is not None:
+        task = AsyncResult(task_id)
+        data = {
+            'state': task.state,
+            'result': task.result,
+        }
+        if data['state'] == 'FAILURE':
+            error_msg = data['result']
+            string_msg = "Error type is: %s" % error_msg
+            response = HttpResponseNotFound(json.dumps({'messages': string_msg, 'messages_tag': 'Error'}),
+                                            content_type='application/json')
+            response.status_code = 400
+            return response
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+    else:
+        return HttpResponse('No job id given.', status=404)
+
+
+# @require_POST
+# @ensure_csrf_cookie
+# @cache_control(no_cache=True, no_store=True, must_revalidate=True)
+# @require_level('staff')
+# def task_register_and_enroll_students(request, course_id):  # pylint: disable=too-many-statements
+#     """
+#     Create new account and Enroll students in this course.
+#     Passing a csv file that contains a list of students.
+#     Order in csv should be the following email = 0; username = 1; name = 2; country = 3.
+#     Requires staff access.
+
+#     -If the email address and username already exists and the user is enrolled in the course,
+#     do nothing (including no email gets sent out)
+
+#     -If the email address already exists, but the username is different,
+#     match on the email address only and continue to enroll the user in the course using the email address
+#     as the matching criteria. Note the change of username as a warning message (but not a failure). Send a standard enrollment email
+#     which is the same as the existing manual enrollment
+
+#     -If the username already exists (but not the email), assume it is a different user and fail to create the new account.
+#      The failure will be messaged in a response in the browser.
+#     """
+#     log.info('in the register and enroll----');
+
+
+#     if not configuration_helpers.get_value(
+#             'ALLOW_AUTOMATED_SIGNUPS',
+#             settings.FEATURES.get('ALLOW_AUTOMATED_SIGNUPS', False),
+#     ):
+#         return HttpResponseForbidden()
+
+#     course_id = CourseKey.from_string(course_id)
+#     warnings = []
+#     row_errors = []
+#     general_errors = []
+#     cohort_names_list = []
+#     final_cohort_name = None
+
+#     # for white labels we use 'shopping cart' which uses CourseMode.DEFAULT_SHOPPINGCART_MODE_SLUG as
+#     # course mode for creating course enrollments.
+#     if CourseMode.is_white_label(course_id):
+#         course_mode = CourseMode.DEFAULT_SHOPPINGCART_MODE_SLUG
+#     else:
+#         course_mode = None
+
+#     if 'students_list' in request.FILES:
+#         students = []
+#         log.info('in the request files.------')
+#         try:
+#             upload_file = request.FILES.get('students_list')
+#             if upload_file.name.endswith('.csv'):
+#                 students = [row for row in csv.reader(upload_file.read().splitlines())]
+#                 course = get_course_by_id(course_id)
+#             else:
+#                 general_errors.append({
+#                     'username': '', 'email': '',
+#                     'response': _('Make sure that the file you upload is in CSV format with no extraneous characters or rows.')
+#                 })
+
+#         except Exception:  # pylint: disable=broad-except
+#             general_errors.append({
+#                 'username': '', 'email': '', 'response': _('Could not read uploaded file.')
+#             })
+#         finally:
+#             upload_file.close()
+
+#         generated_passwords = []
+#         row_num = 0
+#         for student in students:
+#             log.info('student-----%s----'% student)
+#             row_num = row_num + 1
+#             # verify that we have exactly four columns in every row but allow for blank lines
+#             if len(student) != 1:
+#                 if len(student) > 0:
+#                     general_errors.append({
+#                         'username': '',
+#                         'email': '',
+#                         'response': _('Data in row #{row_num} must have exactly one columns: email.').format(row_num=row_num)
+#                     })
+#                 continue
+
+#             # Iterate each student in the uploaded csv file.
+#             email = student[EMAIL_INDEX]
+#             try:
+#                 staff_organization = UserProfile.objects.get(user=request.user).organization
+#                 organization_staff = OrganizationRegistration.objects.get(organization_name=staff_organization)        
+#             except OrganizationRegistration.DoesNotExist:
+#                 organization_staff = None
+#                 general_errors.append({
+#                     'username': '', 'email': '', 'response': _('Please register your organization to enroll the learners.')
+#                 })
+#                 results = {
+#                     'row_errors': row_errors,
+#                     'general_errors': general_errors,
+#                     'warnings': warnings
+#                 }
+#                 return JsonResponse(results)
+
+#             if organization_staff:
+#                 cohort_names_org = CohertsOrganization.objects.filter(organization=organization_staff)
+#                 if cohort_names_org:
+#                     for coherts_object in cohort_names_org:
+#                         coherts_l = coherts_object.course_list
+#                         lq = ast.literal_eval(coherts_l)
+#                         for list_item in range(len(lq)):
+#                             course_key_new = CourseKey.from_string(str(lq[list_item]))
+#                             if course_key_new == course_id:
+#                                 cohort_names_list.append(coherts_object.coherts_name) 
+
+#             if cohort_names_list:
+#                 final_cohort_name = CohertsOrganization.objects.get(coherts_name=cohort_names_list[0])
+#             else:
+#                 general_errors.append({
+#                             'username': '', 'email': '', 'response': _('Cohort Name is not Registered for this course.') })
+#                 results = {                    
+#                     'row_errors': row_errors,
+#                     'general_errors': general_errors,
+#                     'warnings': warnings
+#                 }
+#                 return JsonResponse(results)  
+
+#             cohort_names_list = []
+#             email_params = get_email_params(course, True, secure=request.is_secure())
+#             email = str(email).strip()
+#             try:
+#                 validate_email(email)  # Raises ValidationError if invalid
+#             except ValidationError as ex:
+#                 row_errors.append({
+#                     'username': '', 'email': email, 'response': _('Invalid email {email_address}').format(email_address=email)})
+#             else:
+
+#                 log.info('email----%s---'% email)
+#                 user_profile = User.objects.filter(email=email).exists()
+#                 log.info('user_profile-----%s----'% user_profile)
+                
+#                 if User.objects.filter(email=email).exists():
+#                     # Email address already exists. assume it is the correct user
+#                     # and just register the user in the course and send an enrollment email.
+#                     user = User.objects.get(email=email)
+                    
+#                     username = user.username
+
+#                     # see if it is an exact match with email and username
+#                     # if it's not an exact match then just display a warning message, but continue onwards
+#                     if not User.objects.filter(email=email, username=username).exists():
+#                         warning_message = _(
+#                             'An account with email {email} exists but the provided username {username} '
+#                             'is different. Enrolling anyway with {email}.'
+#                         ).format(email=email, username=username)
+
+#                         warnings.append({
+#                             'username': username, 'email': email, 'response': warning_message
+#                         })
+#                         log.warning(u'email %s already exist', email)
+#                     else:
+#                         log.info(
+#                             u"user already exists with username '%s' and email '%s'",
+#                             username,
+#                             email
+#                         )
+
+#                         user_organization = UserProfile.objects.get(user=user).organization
+
+#                         try:
+#                             cohort_manual_enrollment = ManualEnrollmentAudit.objects.get(enrolled_email=user.email, coherts_name=final_cohort_name, organization_name=user_organization)
+#                         except:
+#                             cohort_manual_enrollment = None
+
+#                         if cohort_manual_enrollment:
+#                             warning_message = _(
+#                                 'An account with email {email} exists and is already enrolled in this cohort.'                                
+#                             ).format(email=email)
+
+#                             warnings.append({
+#                                 'username': '', 'email': email, 'response': warning_message
+#                             })
+#                             log.warning(u'email %s already exist and is already enrolled in this cohort.', email)
+                       
+                        
+#                         if str(staff_organization) != str(user_organization):
+#                             error_message = _(
+#                                 'An account with email {email} already exists and belongs to different organization, Organization Name: {user_organization}.'                                
+#                             ).format(email=email, user_organization=user_organization)
+
+#                             row_errors.append({
+#                                 'username': username, 'email': email, 'response': error_message
+#                             })
+#                             continue                            
+
+#                     # enroll a user if it is not already enrolled.
+#                     if not CourseEnrollment.is_enrolled(user, course_id):
+#                         # Enroll user to the course and add manual enrollment audit trail 
+#                         create_manual_course_enrollment(
+#                             user=user,
+#                             course_id=course_id,
+#                             mode=course_mode,
+#                             coherts_name=final_cohort_name,
+#                             organization_name=organization_staff,
+#                             enrolled_by=request.user,                            
+#                             reason='Enrolling via csv upload',
+#                             state_transition=UNENROLLED_TO_ENROLLED,
+#                         )
+#                         enroll_email(course_id=course_id, student_email=email, auto_enroll=True, email_students=True, email_params=email_params)
+
+#                 elif is_email_retired(email):
+#                     # We are either attempting to enroll a retired user or create a new user with an email which is
+#                     # already associated with a retired account.  Simply block these attempts.
+#                     row_errors.append({
+#                         'username': '',
+#                         'email': email,
+#                         'response': _('Invalid email: {email_address}').format(email_address=email),
+#                     })
+#                     log.warning(u'Email address %s is associated with a retired user, so course enrollment was ' +
+#                                 u'blocked.', email)
+#                 else:
+#                     # This email does not yet exist, so we need to create a new account
+#                     # If username already exists in the database, then create_and_enroll_user
+#                     # will raise an IntegrityError exception.
+
+#                     log.info('in the else of user exists----')
+
+#                     leaner_email = email.split('@')
+#                     if len(leaner_email) > 0:
+#                         username = generate_leaner_username(leaner_email[0])
+#                         country = ''
+#                         name = ''
+#                     else:
+#                         general_errors.append({                        
+#                             'username': '', 'email': email, 'response': _('Enter a valid Email Address.') })   
+#                         results = {
+#                             'row_errors': row_errors,
+#                             'general_errors': general_errors,
+#                             'warnings': warnings
+#                         }
+#                         return JsonResponse(results) 
+
+#                     log.info('usefefercsdcsdc beofre the if email----%s---'% email)
+
+#                     # if not User.objects.filter(email=email).exists(): 
+#                         # log.info('in the email of the user----inside if----%s---'% email)   
+#                     password = generate_unique_password(generated_passwords)
+
+#                     log.info('errors errors enroll---')
+#                     errors = create_and_enroll_user(
+#                         email, username, name, country, password, final_cohort_name, organization_staff, course_id, course_mode, request.user, email_params
+#                     )
+#                     row_errors.extend(errors)
+
+#     else:
+#         general_errors.append({
+#             'username': '', 'email': '', 'response': _('File is not attached.')
+#         })
+
+#     results = {
+#         'row_errors': row_errors,
+#         'general_errors': general_errors,
+#         'warnings': warnings
+#     }
+#     log.info('results----%s---'% results)
+#     return JsonResponse(results)
 
 
 def generate_leaner_username(email):    
@@ -666,6 +765,7 @@ def create_and_enroll_user(email, username, name, country, password, final_cohor
         errors.append({
             'username': username, 'email': email, 'response': _('Username {user} already exists.').format(user=username)
         })
+
     except Exception as ex:  # pylint: disable=broad-except
         log.exception(type(ex).__name__)
         errors.append({

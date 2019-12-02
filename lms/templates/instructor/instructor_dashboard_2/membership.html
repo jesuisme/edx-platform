@@ -87,8 +87,8 @@ from openedx.core.djangolib.markup import HTML, Text
   <div class="auto_enroll auto_enroll_csv membership-section">
     <h3 class="hd hd-3">${_("Register/Enroll Students")}</h3>
 
-    <p><b>${_("Note: To register and enroll a list of users in this course, choose a CSV file that contains the column, Email.")}</b></p>
-    <p><b>${_("Please include one student per row(Recommended not to exceed more than 15 rows) and do not include any headers, footers, or blank lines.")}</b></p>
+    <p><b>${_("Note: To register and enroll a list of users in this course, choose or create a CSV file that contains one column with all of the student email addresses, one email address per row.")}</b></p>
+    <p><b>${_("Please be sure to only include one email address per row and do NOT include any headers, footers, or blank lines.")}</b></p>
     <form id="student-auto-enroll-form" method="post" action="${ section_data['upload_student_csv_button_url'] }" enctype="multipart/form-data">
       <div class="customBrowseBtn">
         <label for="browseBtn-auto-enroll">${_("Upload a CSV for bulk enrollment")}</label>
@@ -102,10 +102,11 @@ from openedx.core.djangolib.markup import HTML, Text
       <input type="hidden" name="csrfmiddlewaretoken" value="${ csrf_token }">
     </form>
     <br>
-    <p class="enrollcsv" id="demo" style="display: none;"></p>
+    <!-- <p class="enrollcsv" id="demo" style="display: none;"></p> -->
+    <progress class="progressbar" id="progress-bar" value="0" max="100" style="display:none; margin-bottom: 1em; height: 25px"></progress>
     <div id="loader" style="display: none;"></div>
     <div id="success_results" class="results"></div>
-    <div class='cohort-register-error' style="color: red;"></div>
+    <div class='cohort-register-error' style="color: black;"></div>
 </div>
 %endif
 

@@ -306,7 +306,7 @@ such that the value can be defined later than this assignment (file load order).
         return AuthListWidget;
     }(MemberListWidget));
 
-    this.AutoEnrollmentViaCsv = (function() {
+    this.AutoEnrollmentViaCsv = (function() {        
         function AutoEnrollmentViaCsv($container) {
             var autoenrollviacsv = this;
             this.$container = $container;
@@ -315,7 +315,8 @@ such that the value can be defined later than this assignment (file load order).
             this.$students_list_file = this.$container.find("input[name='students_list']");
             this.$csrf_token = this.$container.find("input[name='csrfmiddlewaretoken']");
             this.$results = this.$container.find('div.results');
-            this.$enrollcsv = this.$container.find('.enrollcsv');
+            // this.$enrollcsv = this.$container.find('.enrollcsv');
+            this.$pgrbar = this.$container.find('#progress-bar');
             this.$browse_button = this.$container.find('#browseBtn-auto-enroll');
             this.$browse_file = this.$container.find('#browseFile');
             this.processing = false;
@@ -327,6 +328,7 @@ such that the value can be defined later than this assignment (file load order).
                 }
                 return false;
             });
+
             this.$enrollment_signup_button.click(function() {
                 return autoenrollviacsv.$student_enrollment_form.submit(function(event) {
                     var data;
@@ -336,6 +338,9 @@ such that the value can be defined later than this assignment (file load order).
                     autoenrollviacsv.processing = true;
                     event.preventDefault();
                     data = new FormData(event.currentTarget);
+                    $(autoenrollviacsv.$pgrbar).css('display','none');
+                    $(autoenrollviacsv.$pgrbar).val(0);
+
                     $.ajax({
                         dataType: 'json',
                         type: 'POST',
@@ -344,25 +349,65 @@ such that the value can be defined later than this assignment (file load order).
                         data: data,
                         processData: false,
                         contentType: false,
+                        cache: false,
                         success: function(responsedata) {
+                            if (responsedata.task_id != null) {
+                                get_task_info(responsedata.task_id);
+                            }
+                            else {
+                                console.log('No task id found');
+                            }
                             autoenrollviacsv.processing = false;
-                            $(autoenrollviacsv.$enrollcsv).css("display","none");
                             return autoenrollviacsv.display_response(responsedata);
                         },
-                        error: statusAjaxError(function(xhr, status, error) {
-                            autoenrollviacsv.processing = false;
-                            $(autoenrollviacsv.$enrollcsv).css("display","none");
+                        error: statusAjaxError(function(xhr, status, error) {    
                             var errorMessage = xhr.status + ': ' + xhr.statusText
-                            if(xhr.status == 504) {
-                                $('.results').html('<b>All Accounts created Successfully.</b>');
+                            if(xhr.status == 504){
+                                autoenrollviacsv.processing = false; 
                             }
-                            else{                                
-                                $('.cohort-register-error').html(errorMessage);
+                            else{         
+                                autoenrollviacsv.processing = false; 
+                                return autoenrollviacsv.display_response(data.result.final_result);
                             }
                         })
                     });
                 });
             });
+
+            function get_task_info(task_id) {
+                $.ajax({
+                    type: 'GET',
+                    url: 'instructor/api/get_task_info',
+                    data: {'task_id': task_id},
+                    success: function (data) {
+                        if (data.state == 'PENDING' || data.state == 'STARTED') {
+                            $('.cohort-register-error').html('<b>Please Wait...Processing..</b>');
+                        } else if (data.state == 'PROGRESS') {
+                            $(autoenrollviacsv.$pgrbar).css('display', 'inline');
+                            $(autoenrollviacsv.$pgrbar).val(data.result.percent);
+                            $('.cohort-register-error').html(data.result.status_message);
+                        }
+                        else if (data.state == 'SUCCESS') {
+                            $(autoenrollviacsv.$pgrbar).css('display', 'inline');
+                            $(autoenrollviacsv.$pgrbar).val(data.result.final_result.percent);
+                            var obj = JSON.stringify(data.result.final_result);   
+                            $('.cohort-register-error').html('');
+                            autoenrollviacsv.processing = false;
+                            return autoenrollviacsv.display_response(data.result.final_result);                            
+                        }
+                        if (data.state != 'SUCCESS') {
+                            setTimeout(function () {
+                                get_task_info(task_id)
+                            }, 1000);
+                        }
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        var err = JSON.stringify(xhr.responseJSON.messages);
+                        $('.cohort-register-error').html(err);
+                    }
+                });
+            }
+
         }
 
 
@@ -402,7 +447,7 @@ such that the value can be defined later than this assignment (file load order).
                     warnings.push(warning);
                 }
             }
-            renderResponse = function(title, message, type, studentResults) {                
+            renderResponse = function(title, message, type, studentResults) { 
                 var details, responseMessage, studentResult, l, len3;
 
                 details = [];
@@ -420,10 +465,7 @@ such that the value can be defined later than this assignment (file load order).
                 );
             };
 
-            console.log('resultFromServerIsSuccess-----',resultFromServerIsSuccess);
-
             if (errors.length) {
-                $('.enrollcsv').css("display","none");
                 if (errors[0]['response'] == "Cohort Name is not Registered for this course.") { 
                     $('.cohort-register-error').html("Click <a href='/ut_new/ut_cohorts/'>here</a> to register cohort.");
                 }               
@@ -431,8 +473,7 @@ such that the value can be defined later than this assignment (file load order).
                     gettext('The following errors were generated:'), 'error', errors
                 );
             }
-            if (warnings.length) {  
-                $('.enrollcsv').css("display","none");                
+            if (warnings.length) {
                 renderResponse(gettext('Warnings'),
                     gettext('The following warnings were generated:'), 'warning', warnings
                 );
@@ -463,6 +504,9 @@ such that the value can be defined later than this assignment (file load order).
 
         return AutoEnrollmentViaCsv;
     }());
+
+
+
 
     BetaTesterBulkAddition = (function() {
         function betaTesterBulkAddition($container) {

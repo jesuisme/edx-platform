@@ -178,6 +178,7 @@ class CoursewareIndex(View):
                 )
             )
 
+
         return render_to_response('courseware/courseware.html', self._create_courseware_context(request))
 
     def _redirect_if_not_requested_section(self):
