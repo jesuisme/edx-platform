@@ -32,7 +32,6 @@ function QuestionresponseXBlock(runtime, element) {
                 responseSlides.innerHTML = "";
                 data.responses.reverse();
                 var count = 0;
-                $("#after_submit_title").text(data.after_submit_change_title)
                 var j = 0;
                 for (var i = 0; i < data.responses.length; i++) {
                     if (i === 0) {
@@ -122,7 +121,6 @@ function QuestionresponseXBlock(runtime, element) {
             success: function (data) {
                 
                 if (data.responses != "new_user"){
-                    $("#after_submit_title").text(data.after_submit_change_title)
                     responseSlides.innerHTML = "";
                     console.log("replies: ", data.responses);
                     data.responses.reverse();
