@@ -81,8 +81,7 @@
  .printdiv-bot{width:500px; margin:0 auto;}
  .m8s10p1 .next{cursor: pointer;}
  /*.next :hover{background: rgba(22, 22, 22, 0.65);}*/
- .left{left:10%!important;}
- .right{left:84%!important;}
+
  
  @media screen
  and (min-device-width : 666px)
@@ -135,12 +134,12 @@
  .m8s10p1 .left{left:12%!important;}
  .m8s10p1 .right{left:87%!important;}
  }
- @media  screen
+/* @media  screen
  and (min-device-width :769px)
  and (max-device-width : 1024px) {
  .m8s10p1 .left{left:10%!important;}
  .m8s10p1 .right{left:87%!important;}
- }
+ }*/
  
  @media screen
  and (min-device-width : 501px)

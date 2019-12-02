@@ -656,7 +656,7 @@ color: #f0ad4e;
     position: relative;
     width: 79%;
 }
- .carousel-control{
+.popup_image_alignmentxblock_block .carousel-control{
     width: 7% !important;
 }
 #myCarousel .modal {

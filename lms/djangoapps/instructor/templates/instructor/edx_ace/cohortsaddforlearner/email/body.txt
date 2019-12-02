@@ -1,16 +1,17 @@
 {% load i18n %}
 
 {% blocktrans trimmed %}
-Hello {{full_name}},
+Hello! {{full_name}},
 {% endblocktrans %}
 {% blocktrans trimmed %}
-You added To Cohorts.
-Cohorts name: {{cohorts_name}}.
+You have been added to a cohort called {{cohorts_name}}.
 {% endblocktrans %}
 {% blocktrans trimmed %}
-Now you can access this cohorts course.
-{% endblocktrans %}
+at {{platform_name}} by {{admin_name}} To access the online learning content Discovering Value Based Health Care from Dell Medical School.{% endblocktrans %}
 {% blocktrans trimmed %}
-Best,
-{{platform_name}}
+Thank you,
+{% endblocktrans %} 
+{% blocktrans trimmed %}
+Dell Med Discovering Value Based Health Care Teamdiscoveringvbhc@dellmed.utexas.edu   
 {% endblocktrans %}
+
