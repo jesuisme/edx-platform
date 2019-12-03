@@ -499,7 +499,13 @@ def get_module_system_for_user(
         """
         A function that allows XModules to publish events.
         """
+        log.info('publish-------')
+        log.info('event----%s---'% event)
+        log.info('publish block----%s-----'% block)
         handle_event = get_event_handler(event_type)
+        
+        log.info('handle_event--------%s-----'% handle_event)
+
         if handle_event and not is_masquerading_as_specific_student(user, course_id):
             handle_event(block, event)
         else:
@@ -519,10 +525,12 @@ def get_module_system_for_user(
         """
         Submit a completion object for the block.
         """
+        log.info('handle compls---')
 
         if not completion_waffle.waffle().is_enabled(completion_waffle.ENABLE_COMPLETION_TRACKING):
             raise Http404
         else:
+            log.info('handle_completion_event------')
             BlockCompletion.objects.submit_completion(
                 user=user,
                 course_key=course_id,
@@ -948,6 +956,8 @@ def handle_xblock_callback(request, course_id, usage_id, handler, suffix=None):
     """
     # NOTE (CCB): Allow anonymous GET calls (e.g. for transcripts). Modifying this view is simpler than updating
     # the XBlocks to use `handle_xblock_callback_noauth`...which is practically identical to this view.
+
+
     if request.method != 'GET' and not request.user.is_authenticated:
         return HttpResponseForbidden()
 
