@@ -1,7 +1,7 @@
 {% load i18n %}
 
 {% blocktrans trimmed %}
-Hello! {{full_name}},
+Hello!,
 {% endblocktrans %}
 {% blocktrans trimmed %}
 You have been added to a cohort called {{cohorts_name}}.

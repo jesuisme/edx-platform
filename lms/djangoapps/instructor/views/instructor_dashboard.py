@@ -989,7 +989,9 @@ def CohoertsEnrollment(request, coherts_dict ):
         coherts_result = coherts_list.strip('][').split(',')
         for user_record in selected_learner:
             add_in_track = User.objects.get(email=user_record)
+            admin_record = User.objects.get(email=request.user.email)
             get_user_name = UserProfile.objects.get(user=add_in_track)
+            get_admin_record = UserProfile.objects.get(user=admin_record)
             if CohertsUserDetail.objects.filter(coherts_name=coherts_object, learner=add_in_track, organization=organization_obj).exists():
                 log.info("user exist for this coherts")
             else:
@@ -1011,6 +1013,7 @@ def CohoertsEnrollment(request, coherts_dict ):
                     notification_context = get_base_template_context(site)
                     notification_context.update({'full_name': get_user_name.name})
                     notification_context.update({'cohorts_name': coherts})
+                    notification_context.update({'admin_name': get_admin_record.name})
                     notification = CohortsAddForLearner().personalize(
                         recipient=Recipient(username='', email_address=user_record),
                         language=get_user_name.language,
