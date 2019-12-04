@@ -501,7 +501,6 @@ def get_module_system_for_user(
         """
         log.info('publish-------')
         log.info('event----%s---'% event)
-        log.info('publish block----%s-----'% block)
         handle_event = get_event_handler(event_type)
         
         log.info('handle_event--------%s-----'% handle_event)
