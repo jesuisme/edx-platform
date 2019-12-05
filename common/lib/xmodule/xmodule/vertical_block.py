@@ -94,6 +94,7 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
         #         'content': rendered_child.content
         #     })
         # pylint: disable=no-member
+        
         for child in child_blocks:
             child_block_context = copy(child_context)    
 

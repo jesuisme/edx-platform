@@ -7,7 +7,7 @@ import collections
 import json
 import logging
 from datetime import datetime
-
+from completion.models import BlockCompletion
 from lxml import etree
 from opaque_keys.edx.keys import UsageKey
 from pkg_resources import resource_string
@@ -337,7 +337,6 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
             'gated_content': self._get_gated_content_info(prereq_met, prereq_meta_info)            
         }
 
-        # log.info('params-----%s----'% params['items'])
 
         fragment.add_content(self.system.render_template("seq_module.html", params))
 
@@ -481,15 +480,21 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
                 'graded': item.graded
             }
 
-            log.info('iteminfo1----%s------'% iteminfo)
-            log.info('block_type location-----%s-----'% item.location.block_type)
 
             if is_user_authenticated:
+                completion_block_seq = None
+                try:
+                    completion_block_seq = BlockCompletion.objects.get(block_key=usage_id)
+                except Exception as e:
+                    log.info("Error type for completing verticle block ======%s======" % e)
+                
                 if item.location.block_type == 'vertical':
                     iteminfo['complete'] = completion_service.vertical_is_complete(item)
-
+                if completion_block_seq:
+                    iteminfo['complete'] = True
+            
             contents.append(iteminfo)
-        # log.info("==seq-module=========items====%s===========" % contents)
+
         return contents
 
     def _locations_in_subtree(self, node):
