@@ -80,61 +80,9 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
         is_child_of_vertical = context.get('child_of_vertical', False)
 
         # pylint: disable=no-member
-        # for child in child_blocks:
-        #     child_block_context = copy(child_context)
-        #     if child in child_blocks_to_complete_on_view:
-        #         child_block_context['wrap_xblock_data'] = {
-        #             'mark-completed-on-view-after-delay': complete_on_view_delay
-        #         }
-        #     rendered_child = child.render(STUDENT_VIEW, child_block_context)
-        #     fragment.add_fragment_resources(rendered_child)
-
-        #     contents.append({
-        #         'id': six.text_type(child.location),
-        #         'content': rendered_child.content
-        #     })
-        # pylint: disable=no-member
-        
         for child in child_blocks:
-            child_block_context = copy(child_context) 
-            log.info("child_block_context['activate_block_id']===%s==" % child_block_context['activate_block_id'])
-            if 'activate_block_id' in child_block_context:
-                if child_block_context['activate_block_id'] != None:
-                    log.info('child_block_context-------%s-----'% child_block_context['activate_block_id'])
-                    block_vertical_key = child_block_context['activate_block_id']
-
-                    block_vertical_key_usage = UsageKey.from_string(child_block_context['activate_block_id'])
-                    log.info('vertical----%s---type----'% type(block_vertical_key_usage))
-                    event = {'completion': 1.0}
-                    user = User.objects.get(username=user_name)
-                    child_username = child_context['username']
-                    BlockCompletion.objects.submit_completion(
-                        user=user,
-                        course_key=course_id,
-                        block_key=block_vertical_key_usage,
-                        completion=event['completion'],
-                    )
-
-
+            child_block_context = copy(child_context)
             if child in child_blocks_to_complete_on_view:
-                 #Vertical Tick issue testing here 
-                # if 'activate_block_id' in child_block_context:
-                #     if child_block_context['activate_block_id'] != None:
-                #         log.info('child_block_context-------%s-----'% child_block_context['activate_block_id'])
-                #         block_vertical_key = child_block_context['activate_block_id']
-
-                #         block_vertical_key_usage = UsageKey.from_string(child_block_context['activate_block_id'])
-                #         log.info('vertical----%s---type----'% type(block_vertical_key_usage))
-                #         event = {'completion': 1.0}
-                #         user = User.objects.get(username=user_name)
-                #         child_username = child_context['username']
-                #         BlockCompletion.objects.submit_completion(
-                #             user=user,
-                #             course_key=course_id,
-                #             block_key=block_vertical_key_usage,
-                #             completion=event['completion'],
-                #         )
-
                 child_block_context['wrap_xblock_data'] = {
                     'mark-completed-on-view-after-delay': complete_on_view_delay
                 }
@@ -144,7 +92,59 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
             contents.append({
                 'id': six.text_type(child.location),
                 'content': rendered_child.content
-            })     
+            })
+        # pylint: disable=no-member
+        
+        # for child in child_blocks:
+        #     child_block_context = copy(child_context) 
+        #     log.info("child_block_context['activate_block_id']===%s==" % child_block_context['activate_block_id'])
+        #     if 'activate_block_id' in child_block_context:
+        #         if child_block_context['activate_block_id'] != None:
+        #             log.info('child_block_context-------%s-----'% child_block_context['activate_block_id'])
+        #             block_vertical_key = child_block_context['activate_block_id']
+
+        #             block_vertical_key_usage = UsageKey.from_string(child_block_context['activate_block_id'])
+        #             log.info('vertical----%s---type----'% type(block_vertical_key_usage))
+        #             event = {'completion': 1.0}
+        #             user = User.objects.get(username=user_name)
+        #             child_username = child_context['username']
+        #             BlockCompletion.objects.submit_completion(
+        #                 user=user,
+        #                 course_key=course_id,
+        #                 block_key=block_vertical_key_usage,
+        #                 completion=event['completion'],
+        #             )
+
+
+        #     if child in child_blocks_to_complete_on_view:
+        #          #Vertical Tick issue testing here 
+        #         # if 'activate_block_id' in child_block_context:
+        #         #     if child_block_context['activate_block_id'] != None:
+        #         #         log.info('child_block_context-------%s-----'% child_block_context['activate_block_id'])
+        #         #         block_vertical_key = child_block_context['activate_block_id']
+
+        #         #         block_vertical_key_usage = UsageKey.from_string(child_block_context['activate_block_id'])
+        #         #         log.info('vertical----%s---type----'% type(block_vertical_key_usage))
+        #         #         event = {'completion': 1.0}
+        #         #         user = User.objects.get(username=user_name)
+        #         #         child_username = child_context['username']
+        #         #         BlockCompletion.objects.submit_completion(
+        #         #             user=user,
+        #         #             course_key=course_id,
+        #         #             block_key=block_vertical_key_usage,
+        #         #             completion=event['completion'],
+        #         #         )
+
+        #         child_block_context['wrap_xblock_data'] = {
+        #             'mark-completed-on-view-after-delay': complete_on_view_delay
+        #         }
+        #     rendered_child = child.render(STUDENT_VIEW, child_block_context)
+        #     fragment.add_fragment_resources(rendered_child)
+
+        #     contents.append({
+        #         'id': six.text_type(child.location),
+        #         'content': rendered_child.content
+        #     })     
 
 
         # course_id = self.runtime.course_id
