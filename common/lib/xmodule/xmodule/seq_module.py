@@ -487,7 +487,8 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
                     completion_block_seq = BlockCompletion.objects.get(block_key=usage_id)
                 except Exception as e:
                     log.info("Error type for completing verticle block ======%s======" % e)
-                
+                    completion_block_seq = None
+                    pass
                 if item.location.block_type == 'vertical':
                     iteminfo['complete'] = completion_service.vertical_is_complete(item)
                 if completion_block_seq:
