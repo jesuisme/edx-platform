@@ -488,10 +488,6 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
                 if item.location.block_type == 'vertical':
                     iteminfo['complete'] = completion_service.vertical_is_complete(item)
 
-                    log.info('complete-----%s----'% iteminfo)
-                    log.info('completion compete----%s----'% iteminfo['complete'])
-
-            log.info('iteminfo outside-----%s----'% iteminfo)        
             contents.append(iteminfo)
         # log.info("==seq-module=========items====%s===========" % contents)
         return contents
