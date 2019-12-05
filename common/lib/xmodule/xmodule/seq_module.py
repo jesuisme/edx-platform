@@ -482,13 +482,12 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
 
 
             if is_user_authenticated:
-                completion_block_seq = None
+                
                 try:
                     completion_block_seq = BlockCompletion.objects.get(block_key=usage_id)
-                except Exception as e:
-                    log.info("Error type for completing verticle block ======%s======" % e)
+                except BlockCompletion.DoesNotExist as bd:
+                    log.info("Error type for completing verticle block====%s==" % bd)
                     completion_block_seq = None
-                    pass
                 if item.location.block_type == 'vertical':
                     iteminfo['complete'] = completion_service.vertical_is_complete(item)
                 if completion_block_seq:
