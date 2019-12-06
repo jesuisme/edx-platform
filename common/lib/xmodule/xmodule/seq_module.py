@@ -493,8 +493,8 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
                     log.info('in the seq module.py file-----')
                     log.info('vertical is complete item----%s------'% completion_service.vertical_is_complete(item))
                     iteminfo['complete'] = completion_service.vertical_is_complete(item)
-                    if block_completion_usage:
-                        iteminfo['complete'] = True
+                if block_completion_usage:
+                    iteminfo['complete'] = True
             log.info('iteminfo complete------%s-----'% iteminfo['complete'])
             contents.append(iteminfo)
 
