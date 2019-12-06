@@ -499,11 +499,7 @@ def get_module_system_for_user(
         """
         A function that allows XModules to publish events.
         """
-        log.info('publish-------')
-        log.info('event----%s---'% event)
-        handle_event = get_event_handler(event_type)
-        
-        log.info('handle_event--------%s-----'% handle_event)
+        handle_event = get_event_handler(event_type)       
 
         if handle_event and not is_masquerading_as_specific_student(user, course_id):
             handle_event(block, event)
@@ -524,12 +520,9 @@ def get_module_system_for_user(
         """
         Submit a completion object for the block.
         """
-        log.info('handle compls---')
-
         if not completion_waffle.waffle().is_enabled(completion_waffle.ENABLE_COMPLETION_TRACKING):
             raise Http404
-        else:
-            log.info('handle_completion_event------')
+        else:            
             BlockCompletion.objects.submit_completion(
                 user=user,
                 course_key=course_id,

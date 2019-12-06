@@ -4,9 +4,13 @@ const completedBlocksKeys = new Set();
 
 export function markBlocksCompletedOnViewIfNeeded(runtime, containerElement) {
 
+  console.log('containerElement----',containerElement);
+
   const blockElements = $(containerElement).find(
     '.xblock-student_view[data-mark-completed-on-view-after-delay]',
   ).get();
+
+  console.log('blockElements------',blockElements);
 
 
   if (blockElements.length > 0) {

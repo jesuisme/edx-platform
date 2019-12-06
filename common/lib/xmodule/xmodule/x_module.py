@@ -38,6 +38,7 @@ from opaque_keys.edx.asides import AsideUsageKeyV2, AsideDefinitionKeyV2
 from xmodule.exceptions import UndefinedContext
 import dogstats_wrapper as dog_stats_api
 
+
 log = logging.getLogger(__name__)
 
 XMODULE_METRIC_NAME = 'edxapp.xmodule'
@@ -498,6 +499,7 @@ class XModuleMixin(XModuleFields, XBlock):
             if child is not None
         ]
 
+    
     def get_child(self, usage_id):
         """
         Return the child XBlock identified by ``usage_id``, or ``None`` if there

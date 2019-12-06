@@ -1020,10 +1020,6 @@ def _progress(request, course_key, student_id):
     course_grade = CourseGradeFactory().read(student, course)
     courseware_summary = course_grade.chapter_grades.values()
 
-    log.info('course_grade---%s---'% course_grade.summary)
-
-    log.info('courseware_summary----%s----'% courseware_summary)
-
     studio_url = get_studio_url(course, 'settings/grading')
     # checking certificate generation configuration
     enrollment_mode, _ = CourseEnrollment.enrollment_mode_for_user(student, course_key)
