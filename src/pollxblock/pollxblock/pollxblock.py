@@ -1,5 +1,4 @@
 """TO-DO: Write a description of what this XBlock is."""
-import logging
 import pkg_resources
 from xblock.core import XBlock
 from xblock.fields import Integer, Scope, List
@@ -7,7 +6,11 @@ from xblock.fragment import Fragment
 from student.models import PollXblock
 from django.contrib.auth.models import User
 
-log = logging.getLogger(__name__)
+
+
+
+
+
 
 @XBlock.wants('user')
 class PollXBlock(XBlock):
@@ -91,13 +94,6 @@ class PollXBlock(XBlock):
             return {"count_60s": "usermatch",}
 
 
-        # user_registered = self.responses
-        # for row in user_registered:
-        #     if xb_user.emails == row['email']:
-        #         log.info("match found")
-        #         return {"count_60s": self.count_60s_percent, "count_2m": self.count_2m_percent, "count_5m": self.count_5m_percent, "count_10m": self.count_10m_percent}
-        #     else:
-        #         return {"count_60s": "usermatch",}
 
     @XBlock.json_handler
     def poll_response(self, data, suffix=''):

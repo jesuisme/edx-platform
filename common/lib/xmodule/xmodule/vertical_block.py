@@ -6,13 +6,13 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 from copy import copy
 import logging
-
+from opaque_keys.edx.keys import UsageKey
 from lxml import etree
 import six
 from web_fragments.fragment import Fragment
 from xblock.core import XBlock
 from django.contrib.auth.models import User
-
+from completion.models import BlockCompletion
 from xmodule.mako_module import MakoTemplateBlockBase
 from xmodule.progress import Progress
 from xmodule.seq_module import SequenceFields
@@ -53,6 +53,10 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
         """
         fragment = Fragment()
         contents = []
+        course_id = self.runtime.course_id
+
+        user_name = self.runtime.service(self, 'user').get_current_user().opt_attrs.get('edx-platform.username')        
+
 
 
         course_id = self.runtime.course_id
@@ -104,7 +108,7 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
                         user=user,
                         course_key=course_id,
                         block_key=block_vertical_key_usage,
-                        completion=event['completion'],                    )
+                        completion=event['completion'])
  
 
             if child in child_blocks_to_complete_on_view:
@@ -117,6 +121,7 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
             contents.append({
                 'id': six.text_type(child.location),
                 'content': rendered_child.content
+
             })     
 
         from student.models import CourseProgress

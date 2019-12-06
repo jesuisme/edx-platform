@@ -7,7 +7,7 @@ import collections
 import json
 import logging
 from datetime import datetime
-
+from completion.models import BlockCompletion
 from lxml import etree
 from opaque_keys.edx.keys import UsageKey
 from pkg_resources import resource_string
@@ -338,6 +338,10 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
             'gated_content': self._get_gated_content_info(prereq_met, prereq_meta_info)            
         }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ldaa_dev
         fragment.add_content(self.system.render_template("seq_module.html", params))
 
         self._capture_full_seq_item_metrics(display_items)
@@ -498,6 +502,7 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
                         iteminfo['complete'] = True
             log.info('iteminfo complete------%s-----'% iteminfo['complete'])
             contents.append(iteminfo)
+
         return contents
 
     def _locations_in_subtree(self, node):
