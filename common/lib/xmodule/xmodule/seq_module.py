@@ -338,10 +338,6 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
             'gated_content': self._get_gated_content_info(prereq_met, prereq_meta_info)            
         }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> ldaa_dev
         fragment.add_content(self.system.render_template("seq_module.html", params))
 
         self._capture_full_seq_item_metrics(display_items)
