@@ -19,6 +19,8 @@ from xmodule.seq_module import SequenceFields
 from xmodule.studio_editable import StudioEditableBlock
 from xmodule.x_module import STUDENT_VIEW, XModuleFields
 from xmodule.xml_module import XmlParserMixin
+from completion.models import BlockCompletion
+from opaque_keys.edx.keys import CourseKey, UsageKey
 
 import webpack_loader.utils
 
@@ -56,6 +58,11 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
         user_name = self.runtime.service(self, 'user').get_current_user().opt_attrs.get('edx-platform.username')        
 
 
+
+        course_id = self.runtime.course_id
+
+        user_name = self.runtime.service(self, 'user').get_current_user().opt_attrs.get('edx-platform.username')   
+
         if context:
             child_context = copy(context)
         else:
@@ -72,8 +79,10 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
 
         child_blocks_to_complete_on_view = set()
         completion_service = self.runtime.service(self, 'completion')
+
         if completion_service and completion_service.completion_tracking_enabled():
             child_blocks_to_complete_on_view = completion_service.blocks_to_mark_complete_on_view(child_blocks)
+            log.info('child_blocks_to_complete_on_view--------%s-----'% child_blocks_to_complete_on_view)
             complete_on_view_delay = completion_service.get_complete_on_view_delay_ms()
 
         child_context['child_of_vertical'] = True
@@ -81,7 +90,27 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
 
         # pylint: disable=no-member
         for child in child_blocks:
-            child_block_context = copy(child_context)
+            child_block_context = copy(child_context)   
+            log.info('child block context------%s----'% child_block_context)
+
+            #Vertical Tick issue testing here 
+            if 'activate_block_id' in child_block_context:
+                if child_block_context['activate_block_id'] != None:
+                    log.info('child_block_context-------%s-----'% child_block_context['activate_block_id'])
+                    block_vertical_key = child_block_context['activate_block_id']
+
+                    block_vertical_key_usage = UsageKey.from_string(child_block_context['activate_block_id'])
+                    log.info('vertical----%s---type----'% type(block_vertical_key_usage))
+                    event = {'completion': 1.0}
+                    user = User.objects.get(username=user_name)
+                    child_username = child_context['username']
+                    BlockCompletion.objects.submit_completion(
+                        user=user,
+                        course_key=course_id,
+                        block_key=block_vertical_key_usage,
+                        completion=event['completion'])
+ 
+
             if child in child_blocks_to_complete_on_view:
                 child_block_context['wrap_xblock_data'] = {
                     'mark-completed-on-view-after-delay': complete_on_view_delay
@@ -92,64 +121,8 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
             contents.append({
                 'id': six.text_type(child.location),
                 'content': rendered_child.content
-            })
-        # pylint: disable=no-member
-        
-        # for child in child_blocks:
-        #     child_block_context = copy(child_context) 
-        #     log.info("child_block_context['activate_block_id']===%s==" % child_block_context['activate_block_id'])
-        #     if 'activate_block_id' in child_block_context:
-        #         if child_block_context['activate_block_id'] != None:
-        #             log.info('child_block_context-------%s-----'% child_block_context['activate_block_id'])
-        #             block_vertical_key = child_block_context['activate_block_id']
 
-        #             block_vertical_key_usage = UsageKey.from_string(child_block_context['activate_block_id'])
-        #             log.info('vertical----%s---type----'% type(block_vertical_key_usage))
-        #             event = {'completion': 1.0}
-        #             user = User.objects.get(username=user_name)
-        #             child_username = child_context['username']
-        #             BlockCompletion.objects.submit_completion(
-        #                 user=user,
-        #                 course_key=course_id,
-        #                 block_key=block_vertical_key_usage,
-        #                 completion=event['completion'],
-        #             )
-
-
-        #     if child in child_blocks_to_complete_on_view:
-        #          #Vertical Tick issue testing here 
-        #         # if 'activate_block_id' in child_block_context:
-        #         #     if child_block_context['activate_block_id'] != None:
-        #         #         log.info('child_block_context-------%s-----'% child_block_context['activate_block_id'])
-        #         #         block_vertical_key = child_block_context['activate_block_id']
-
-        #         #         block_vertical_key_usage = UsageKey.from_string(child_block_context['activate_block_id'])
-        #         #         log.info('vertical----%s---type----'% type(block_vertical_key_usage))
-        #         #         event = {'completion': 1.0}
-        #         #         user = User.objects.get(username=user_name)
-        #         #         child_username = child_context['username']
-        #         #         BlockCompletion.objects.submit_completion(
-        #         #             user=user,
-        #         #             course_key=course_id,
-        #         #             block_key=block_vertical_key_usage,
-        #         #             completion=event['completion'],
-        #         #         )
-
-        #         child_block_context['wrap_xblock_data'] = {
-        #             'mark-completed-on-view-after-delay': complete_on_view_delay
-        #         }
-        #     rendered_child = child.render(STUDENT_VIEW, child_block_context)
-        #     fragment.add_fragment_resources(rendered_child)
-
-        #     contents.append({
-        #         'id': six.text_type(child.location),
-        #         'content': rendered_child.content
-        #     })     
-
-
-        # course_id = self.runtime.course_id
-
-        # user_name = self.runtime.service(self, 'user').get_current_user().opt_attrs.get('edx-platform.username')        
+            })     
 
         from student.models import CourseProgress
 
@@ -172,8 +145,7 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
 
         for tag in webpack_loader.utils.get_as_tags('VerticalStudentView'):
             fragment.add_resource(tag, mimetype='text/html', placement='head')
-        fragment.initialize_js('VerticalStudentView')     
-
+        fragment.initialize_js('VerticalStudentView')  
         return fragment
 
     def author_view(self, context):

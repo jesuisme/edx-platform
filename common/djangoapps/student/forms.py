@@ -423,7 +423,7 @@ class OrganizationRegistrationForm(forms.ModelForm):
     class Meta:
         model = OrganizationRegistration
         fields = ['organization_email','confirm_email','first_name','last_name','job_title','organization_name','organization_domain', 'organization_contact_number','primary_professional_role','address1', 'address2','zip_code']
-        labels = {'organization_name': 'Organization Name', 'organization_email': 'Email', 'organization_domain': 'Organization Domain', 'organization_contact_number': 'Contact Number'}
+        labels = {'organization_name': 'Organization Name', 'organization_email': 'Email', 'organization_domain': 'Organization Email Domain', 'organization_contact_number': 'Contact Phone Number'}
     
     
 

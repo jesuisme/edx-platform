@@ -27,11 +27,9 @@ def get_course_outline_block_tree(request, course_id):
         of those children.
         """
         children = block.get('children', [])
-
         for i in range(len(children)):
             child_id = block['children'][i]
             child_detail = populate_children(all_blocks[child_id], all_blocks)
-
             block['children'][i] = child_detail
 
         return block
@@ -96,6 +94,7 @@ def get_course_outline_block_tree(request, course_id):
 
             completable_blocks = [child for child in block['children']
                                   if child['type'] != 'discussion']
+            
             if len([child['complete'] for child in block['children']
                     if child['complete']]) == len(completable_blocks):
                 block['complete'] = True

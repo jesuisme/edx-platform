@@ -7,7 +7,6 @@ import collections
 import json
 import logging
 from datetime import datetime
-
 from lxml import etree
 from opaque_keys.edx.keys import UsageKey
 from pkg_resources import resource_string
@@ -24,7 +23,7 @@ from .mako_module import MakoModuleDescriptor
 from .progress import Progress
 from .x_module import STUDENT_VIEW, XModule
 from .xml_module import XmlDescriptor
-
+from django.views.decorators.csrf import csrf_exempt
 
 
 log = logging.getLogger(__name__)
@@ -160,6 +159,7 @@ class ProctoringFields(object):
         self.is_proctored_enabled = value
 
 
+
 @XBlock.wants('proctoring')
 @XBlock.wants('verification')
 @XBlock.wants('gating')
@@ -203,7 +203,8 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
         if dispatch == 'goto_position':
             # set position to default value if either 'position' argument not
             # found in request or it is a non-positive integer
-            position = data.get('position', u'1')
+            position = data.get('position', u'1')           
+
             if position.isdigit() and int(position) > 0:
                 self.position = int(position)
             else:
@@ -212,7 +213,6 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
 
         if dispatch == 'get_completion':
             completion_service = self.runtime.service(self, 'completion')
-
             usage_key = data.get('usage_key', None)
             if not usage_key:
                 return None
@@ -336,7 +336,6 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
             'disable_navigation': not self.is_user_authenticated(context),
             'gated_content': self._get_gated_content_info(prereq_met, prereq_meta_info)            
         }
-
 
         fragment.add_content(self.system.render_template("seq_module.html", params))
 
@@ -480,11 +479,23 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
                 'graded': item.graded
             }
 
-
             if is_user_authenticated:
-                
+                log.info('user is user_authenticated0-----')
+                from completion.models import BlockCompletion
+                block_completion_usage = None
+
+                try:
+                    block_completion_usage = BlockCompletion.objects.get(block_key=usage_id)
+                except:
+                    block_completion_usage = None
+
                 if item.location.block_type == 'vertical':
+                    log.info('in the seq module.py file-----')
+                    log.info('vertical is complete item----%s------'% completion_service.vertical_is_complete(item))
                     iteminfo['complete'] = completion_service.vertical_is_complete(item)
+                    if block_completion_usage:
+                        iteminfo['complete'] = True
+            log.info('iteminfo complete------%s-----'% iteminfo['complete'])
             contents.append(iteminfo)
 
         return contents

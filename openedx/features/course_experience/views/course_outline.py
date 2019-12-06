@@ -69,6 +69,7 @@ class CourseOutlineFragmentView(EdxFragmentView):
        
 
         course_sections = context['blocks'].get('children')
+        
         if course_sections is not None:            
             for section in course_sections:
                 for subsection in section.get('children', []):

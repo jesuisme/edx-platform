@@ -662,12 +662,6 @@ def student_dashboard(request):
             login_user.total_time = visitor_date
             login_user.save()
 
-    # if login_user:
-    #     visitor_tracking_data = Visitor.objects.filter(user=user).first()
-    #     visitor_date = time.strftime('%H:%M:%S', time.gmtime(visitor_tracking_data.time_on_site))
-    #     login_user.total_time = visitor_date
-    #     login_user.save()
-
 
     if not UserProfile.objects.filter(user=user).exists():
         return redirect(reverse('account_settings'))
