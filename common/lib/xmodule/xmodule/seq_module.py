@@ -7,7 +7,6 @@ import collections
 import json
 import logging
 from datetime import datetime
-from completion.models import BlockCompletion
 from lxml import etree
 from opaque_keys.edx.keys import UsageKey
 from pkg_resources import resource_string
