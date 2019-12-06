@@ -161,7 +161,7 @@ def deep_drive_badge(user, completed_first_challenge=None):
     # slug = config.get(count)first_challenge
     from student.views.management import logo_data
     if completed_first_challenge == "first_challenge":
-        badge_class = BadgeClass.get_badge_class(slug= 'value_practitioner',issuing_component='openedx__course', create=False,
+        badge_class = BadgeClass.get_badge_class(slug= 'value_initiate',issuing_component='openedx__course', create=False,
         )
         if not badge_class:
             return
