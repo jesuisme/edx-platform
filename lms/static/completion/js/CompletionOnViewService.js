@@ -4,25 +4,16 @@ const completedBlocksKeys = new Set();
 
 export function markBlocksCompletedOnViewIfNeeded(runtime, containerElement) {
 
-  console.log('containerElement----',containerElement);
-
   const blockElements = $(containerElement).find(
     '.xblock-student_view[data-mark-completed-on-view-after-delay]',
   ).get();
 
-  console.log('blockElements------',blockElements);
-
-
   if (blockElements.length > 0) {
-
-    console.log('blockElement greater than 0----')
 
     const tracker = new ViewedEventTracker();
 
 
     blockElements.forEach((blockElement) => {
-
-      console.log('blockElement12----',blockElement);
 
       const markCompletedOnViewAfterDelay = parseInt(
         blockElement.dataset.markCompletedOnViewAfterDelay, 10,
@@ -35,14 +26,7 @@ export function markBlocksCompletedOnViewIfNeeded(runtime, containerElement) {
     tracker.addHandler((blockElement, event) => {      
       const blockKey = blockElement.dataset.usageId;
 
-      console.log('blockElement--here------',blockElement)
-      console.log('events1----',event);
-      console.log('blockKey------',blockKey);
-      console.log('publish_completion------',runtime.handlerUrl(blockElement, 'publish_completion'));
-      console.log('completedBlocksKeys1-------',completedBlocksKeys.has(blockKey));
-
       if (blockKey && !completedBlocksKeys.has(blockKey)) {
-        console.log('event element----',event.elementHasBeenViewed);
         if (event.elementHasBeenViewed) {
           $.ajax({
             type: 'POST',
@@ -53,7 +37,6 @@ export function markBlocksCompletedOnViewIfNeeded(runtime, containerElement) {
           }).then(
             () => {              
               completedBlocksKeys.add(blockKey);
-              console.log('completed log----blockkey', completedBlocksKeys);              
               blockElement.dataset.markCompletedOnViewAfterDelay = 0;
             },
           );

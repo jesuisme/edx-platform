@@ -146,6 +146,7 @@ def instructor_dashboard_2(request, course_id):
         'forum_admin': has_forum_access(request.user, course_key, FORUM_ROLE_ADMINISTRATOR),
     }
 
+
     if not access['staff']:
         raise Http404()
 
@@ -1020,7 +1021,6 @@ def CohoertsEnrollment(request, coherts_dict ):
                         user_context=notification_context,
                     )
                     ace.send(notification)
-                    log.info("after send mail===========")
                 except Exception as exc:
                     log.exception('Error sending out deletion notification email')
                     log.info('Error sending out deletion notification email===%s====' % exc)

@@ -110,8 +110,6 @@ class CourseDetailView(DeveloperErrorViewMixin, RetrieveAPIView):
             }
     """
 
-    log.info('in the course_api----');
-
     serializer_class = CourseDetailSerializer
 
     def get_object(self):

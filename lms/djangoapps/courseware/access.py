@@ -127,6 +127,7 @@ def has_access(user, action, obj, course_key=None):
     """
     # Just in case user is passed in as None, make them anonymous
 
+
     if not user:
         user = AnonymousUser()
 
