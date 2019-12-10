@@ -126,15 +126,18 @@ def has_access(user, action, obj, course_key=None):
     deny access in a way that makes sense in context.
     """
     # Just in case user is passed in as None, make them anonymous
-
+    log.info("has access=====")
+    log.info("has access==user===%s===" % user)
     if not user:
         user = AnonymousUser()
 
     # Preview mode is only accessible by staff.
     
     if user.is_staff:
+        log.info("==user.is_staff====%s====" % user.is_staff)
         if in_preview_mode() and course_key:
             if not has_staff_access_to_preview_mode(user, course_key):
+                log.info("ACCESS_DENIEDACCESS_DENIED")
                 return ACCESS_DENIED
 
     # delegate the work to type-specific functions.

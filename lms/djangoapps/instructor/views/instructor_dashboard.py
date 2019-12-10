@@ -114,8 +114,10 @@ from rest_framework.response import Response
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def instructor_dashboard_2(request, course_id):
     """ Display the instructor dashboard for a course. """
+    log.info("instructor_dashboard_2======")
     try:
         course_key = CourseKey.from_string(course_id)
+        log.info("course_key=========%s---" % course_key)
     except InvalidKeyError:
         log.error(u"Unable to find course with course key %s while loading the Instructor Dashboard.", course_id)
         return HttpResponseServerError()
@@ -146,7 +148,10 @@ def instructor_dashboard_2(request, course_id):
         'forum_admin': has_forum_access(request.user, course_key, FORUM_ROLE_ADMINISTRATOR),
     }
 
+    log.info("====access====%s====" % access)
+
     if not access['staff']:
+        log.info("===not=access========")
         raise Http404()
 
     is_white_label = CourseMode.is_white_label(course_key)
