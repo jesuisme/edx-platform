@@ -12,7 +12,7 @@ import six
 from web_fragments.fragment import Fragment
 from xblock.core import XBlock
 from django.contrib.auth.models import User
-from completion.models import BlockCompletion
+# from completion.models import BlockCompletion
 from xmodule.mako_module import MakoTemplateBlockBase
 from xmodule.progress import Progress
 from xmodule.seq_module import SequenceFields

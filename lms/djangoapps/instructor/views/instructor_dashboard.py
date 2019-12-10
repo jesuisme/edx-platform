@@ -114,6 +114,7 @@ from rest_framework.response import Response
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def instructor_dashboard_2(request, course_id):
     """ Display the instructor dashboard for a course. """
+
     try:
         course_key = CourseKey.from_string(course_id)
     except InvalidKeyError:
@@ -131,9 +132,7 @@ def instructor_dashboard_2(request, course_id):
             log.info("Error type: %s" % err)
             return JsonResponse(
                     {'message': _("Unknown error occured while adding learner to coherts ")},
-                    status=200)
-
-        
+                    status=200)        
 
     course = get_course_by_id(course_key, depth=0)
 
@@ -145,7 +144,6 @@ def instructor_dashboard_2(request, course_id):
         'staff': bool(has_access(request.user, 'staff', course)),
         'forum_admin': has_forum_access(request.user, course_key, FORUM_ROLE_ADMINISTRATOR),
     }
-
 
     if not access['staff']:
         raise Http404()

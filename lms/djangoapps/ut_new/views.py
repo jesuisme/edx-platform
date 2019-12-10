@@ -172,3 +172,11 @@ def social_share(request):
         return JsonResponse(
                     {'message': _("gggggggggg")},
                     status=200)
+
+
+
+def cme_redirect(request):
+    """
+        redirect cme- template for servey
+    """
+    return render(request,'cme.html')

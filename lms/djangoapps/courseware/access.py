@@ -127,12 +127,10 @@ def has_access(user, action, obj, course_key=None):
     """
     # Just in case user is passed in as None, make them anonymous
 
-
     if not user:
         user = AnonymousUser()
 
-    # Preview mode is only accessible by staff.
-    
+    # Preview mode is only accessible by staff.    
     if user.is_staff:
         if in_preview_mode() and course_key:
             if not has_staff_access_to_preview_mode(user, course_key):
@@ -678,9 +676,6 @@ def _has_access_to_course(user, access_level, course_key):
 
     access_level = string, either "staff" or "instructor"
     """
-    # log.info("_HAS_ACCESS_TO_COURSE--func---")
-    # log.info("access_level----%s---"% access_level)
-
     if user is None or (not user.is_authenticated):
         debug("Deny: no user or anon user")
         return ACCESS_DENIED

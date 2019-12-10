@@ -77,6 +77,7 @@ def get_completion_badge(course_id, user):
     Given a course key and a user, find the user's enrollment mode
     and get the Course Completion badge.
     """
+    LOGGER.info("==get_completion_badge==")
     from student.models import CourseEnrollment
     from student.views.management import logo_data
     badge_classes = CourseEnrollment.objects.filter(
@@ -98,48 +99,51 @@ def get_completion_badge(course_id, user):
     #    display_name=course.display_name,
     #   image_file_handle=CourseCompleteImageConfiguration.image_for_mode(mode)
     #)
-    LOGGER.info(mode)
     completion_badge = CourseCompleteBadges.objects.get(course_mode=mode)
-    LOGGER.info("completion_badge")
-    LOGGER.info(completion_badge)
+
     if completion_badge:
-    	badclass_object = BadgeClass.get_badge_class(
-    	slug=course_slug(course_id, mode),
-    	issuing_component='',
-    	criteria=criteria(course_id),
-    	description=badge_description(course, mode),
-    	course_id=course_id,
-    	mode=mode,
-    	display_name=course.display_name,
-    	image_file_handle=CourseCompleteImageConfiguration.image_for_mode(mode),
-    	image_url_from_drive=completion_badge.url_of_badges
-    	)
-    assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badclass_object,image_url=badclass_object.image.url,drive_image_url=badclass_object.image_url_from_drive)
-    context  = {
-                "badge_name": badclass_object.display_name
-    }
-    mail_subject = "You earned a new VBHC Badge!"
-    to_email = user.email
+        badclass_object = BadgeClass.get_badge_class(
+            slug='completion_badges', issuing_component='openedx__course', create=False,)
+        if badclass_object and not badclass_object.get_for_user(user):
+            assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badclass_object,image_url=badclass_object.image.url,drive_image_url=badclass_object.image_url_from_drive)
 
-    from_address = configuration_helpers.get_value(
-            'email_from_address',
-            settings.DEFAULT_FROM_EMAIL
-    )
-    LOGGER.info("From emails")
-    LOGGER.info(from_address)
-    message_for_activation = render_to_string('emails/badges_mails.txt', context)
+            # badclass_object = BadgeClass.get_badge_class(
+            # slug=course_slug(course_id, mode),
+            # issuing_component='',
+            # criteria=criteria(course_id),
+            # description=badge_description(course, mode),
+            # course_id=course_id,
+            # mode=mode,
+            # display_name=course.display_name,
+            # image_file_handle=CourseCompleteImageConfiguration.image_for_mode(mode),
+            # image_url_from_drive=completion_badge.url_of_badges
+            # )
+            # assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badclass_object,image_url=badclass_object.image.url,drive_image_url=badclass_object.image_url_from_drive)
+            context  = {
+                        "badge_name": badclass_object.display_name
+            }
+            mail_subject = "You earned a new VBHC Badge!"
+            to_email = user.email
 
-    email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])
+            from_address = configuration_helpers.get_value(
+                    'email_from_address',
+                    settings.DEFAULT_FROM_EMAIL
+            )
+            LOGGER.info("From emails")
+            LOGGER.info(from_address)
+            message_for_activation = render_to_string('emails/badges_mails.txt', context)
 
-    email.attach_alternative(message_for_activation, "text/html")
+            email = EmailMultiAlternatives(mail_subject,message_for_activation,from_email=from_address,to=[to_email])
 
-    email.mixed_subtype = 'related'
+            email.attach_alternative(message_for_activation, "text/html")
 
-    email.attach(logo_data())
-    
-    email.send()
+            email.mixed_subtype = 'related'
 
-    return badclass_object	
+            email.attach(logo_data())
+            
+            email.send()
+
+            return badclass_object  
 
 
 @requires_badges_enabled
