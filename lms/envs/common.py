@@ -683,9 +683,9 @@ COURSE_MODE_DEFAULTS = {
     'description': None,
     'expiration_datetime': None,
     'min_price': 0,
-    'name': _('Audit'),
+    'name': _('Honor'),
     'sku': None,
-    'slug': 'audit',
+    'slug': 'honor',
     'suggested_prices': '',
 }
 
@@ -3424,7 +3424,8 @@ derived('HELP_TOKENS_LANGUAGE_CODE', 'HELP_TOKENS_VERSION')
 
 ENTERPRISE_ENROLLMENT_API_URL = LMS_INTERNAL_ROOT_URL + LMS_ENROLLMENT_API_PATH
 ENTERPRISE_PUBLIC_ENROLLMENT_API_URL = LMS_ROOT_URL + LMS_ENROLLMENT_API_PATH
-ENTERPRISE_COURSE_ENROLLMENT_AUDIT_MODES = ['audit', 'honor']
+# ENTERPRISE_COURSE_ENROLLMENT_AUDIT_MODES = ['audit', 'honor']
+ENTERPRISE_COURSE_ENROLLMENT_AUDIT_MODES = ['audit','honor']
 ENTERPRISE_SUPPORT_URL = ''
 # The default value of this needs to be a 16 character string
 ENTERPRISE_REPORTING_SECRET = '0000000000000000'

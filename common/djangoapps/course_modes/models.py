@@ -697,6 +697,7 @@ class CourseMode(models.Model):
         #    return False
 
         #return True
+        log.info("mode_slug===========%s====" % mode_slug)
         if mode_slug == cls.AUDIT:
             return False
         return True
