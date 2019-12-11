@@ -23,7 +23,6 @@ from .mako_module import MakoModuleDescriptor
 from .progress import Progress
 from .x_module import STUDENT_VIEW, XModule
 from .xml_module import XmlDescriptor
-from django.views.decorators.csrf import csrf_exempt
 
 
 log = logging.getLogger(__name__)
@@ -480,22 +479,17 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
             }
 
             if is_user_authenticated:
-                log.info('user is user_authenticated0-----')
                 from completion.models import BlockCompletion
                 block_completion_usage = None
-
                 try:
                     block_completion_usage = BlockCompletion.objects.get(block_key=usage_id)
                 except:
                     block_completion_usage = None
 
                 if item.location.block_type == 'vertical':
-                    log.info('in the seq module.py file-----')
-                    log.info('vertical is complete item----%s------'% completion_service.vertical_is_complete(item))
                     iteminfo['complete'] = completion_service.vertical_is_complete(item)
                 if block_completion_usage:
                     iteminfo['complete'] = True
-            log.info('iteminfo complete------%s-----'% iteminfo['complete'])
             contents.append(iteminfo)
 
         return contents

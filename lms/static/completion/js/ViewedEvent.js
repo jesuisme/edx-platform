@@ -86,13 +86,10 @@ export class ElementViewing {
 
   checkIfViewed() {
     // User can provide a "now" value for testing purposes.
-    console.log('checkIfViewed-----');
     if (this.hasBeenViewed) {
-      console.log('in if hasBeenViewed----',this.hasBeenViewed);
       return;
     }
     if (this.areViewedCriteriaMet()) {
-      console.log('in the 2nd if-----')
       this.hasBeenViewed = true;
       // Report to the tracker that we have been viewed
       this.callback(this.el, { elementHasBeenViewed: this.hasBeenViewed });

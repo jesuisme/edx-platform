@@ -621,7 +621,7 @@ length_total_list = len(total_value_list)
             <div class="progress-outer">
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped progress-bar-info" style="width:${percent}%;"></div>
-                    <div class="progress-value"><span>${percent}</span>%</div>
+                    <!-- <div class="progress-value"><span>${percent}</span>%</div> -->
                 </div>
             </div>            
         </div>
@@ -654,7 +654,7 @@ length_total_list = len(total_value_list)
             <div class="progress-outer">
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped progress-bar-info" style="width:${0}%;"></div>
-                    <div class="progress-value"><span>${0}</span>%</div>
+                    <!-- <div class="progress-value"><span>${0}</span>%</div> -->
                 </div>
             </div>            
         </div>
@@ -669,9 +669,14 @@ length_total_list = len(total_value_list)
  <link rel="stylesheet" href="/static/css/lms-main-v1.css" type="text/css" media="all" / >
 <style type="text/css">
 
-
+.progress {
+  border: 1px solid #8169691f;
+  width: 500px;
+  background: white;
+  text-align: center;
+}
  
-.progress-title{
+/*.progress-title{
     font-size: 18px;
     font-weight: 700;
     color: #000;
@@ -702,7 +707,7 @@ length_total_list = len(total_value_list)
     position: absolute;
     top: 3px;
     right: 10px;
-}
+}*/
 @keyframes animate-positive{
     0%{ width: 0; }
 }

@@ -114,10 +114,9 @@ from rest_framework.response import Response
 @cache_control(no_cache=True, no_store=True, must_revalidate=True)
 def instructor_dashboard_2(request, course_id):
     """ Display the instructor dashboard for a course. """
-    log.info("instructor_dashboard_2======")
+
     try:
         course_key = CourseKey.from_string(course_id)
-        log.info("course_key=========%s---" % course_key)
     except InvalidKeyError:
         log.error(u"Unable to find course with course key %s while loading the Instructor Dashboard.", course_id)
         return HttpResponseServerError()
@@ -133,9 +132,7 @@ def instructor_dashboard_2(request, course_id):
             log.info("Error type: %s" % err)
             return JsonResponse(
                     {'message': _("Unknown error occured while adding learner to coherts ")},
-                    status=200)
-
-        
+                    status=200)        
 
     course = get_course_by_id(course_key, depth=0)
 
@@ -148,10 +145,7 @@ def instructor_dashboard_2(request, course_id):
         'forum_admin': has_forum_access(request.user, course_key, FORUM_ROLE_ADMINISTRATOR),
     }
 
-    log.info("====access====%s====" % access)
-
     if not access['staff']:
-        log.info("===not=access========")
         raise Http404()
 
     is_white_label = CourseMode.is_white_label(course_key)
@@ -1025,7 +1019,6 @@ def CohoertsEnrollment(request, coherts_dict ):
                         user_context=notification_context,
                     )
                     ace.send(notification)
-                    log.info("after send mail===========")
                 except Exception as exc:
                     log.exception('Error sending out deletion notification email')
                     log.info('Error sending out deletion notification email===%s====' % exc)

@@ -82,7 +82,6 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
 
         if completion_service and completion_service.completion_tracking_enabled():
             child_blocks_to_complete_on_view = completion_service.blocks_to_mark_complete_on_view(child_blocks)
-            log.info('child_blocks_to_complete_on_view--------%s-----'% child_blocks_to_complete_on_view)
             complete_on_view_delay = completion_service.get_complete_on_view_delay_ms()
 
         child_context['child_of_vertical'] = True
@@ -91,16 +90,13 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
         # pylint: disable=no-member
         for child in child_blocks:
             child_block_context = copy(child_context)   
-            log.info('child block context------%s----'% child_block_context)
-
+            
             #Vertical Tick issue testing here 
             if 'activate_block_id' in child_block_context:
                 if child_block_context['activate_block_id'] != None:
-                    log.info('child_block_context-------%s-----'% child_block_context['activate_block_id'])
                     block_vertical_key = child_block_context['activate_block_id']
 
                     block_vertical_key_usage = UsageKey.from_string(child_block_context['activate_block_id'])
-                    log.info('vertical----%s---type----'% type(block_vertical_key_usage))
                     event = {'completion': 1.0}
                     user = User.objects.get(username=user_name)
                     child_username = child_context['username']
