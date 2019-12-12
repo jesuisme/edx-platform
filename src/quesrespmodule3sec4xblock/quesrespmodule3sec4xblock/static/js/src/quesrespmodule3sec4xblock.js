@@ -3,7 +3,7 @@
 
       
 
-function TryA(obj){
+function TryAdeepmodule(obj){
       $(obj).closest('.item.active').find('div').removeClass("incorrect").removeClass("selectedAns");
       //$('.item.active div').removeClass("incorrect").removeClass("selectedAns");
       $(obj).closest('.item').find('.row-eq-height').removeClass('Dis');
