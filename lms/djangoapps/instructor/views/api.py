@@ -646,7 +646,7 @@ def generate_leaner_username(email):
     unique_number = uuid.uuid4()
     unique_id_1 = uuid.uuid1()
     leaner_email = email 
-    leaner_username = leaner_email + str(unique_number)[:8] + str(unique_id_1)[:5]
+    leaner_username = leaner_email +'_'+str(unique_number)[:2] + str(unique_id_1)[:2]
     return leaner_username
 
 
