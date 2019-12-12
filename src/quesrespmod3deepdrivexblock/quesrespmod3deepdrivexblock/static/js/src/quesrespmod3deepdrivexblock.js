@@ -36,7 +36,7 @@
       $('#myCarousel .item .ans').removeClass('DisB');
     }        
         
-        function checkAnswerA(obj, f) {
+        function checkAnswerAdeep(obj, f) {
             //console.log($(obj).parents(".row-eq-height"));
             
             $('#myCarousel .item .ans').addClass('DisB');
