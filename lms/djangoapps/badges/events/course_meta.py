@@ -52,7 +52,6 @@ def  award_badge(config, count, user):
     if not badge_class:
         return
     if not badge_class.get_for_user(user):
-        log.info("badge_class.image.url======%s======" % badge_class.image.url)
         assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
         # badge_class.award(user)
         context  = {
@@ -110,8 +109,6 @@ def course_group_check(user, course_key):
     """
     Awards a badge if a user has completed every course in a defined set.
     """
-    log.info("course_key===========%s====" % course_key)
-    log.info("user===========%s====" % user)
     from lms.djangoapps.certificates.models import CertificateStatuses
     from student.views.management import logo_data
     config = CourseEventBadgesConfiguration.current().course_group_settings
@@ -126,16 +123,12 @@ def course_group_check(user, course_key):
                 awards.append(slug)
 
     for slug in awards:
-        log.info("slug=======%s====" % slug)
         badge_class = BadgeClass.get_badge_class(
             slug=slug, issuing_component='openedx__course', create=False,
         )
         if badge_class and not badge_class.get_for_user(user):
             # badge_class.award(user)
-            log.info("badge_class.image.url=====%s====" % badge_class.image.url)
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
-            log.info("assertion=====%s====" % assertion)
-            log.info("created=====%s====" % created)
             context  = {
                 "badge_name": badge_class.display_name
             }
@@ -315,23 +308,6 @@ def user_response_badges(user):
         badge_class = BadgeClass.get_badge_class(slug = 'user_response',issuing_component='openedx__course', create=False,)
         if badge_class and not badge_class.get_for_user(user):
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
-            # try:
-            #     get_user_name = UserProfile.objects.get(user=user)
-            #     log.info("get_user_name========%s=====" % get_user_name)
-            #     log.info("get_user_name====nnn====%s=====" % get_user_name.name)
-            #     log.info("get_user_name====badge_class.display_name====%s=====" % badge_class.display_name)
-            #     site = Site.objects.get_current()
-            #     log.info("site========%s-----" % site)
-            #     notification_context = get_base_template_context(site)
-            #     notification_context.update({'full_name': get_user_name.name})
-            #     notification_context.update({'badge_name': badge_class.display_name})
-            #     notification = BadgesMails().personalize(
-            #         recipient=Recipient(email_address=user.email),
-            #         language=get_user_name.language,
-            #         user_context=notification_context,
-            #     )
-            #     ace.send(notification)
-            #     log.info("after send mail===========")
             context  = {
                 "badge_name": badge_class.display_name
             }
@@ -354,11 +330,6 @@ def user_response_badges(user):
             email.attach(logo_data())
             
             email.send()
-
-            # except Exception as exc:
-            #     log.exception('Error sending out deletion notification email')
-            #     log.info('Error sending out deletion notification email===%s====' % exc)
-            #     raise
 
     moduleview = StudentModuleViews.objects.filter(user=user)
     count = 0

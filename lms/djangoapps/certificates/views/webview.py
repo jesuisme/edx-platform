@@ -372,7 +372,6 @@ def _track_certificate_events(request, context, course, user, user_certificate):
     """
     # Badge Request Event Tracking Logic
     course_key = course.location.course_key
-    log.info("==course_key====%s====" % course_key)
 
     if 'evidence_visit' in request.GET:
         badge_class = get_completion_badge(course_key, user)
@@ -384,7 +383,6 @@ def _track_certificate_events(request, context, course, user, user_certificate):
         if badges:
             # There should only ever be one of these.
             badge = badges[0]
-            log.info("==course_key=badge===%s====" % badge)
             tracker.emit(
                 'edx.badge.assertion.evidence_visited',
                 {
@@ -673,7 +671,6 @@ def _render_invalid_certificate(course_id, platform_name, configuration):
 
 def _render_valid_certificate(request, context, custom_template=None):
     if custom_template:
-        # log.info("inside custome template==================")
         template = Template(
             custom_template.template,
             output_encoding='utf-8',

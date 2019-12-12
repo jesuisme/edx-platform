@@ -326,7 +326,7 @@ def organization_register(request):
             password = request.POST.get('password')
             country = request.POST.get('country')
             state = request.POST.get('state')
-            city = request.POST.get('city')
+            organization_domain = request.POST.get('organization_domain')
 
             if form.is_valid():
                 post = form.save(commit = False)
@@ -373,7 +373,7 @@ def organization_register(request):
 
                 post.state = state
 
-                post.city = city
+                post.organization_domain = organization_domain
 
                 post.payment_status = 'registered'
 
