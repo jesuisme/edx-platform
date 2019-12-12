@@ -2,14 +2,14 @@
 
 
  
-function TryA(obj){
+function TryAsevensection(obj){
       $(obj).closest('.item.active').find('div').removeClass("incorrect").removeClass("selectedAns");
       //$('.item.active div').removeClass("incorrect").removeClass("selectedAns");
       $(obj).closest('.item').find('.row-eq-height').removeClass('Dis'); 
     }
 
 
-    function checkAnswer(obj, f) {
+    function checkAnswersevensection(obj, f) {
         
               if($(obj).hasClass("customansclass1"))
               {

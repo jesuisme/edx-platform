@@ -10,7 +10,7 @@ function TryA(obj){
     }
 
 
-    function checkAnswer(obj, f) {
+    function checkAnswermodule(obj, f) {
             //console.log($(obj).parents(".row-eq-height"));
       
             $(obj).closest('.row-eq-height').addClass('Dis');

@@ -7,7 +7,7 @@ function TryA(){
     }
 
 
-        function checkAnswer(obj, f) {
+        function checkAnswerdeep(obj, f) {
             //console.log($(obj).parents(".row-eq-height"));
        
             $('#myCarousel_a .item .ans').addClass('DisB');
