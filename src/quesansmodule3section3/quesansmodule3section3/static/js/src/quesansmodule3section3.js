@@ -1,13 +1,13 @@
 /* Javascript for QuesAnsModule3Section3XBlock. */
 
     
-    function TryAB(obj) {
+    function TryABQuesAnsModule3Section(obj) {
     $(obj).closest('.item.active').find('div').removeClass("incorrect").removeClass("selectedAns");
       //$('.item.active div').removeClass("incorrect").removeClass("selectedAns");
       $(obj).closest('.item').find('.row-eq-height').removeClass('Dis'); 
     }        
         
-    function checkAnswerA(obj, f) {
+    function checkAnswerAQuesAnsModule3Section(obj, f) {
            
             $(obj).closest('.row-eq-height').addClass('Dis');
             $('#myCarousel .item.active div').removeClass("incorrect").removeClass("selectedAns");
