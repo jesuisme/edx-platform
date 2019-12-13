@@ -191,7 +191,7 @@ def _create_admin_dashboard_app(request,admin_organization):
                             html.Form([                                
                                 html.Button([
                                     html.I(" Download Student Data",className="fa fa-download")
-                                ],className="btn", type='submit',style={'margin-left': '900px', 'position': 'relative', 'bottom': '9px', 'background-color': '#4DA3D2', 'border': 'none', 'color': 'white', 'cursor': 'pointer', 'padding': '7px 9px','font-size': '20px'})
+                                ],className="btn", type='submit',style={'margin-left': '450px', 'position': 'relative', 'bottom': '9px', 'background-color': '#4DA3D2', 'border': 'none', 'color': 'white', 'cursor': 'pointer', 'padding': '7px 9px','font-size': '20px'})
                             ], action='/data_student_csv_data', method='post')
                         ], className="header-logo"),
 
