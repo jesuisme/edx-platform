@@ -28,9 +28,9 @@ h3.hd-3{
 </head>
 
 <form action="" method="GET">
-	<input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
-	<input type="text" placeholder="Search using email/username" name="q" style="width: 300px">	
-  	<button type="submit"><i class="fa fa-search"></i></button>
+    <input type="hidden" name="csrfmiddlewaretoken" value="${csrf_token}">
+    <input type="text" placeholder="Search using email/username" name="q" style="width: 300px"> 
+    <button type="submit"><i class="fa fa-search"></i></button>
 </form><br>
 
 
@@ -109,12 +109,12 @@ ${_("{user_email}").format(user_email=row.user_id.username)}
 <p style="margin-left: 40px;margin-top: 10px;color: black;"><b>No data found</b></p>
 
 %endif
-	
+    
 %endif
 
 
-<script type="text/javascript">	
-	$.fn.pageMe = function(opts){
+<script type="text/javascript"> 
+    $.fn.pageMe = function(opts){
     var $this = this,
         defaults = {
             perPage: 7,
@@ -160,7 +160,7 @@ ${_("{user_email}").format(user_email=row.user_id.username)}
     if (numPages<=1) {
         pager.find('.next_link').hide();
     }
-  	pager.children().eq(1).addClass("active");
+    pager.children().eq(1).addClass("active");
     
     children.hide();
     children.slice(0, perPage).show();
@@ -210,7 +210,7 @@ ${_("{user_email}").format(user_email=row.user_id.username)}
         }
         
         pager.data("curr",page);
-      	pager.children().removeClass("active");
+        pager.children().removeClass("active");
         pager.children().eq(page+1).addClass("active");
     
     }
@@ -218,7 +218,7 @@ ${_("{user_email}").format(user_email=row.user_id.username)}
 
 $(document).ready(function(){
     
-  $('#myTable').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:4});
+  $('#myTable').pageMe({pagerSelector:'#myPager',showPrevNext:true,hidePageNumbers:false,perPage:5});
     
 });
 

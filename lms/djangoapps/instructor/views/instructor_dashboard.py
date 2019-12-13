@@ -163,7 +163,7 @@ def instructor_dashboard_2(request, course_id):
         _section_membership(request, course, access),
         # _section_cohort_management(course, access),
         _section_discussions_management(course, access),
-        _section_student_admin(course, access),
+        # _section_student_admin(course, access),
         # _section_data_download(course, access),
     ]
     if organization_staff:
@@ -701,6 +701,7 @@ def _section_data_download(course, access):
         'course_survey_results_url': reverse('get_course_survey_results', kwargs={'course_id': unicode(course_key)}),
         'export_ora2_data_url': reverse('export_ora2_data', kwargs={'course_id': unicode(course_key)}),
     }
+
     return section_data
 
 

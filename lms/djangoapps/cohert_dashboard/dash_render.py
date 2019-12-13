@@ -94,7 +94,6 @@ def _create_admin_dashboard_app(request,admin_organization):
     # header_file = staticfiles_storage.url('cohert_dashboard/assets/font-awesome/css/font-awesome.min.css')
     custom_admin_css = staticfiles_storage.url('cohert_dashboard/assets/css/custom_admin.css')
 
-
     # custom_student_css = staticfiles_storage.url('cohert_dashboard/assets/css/custom_student.css')
 
     # image_logo = staticfiles_storage.url('cohert_dashboard/assets/images/logo.png')
@@ -177,6 +176,7 @@ def _create_admin_dashboard_app(request,admin_organization):
                 html.Div(
                     className="inner",
                     children=[
+
                         html.Div([
                             html.A([
                                 html.Img(
@@ -184,6 +184,15 @@ def _create_admin_dashboard_app(request,admin_organization):
                                     src=image_logo,
                                     alt='Dell Medical School | The University of Texas at Austin Home Page')
                             ], href="/dashboard")                    
+                        ], className="header-logo"),
+
+
+                        html.Div([
+                            html.Form([                                
+                                html.Button([
+                                    html.I(" Download Student Data",className="fa fa-download")
+                                ],className="btn", type='submit',style={'margin-left': '900px', 'position': 'relative', 'bottom': '9px', 'background-color': '#4DA3D2', 'border': 'none', 'color': 'white', 'cursor': 'pointer', 'padding': '7px 9px','font-size': '20px'})
+                            ], action='/data_student_csv_data', method='post')
                         ], className="header-logo"),
 
                         html.Div([

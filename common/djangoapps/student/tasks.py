@@ -290,6 +290,7 @@ def task_register_and_enroll_students(csv_file):  # pylint: disable=too-many-sta
                         return {'final_result' : result}
   
                     password = generate_unique_password(generated_passwords)
+
                     errors = create_and_enroll_user(
                         email, username, name, country, password, final_cohort_name, organization_staff, course_id, course_mode, user, email_params
                     )
