@@ -259,3 +259,11 @@ footer .footer-about-openedx {
     vertical-align: top;
 }
 
+.btn:hover {
+  background-color: grey !important;
+}
+
+
+.fa-download:hover{
+  background-color: grey !important;
+}

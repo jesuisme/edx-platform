@@ -334,15 +334,10 @@ def organization_register(request):
 
                 organization_email = form.cleaned_data.get('organization_email')
 
-
-
-                org_username = (str(post.organization_email)).split("@")[0]
-                chars=ascii_lowercase+digits
-                default_username = ''.join([choice(chars) for i in range(10)])
-                set_default_username = "{}{}".format(org_username,default_username)
-                password_data = password
-
-                
+                first_name = form.cleaned_data.get('first_name')
+                org_username = (str(post.first_name))
+                set_default_username = org_default_username(org_username)
+                password_data = password                
                 user = User(
                     username=set_default_username,
                     email= organization_email,
@@ -1322,6 +1317,22 @@ def record_registration_attributions(request, user):
 from random import choice
 from string import ascii_lowercase, digits
 from django.contrib.auth.models import User
+
+
+def org_default_username(first_name):
+    """
+    set default username for register user
+    """
+    set_default_username = ""
+    chars=ascii_lowercase+digits
+    for a in range(5):
+        default_username = ''.join([choice(chars) for i in range(4)])
+        set_default_username = "{}_{}".format(first_name,default_username)
+        if User.objects.filter(username=set_default_username).count():
+            pass
+        else:
+            break
+    return set_default_username
 
 
 def default_username(first_name):

@@ -85,6 +85,8 @@ urlpatterns = [
     # TODO: Move lms specific student views out of common code
     url(r'^dashboard/?$', student_views.student_dashboard, name='dashboard'),
 
+    url(r'^data_student_csv_data/$', student_views.data_student_csv_data, name='data_student_csv_data'),
+
     #Search Result Student progress
 
     url(r'^change_enrollment$', student_views.change_enrollment, name='change_enrollment'),

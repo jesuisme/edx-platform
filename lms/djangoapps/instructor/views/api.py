@@ -642,11 +642,16 @@ def get_task_info(request,course_id):
 #     return JsonResponse(results)
 
 
-def generate_leaner_username(email):    
-    unique_number = uuid.uuid4()
-    unique_id_1 = uuid.uuid1()
-    leaner_email = email 
-    leaner_username = leaner_email + str(unique_number)[:8] + str(unique_id_1)[:5]
+def generate_leaner_username(email):
+    leaner_email = email    
+    for a in range(5):
+        unique_number = uuid.uuid4()
+        unique_id_1 = uuid.uuid1()
+        leaner_username = leaner_email +'_'+str(unique_number)[:2] + str(unique_id_1)[:2]
+        if User.objects.filter(username=leaner_username).count():
+            pass
+        else:
+            break
     return leaner_username
 
 
@@ -3795,4 +3800,3 @@ def coherts_students_update_enrollment(request, course_id,user_mail, cohort_name
             )
             error_message = "Learner added to cohorts successfully"
     return error_message
-

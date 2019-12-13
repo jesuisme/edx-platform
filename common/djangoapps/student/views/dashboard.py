@@ -45,6 +45,7 @@ from openedx.core.djangoapps.catalog.utils import (
     get_pseudo_session_for_entitlement,
     get_visible_sessions_for_entitlement
 )
+from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
 from openedx.core.djangoapps.credit.email_utils import get_credit_provider_display_names, make_providers_strings
 from openedx.core.djangoapps.programs.models import ProgramsApiConfig
 from openedx.core.djangoapps.programs.utils import ProgramDataExtender, ProgramProgressMeter
@@ -615,6 +616,76 @@ def order_confirmation(request):
     return render(request,'order_confirmation.html', {})
 
 
+def data_student_csv_data(request):    
+    """
+    Respond with 2-column CSV output of user-id, anonymized-user-id
+    """
+    # TODO: the User.objects query and CSV generation here could be
+    # centralized into instructor_analytics. Currently instructor_analytics
+    # has similar functionality but not quite what's needed.    
+    try:
+        staff_organization_value = UserProfile.objects.get(user=request.user).organization
+    except OrganizationRegistration.DoesNotExist:
+        staff_organization_value = None
+
+    def csv_response(filename, header, rows):
+        """Returns a CSV http response for the given header and rows (excel/utf-8)."""
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename={0}'.format(text_type(filename).encode('utf-8'))
+        writer = csv.writer(response, dialect='excel', quotechar='"', quoting=csv.QUOTE_ALL)
+        # In practice, there should not be non-ascii data in this query,
+        # but trying to do the right thing anyway.
+        encoded = [text_type(s).encode('utf-8') for s in header]
+        writer.writerow(encoded)
+        for row in rows:
+            encoded = [text_type(s).encode('utf-8') for s in row]
+            writer.writerow(encoded)
+        return response
+
+    final_students_list = []
+
+    if staff_organization_value:
+        organization_object_value = OrganizationRegistration.objects.get(organization_name=staff_organization_value)
+        all_organization_records = CohertsUserGradeRecords.objects.filter(organization_name=organization_object_value)
+
+        for all_user_data in all_organization_records:
+            student_entrance_exam_value = 0
+            student_final_exam_value = 0
+            certificate_value = 0
+
+            course_name = CourseOverview.objects.select_related('image_set').get(id=all_user_data.course_id)
+
+            user_ob = User.objects.get(username=all_user_data.user_id.username)
+
+            badges = BadgeAssertion.objects.filter(user=user_ob)
+
+            from courseware.views.views import student_progress
+
+            get_grade = student_progress(request,u'%s'%all_user_data.course_id,student_id=all_user_data.user_id.id)
+
+            enrollment_course = CourseOverview.get_from_id(all_user_data.course_id)
+
+            certificate_info = cert_info(user_ob, enrollment_course)
+
+            if 'Entrance Exam' in dict(get_grade):  
+                entrance_exam_value = get_grade['Entrance Exam'].split('=')[1]
+                entrance_exam_value = entrance_exam_value.replace('%','')
+                student_entrance_exam_value = entrance_exam_value 
+
+            if 'Final Exam' in dict(get_grade):
+                final_exam_value = get_grade['Final Exam'].split('=')[1]
+                final_exam_value = final_exam_value.replace('%','')
+                student_final_exam_value = final_exam_value
+
+            if certificate_info['status'] == 'downloadable':
+                certificate_value = 1
+
+            final_students_list.append([all_user_data.user_id.email,all_user_data.user_id.username,all_user_data.course_id,course_name.display_name,all_user_data.organization_name,all_user_data.coherts_name.coherts_name,all_user_data.student_course_progress,certificate_value,len(badges),student_entrance_exam_value,student_final_exam_value])
+
+    header = ['User Email', 'Username','Course ID', 'Course Name', 'Organization', 'Cohort Name', 'Student Progress','Certificate','Total Badges Earned', 'Pre Test Score', 'Final Test Score']
+    rows = final_students_list
+    return csv_response('student_data' + '.csv', header, rows)
+
 
 @login_required
 @ensure_csrf_cookie
@@ -846,6 +917,7 @@ def student_dashboard(request):
     # If a course is not included in this dictionary,
     # there is no verification messaging to display.
     verify_status_by_course = check_verify_status_by_course(user, course_enrollments)
+
     cert_statuses = {
         enrollment.course_id: cert_info(request.user, enrollment.course_overview)
         for enrollment in course_enrollments
