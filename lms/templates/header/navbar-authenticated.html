@@ -8,6 +8,7 @@
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from django.contrib.staticfiles.storage import staticfiles_storage
 %>
 
 <%
@@ -53,10 +54,10 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
       </div>
     % endif
     % if show_sysadmin_dashboard:
-      <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
+      <!-- <div class="mobile-nav-item hidden-mobile nav-item nav-tab">
         ## Translators: This is short for "System administration".
         <a class="tab-nav-link" href="${reverse('sysadmin')}">${_("Sysadmin")}</a>
-      </div>
+      </div> -->
     % endif
   </div>
   <div class="secondary">
@@ -67,9 +68,21 @@ from openedx.core.djangoapps.site_configuration import helpers as configuration_
         </a>
       </div>
     % endif
-    <div class="mobile-nav-item hidden-mobile nav-item">
+    <!-- <div class="mobile-nav-item hidden-mobile nav-item">
       <a class="help-link" href="${help_link}" target="_blank">${_("Help")}</a>
-    </div>
+    </div> -->
+    <div class="dropdown">
+<div class="dropbtn">${_("Facilitator Guides")}</div>
+<div class="dropdown-content">
+
+<a href="${staticfiles_storage.url('images/view_Collection_1_Facilitator_Guide.pdf')}" download>Download Collection One Guide</a>
+<a href="${staticfiles_storage.url('images/view_Collection_2_Facilitator_Guide.pdf')}" download>Download Collection Two Guide</a>
+<a href="${staticfiles_storage.url('images/view_Collection_3_Facilitator_Guide.pdf')}" download>Download Collection Three Guide</a>
+<a href="${staticfiles_storage.url('images/view_Collection_4_Facilitator_Guide.pdf')}" download>Download Collection Four Guide</a>
+<a href="${staticfiles_storage.url('images/Facilitator_Guide.zip')}" download>Download All Guide</a>
+
+</div>
+</div>
     <%include file="user_dropdown.html"/>
   </div>
 </div>

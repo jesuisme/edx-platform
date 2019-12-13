@@ -100,7 +100,7 @@ def get_completion_badge(course_id, user):
     #   image_file_handle=CourseCompleteImageConfiguration.image_for_mode(mode)
     #)
     completion_badge = CourseCompleteBadges.objects.get(course_mode=mode)
-
+    LOGGER.info("completion_badge========%s===" % completion_badge)
     if completion_badge:
         badclass_object = BadgeClass.get_badge_class(
             slug='completion_badges', issuing_component='openedx__course', create=False,)

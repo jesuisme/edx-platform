@@ -655,6 +655,7 @@ def generate_leaner_username(email):
     return leaner_username
 
 
+
 def generate_random_string(length):
     """
     Create a string of random characters of specified length

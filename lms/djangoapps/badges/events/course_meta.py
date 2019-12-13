@@ -308,23 +308,6 @@ def user_response_badges(user):
         badge_class = BadgeClass.get_badge_class(slug = 'user_response',issuing_component='openedx__course', create=False,)
         if badge_class and not badge_class.get_for_user(user):
             assertion, created = BadgeAssertion.objects.get_or_create(user=user, badge_class=badge_class,image_url=badge_class.image.url,drive_image_url=badge_class.image_url_from_drive)
-            # try:
-            #     get_user_name = UserProfile.objects.get(user=user)
-            #     log.info("get_user_name========%s=====" % get_user_name)
-            #     log.info("get_user_name====nnn====%s=====" % get_user_name.name)
-            #     log.info("get_user_name====badge_class.display_name====%s=====" % badge_class.display_name)
-            #     site = Site.objects.get_current()
-            #     log.info("site========%s-----" % site)
-            #     notification_context = get_base_template_context(site)
-            #     notification_context.update({'full_name': get_user_name.name})
-            #     notification_context.update({'badge_name': badge_class.display_name})
-            #     notification = BadgesMails().personalize(
-            #         recipient=Recipient(email_address=user.email),
-            #         language=get_user_name.language,
-            #         user_context=notification_context,
-            #     )
-            #     ace.send(notification)
-            #     log.info("after send mail===========")
             context  = {
                 "badge_name": badge_class.display_name
             }
@@ -347,11 +330,6 @@ def user_response_badges(user):
             email.attach(logo_data())
             
             email.send()
-
-            # except Exception as exc:
-            #     log.exception('Error sending out deletion notification email')
-            #     log.info('Error sending out deletion notification email===%s====' % exc)
-            #     raise
 
     moduleview = StudentModuleViews.objects.filter(user=user)
     count = 0

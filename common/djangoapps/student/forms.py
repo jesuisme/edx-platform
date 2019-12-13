@@ -406,7 +406,8 @@ class OrganizationRegistrationForm(forms.ModelForm):
             visible.field.widget.attrs['class'] = 'form-control'
             
         self.fields['organization_name'].required = True
-        self.fields['organization_domain'].required = True
+        # self.fields['organization_domain'].required = True
+        self.fields['city'].required = True
         self.fields['organization_contact_number'].required = True
         self.fields['organization_email'].required = True
         self.fields['first_name'].required = True
@@ -422,8 +423,8 @@ class OrganizationRegistrationForm(forms.ModelForm):
 
     class Meta:
         model = OrganizationRegistration
-        fields = ['organization_email','confirm_email','first_name','last_name','job_title','organization_name','organization_domain', 'organization_contact_number','primary_professional_role','address1', 'address2','zip_code']
-        labels = {'organization_name': 'Organization Name', 'organization_email': 'Email', 'organization_domain': 'Organization Email Domain', 'organization_contact_number': 'Contact Phone Number'}
+        fields = ['organization_email','confirm_email','first_name','last_name','job_title','organization_name','city', 'organization_contact_number','primary_professional_role','address1', 'address2','zip_code']
+        labels = {'organization_name': 'Organization Name', 'organization_email': 'Email', 'city': 'City', 'organization_contact_number': 'Contact Phone Number'}
     
     
 

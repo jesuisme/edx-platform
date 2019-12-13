@@ -441,7 +441,8 @@ def _update_badge_context(context, course, user):
     """
     badge = None
     if badges_enabled() and course.issue_badges:
-        badges = get_completion_badge(course.location.course_key, user).get_for_user(user)
+        badges = get_completion_badge(course.location.course_key, user)
+        badges = badges.get_for_user(user)
         if badges:
             badge = badges[0]
     context['badge'] = badge
@@ -598,7 +599,7 @@ def render_html_view(request, user_id, course_id):
         _update_certificate_context(context, course, user_certificate, platform_name)
 
         # Append badge info
-        _update_badge_context(context, course, user)
+        # _update_badge_context(context, course, user)
 
         # Append site configuration overrides
         _update_configuration_context(context, configuration)
@@ -670,7 +671,6 @@ def _render_invalid_certificate(course_id, platform_name, configuration):
 
 def _render_valid_certificate(request, context, custom_template=None):
     if custom_template:
-        # log.info("inside custome template==================")
         template = Template(
             custom_template.template,
             output_encoding='utf-8',

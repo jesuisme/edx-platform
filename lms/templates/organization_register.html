@@ -770,15 +770,57 @@ function hideall() {
       </div>
 </div>
 
-      <div class="col-md-6">
+      <div class="col-md-6" style="padding-right: 0px;">
     
-    <label class="required" for="city">City:</label>
-    <span id='city_message' style="color:red;"></span>    
-    <input type="text" name="city" id="city_id" required="required" class="form-control"/>
+    <label class="required" for="organization_domain">Organization Domain:</label>
+    <span id='organization_domain_message' style="color:red;"></span>    
+    <input type="text" name="organization_domain" id="organization_domain_id" required="required" class="form-control"/>
    
   </div>
+  <div class="col-md-3" style="padding-left: 0px;">
+
+  
+<span></span>
+    <input type="button" data-toggle="modal" data-target="#myModal" id="button123" value="+" style="
+    color: white;
+    margin-top: 42px;
+    padding-left: 10px;
+    padding-right: 10px; border: none;background:  #428bca;
+
+">
+    </div>
 
 </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog" style="width: 100%;background: transparent;">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add Organization Domain</h4>
+        </div>
+        <div class="modal-body">
+          <p>Domain Name.</p>
+          <input type="text" name="additional_domain" id="additional_domain">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal" id="add_new_domain" style="color: white;background-color: gray;">Submit</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal" style="color: white;background-color: gray;">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+
+
+
+
+
+
 
 
 
@@ -963,9 +1005,48 @@ function hideall() {
 <script type="text/javascript" src="https://bootstrapformhelpers.com/assets/js/bootstrap-formhelpers.min.js"></script>
 
 
+<script type="text/javascript">
+//   document.getElementById("button123").addEventListener('click', function () {
+//     document.getElementById('additional_domain').value== "";
+    
+// });
+
+
+document.getElementById("add_new_domain").addEventListener('click', function () {
+    var add_new = document.getElementById('additional_domain');
+    var text = document.getElementById('organization_domain_id');
+    if (text.value == 0){
+      if (add_new.value == 0){
+        console.log("empty value");
+      }
+      else{
+        text.value = add_new.value;
+      }
+      
+    }
+    else{
+      if (add_new.value == 0){
+        console.log("empty value");
+      }
+      else{
+        text.value = text.value + "," +  add_new.value;
+      }
+      
+    }
+    // text.value = text.value + "," +  add_new.value;
+    console.log(text);
+    add_new.value = "";
+});
+
+
+</script>
+
+
+
 <script language="javascript"> 
 
   $(document).click(function() {
+
     var org_email_data = document.getElementById('id_organization_email').value;
     var org_email_message = document.getElementById("org_email_message");
     var confirm_id_value = document.getElementById("id_confirm_email").value;
@@ -1004,13 +1085,13 @@ function hideall() {
     var state = document.forms["validate"]["state"].value;
     var confirm_password=document.forms["validate"]["confirm_password"].value;
 
-    var city = document.forms["validate"]["city"].value;
+    var organization_domain = document.forms["validate"]["organization_domain"].value;
 
 
     var confirm_field = document.getElementById("confirm_message")
     var password_field = document.getElementById("password_message")
 
-    var city_field = document.getElementById("city_message")
+    var organization_domain_field = document.getElementById("organization_domain_message")
 
     var state_field = document.getElementById("state_message")   
 
@@ -1044,21 +1125,15 @@ function hideall() {
       confirm_field.innerHTML = ''
     }
 
-    if (city==null || city==""){     
-      city_field.innerHTML = "City Field should not be empty"
+    if (organization_domain==null || organization_domain==""){     
+      organization_domain_field.innerHTML = "Organization Domain Field should not be empty"
       return(false);
 
     }
-    else{      
-      var letters = /^[A-Za-z]+$/;
-      if(city.match(letters)){
-        city_field.innerHTML = ''        
-      }
-      else{
-        city_field.innerHTML = "City Field should not contain digits"
-        return(false);
-      }
+    else{
+      organization_domain_field.innerHTML = ""
     }
+    
 
     if (state==null || state==""){     
       state_field.innerHTML = "Please select the State"
