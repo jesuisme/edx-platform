@@ -1,5 +1,10 @@
 """ ut new features  """
 import logging
+import json
+import jsonpickle
+from django.contrib import messages
+from django.urls import reverse
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from student.models import CohertsOrganization, OrganizationRegistration, UserProfile
@@ -15,6 +20,8 @@ from util.json_request import JsonResponse
 from django.utils.translation import ugettext as _
 from badges.models import BadgeAssertion, BadgeClass
 from rest_framework import status
+from .tasks import user_records_as_superuser
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 log = logging.getLogger(__name__)
 
 @login_required
@@ -180,3 +187,18 @@ def cme_redirect(request):
         redirect cme- template for servey
     """
     return render(request,'cme.html')
+
+
+
+@login_required
+def download_user_records(request):
+    """
+        user records
+    """
+    try:
+        user_records_as_superuser.delay(jsonpickle.encode(request.user))
+    except Exception as err:
+        log.info("error occured: %s" % err)
+    msg_string = "Thank you. You'll now receive the CSV file to your email address."
+    messages.add_message(request, messages.SUCCESS, msg_string)
+    return HttpResponseRedirect(reverse("dashboard"))

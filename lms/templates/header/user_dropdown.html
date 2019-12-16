@@ -47,6 +47,13 @@ displayname = get_enterprise_learner_generic_name(request) or username
           % endif
         % endif
         <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('learner_profile', kwargs={'username': username})}" role="menuitem">${_("Profile")}</a></div>
+
+        % if request.user.is_superuser:
+            <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="/ut_new/download_user_records" role="menuitem">${_("Download Student Records")}</a>
+            </div>
+        % endif
+
+
             % if request.user.is_staff:
                 % if organization_length > 0:
                     <div class="mobile-nav-item dropdown-item dropdown-nav-item"><a href="${reverse('admin_dashboard')}" role="menuitem">${_("Cohorts Performance Dashboard")}</a></div>

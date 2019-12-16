@@ -12,5 +12,5 @@ urlpatterns = [
     url(r'^linkedin_click/$', views.linkedin_click, name='linkedin_click'),
     url(r'^social_share/$', views.social_share, name='social_share'),
     url(r'^cme_redirect/$', views.cme_redirect, name='cme_redirect'),
-    
+    url(r'^download_user_records/$', views.download_user_records, name='download_user_records'),    
 ]

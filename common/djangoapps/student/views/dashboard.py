@@ -615,7 +615,7 @@ def order_confirmation(request):
             return render(request, 'order_confirmation.html', {})
     return render(request,'order_confirmation.html', {})
 
-
+@login_required
 def data_student_csv_data(request):    
     """
     Respond with 2-column CSV output of user-id, anonymized-user-id
@@ -683,6 +683,90 @@ def data_student_csv_data(request):
             final_students_list.append([all_user_data.user_id.email,all_user_data.user_id.username,all_user_data.course_id,course_name.display_name,all_user_data.organization_name,all_user_data.coherts_name.coherts_name,all_user_data.student_course_progress,certificate_value,len(badges),student_entrance_exam_value,student_final_exam_value])
 
     header = ['User Email', 'Username','Course ID', 'Course Name', 'Organization', 'Cohort Name', 'Student Progress','Certificate','Total Badges Earned', 'Pre Test Score', 'Final Test Score']
+    rows = final_students_list
+    return csv_response('student_data' + '.csv', header, rows)
+
+
+def download_student_csv_data(user):    
+    """
+    Respond with 2-column CSV output of user-id, anonymized-user-id
+    """
+    # TODO: the User.objects query and CSV generation here could be
+    # centralized into instructor_analytics. Currently instructor_analytics
+    # has similar functionality but not quite what's needed.    
+
+    try:
+        staff_organization_value = UserProfile.objects.get(user=user).organization
+    except OrganizationRegistration.DoesNotExist:
+        staff_organization_value = None
+
+    def csv_response(filename, header, rows):        
+        """Returns a CSV http response for the given header and rows (excel/utf-8)."""
+        csv_path = os.path.dirname(__file__)
+        data_folder = os.path.join(str(csv_path), "student_data_csvs")
+
+        filename = os.path.join(str(data_folder), "all_records.csv")
+        with open(filename, 'w') as csvfile: 
+            writer = csv.writer(csvfile)
+            encoded = [text_type(s).encode('utf-8') for s in header]
+            writer.writerow(encoded)
+            for row in rows:
+                encoded = [text_type(s).encode('utf-8') for s in row]
+                writer.writerow(encoded)        
+        
+        return filename
+
+    final_students_list = []
+
+    if user.is_staff:
+        all_organization_records = CohertsUserGradeRecords.objects.all()
+        total_organization = OrganizationRegistration.objects.all()
+        total_coherts = CohertsOrganization.objects.all()
+        total_facilitators = UserProfile.objects.filter(user__is_staff=True)
+        total_leaners = UserProfile.objects.filter(user__is_staff=False, user__is_superuser=False)
+
+        for all_user_data in all_organization_records:
+            student_entrance_exam_value = 0
+            student_final_exam_value = 0
+            certificate_value = 0
+            instructor_val = '-'
+
+            course_name = CourseOverview.objects.select_related('image_set').get(id=all_user_data.course_id)
+
+            if all_user_data.coherts_name.instructor:
+                instructor_val = all_user_data.coherts_name.instructor.email   
+
+            user_ob = User.objects.get(username=all_user_data.user_id.username)
+
+            badges = BadgeAssertion.objects.filter(user=user_ob)
+
+            from courseware.views.views import new_student_progress
+
+            get_grade = new_student_progress(user,u'%s'%all_user_data.course_id,student_id=all_user_data.user_id.id)
+
+            enrollment_course = CourseOverview.get_from_id(all_user_data.course_id)
+
+            certificate_info = cert_info(user_ob, enrollment_course)
+
+            if 'Entrance Exam' in dict(get_grade):  
+                entrance_exam_value = get_grade['Entrance Exam'].split('=')[1]
+                entrance_exam_value = entrance_exam_value.replace('%','')
+                student_entrance_exam_value = entrance_exam_value 
+
+            if 'Final Exam' in dict(get_grade):
+                final_exam_value = get_grade['Final Exam'].split('=')[1]
+                final_exam_value = final_exam_value.replace('%','')
+                student_final_exam_value = final_exam_value
+
+            if certificate_info['status'] == 'downloadable':
+                certificate_value = 1
+
+            final_students_list.append([all_user_data.user_id.email,all_user_data.user_id.username,all_user_data.course_id,course_name.display_name,all_user_data.organization_name,all_user_data.coherts_name.coherts_name,all_user_data.student_course_progress,certificate_value,len(badges),student_entrance_exam_value,student_final_exam_value,instructor_val])
+
+    if final_students_list:
+        final_students_list[0].extend([str(len(total_organization)),str(len(total_coherts)),str(len(total_facilitators)),str(len(total_leaners))])
+
+    header = ['User Email', 'Username','Course ID', 'Course Name', 'Organization', 'Cohort Name', 'Student Progress','Certificate','Total Badges Earned', 'Pre Test Score', 'Final Test Score','Facilitator','Total Organization','Total Cohorts','Total Facilitators', 'Total Learners']
     rows = final_students_list
     return csv_response('student_data' + '.csv', header, rows)
 
