@@ -2,14 +2,14 @@
 
 
 
-function TryA(obj){
+function TryAQuesAnswModule3Sec32(obj){
      $(obj).closest('.item.active').find('div').removeClass("incorrect").removeClass("selectedAns");
       //$('.item.active div').removeClass("incorrect").removeClass("selectedAns");
       $(obj).closest('.item').find('.row-eq-height').removeClass('Dis');     
     }
 
 
-    function checkAnswer(obj, f) {
+    function checkAnswerQuesAnswModule3Sec32(obj, f) {
             //console.log($(obj).parents(".row-eq-height"));
        
            $(obj).closest('.row-eq-height').addClass('Dis');

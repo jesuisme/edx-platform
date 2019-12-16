@@ -6,7 +6,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 course_mode_class = course_mode if course_mode else ''
 %>
 
-<main class="accomplishment accomplishment-main">
+
 
    <!--  <div class="wrapper-accomplishment-rendering">
         <div class="accomplishment-rendering">
@@ -162,8 +162,11 @@ course_mode_class = course_mode if course_mode else ''
     margin-top: -100px;
   }
   </style>
-</head>
-<body>
+<!-- </head> -->
+<main class="accomplishment accomplishment-main">
+<div class="wrapper-accomplishment-rendering">
+        <div class="accomplishment-rendering">
+            <div class="accomplishment-type">
   <div class="certificate">
       <h2 class="ctitle">Certificate of Completion</h2>
       <h3 class="cname">${accomplishment_copy_name}</h3>
@@ -172,7 +175,7 @@ course_mode_class = course_mode if course_mode else ''
         <p>This certificate is given in acknowledgment of successful completion <strong>${course_display_name_certificate}</strong> of the Discovering VBHC curriculum.</p>
         <p>Awarded on: <dd class="value copy copy-base">${certificate_date_issued}</dd></p>
         <br>
-        <p>
+        <!-- <p> -->
         <!-- <img class="signatory-signature" src="${static.url(signatory['signature_image_path'])}" alt="${signatory['name']}"><br/>
         <p> ${signatory['name']}</p><br/>
         ${signatory['title']}<br/> -->
@@ -194,15 +197,20 @@ course_mode_class = course_mode if course_mode else ''
                             % endif
                         </div>
                     </div>
-        
-      </div>
-      <div class="ffooter">
+
+                    <div class="ffooter">
         <img src="${staticfiles_storage.url('images/footer_certificate.png')}" alt="footer" style="width: 100%;">
       </div>
+
+        
+      </div>
+      <!-- <div class="ffooter">
+        <img src="${staticfiles_storage.url('images/footer_certificate.png')}" alt="footer" style="width: 100%;">
+      </div> -->
   </div>
-</body>
 
-
-
+</div>
+</div>
+</div>
 
 </main>
