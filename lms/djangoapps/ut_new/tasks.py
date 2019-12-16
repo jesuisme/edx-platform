@@ -19,7 +19,7 @@ def user_records_as_superuser(user):
     from student.views.management import logo_data     
     context  = {}
     user = jsonpickle.decode(user)
-    mail_subject = "testing records"
+    mail_subject = "All User Records"
     to_email = user.email
 
     response_data = download_student_csv_data(user)
