@@ -1,11 +1,15 @@
 """ ut new features  """
 import logging
+import json
+import jsonpickle
+from django.contrib import messages
+from django.urls import reverse
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from student.models import CohertsOrganization, OrganizationRegistration, UserProfile
 from django.http import HttpResponse,HttpResponseRedirect
 from openedx.core.djangoapps.content.course_overviews.models import CourseOverview
-from django.contrib import messages
 from django.contrib.auth.models import User
 from rest_framework.response import Response
 from django.conf import settings
@@ -15,10 +19,8 @@ from util.json_request import JsonResponse
 from django.utils.translation import ugettext as _
 from badges.models import BadgeAssertion, BadgeClass
 from rest_framework import status
-from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
-
 from .tasks import user_records_as_superuser
-
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 log = logging.getLogger(__name__)
 
 @login_required
@@ -186,22 +188,16 @@ def cme_redirect(request):
     return render(request,'cme.html')
 
 
-from django.contrib import messages
-from django.urls import reverse
 
 @login_required
 def download_user_records(request):
     """
         user records
     """
-    import jsonpickle
     try:
         user_records_as_superuser.delay(jsonpickle.encode(request.user))
     except Exception as err:
-    msg_string = "Thank you. you'll recieve an email for student records"
+        log.info("error occured: %s" % err)
+    msg_string = "Thank you. You'll now receive the CSV file to your email address."
     messages.add_message(request, messages.SUCCESS, msg_string)
     return HttpResponseRedirect(reverse("dashboard"))
-
-
-
-

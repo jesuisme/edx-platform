@@ -86,6 +86,8 @@ urlpatterns = [
     url(r'^dashboard/?$', student_views.student_dashboard, name='dashboard'),
 
     url(r'^data_student_csv_data/$', student_views.data_student_csv_data, name='data_student_csv_data'),
+    
+    url(r'^download_student_csv_data/$', student_views.download_student_csv_data, name='download_student_csv_data'),
 
     #Search Result Student progress
 

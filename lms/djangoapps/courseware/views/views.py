@@ -1798,3 +1798,31 @@ def _student_progress(request, course_key, student_id):
             context['Final Exam'] = value['detail']
 
     return context
+
+
+
+def new_student_progress(user, course_id, student_id=None):
+    """ Display the progress page. """
+    course_key = CourseKey.from_string(course_id)
+
+    with modulestore().bulk_operations(course_key):
+        return _new_student_progress(user, course_key, student_id)
+
+
+def _new_student_progress(user, course_key, student_id):
+    student = User.objects.get(id=student_id)
+    course = get_course_with_access_track(user, 'load', course_key)
+    course_grade = CourseGradeFactory().read(student, course)
+    context = {        
+        'grade_summary': course_grade.summary,
+    }  
+
+    exams = course_grade.summary['section_breakdown']
+    for value in exams:
+        if 'Entrance Exam' in value['category']:
+            context['Entrance Exam'] = value['detail']
+
+        if 'Final Exam' in value['category']:
+            context['Final Exam'] = value['detail']
+
+    return context

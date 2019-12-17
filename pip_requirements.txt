@@ -35,3 +35,4 @@ traitlets==4.3.2
 urllib3==1.25.3
 Werkzeug==0.15.4
 django-tracking2
+jsonpickle
