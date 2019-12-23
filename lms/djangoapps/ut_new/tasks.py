@@ -1,3 +1,4 @@
+
 import jsonpickle
 from celery import shared_task
 from django.core.mail import EmailMessage, EmailMultiAlternatives
@@ -5,7 +6,6 @@ from edxmako.shortcuts import  render_to_string
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
 from django.conf import settings
 from student.views import download_student_csv_data
-
 import logging
 
 log = logging.getLogger(__name__)

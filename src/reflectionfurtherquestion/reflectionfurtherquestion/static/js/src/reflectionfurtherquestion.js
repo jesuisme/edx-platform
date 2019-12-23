@@ -8,7 +8,10 @@ function ReflectionFurtherXBlock(runtime, element) {
 
     $('#addresponse1', element).click(function (eventObject) {
         var response11 = document.getElementById("studentresponse1").value;
-        var slide = "";
+        if (response11.length == 0 ){
+            alert("Please write the response.");
+        }else{
+            var slide = "";
         // var course_id;
         // var current_url = window.location.href;
         // var split_url = current_url.split("/");
@@ -92,6 +95,9 @@ function ReflectionFurtherXBlock(runtime, element) {
                 $('#responseCarousel-container1').show();
             }
         });
+
+        }
+        
     });
 
 

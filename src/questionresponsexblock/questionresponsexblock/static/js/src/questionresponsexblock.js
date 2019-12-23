@@ -11,7 +11,10 @@ function QuestionresponseXBlock(runtime, element) {
 
     $('#addresponse', element).click(function (eventObject) {
         var response = document.getElementById("studentresponse").value;
-        var slide = "";
+        if (response.length == 0){
+            alert("Please write the response.");
+        } else{
+            var slide = "";
         // var course_id;
         // var current_url = window.location.href;
         // var split_url = current_url.split("/");
@@ -92,6 +95,9 @@ function QuestionresponseXBlock(runtime, element) {
                 $('#responseCarousel-container').show();
             }
         });
+
+        }
+        
     });
 
 
