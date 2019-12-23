@@ -21,7 +21,6 @@ from xmodule.x_module import STUDENT_VIEW, XModuleFields
 from xmodule.xml_module import XmlParserMixin
 from completion.models import BlockCompletion
 from opaque_keys.edx.keys import CourseKey, UsageKey
-
 import webpack_loader.utils
 
 log = logging.getLogger(__name__)
@@ -87,9 +86,11 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
         child_context['child_of_vertical'] = True
         is_child_of_vertical = context.get('child_of_vertical', False)
 
+
+
         # pylint: disable=no-member
         for child in child_blocks:
-            child_block_context = copy(child_context)   
+            child_block_context = copy(child_context) 
             
             #Vertical Tick issue testing here 
             if 'activate_block_id' in child_block_context:
@@ -97,15 +98,27 @@ class VerticalBlock(SequenceFields, XModuleFields, StudioEditableBlock, XmlParse
                     block_vertical_key = child_block_context['activate_block_id']
 
                     block_vertical_key_usage = UsageKey.from_string(child_block_context['activate_block_id'])
+                    item = self.get_child(UsageKey.from_string(child_block_context['activate_block_id']))
+
                     event = {'completion': 1.0}
                     user = User.objects.get(username=user_name)
                     child_username = child_context['username']
-                    BlockCompletion.objects.submit_completion(
-                        user=user,
-                        course_key=course_id,
-                        block_key=block_vertical_key_usage,
-                        completion=event['completion'])
- 
+
+                    item_str = str(item)
+                    item_str = item_str.split(',')
+
+                    for row in item_str:
+                        row_val = row.replace('u','')
+                        row_split = row_val.split()
+                        if "'problem'" in row_split:
+                            break
+                    else:
+                        BlockCompletion.objects.submit_completion( 
+                            user=user,
+                            course_key=course_id,
+                            block_key=block_vertical_key_usage,
+                            completion=1.0)    
+
 
             if child in child_blocks_to_complete_on_view:
                 child_block_context['wrap_xblock_data'] = {
