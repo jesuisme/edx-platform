@@ -199,6 +199,7 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
 
     def handle_ajax(self, dispatch, data):  # TODO: bounds checking
         ''' get = request.POST instance '''
+
         if dispatch == 'goto_position':
             # set position to default value if either 'position' argument not
             # found in request or it is a non-positive integer
@@ -213,12 +214,35 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
         if dispatch == 'get_completion':
             completion_service = self.runtime.service(self, 'completion')
             usage_key = data.get('usage_key', None)
+            user_name = self.runtime.service(self, 'user').get_current_user().opt_attrs.get('edx-platform.username')
+            user = User.objects.get(username=user_name)
+            course_id = self.runtime.course_id
+            from completion.models import BlockCompletion
+            from opaque_keys.edx.keys import UsageKey
+
+            usage_val = UsageKey.from_string(usage_key)     
+
             if not usage_key:
                 return None
             item = self.get_child(UsageKey.from_string(usage_key))
-            if not item:
-                return None
 
+            item_str = str(item)
+            item_str = item_str.split(',')
+
+            for row in item_str:
+                row_val = row.replace('u','')
+                row_split = row_val.split()
+                if "'problem'" in row_split:
+                    break
+            else:
+                BlockCompletion.objects.submit_completion( 
+                    user=user,
+                    course_key=course_id,
+                    block_key=usage_val,
+                    completion=1.0)  
+
+            if not item:
+                return None           
             complete = completion_service.vertical_is_complete(item)
             return json.dumps({
                 'complete': complete
@@ -340,7 +364,6 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
 
         self._capture_full_seq_item_metrics(display_items)
         self._capture_current_unit_metrics(display_items)
-
         return fragment
 
     def _get_gated_content_info(self, prereq_met, prereq_meta_info):
