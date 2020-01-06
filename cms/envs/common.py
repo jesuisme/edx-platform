@@ -428,7 +428,8 @@ DEFAULT_TEMPLATE_ENGINE = TEMPLATES[0]
 
 EDX_ROOT_URL = ''
 LOGIN_REDIRECT_URL = EDX_ROOT_URL + '/home/'
-LOGIN_URL = reverse_lazy('login_redirect_to_lms')
+#LOGIN_URL = reverse_lazy('login_redirect_to_lms')
+LOGIN_URL = EDX_ROOT_URL + '/signin'
 
 # use the ratelimit backend to prevent brute force attacks
 AUTHENTICATION_BACKENDS = [

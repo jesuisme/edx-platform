@@ -943,15 +943,30 @@ ROOT_URLCONF = 'lms.urls'
 # NOTE: Please set ALLOWED_HOSTS to some sane value, as we do not allow the default '*'
 
 # Platform Email
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-DEFAULT_FROM_EMAIL = 'registration@example.com'
-DEFAULT_FEEDBACK_EMAIL = 'feedback@example.com'
-SERVER_EMAIL = 'devops@example.com'
-TECH_SUPPORT_EMAIL = 'technical@example.com'
-CONTACT_EMAIL = 'info@example.com'
-BUGS_EMAIL = 'bugs@example.com'
-UNIVERSITY_EMAIL = 'university@example.com'
-PRESS_EMAIL = 'press@example.com'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#DEFAULT_FROM_EMAIL = 'registration@example.com'
+#DEFAULT_FEEDBACK_EMAIL = 'feedback@example.com'
+#SERVER_EMAIL = 'devops@example.com'
+#TECH_SUPPORT_EMAIL = 'technical@example.com'
+#CONTACT_EMAIL = 'info@example.com'
+#BUGS_EMAIL = 'bugs@example.com'
+#UNIVERSITY_EMAIL = 'university@example.com'
+#PRESS_EMAIL = 'press@example.com'
+#FINANCE_EMAIL = ''
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'register@adaptivedatamatics.com'
+EMAIL_HOST_PASSWORD = 'whtqbhlkzssriqqo'
+DEFAULT_FROM_EMAIL = 'registration@adaptivedamatics.com'
+DEFAULT_FEEDBACK_EMAIL = 'feedback@adaptivedatamatics.com'
+SERVER_EMAIL = 'devops@adaptivedatamatics.com'
+TECH_SUPPORT_EMAIL = 'technical@adaptivedatamatics.com'
+CONTACT_EMAIL = 'info@adaptivedatamatics.com'
+BUGS_EMAIL = 'bugs@adaptivedatamatics.com'
+UNIVERSITY_EMAIL = 'university@adaptivedatamatics.com'
+PRESS_EMAIL = 'press@adaptivedatamatics.com'
 FINANCE_EMAIL = ''
 
 # Platform mailing address
@@ -3259,7 +3274,7 @@ CREDENTIALS_GENERATION_ROUTING_KEY = DEFAULT_PRIORITY_QUEUE
 
 # See https://github.com/edx/edx-django-sites-extensions for more info
 # Default site to use if site matching request headers does not exist
-SITE_ID = 1
+SITE_ID = 3
 
 # dir containing all themes
 COMPREHENSIVE_THEME_DIRS = [REPO_ROOT / "themes"]
