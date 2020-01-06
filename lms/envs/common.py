@@ -957,6 +957,7 @@ ROOT_URLCONF = 'lms.urls'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 465
+EMAIL_USE_SSL = True
 EMAIL_HOST_USER = 'register@adaptivedatamatics.com'
 EMAIL_HOST_PASSWORD = 'whtqbhlkzssriqqo'
 DEFAULT_FROM_EMAIL = 'registration@adaptivedamatics.com'
