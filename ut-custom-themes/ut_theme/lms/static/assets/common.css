@@ -382,7 +382,7 @@ display: -webkit-flex;
 }
 .b1 {
         margin-bottom: 0px;
-    background: url('https://s3.us-east-2.amazonaws.com/dms-vbhc/img/img1.jpg') no-repeat center 45%; 
+    background: url('home_image.jpeg') no-repeat center 45%; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
