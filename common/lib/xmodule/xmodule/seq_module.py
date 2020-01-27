@@ -501,22 +501,18 @@ class SequenceModule(SequenceFields, ProctoringFields, XModule):
                 'graded': item.graded
             }
 
-            if is_user_authenticated:
+            if is_user_authenticated and item.location.block_type == 'vertical':
+                # from completion.models import BlockCompletion
+                # block_completion_usage = None
+                # try:
+                #     block_completion_usage = BlockCompletion.objects.get(block_key=usage_id)
+                # except:
+                #     block_completion_usage = None
 
-                user = User.objects.get(username=context['username'])
-                course_id = self.runtime.course_id
-
-                from completion.models import BlockCompletion
-                block_completion_usage = None
-                try:
-                    block_completion_usage = BlockCompletion.objects.get(block_key=usage_id)
-                except:
-                    block_completion_usage = None
-
-                if item.location.block_type == 'vertical':
-                    iteminfo['complete'] = completion_service.vertical_is_complete(item)
-                if block_completion_usage:
-                    iteminfo['complete'] = True
+                # if item.location.block_type == 'vertical':
+                iteminfo['complete'] = completion_service.vertical_is_complete(item)
+                # if block_completion_usage:
+                #     iteminfo['complete'] = True
             contents.append(iteminfo)
 
         return contents
