@@ -117,7 +117,9 @@ def run_main_task(entry_id, task_fcn, action_name):
 
     # Log and exit, returning task_progress info as task result
     TASK_LOG.info(u'%s, Task type: %s, Finishing task: %s', task_info_string, action_name, task_progress)
+    #task_prog = {'preassigned': 0, 'failed': 0, 'step': 'CSV uploaded', 'skipped': -3, 'report_name': u'course-v1:lumina+cs01+2019-anon-ids.csv', 'succeeded': 4, 'duration_ms': 765, 'attempted': 4, 'total': 1, 'action_name': 'generated'}
     return task_progress
+    #return task_prog
 
 
 def _get_current_task():

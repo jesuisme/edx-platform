@@ -442,5 +442,4 @@ def submit_task(request, task_type, task_class, course_key, task_input, task_key
 
     except Exception as error:
         _handle_instructor_task_failure(instructor_task, error)
-
     return instructor_task

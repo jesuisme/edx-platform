@@ -2680,14 +2680,15 @@ GRADES_DOWNLOAD_ROUTING_KEY = HIGH_MEM_QUEUE
 GRADES_DOWNLOAD = {
     'STORAGE_TYPE': 'localfs',
     'BUCKET': 'edx-grades',
-    'ROOT_PATH': '/tmp/edx-s3/grades',
+    'ROOT_PATH': '/edx/var/edxapp/media',
+    #'ROOT_PATH': '/tmp/edx-s3/grades',
 }
 
 FINANCIAL_REPORTS = {
     'STORAGE_TYPE': 'localfs',
     'BUCKET': 'edx-financial-reports',
     'CUSTOM_DOMAIN': 'edx-financial-reports.s3.amazonaws.com',
-    'ROOT_PATH': '/tmp/edx-s3/financial_reports',
+    'ROOT_PATH': '/edx/var/edxapp/media',
 }
 
 #### Grading policy change-related settings #####

@@ -5,7 +5,7 @@ Serve miscellaneous course and student data
 """
 import datetime
 import json
-
+import logging
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
@@ -30,7 +30,7 @@ from shoppingcart.models import (
     RegistrationCodeRedemption
 )
 from student.models import CourseEnrollment, CourseEnrollmentAllowed
-
+log = logging.getLogger(__name__)
 STUDENT_FEATURES = ('id', 'username', 'first_name', 'last_name', 'is_staff', 'email')
 PROFILE_FEATURES = ('name', 'language', 'location', 'year_of_birth', 'gender',
                     'level_of_education', 'mailing_address', 'goals', 'meta',
@@ -411,7 +411,6 @@ def list_problem_responses(course_key, problem_location, limit_responses=None):
     Return responses to a given problem as a dict.
 
     list_problem_responses(course_key, problem_location)
-
     would return [
         {'username': u'user1', 'state': u'...'},
         {'username': u'user2', 'state': u'...'},

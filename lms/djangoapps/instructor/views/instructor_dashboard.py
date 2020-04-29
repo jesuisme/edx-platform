@@ -164,7 +164,7 @@ def instructor_dashboard_2(request, course_id):
         # _section_cohort_management(course, access),
         _section_discussions_management(course, access),
         # _section_student_admin(course, access),
-        # _section_data_download(course, access),
+        _section_data_download(course, access),
     ]
     if organization_staff:
        sections.append(_section_coherts_register(request,course, access))

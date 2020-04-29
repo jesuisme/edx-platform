@@ -17,7 +17,6 @@ import time
 import ast
 import uuid
 
-
 import unicodecsv
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -145,6 +144,8 @@ from .tools import (
     set_due_date_extension,
     strip_if_string
 )
+
+from datetime import datetime
 
 log = logging.getLogger(__name__)
 
@@ -1271,7 +1272,6 @@ def get_problem_responses(request, course_id):
     course_key = CourseKey.from_string(course_id)
     problem_location = request.POST.get('problem_location', '')
     report_type = _('problem responses')
-
     try:
         problem_key = UsageKey.from_string(problem_location)
         # Are we dealing with an "old-style" problem location?
@@ -1287,7 +1287,6 @@ def get_problem_responses(request, course_id):
         request, course_key, problem_location
     )
     success_status = SUCCESS_MESSAGE_TEMPLATE.format(report_type=report_type)
-
     return JsonResponse({"status": success_status, "task_id": task.task_id})
 
 
@@ -2659,7 +2658,6 @@ def list_report_downloads(request, course_id):
     course_id = CourseKey.from_string(course_id)
     report_store = ReportStore.from_config(config_name='GRADES_DOWNLOAD')
     report_name = request.POST.get("report_name", None)
-
     response_payload = {
         'downloads': [
             dict(name=name, url=url, link=HTML('<a href="{}">{}</a>').format(HTML(url), Text(name)))

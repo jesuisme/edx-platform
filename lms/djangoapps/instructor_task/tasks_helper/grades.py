@@ -3,11 +3,13 @@ Functionality for generating grade reports.
 """
 import logging
 import re
+import csv
+
 from collections import OrderedDict
 from datetime import datetime
 from itertools import chain, izip, izip_longest
 from time import time
-
+from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from lazy import lazy
@@ -659,7 +661,6 @@ class ProblemResponses(object):
             sorted(student_data_keys) +
             ['block_key', 'state']
         )
-
         return student_data, student_data_keys_list
 
     @classmethod
@@ -688,7 +689,6 @@ class ProblemResponses(object):
                 data.setdefault(key, '')
 
         header, rows = format_dictlist(student_data, student_data_keys)
-
         task_progress.attempted = task_progress.succeeded = len(rows)
         task_progress.skipped = task_progress.total - task_progress.attempted
 
@@ -702,5 +702,4 @@ class ProblemResponses(object):
         csv_name = 'student_state_from_{}'.format(problem_location)
         report_name = upload_csv_to_report_store(rows, csv_name, course_id, start_date)
         current_step = {'step': 'CSV uploaded', 'report_name': report_name}
-
         return task_progress.update_task_state(extra_meta=current_step)

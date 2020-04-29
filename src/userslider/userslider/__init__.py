@@ -1,0 +1,1 @@
+from .userslider import UserSliderXBlock

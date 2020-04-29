@@ -7,6 +7,7 @@ arguments.
 
 """
 import hashlib
+import logging
 from collections import Counter
 
 from celery.states import READY_STATES
@@ -43,7 +44,7 @@ from lms.djangoapps.instructor_task.tasks import (
 )
 from util import milestones_helpers
 from xmodule.modulestore.django import modulestore
-
+log = logging.getLogger(__name__)
 
 class SpecificStudentIdMissingError(Exception):
     """
@@ -332,7 +333,6 @@ def submit_calculate_problem_responses_csv(request, course_key, problem_location
     task_class = calculate_problem_responses_csv
     task_input = {'problem_location': problem_location, 'user_id': request.user.pk}
     task_key = ""
-
     return submit_task(request, task_type, task_class, course_key, task_input, task_key)
 
 
