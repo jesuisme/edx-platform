@@ -953,8 +953,8 @@ SITE_ADMIN_MAIL = 'viraj.thakrar@luminad.com'
 # TEST Payment Email Details
 PAYMENT_EMAIL = 'txshop.orders@luminad.com'
 PAYMENT_EMAIL_PASSWORD = 'YLXD7BhG'
-PAYMENT_DOMAIN = 'mail.luminad.com'
-
+#PAYMENT_DOMAIN = 'mail.luminad.com'
+PAYMENT_DOMAIN = 'mapi.luminad.com'
 
 #Custom Email settings
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
